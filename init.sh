@@ -1,0 +1,32 @@
+ln -s /Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code /usr/local/bin/code
+
+# export HOMEBREW_BOTTLE_DOMAIN=''
+brew install pkg-config
+
+brew cleanup gcc@8
+brew install gcc@8
+brew install llvm
+brew install unix2dos
+brew install telnet
+brew install gsed
+brew install tree
+brew install harfbuzz
+brew install graphviz
+brew install tokei
+brew install mysql
+brew install protobuf
+brew install ctop
+brew install zsh
+brew install zsh-syntax-highlighting
+brew install zsh-autosuggestions
+brew install zsh-completions
+# https://cmake.org/download/
+# sudo "/Applications/CMake.app/Contents/bin/cmake-gui" --install
+
+cd /tmp
+git clone https://github.com/NanXiao/lscpu.git
+cd lscpu
+make
+cp lscpu /usr/local/bin
+cd ..
+rm -rf /tmp/lscpu
