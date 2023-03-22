@@ -19,7 +19,7 @@ go install mvdan.cc/gofumpt@latest
 go install github.com/go-delve/delve/cmd/dlv@master
 go get -v -u github.com/googleapis/gax-go/v2
 go install github.com/wtfutil/wtf@latest
-
+go install github.com/kisielk/godepgraph@latest
 # 单测生成的覆盖文件转换成xml/html格式的覆盖率文件
 go install github.com/axw/gocov/gocov@latest
 go install github.com/matm/gocov-html/cmd/gocov-html@latest

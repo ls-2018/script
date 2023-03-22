@@ -1,0 +1,35 @@
+curl -LO "https://github.com/kubernetes-sigs/kind/releases/download/v0.17.0/kind-darwin-amd64"
+mv kind-darwin-amd64 ~/.gopath/bin/kind
+chmod +x ~/.gopath/bin/kind
+
+# curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+curl -LO "https://dl.k8s.io/release/v1.26.0/bin/linux/amd64/kubectl"
+mv kubectl ~/.gopath/bin/kubectl
+chmod +x ~/.gopath/bin/*
+
+source /etc/profile
+
+kind delete cluster
+echo -e 'kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+nodes:
+- role: control-plane
+  image: kindest/node:v1.26.0
+  kubeadmConfigPatches:
+  - |
+    kind: ClusterConfiguration
+    apiServer:
+        certSANs:
+          - 127.0.0.1
+          - 192.168.31.239
+          - 192.168.153.129
+  extraPortMappings:
+  - containerPort: 6443
+    hostPort: 6443
+    protocol: TCP
+# - role: worker
+  # image: kindest/node:v1.26.0
+' >/tmp/kind.yaml
+
+kind create cluster --config /tmp/kind.yaml
+kubectl cluster-info --context kind-kind
