@@ -7,6 +7,7 @@ export SDKROOT=/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk
 export CC=clang
 export GOOS=darwin
 export GOARCH=amd64
+go env -w GOPATH=/Users/acejilam/.gopath
 ldflags='-compressdwarf=false'
 mkdir -p $GOPATH/{bin,pkg,src}
 
@@ -47,9 +48,9 @@ export JAVA_HOME=$JAVA_8_HOME
 export PATH=$JAVA_HOME/bin:$PATH:.
 export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
 
-# export HOMEBREW_BREW_GIT_REMOTE="https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/brew.git"
-# export HOMEBREW_CORE_GIT_REMOTE="https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/homebrew-core.git"
-# export HOMEBREW_BOTTLE_DOMAIN="https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles"
+export HOMEBREW_BREW_GIT_REMOTE="https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/brew.git"
+export HOMEBREW_CORE_GIT_REMOTE="https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/homebrew-core.git"
+export HOMEBREW_BOTTLE_DOMAIN="https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles"
 # export HOMEBREW_BOTTLE_DOMAIN=''
 
 # brew install mysql-connector-c
@@ -101,9 +102,11 @@ source /Users/acejilam/.gvm/scripts/gvm
 
 prompt_context() {}
 
-source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 [[ -s $(brew --prefix)/etc/profile.d/autojump.sh ]] && . $(brew --prefix)/etc/profile.d/autojump.sh
+# autoload -Uz compinit
+# compinit
 
 # GIT_SHA1=$( (git show-ref --head --hash=8 2>/dev/null || echo 00000000) | head -n1)
 # GIT_DIRTY=$(git diff --no-ext-diff 2>/dev/null | wc -l)

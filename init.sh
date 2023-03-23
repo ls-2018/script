@@ -1,10 +1,11 @@
 ln -s /Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code /usr/local/bin/code
 
+git config --global --add safe.directory /opt/homebrew/Library/Taps/homebrew/homebrew-core
+git config --global --add safe.directory /opt/homebrew/Library/Taps/homebrew/homebrew-cask
+
 # export HOMEBREW_BOTTLE_DOMAIN=''
 brew install pkg-config
 
-brew cleanup gcc@8
-brew install gcc@8
 brew install llvm
 brew install unix2dos
 brew install telnet
@@ -17,6 +18,7 @@ brew install mysql
 brew install protobuf
 brew install ctop
 brew install zsh
+chsh -s /bin/zsh
 brew install zsh-syntax-highlighting
 brew install zsh-autosuggestions
 brew install zsh-completions
@@ -27,7 +29,7 @@ cd /tmp
 git clone https://github.com/NanXiao/lscpu.git
 cd lscpu
 make
-cp lscpu /usr/local/bin
+sudo cp lscpu /usr/local/bin
 cd ..
 rm -rf /tmp/lscpu
 

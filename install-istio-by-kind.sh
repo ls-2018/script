@@ -1,30 +1,6 @@
 #!/bin/zsh
 # curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.12.2 sh -
-GO111MODULE="on" go install sigs.k8s.io/kind@v0.17.0
 
-kind delete cluster
-echo -e 'kind: Cluster
-apiVersion: kind.x-k8s.io/v1alpha4
-nodes:
-- role: control-plane
-  kubeadmConfigPatches:
-  - |
-    kind: ClusterConfiguration
-    apiServer:
-        certSANs:
-          - 127.0.0.1
-          - 192.168.1.192
-          - 10.10.10.211
-  extraPortMappings:
-  - containerPort: 6443
-    hostPort: 6443
-    protocol: TCP
-- role: worker
-' >/tmp/kind.yaml
-
-kind create cluster --config /tmp/kind.yaml
-
-kubectl cluster-info --context kind-kind
 # docker pull docker.io/istio/examples-bookinfo-details-v1:1.16.2
 # docker pull docker.io/istio/examples-bookinfo-productpage-v1:1.16.2
 # docker pull docker.io/istio/examples-bookinfo-ratings-v1:1.16.2
