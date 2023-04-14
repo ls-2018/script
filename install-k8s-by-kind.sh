@@ -1,20 +1,24 @@
-curl -LO "https://github.com/kubernetes-sigs/kind/releases/download/v0.17.0/kind-darwin-amd64"
-mv kind-darwin-amd64 ~/.gopath/bin/kind
-chmod +x ~/.gopath/bin/kind
+test -e ~/.gopath/bin/kind || {
+  curl -LO "https://github.com/kubernetes-sigs/kind/releases/download/v0.17.0/kind-darwin-$(go env GOHOSTARCH)"
+  mv kind-darwin-$(go env GOHOSTARCH) ~/.gopath/bin/kind
+  chmod +x ~/.gopath/bin/kind
+}
+test -e ~/.gopath/bin/kubectl || {
+  curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/$(go env GOHOSTARCH)/kubectl"
+  # curl -LO "https://dl.k8s.io/release/v1.26.0/bin/linux/$(go env GOHOSTARCH)/kubectl"
+  mv kubectl ~/.gopath/bin/kubectl
+}
 
-# curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-curl -LO "https://dl.k8s.io/release/v1.26.0/bin/linux/amd64/kubectl"
-mv kubectl ~/.gopath/bin/kubectl
 chmod +x ~/.gopath/bin/*
 
 source /etc/profile
 
 kind delete cluster
-echo -e 'kind: Cluster
+echo 'kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
 nodes:
 - role: control-plane
-  image: kindest/node:v1.26.0
+  image: kindest/node:v1.26.2
   kubeadmConfigPatches:
   - |
     kind: ClusterConfiguration
@@ -28,7 +32,7 @@ nodes:
     hostPort: 6443
     protocol: TCP
 # - role: worker
-  # image: kindest/node:v1.26.0
+  # image: kindest/node:v1.26.2
 ' >/tmp/kind.yaml
 
 kind create cluster --config /tmp/kind.yaml

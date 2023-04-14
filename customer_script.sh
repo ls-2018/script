@@ -31,19 +31,20 @@ export GOPROXY=https://goproxy.cn/,direct
 
 export KUBE_EDITOR="code --wait"
 
+export MVN_HOME=$SOFTWARE_HOME/apache-maven-3.6.3
 export PROTOC_HOME=$SOFTWARE_HOME/protoc-3.14.0
 export ISTIO_HOME=$SOFTWARE_HOME/istio-1.12.2
 #export ETCD_HOME=$SOFTWARE_HOME/etcd-v3.4.9
 export JMETER_HOME=$SOFTWARE_HOME/apache-jmeter-5.5
 export PY_PATH="/Library/Frameworks/Python.framework/Versions/Current"
 
-export PATH=$JMETER_HOME/bin:$ISTIO_HOME/bin:$PROTOC_HOME/bin:$GOPATH/bin:$SOFTWARE_HOME:~/script:$myself:$ETCD_HOME:$PATH
+export PATH=$JMETER_HOME/bin:$MVN_HOME/bin:$ISTIO_HOME/bin:$PROTOC_HOME/bin:$GOPATH/bin:$SOFTWARE_HOME:~/script:$myself:$ETCD_HOME:$PATH
 
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 export PATH=$PATH:~/.dapr/bin
 
-export JAVA_8_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_341.jdk/Contents/Home
+export JAVA_8_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_361.jdk/Contents/Home
 export JAVA_HOME=$JAVA_8_HOME
 export PATH=$JAVA_HOME/bin:$PATH:.
 export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
@@ -113,3 +114,6 @@ source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 # BUILD_ID=$(uname -n)"-"$(date +%s)
 
 alias grs='git add . && git reset --hard $((git show-ref --head --hash=8 2>/dev/null || echo 00000000) | head -n1) && git pull'
+
+alias k='kubectl --kubeconfig=/Users/acejilam/.kube/myconfig'
+alias ck='kubectl --kubeconfig=/Users/acejilam/.kube/company_config'

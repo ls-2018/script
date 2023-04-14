@@ -2,13 +2,13 @@
 import os
 import requests
 
-gitlab_address = 'git.vackbot.com'
-gitlab_token = 'x9Nj2s7W_bb4n58F5-Sm'
+gitlab_address = 'gitlab.datacanvas.com'
+gitlab_token = 'FtSVkf-v_nGqCVQdQVzE'
 project_dir_root = ''
 
 
 def pull_git_project():
-    for index in range(10):
+    for index in range(100):
         url = "https://%s/api/v4/projects?private_token=%s&per_page=100&page=%d&order_by=name" % (
             gitlab_address, gitlab_token, index)
 
@@ -20,6 +20,8 @@ def pull_git_project():
             thisProjectPath = project_dir_root + \
                 thisProject['path_with_namespace']
             print(thisProjectPath)
+            if len(thisProject.get('forked_from_project',{}))>0:
+                continue
             if '/' in thisProjectPath:
                 m = '/'.join(thisProjectPath.split('/')[:-1])
                 cmd = f"mkdir -p {m} && cd {m} && git clone git@{gitlab_address}:{thisProjectPath}.git && cd -"

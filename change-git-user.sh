@@ -3,7 +3,7 @@
 res=$(git config --global -l | grep acejilam)
 
 if [[ "$res" != "" ]]; then
-    git config --global user.name "liushuo"
+    git config --global user.name "刘硕"
     git config --global user.email "liushuo@zetyun.com"
 else
     git config --global user.name "acejilam"

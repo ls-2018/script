@@ -1,6 +1,8 @@
-sh -c "$(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)"
-git config --global url."https://github.com/".insteadof git://github.com/
-source ~/.gvm/scripts/gvm
+test -e "/Users/acejilam/.gvm/bin/gvm" || {
+    sh -c "$(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)"
+    git config --global url."https://github.com/".insteadof git://github.com/
+    source ~/.gvm/scripts/gvm
+}
 
 GO111MODULE=on
 GOPROXY=https://goproxy.cn,direct
@@ -43,3 +45,7 @@ go install github.com/microsoft/ethr@latest
 cd /Library/Fonts
 rm -rf Menlo-for-Powerline
 git clone https://github.com/abertsch/Menlo-for-Powerline.git
+
+go install sigs.k8s.io/apiserver-builder-alpha/cmd/apiserver-boot@v1.23.0
+
+go install k8s.io/code-generator/cmd/{applyconfiguration-gen,defaulter-gen,client-gen,lister-gen,informer-gen,deepcopy-gen}@latest

@@ -1,6 +1,6 @@
 GO111MODULE="on" go install sigs.k8s.io/kind@v0.17.0
 
-kind delete cluster
+kind delete cluster --name dev
 cat >/tmp/kind.yaml <<EOF
 kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
@@ -23,6 +23,6 @@ containerdConfigPatches:
     endpoint = ["registry.aliyuncs.com/google_containers","https://registry.cn-hangzhou.aliyuncs.com","https://docker.mirrors.ustc.edu.cn","https://registry.docker-cn.com","http://hub-mirror.c.163.com"]
 EOF
 
-kind create cluster --config /tmp/kind.yaml --image kindest/node:v1.26.2
+kind create cluster --config /tmp/kind.yaml --image kindest/node:v1.26.2 --name dev
 
-kubectl cluster-info --context kind-kind
+kubectl cluster-info --context kind-dev

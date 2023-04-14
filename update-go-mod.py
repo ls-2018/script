@@ -33,7 +33,7 @@ for i, git in enumerate(git_set):
     #     f'cd {git_path} && git log --oneline'
     # ).split('\n')[0].split(' ')[0]
 
-    os.system(f'cd {git_path} && go mod tidy')
+    os.system(f'cd "{git_path}" && go mod tidy')
     # os.system(
     # f'cd {git_path} && git config pull.rebase false && git-pullall.sh')
     print(f"剩余:{len(git_set)-i}")
