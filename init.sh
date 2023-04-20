@@ -7,6 +7,7 @@ git config --global --add safe.directory /opt/homebrew/Library/Taps/homebrew/hom
 brew install pkg-config
 
 brew install llvm
+brew install jq
 brew install unix2dos
 brew install telnet
 brew install gsed

@@ -87,7 +87,27 @@ fi
 if [ $with_chartmuseum ]; then
     prepare_para="${prepare_para} --with-chartmuseum"
 fi
+
+cp -f ./docker-compose-tmp.yml ./docker-compose.yml
+cp -f ./prepare-tmp ./prepare
+if [ $(go env GOHOSTARCH) == "arm64" ]; then
+
+    h2 "[Step $item]: gen yaml"
+    gsed "s|goharbor|acejilam|g" -i ./prepare || sed "s|goharbor|acejilam|g" -i ./prepare
+    gsed "s|v2.6.0|dev|g" -i ./prepare || sed "s|v2.6.0|dev|g" -i ./prepare
+
+fi
+
 ./prepare $prepare_para
+
+if [ $(go env GOHOSTARCH) == "arm64" ]; then
+
+    h2 "[Step $item]: gen yaml"
+    gsed "s|goharbor|acejilam|g" -i ./docker-compose.yml || sed "s|goharbor|acejilam|g" -i ./docker-compose.yml
+    gsed "s|v2.6.0|dev|g" -i ./docker-compose.yml || sed "s|v2.6.0|dev|g" -i ./docker-compose.yml
+
+fi
+
 echo ""
 
 if [ -n "$(docker-compose ps -q)" ]; then
@@ -97,6 +117,7 @@ fi
 echo ""
 
 h2 "[Step $item]: starting Harbor ..."
+
 docker-compose up -d
 
 success $"----Harbor has been installed and started successfully.----"
