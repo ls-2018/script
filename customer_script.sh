@@ -117,3 +117,4 @@ alias grs='git add . && git reset --hard $((git show-ref --head --hash=8 2>/dev/
 
 alias k='kubectl --kubeconfig=/Users/acejilam/.kube/myconfig'
 alias ck='kubectl --kubeconfig=/Users/acejilam/.kube/company_config'
+alias vk='kubectl --kubeconfig=/Users/acejilam/.kube/vcluster.config'

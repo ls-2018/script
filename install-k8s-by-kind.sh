@@ -31,8 +31,8 @@ nodes:
   - containerPort: 6443
     hostPort: 6443
     protocol: TCP
-# - role: worker
-  # image: kindest/node:v1.26.2
+- role: worker
+  image: kindest/node:v1.26.2
 ' >/tmp/kind.yaml
 
 kind create cluster --config /tmp/kind.yaml
