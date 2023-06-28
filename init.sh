@@ -5,7 +5,7 @@ git config --global --add safe.directory /opt/homebrew/Library/Taps/homebrew/hom
 
 # export HOMEBREW_BOTTLE_DOMAIN=''
 brew install pkg-config
-
+brew install skopeo
 brew install llvm
 brew install jq
 brew install unix2dos

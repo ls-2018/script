@@ -14,7 +14,8 @@ chmod +x ~/.gopath/bin/*
 
 source /etc/profile
 
-kind delete cluster
+kind delete cluster -n=dev
+
 echo 'kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
 featureGates:
@@ -25,18 +26,11 @@ nodes:
   kubeadmConfigPatches:
   - |
     kind: ClusterConfiguration
-    # apiServer:
-    #     certSANs:
-    #       - 127.0.0.1
-    #       - 192.168.31.239
-    #       - 192.168.153.129
-  extraPortMappings:
-  - containerPort: 6443
-    hostPort: 6443
-    protocol: TCP
-- role: worker
-  image: registry.cn-hangzhou.aliyuncs.com/acejilam/node:v1.26.0
+    apiServer:
+        certSANs:
+          - 127.0.0.1
+          - aps-apiserver-svc
 ' >/tmp/kind.yaml
 
-kind create cluster --config /tmp/kind.yaml
-kubectl cluster-info --context kind-kind
+kind create cluster -n dev --config /tmp/kind.yaml
+# kubectl cluster-info --context kind-kind2

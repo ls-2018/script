@@ -1,7 +1,7 @@
 setopt no_nomatch
 export GOPATH=~/.gopath
 export GO111MODULE=on
-export CGO_ENABLED=1
+# export CGO_ENABLED=1
 export CGO_CFLAGS=-Wno-undef-prefix
 export SDKROOT=/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk
 export CC=clang
@@ -44,7 +44,7 @@ export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 export PATH=$PATH:~/.dapr/bin
 
-export JAVA_8_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_361.jdk/Contents/Home
+export JAVA_8_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_333.jdk/Contents/Home
 export JAVA_HOME=$JAVA_8_HOME
 export PATH=$JAVA_HOME/bin:$PATH:.
 export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
@@ -115,6 +115,7 @@ source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 alias grs='git add . && git reset --hard $((git show-ref --head --hash=8 2>/dev/null || echo 00000000) | head -n1) && git pull'
 
-alias k='kubectl --kubeconfig=/Users/acejilam/.kube/myconfig'
-alias ck='kubectl --kubeconfig=/Users/acejilam/.kube/company_config'
+alias mk='kubectl --kubeconfig=/Users/acejilam/.kube/75.config'
+alias ck='kubectl --kubeconfig=/Users/acejilam/.kube/517.config'
 alias vk='kubectl --kubeconfig=/Users/acejilam/.kube/vcluster.config'
+alias grep='\grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox} -v grep|\grep'

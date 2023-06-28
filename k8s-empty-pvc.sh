@@ -1,3 +1,4 @@
+#! /usr/bin/env zsh
 kubectl get pv | grep -v STORAGECLASS | grep Released | awk '{print $1}' | xargs -I "F" kubectl patch pv F -p '{"spec":{"claimRef":null}}'
 
 echo "empty path"

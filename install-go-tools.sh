@@ -49,3 +49,6 @@ git clone https://github.com/abertsch/Menlo-for-Powerline.git
 go install sigs.k8s.io/apiserver-builder-alpha/cmd/apiserver-boot@v1.23.0
 
 go install k8s.io/code-generator/cmd/{applyconfiguration-gen,defaulter-gen,client-gen,lister-gen,informer-gen,deepcopy-gen}@latest
+
+# 代码 --> 汇编
+go install loov.dev/lensm@main
