@@ -1,4 +1,5 @@
 #! /usr/bin/env zsh
+
 # i=${1-ImagePullBackOff}
 i=${1-Terminating}
 

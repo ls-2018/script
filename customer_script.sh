@@ -119,3 +119,16 @@ alias mk='kubectl --kubeconfig=/Users/acejilam/.kube/75.config'
 alias ck='kubectl --kubeconfig=/Users/acejilam/.kube/517.config'
 alias vk='kubectl --kubeconfig=/Users/acejilam/.kube/vcluster.config'
 alias grep='\grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox} -v grep|\grep'
+
+source <(kubectl completion zsh)
+alias kx=\'kubectl\'
+complete -F __start_kubectl kx
+
+alias k='kubectl --kubeconfig=/Users/acejilam/.kube/myconfig'
+alias ck='kubectl --kubeconfig=/Users/acejilam/.kube/company_config'
+
+#### ffmpeg
+export PATH="/opt/homebrew/opt/ffmpeg@5/bin:$PATH"
+export LDFLAGS="-L/opt/homebrew/opt/ffmpeg@5/lib"
+export CPPFLAGS="-I/opt/homebrew/opt/ffmpeg@5/include"
+export PKG_CONFIG_PATH="/opt/homebrew/opt/ffmpeg@5/lib/pkgconfig"
