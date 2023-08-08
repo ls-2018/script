@@ -16,7 +16,7 @@ go install github.com/go-lintpack/lintpack/...@latest
 go install github.com/quasilyte/go-ruleguard/cmd/ruleguard@latest
 go install github.com/quasilyte/go-ruleguard/dsl@latest
 
-go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.41.1
+go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.42.1
 go install mvdan.cc/gofumpt@latest
 go install github.com/go-delve/delve/cmd/dlv@master
 go get -v -u github.com/googleapis/gax-go/v2

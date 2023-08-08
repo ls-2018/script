@@ -4,7 +4,7 @@
 #CNTX=users
 #CNTX=orgs
 set -e
-echo '#CNTX={users|orgs}'
+echo 'who?={users|orgs} type={users|orgs} '
 if [ "$1" == "" ]; then
   exit
 fi

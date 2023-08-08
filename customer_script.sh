@@ -115,7 +115,7 @@ source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 alias grs='git add . && git reset --hard $((git show-ref --head --hash=8 2>/dev/null || echo 00000000) | head -n1) && git pull'
 
-alias mk='kubectl --kubeconfig=/Users/acejilam/.kube/75.config'
+alias mk='kubectl --kubeconfig=/Users/acejilam/.kube/135.config'
 alias ck='kubectl --kubeconfig=/Users/acejilam/.kube/517.config'
 alias vk='kubectl --kubeconfig=/Users/acejilam/.kube/vcluster.config'
 alias grep='\grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox} -v grep|\grep'

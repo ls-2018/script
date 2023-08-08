@@ -36,6 +36,13 @@ nodes:
     protocol: TCP
 - role: worker
   image: registry.cn-hangzhou.aliyuncs.com/acejilam/node:v1.26.0
+kubeadmConfigPatches:
+  - |
+    apiVersion: kubeadm.k8s.io/v1beta2
+    kind: ClusterConfiguration
+    etcd:
+      local:
+        dataDir: /tmp/etcd # /tmp directory is a tmpfs(in memory),use it for speeding up etcd and lower disk IO.
 ' >/tmp/kind.yaml
 
 kind create cluster --config /tmp/kind.yaml
