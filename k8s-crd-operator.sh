@@ -1,3 +1,3 @@
-kubectl get mutatingwebhookconfigurations -A
-kubectl get validatingwebhookconfigurations -A
-kubectl get customresourcedefinitions -A
+kubectl --kubeconfig=${KUBECONFIG} get mutatingwebhookconfigurations -A
+kubectl --kubeconfig=${KUBECONFIG} get validatingwebhookconfigurations -A
+kubectl --kubeconfig=${KUBECONFIG} get customresourcedefinitions -A

@@ -25,4 +25,4 @@ EOF
 
 kind create cluster --config /tmp/kind.yaml --image kindest/node:v1.26.2 --name dev
 
-kubectl cluster-info --context kind-dev
+kubectl --kubeconfig=${KUBECONFIG} cluster-info --context kind-dev

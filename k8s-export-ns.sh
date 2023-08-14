@@ -5,4 +5,4 @@ else
     ns=$1
 fi
 
-kubectl api-resources --namespaced=true | awk '{print $1}' | xargs -I F kubectl get F -n $ns -oyaml
+kubectl --kubeconfig=${KUBECONFIG} api-resources --namespaced=true | awk '{print $1}' | xargs -I F kubectl --kubeconfig=${KUBECONFIG} get F -n $ns -oyaml

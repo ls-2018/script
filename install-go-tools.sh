@@ -52,3 +52,8 @@ go install k8s.io/code-generator/cmd/{applyconfiguration-gen,defaulter-gen,clien
 
 # 代码 --> 汇编
 go install loov.dev/lensm@main
+
+# etcd
+go install github.com/br0xen/boltbrowser@latest
+
+go get -u github.com/go-bindata/go-bindata/...

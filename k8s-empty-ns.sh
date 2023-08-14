@@ -4,13 +4,13 @@ if [ $# -eq 0 ]; then
 else
     ns=$1
 fi
-kubectl delete deployment --all -n $ns --force
-kubectl delete daemonset --all -n $ns --force
-kubectl delete statefulset --all -n $ns --force
-kubectl delete persistentvolumeclaim --all -n $ns --force
-kubectl api-resources --namespaced=true | awk '{print $1}' | xargs -I F kubectl delete F --all -n $ns --force
-kubectl delete ns $ns
-kubectl get namespace $ns -o json >/tmp/terminate.json
+kubectl --kubeconfig=${KUBECONFIG} delete deployment --all -n $ns --force
+kubectl --kubeconfig=${KUBECONFIG} delete daemonset --all -n $ns --force
+kubectl --kubeconfig=${KUBECONFIG} delete statefulset --all -n $ns --force
+kubectl --kubeconfig=${KUBECONFIG} delete persistentvolumeclaim --all -n $ns --force
+kubectl --kubeconfig=${KUBECONFIG} api-resources --namespaced=true | awk '{print $1}' | xargs -I F kubectl --kubeconfig=${KUBECONFIG} delete F --all -n $ns --force
+kubectl --kubeconfig=${KUBECONFIG} delete ns $ns
+kubectl --kubeconfig=${KUBECONFIG} get namespace $ns -o json >/tmp/terminate.json
 
 cat >/tmp/terminate.py <<EOF
 import json
@@ -23,11 +23,11 @@ EOF
 
 python3 /tmp/terminate.py
 
-kubectl proxy --port=8081 &
+kubectl --kubeconfig=${KUBECONFIG} proxy --port=8081 &
 
 sleep 3
 curl -k -H "Content-Type: application/json" -X PUT --data-binary @/tmp/terminate.json http://127.0.0.1:8081/api/v1/namespaces/$ns/finalize/
 
 pkill -9 kubectl
 
-kubectl get ns
+kubectl --kubeconfig=${KUBECONFIG} get ns

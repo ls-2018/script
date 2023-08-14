@@ -70,8 +70,6 @@ export ETCD_PASSWORD='YTGEHfPCGGIIOVT1'
 export REDIS_PASSWORD='c4ca4238a0b923820dcc509a6f75849b'
 
 alias k="kubectl"
-alias ks="kubectl -n kube-system"
-alias km="kubectl -n mesoid"
 
 # brew update && brew install binutils
 alias readelf=greadelf
@@ -120,9 +118,9 @@ alias ck='kubectl --kubeconfig=/Users/acejilam/.kube/517.config'
 alias vk='kubectl --kubeconfig=/Users/acejilam/.kube/vcluster.config'
 alias grep='\grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox} -v grep|\grep'
 
-source <(kubectl completion zsh)
+source <(kubectl --kubeconfig=${KUBECONFIG} completion zsh)
 alias kx=\'kubectl\'
-complete -F __start_kubectl kx
+complete -F __start_kubectl --kubeconfig=${KUBECONFIG} kx
 
 alias k='kubectl --kubeconfig=/Users/acejilam/.kube/myconfig'
 alias ck='kubectl --kubeconfig=/Users/acejilam/.kube/company_config'
@@ -132,3 +130,12 @@ export PATH="/opt/homebrew/opt/ffmpeg@5/bin:$PATH"
 export LDFLAGS="-L/opt/homebrew/opt/ffmpeg@5/lib"
 export CPPFLAGS="-I/opt/homebrew/opt/ffmpeg@5/include"
 export PKG_CONFIG_PATH="/opt/homebrew/opt/ffmpeg@5/lib/pkgconfig"
+
+alias vmip='curl -s --basic -u ls:Bg8q9DRnY2A0OLKw http://49.232.16.245/ip'
+
+export K8S_DEBUG=1
+export KUBECONFIG='/Users/acejilam/.kube/config'
+
+# zsh 大小写敏感
+autoload -Uz compinit && compinit
+zstyle ':completion:*' matcher-list 'm:{a-z}={a-z}'
