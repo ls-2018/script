@@ -9,10 +9,10 @@ chmod +x ~/.gopath/bin/*
 rm -rf ./kubebuilder*
 
 # #下载安装包 如果需要指定版本 使用版本号替换 $(curl -L -s https://dl.k8s.io/release/stable.txt) 即可
-# curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+# curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/$(uname |tr '[:upper:]' '[:lower:]')/amd64/kubectl"
 # #验证可执行文件
 # #下载校验和
-# curl -LO "https://dl.k8s.io/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl.sha256"
+# curl -LO "https://dl.k8s.io/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/$(uname |tr '[:upper:]' '[:lower:]')/amd64/kubectl.sha256"
 # #验证
 # echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check
 # # 输出 kubectl: OK 则验证通过

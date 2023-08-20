@@ -1,12 +1,12 @@
 #! /usr/bin/env zsh
 test -e ~/.gopath/bin/kind || {
-  curl -LO "https://github.com/kubernetes-sigs/kind/releases/download/v0.17.0/kind-darwin-$(go env GOHOSTARCH)"
+  curl -LO "https://github.com/kubernetes-sigs/kind/releases/download/v0.17.0/kind-$(uname | tr '[:upper:]' '[:lower:]')-$(go env GOHOSTARCH)"
   mv kind-darwin-$(go env GOHOSTARCH) ~/.gopath/bin/kind
   chmod +x ~/.gopath/bin/kind
 }
 test -e ~/.gopath/bin/kubectl || {
-  curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/$(go env GOHOSTARCH)/kubectl"
-  # curl -LO "https://dl.k8s.io/release/v1.26.0/bin/linux/$(go env GOHOSTARCH)/kubectl"
+  curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/$(uname | tr '[:upper:]' '[:lower:]')/$(go env GOHOSTARCH)/kubectl"
+  # curl -LO "https://dl.k8s.io/release/v1.26.0/bin/$(uname |tr '[:upper:]' '[:lower:]')/$(go env GOHOSTARCH)/kubectl"
   mv kubectl ~/.gopath/bin/kubectl
 }
 
@@ -21,7 +21,7 @@ featureGates:
   "EphemeralContainers": true
 nodes:
 - role: control-plane
-  image: registry.cn-hangzhou.aliyuncs.com/acejilam/node:v1.26.0
+  image: kindest/node:v1.26.0
   kubeadmConfigPatches:
   - |
     kind: ClusterConfiguration
@@ -35,7 +35,7 @@ nodes:
     hostPort: 6443
     protocol: TCP
 - role: worker
-  image: registry.cn-hangzhou.aliyuncs.com/acejilam/node:v1.26.0
+  image: kindest/node:v1.26.0
 kubeadmConfigPatches:
   - |
     apiVersion: kubeadm.k8s.io/v1beta2
