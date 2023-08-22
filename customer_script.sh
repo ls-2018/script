@@ -34,7 +34,6 @@ export KUBE_EDITOR="code --wait"
 export MVN_HOME=$SOFTWARE_HOME/apache-maven-3.6.3
 export PROTOC_HOME=$SOFTWARE_HOME/protoc-3.14.0
 export ISTIO_HOME=$SOFTWARE_HOME/istio-1.12.2
-#export ETCD_HOME=$SOFTWARE_HOME/etcd-v3.4.9
 export JMETER_HOME=$SOFTWARE_HOME/apache-jmeter-5.5
 export PY_PATH="/Library/Frameworks/Python.framework/Versions/Current"
 
@@ -63,23 +62,10 @@ export PATH="/usr/local/opt/llvm/bin:$PATH"
 
 export PATH="/Library/Frameworks/Python.framework/Versions/3.9/bin/:$PATH"
 
-export ETCD_USER='root'
-export ETCD_PASSWORD='YTGEHfPCGGIIOVT1'
-
-# export REDIS_USER='root'
-export REDIS_PASSWORD='c4ca4238a0b923820dcc509a6f75849b'
-
-alias k="kubectl"
-
-# brew update && brew install binutils
 alias readelf=greadelf
 alias objdump=gobjdump
 alias ping=gping
 
-# export MASTERIP=$(get_current_cluster_master_ip.py)
-
-export GITEE_USER=1214972346@qq.com
-export GITEE_PASSWORD=1214972346@aA
 alias gs='git status -sb'
 alias gc='git checkout .'
 alias ga='git add .'
@@ -98,7 +84,7 @@ alias docker-clean-unused='docker system prune --all --force --volumes'
 alias docker-clean-all='docker stop $(docker container ls -a -q) && docker system prune --all --force --volumes'
 
 source /Users/acejilam/.gvm/scripts/gvm
-
+source /Users/acejilam/script/bashenv/kubetail.bash
 prompt_context() {}
 
 source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
@@ -113,17 +99,11 @@ source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 alias grs='git add . && git reset --hard $((git show-ref --head --hash=8 2>/dev/null || echo 00000000) | head -n1) && git pull'
 
-alias mk='kubectl --kubeconfig=/Users/acejilam/.kube/135.config'
-alias ck='kubectl --kubeconfig=/Users/acejilam/.kube/517.config'
-alias vk='kubectl --kubeconfig=/Users/acejilam/.kube/vcluster.config'
 alias grep='\grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox} -v grep|\grep'
 
-source <(kubectl --kubeconfig=${KUBECONFIG} completion zsh)
-alias kx=\'kubectl\'
-complete -F __start_kubectl --kubeconfig=${KUBECONFIG} kx
-
-alias k='kubectl --kubeconfig=/Users/acejilam/.kube/myconfig'
-alias ck='kubectl --kubeconfig=/Users/acejilam/.kube/company_config'
+source <(kubectl completion zsh)
+alias k=\'kubectl\'
+complete -F __start_kubectl k
 
 #### ffmpeg
 export PATH="/opt/homebrew/opt/ffmpeg@5/bin:$PATH"
@@ -137,5 +117,6 @@ export K8S_DEBUG=1
 export KUBECONFIG='/Users/acejilam/.kube/config'
 
 # zsh 大小写敏感
-autoload -Uz compinit && compinit
-zstyle ':completion:*' matcher-list 'm:{a-z}={a-z}'
+# autoload -Uz compinit && compinit
+# zstyle ':completion:*' matcher-list 'm:{a-z}={a-z}'
+source <(stern --completion=zsh)

@@ -36,6 +36,14 @@ nodes:
     protocol: TCP
 - role: worker
   image: kindest/node:v1.26.0
+- role: worker
+  image: kindest/node:v1.26.0
+- role: worker
+  image: kindest/node:v1.26.0
+- role: worker
+  image: kindest/node:v1.26.0
+- role: worker
+  image: kindest/node:v1.26.0
 kubeadmConfigPatches:
   - |
     apiVersion: kubeadm.k8s.io/v1beta2

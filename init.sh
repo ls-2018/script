@@ -23,6 +23,9 @@ chsh -s /bin/zsh
 brew install zsh-syntax-highlighting
 brew install zsh-autosuggestions
 brew install zsh-completions
+brew update && brew install binutils
+# k8s log 工具
+brew install stern
 # https://cmake.org/download/
 # sudo "/Applications/CMake.app/Contents/bin/cmake-gui" --install
 
