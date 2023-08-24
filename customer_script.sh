@@ -114,7 +114,6 @@ export PKG_CONFIG_PATH="/opt/homebrew/opt/ffmpeg@5/lib/pkgconfig"
 alias vmip='curl -s --basic -u ls:Bg8q9DRnY2A0OLKw http://49.232.16.245/ip'
 
 export K8S_DEBUG=1
-export KUBECONFIG='/Users/acejilam/.kube/config'
 
 # zsh 大小写敏感
 # autoload -Uz compinit && compinit

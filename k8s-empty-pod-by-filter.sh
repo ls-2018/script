@@ -3,9 +3,9 @@
 # i=${1-ImagePullBackOff}
 i=${1-Terminating}
 
-kubectl --kubeconfig=${KUBECONFIG} get pods --all-namespaces | grep $i | awk '{print $1,$2}' | while read -r line; do
+kubectl get pods --all-namespaces | grep $i | awk '{print $1,$2}' | while read -r line; do
     namespaces=$(echo $line | awk '{print $1}')
     podname=$(echo $line | awk '{print $2}')
     echo $namespaces -- $podname
-    kubectl --kubeconfig=${KUBECONFIG} delete pod $podname -n $namespaces --force
+    kubectl delete pod $podname -n $namespaces --force
 done

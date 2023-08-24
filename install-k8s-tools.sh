@@ -18,13 +18,13 @@ rm -rf ./kubebuilder*
 # # 输出 kubectl: OK 则验证通过
 # # 未通过重新下载即可
 
-# sudo install -o root -g root -m 0755 kubectl --kubeconfig=${KUBECONFIG} /usr/local/bin/kubectl
+# sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 # # 执行不通过可以手动给权限
-# sudo chmod +x kubectl --kubeconfig=${KUBECONFIG} && mv kubectl /usr/local/bin/kubectl
+# sudo chmod +x kubectl && mv kubectl /usr/local/bin/kubectl
 # # 查看版本
-# kubectl --kubeconfig=${KUBECONFIG} version --client
+# kubectl version --client
 # #yaml格式输出
-# kubectl --kubeconfig=${KUBECONFIG} version --client --output=yaml
+# kubectl version --client --output=yaml
 
 # #检查是否安装bash-completion
 # type _init_completion
@@ -41,6 +41,6 @@ rm -rf ./kubebuilder*
 # type _init_completion
 # #启用kubectl自动补全
 # #只给当前用户设置
-# echo 'source <(kubectl --kubeconfig=${KUBECONFIG} completion bash)' >>~/.bashrc
+# echo 'source <(kubectl completion bash)' >>~/.bashrc
 # #系统全局设置
-# kubectl --kubeconfig=${KUBECONFIG} completion bash | sudo tee /etc/bash_completion.d/kubectl --kubeconfig=${KUBECONFIG} >/dev/null
+# kubectl completion bash | sudo tee /etc/bash_completion.d/kubectl >/dev/null

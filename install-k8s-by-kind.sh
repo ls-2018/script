@@ -54,4 +54,4 @@ kubeadmConfigPatches:
 ' >/tmp/kind.yaml
 
 kind create cluster --config /tmp/kind.yaml
-kubectl --kubeconfig=${KUBECONFIG} cluster-info --context kind-kind
+kubectl cluster-info --context kind-kind
