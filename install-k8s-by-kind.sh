@@ -15,10 +15,11 @@ chmod +x ~/.gopath/bin/*
 source /etc/profile
 
 kind delete cluster
+
 echo 'kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
-featureGates:
-  "EphemeralContainers": true
+# featureGates:
+  # "EphemeralContainers": true
 nodes:
 - role: control-plane
   image: kindest/node:v1.26.0
@@ -27,30 +28,33 @@ nodes:
     kind: ClusterConfiguration
     # apiServer:
     #     certSANs:
-    #       - 127.0.0.1
-    #       - 192.168.31.239
     #       - 192.168.153.129
-  extraPortMappings:
-  - containerPort: 6443
-    hostPort: 6443
-    protocol: TCP
+  # extraPortMappings:
+  # - containerPort: 6443
+  #   hostPort: 6443
+  #   protocol: TCP
 - role: worker
   image: kindest/node:v1.26.0
+  labels:
+    topology.kubernetes.io/zone: zone-a
 - role: worker
   image: kindest/node:v1.26.0
+  labels:
+    topology.kubernetes.io/zone: zone-b
 - role: worker
   image: kindest/node:v1.26.0
-- role: worker
-  image: kindest/node:v1.26.0
-- role: worker
-  image: kindest/node:v1.26.0
-kubeadmConfigPatches:
-  - |
-    apiVersion: kubeadm.k8s.io/v1beta2
-    kind: ClusterConfiguration
-    etcd:
-      local:
-        dataDir: /tmp/etcd # /tmp directory is a tmpfs(in memory),use it for speeding up etcd and lower disk IO.
+  labels:
+    topology.kubernetes.io/zone: zone-c
+# kubeadmConfigPatches:
+#   - |
+#     apiVersion: kubeadm.k8s.io/v1beta2
+#     kind: ClusterConfiguration
+#     etcd:
+#       local:
+#         dataDir: /tmp/etcd # /tmp directory is a tmpfs(in memory),use it for speeding up etcd and lower disk IO.
+    # apiServer:
+    #   extraArgs:
+    #     enable-admission-plugins: OwnerReferencesPermissionEnforcement,PodNodeSelector,PodTolerationRestriction,NodeRestriction,MutatingAdmissionWebhook,ValidatingAdmissionWebhook
 ' >/tmp/kind.yaml
 
 kind create cluster --config /tmp/kind.yaml
