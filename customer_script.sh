@@ -125,3 +125,5 @@ export K8S_DEBUG=1
 # autoload -Uz compinit && compinit
 # zstyle ':completion:*' matcher-list 'm:{a-z}={a-z}'
 source <(stern --completion=zsh)
+
+alias ssh='trzsz --dragfile ssh'

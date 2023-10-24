@@ -60,3 +60,6 @@ go get -u github.com/go-bindata/go-bindata/...
 go install github.com/cilium/ebpf/cmd/bpf2go@latest
 go install github.com/mattn/goveralls@a36c7ef8f23b2952fa6e39663f52107dfc8ad69d # v0.0.11
 go install github.com/mfridman/tparse@28967170dce4f9f13de77ec857f7aed4c4294a5f # v0.12.3 (main) with -progress
+
+# tools
+go install github.com/trzsz/trzsz-go/cmd/...@latest
