@@ -45,3 +45,11 @@ cd fonts
 # clean-up a bit
 cd ..
 rm -rf fonts
+
+cd /tmp
+wget https://zenlayer.dl.sourceforge.net/project/sshpass/sshpass/1.10/sshpass-1.10.tar.gz
+tar -zxvf sshpass-1.10.tar.gz
+cd sshpass-1.10
+./configure
+make && make install
+mv ./sshpass /usr/local/bin/

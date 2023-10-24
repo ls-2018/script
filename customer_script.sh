@@ -8,6 +8,8 @@ export CC=clang
 export GOOS=darwin
 export GOARCH=amd64
 go env -w GOPATH=/Users/acejilam/.gopath
+# go env -w GOBIN=/Users/acejilam/.gopath/bin
+
 ldflags='-compressdwarf=false'
 mkdir -p $GOPATH/{bin,pkg,src}
 
@@ -112,6 +114,10 @@ export CPPFLAGS="-I/opt/homebrew/opt/ffmpeg@5/include"
 export PKG_CONFIG_PATH="/opt/homebrew/opt/ffmpeg@5/lib/pkgconfig"
 
 alias vmip='curl -s --basic -u ls:Bg8q9DRnY2A0OLKw http://49.232.16.245/ip'
+
+# To use the bundled libc++ please add the following LDFLAGS:
+export LDFLAGS="-L/usr/local/opt/llvm/lib"
+export CPPFLAGS="-I/usr/local/opt/llvm/include"
 
 export K8S_DEBUG=1
 

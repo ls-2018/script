@@ -36,15 +36,19 @@ nodes:
 - role: worker
   image: kindest/node:v1.26.0
   labels:
+    node.kubernetes.io/instance-type: controlpanel
     topology.kubernetes.io/zone: zone-a
+    node: zone-a
 - role: worker
   image: kindest/node:v1.26.0
   labels:
     topology.kubernetes.io/zone: zone-b
+    node: zone-b
 - role: worker
   image: kindest/node:v1.26.0
   labels:
     topology.kubernetes.io/zone: zone-c
+    node: zone-c
 # kubeadmConfigPatches:
 #   - |
 #     apiVersion: kubeadm.k8s.io/v1beta2
