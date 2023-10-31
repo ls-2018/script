@@ -127,3 +127,4 @@ export K8S_DEBUG=1
 source <(stern --completion=zsh)
 
 alias ssh='trzsz --dragfile ssh'
+alias dive="docker run -ti --rm  -v /var/run/docker.sock:/var/run/docker.sock wagoodman/dive"
