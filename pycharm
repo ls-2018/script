@@ -1,3 +1,0 @@
-#!/bin/sh
-
-open -na "Pycharm.app" --args "$@"

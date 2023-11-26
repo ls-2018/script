@@ -62,7 +62,8 @@ export PATH="/usr/local/opt/make/libexec/gnubin:$PATH"
 export PATH="/usr/local/opt/openssl@3/bin:$PATH"
 export PATH="/usr/local/opt/llvm/bin:$PATH"
 
-export PATH="/Library/Frameworks/Python.framework/Versions/3.9/bin/:$PATH"
+export PATH="/Library/Frameworks/Python.framework/Versions/3.12/bin:$PATH"
+export PATH="/Users/acejilam/Library/Application Support/JetBrains/Toolbox/scripts":$PATH
 
 alias readelf=greadelf
 alias objdump=gobjdump
