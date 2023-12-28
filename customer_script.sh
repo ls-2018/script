@@ -1,4 +1,5 @@
 setopt no_nomatch
+
 export GOPATH=~/.gopath
 export GO111MODULE=on
 # export CGO_ENABLED=1
@@ -86,16 +87,6 @@ alias unproxy='unset https_proxy && unset http_proxy && unset all_proxy'
 alias docker-clean-unused='docker system prune --all --force --volumes'
 alias docker-clean-all='docker stop $(docker container ls -a -q) && docker system prune --all --force --volumes'
 
-source /Users/acejilam/.gvm/scripts/gvm
-source /Users/acejilam/script/bashenv/kubetail.bash
-prompt_context() {}
-
-source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-[[ -s $(brew --prefix)/etc/profile.d/autojump.sh ]] && . $(brew --prefix)/etc/profile.d/autojump.sh
-# autoload -Uz compinit
-# compinit
-
 # GIT_SHA1=$( (git show-ref --head --hash=8 2>/dev/null || echo 00000000) | head -n1)
 # GIT_DIRTY=$(git diff --no-ext-diff 2>/dev/null | wc -l)
 # BUILD_ID=$(uname -n)"-"$(date +%s)
@@ -104,10 +95,14 @@ alias grs='git add . && git reset --hard $((git show-ref --head --hash=8 2>/dev/
 
 alias grep='\grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox} -v grep|\grep'
 
+# autoload -Uz compinit
+# compinit
+
 source <(kubectl completion zsh)
 alias k=\'kubectl\'
-complete -F __start_kubectl k
+
 alias kn='k get nodes'
+
 #### ffmpeg
 export PATH="/opt/homebrew/opt/ffmpeg@5/bin:$PATH"
 export LDFLAGS="-L/opt/homebrew/opt/ffmpeg@5/lib"
@@ -129,3 +124,13 @@ source <(stern --completion=zsh)
 
 alias ssh='trzsz --dragfile ssh'
 alias dive="docker run -ti --rm  -v /var/run/docker.sock:/var/run/docker.sock wagoodman/dive"
+
+# export ZSH="$HOME/.oh-my-zsh"
+# ZSH_THEME="robbyrussell"
+# # git clone https://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+# # git clone https://github.com/zsh-users/zsh-syntax-highlighting ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+# # git clone https://github.com/zsh-users/autojump ~/.oh-my-zsh/custom/plugins/autojump
+# plugins=(git zsh-autosuggestions zsh-syntax-highlighting)
+# source $ZSH/oh-my-zsh.sh
+# PROMPT='%B%(?:%F{green}➜ :%F{red}➜ )%f%{%}%F{red}%d%f%b%{%} %{$reset_color%}$(git_prompt_info)> '
+# source /Users/acejilam/script/customer_script.sh

@@ -6,7 +6,7 @@ test -e ~/.gopath/bin/kind || {
 }
 test -e ~/.gopath/bin/kubectl || {
   curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/$(uname | tr '[:upper:]' '[:lower:]')/$(go env GOHOSTARCH)/kubectl"
-  # curl -LO "https://dl.k8s.io/release/v1.26.0/bin/$(uname |tr '[:upper:]' '[:lower:]')/$(go env GOHOSTARCH)/kubectl"
+  # curl -LO "https://dl.k8s.io/release/v1.26.2/bin/$(uname |tr '[:upper:]' '[:lower:]')/$(go env GOHOSTARCH)/kubectl"
   mv kubectl ~/.gopath/bin/kubectl
 }
 
@@ -22,7 +22,7 @@ apiVersion: kind.x-k8s.io/v1alpha4
   # "EphemeralContainers": true
 nodes:
 - role: control-plane
-  image: kindest/node:v1.26.0
+  image: kindest/node:v1.26.2
   kubeadmConfigPatches:
   - |
     kind: ClusterConfiguration
@@ -34,18 +34,18 @@ nodes:
   #   hostPort: 6443
   #   protocol: TCP
 - role: worker
-  image: kindest/node:v1.26.0
+  image: kindest/node:v1.26.2
   labels:
     node.kubernetes.io/instance-type: controlpanel
     topology.kubernetes.io/zone: zone-a
     node: zone-a
 - role: worker
-  image: kindest/node:v1.26.0
+  image: kindest/node:v1.26.2
   labels:
     topology.kubernetes.io/zone: zone-b
     node: zone-b
 - role: worker
-  image: kindest/node:v1.26.0
+  image: kindest/node:v1.26.2
   labels:
     topology.kubernetes.io/zone: zone-c
     node: zone-c

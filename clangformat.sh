@@ -48,4 +48,4 @@ else
 fi
 
 echo "pwd $(pwd)"
-find "${FORMAT_DIR}" -type f \( -name '*.h' -or -name '*.hpp' -or -name '*.cpp' -or -name '*.c' -or -name '*.cc' \) -print | xargs clang-format -style="file" -i ${OPTIONS[*]}
+find "${FORMAT_DIR}" -type f \( -name '*.h' -or -name '*.hpp' -or -name '*.cpp' -or -name '*.c' -or -name '*.cc' \) -print | grep -v cmake-build-debug | grep -v CMakeFiles | xargs clang-format -style="file" -i ${OPTIONS[*]}
