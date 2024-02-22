@@ -46,7 +46,7 @@ def is_chinese(string):
     """
     for ch in string:
         if u'\u4e00' <= ch <= u'\u9fff':
-            # print(ch)
+            print(ch,string)
             return True
 
     return False

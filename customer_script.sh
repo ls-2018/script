@@ -3,7 +3,7 @@ setopt no_nomatch
 export GOPATH=~/.gopath
 export GO111MODULE=on
 # export CGO_ENABLED=1
-export CGO_CFLAGS=-Wno-undef-prefix
+# export CGO_CFLAGS=-Wno-undef-prefix
 export SDKROOT=/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk
 export CC=clang
 export GOOS=darwin
@@ -134,3 +134,5 @@ alias dive="docker run -ti --rm  -v /var/run/docker.sock:/var/run/docker.sock wa
 # source $ZSH/oh-my-zsh.sh
 # PROMPT='%B%(?:%F{green}➜ :%F{red}➜ )%f%{%}%F{red}%d%f%b%{%} %{$reset_color%}$(git_prompt_info)> '
 # source /Users/acejilam/script/customer_script.sh
+
+alias svm='ssh root@2j8g761566.wicp.vip -p 52575'
