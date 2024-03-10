@@ -69,4 +69,4 @@ gsed -i "s/VERSION/${version}/g" /tmp/${name}.yaml
 
 kind create cluster --config /tmp/${name}.yaml -n ${name} --kubeconfig ~/.kube/${name}
 kubectl cluster-info --context kind-${name} --kubeconfig ~/.kube/${name}
-echo 'export KUBECONFIG=~/.kube/koord'
+echo "export KUBECONFIG=~/.kube/${name}"
