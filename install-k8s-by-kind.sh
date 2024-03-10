@@ -26,7 +26,6 @@ apiVersion: kind.x-k8s.io/v1alpha4
   # "EphemeralContainers": true
 nodes:
 - role: control-plane
-  image: kindest/node:VERSION
   kubeadmConfigPatches:
   - |
     kind: ClusterConfiguration
@@ -38,18 +37,15 @@ nodes:
   #   hostPort: 6443
   #   protocol: TCP
 - role: worker
-  image: kindest/node:VERSION
   labels:
     node.kubernetes.io/instance-type: controlpanel
     topology.kubernetes.io/zone: zone-a
     node: zone-a
 - role: worker
-  image: kindest/node:VERSION
   labels:
     topology.kubernetes.io/zone: zone-b
     node: zone-b
 - role: worker
-  image: kindest/node:VERSION
   labels:
     topology.kubernetes.io/zone: zone-c
     node: zone-c
@@ -67,6 +63,6 @@ nodes:
 
 gsed -i "s/VERSION/${version}/g" /tmp/${name}.yaml
 
-kind create cluster --config /tmp/${name}.yaml -n ${name} --kubeconfig ~/.kube/${name}
+kind create cluster --config /tmp/${name}.yaml -n ${name} --kubeconfig ~/.kube/${name} --image m.daocloud.io/docker.io/kindest/node:${version}
 kubectl cluster-info --context kind-${name} --kubeconfig ~/.kube/${name}
 echo "export KUBECONFIG=~/.kube/${name}"
