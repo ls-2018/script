@@ -136,3 +136,5 @@ alias dive="docker run -ti --rm  -v /var/run/docker.sock:/var/run/docker.sock wa
 # source /Users/acejilam/script/customer_script.sh
 
 alias svm='ssh root@2j8g761566.wicp.vip -p 52575'
+
+export KUBECONFIG=~/.kube/kruise
