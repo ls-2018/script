@@ -65,4 +65,8 @@ gsed -i "s/VERSION/${version}/g" /tmp/${name}.yaml
 
 kind create cluster --config /tmp/${name}.yaml -n ${name} --kubeconfig ~/.kube/${name} --image m.daocloud.io/docker.io/kindest/node:${version}
 kubectl cluster-info --context kind-${name} --kubeconfig ~/.kube/${name}
+kind load docker-image -n kruise openkruise/kruise-manager:v1.4.0
+kind load docker-image -n kruise centos:7
+kind load docker-image -n kruise docker.io/alpine:3.13
+kind load docker-image -n kruise registry.cn-hangzhou.aliyuncs.com/acejilam/mygo:v1.21.5
 echo "export KUBECONFIG=~/.kube/${name}"
