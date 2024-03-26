@@ -137,6 +137,6 @@ alias dive="docker run -ti --rm  -v /var/run/docker.sock:/var/run/docker.sock wa
 
 alias svm='ssh root@2j8g761566.wicp.vip -p 52575'
 
-export KUBECONFIG=~/.kube/kruise
+export KUBECONFIG=~/.kube/koord
 export GIT_EDITOR=code\ --wait
 git config --global core.editor code

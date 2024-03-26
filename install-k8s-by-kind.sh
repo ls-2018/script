@@ -76,8 +76,36 @@ gsed -i "s/VERSION/${version}/g" /tmp/${name}.yaml
 
 kind create cluster --config /tmp/${name}.yaml -n ${name} --kubeconfig ~/.kube/${name} --image m.daocloud.io/docker.io/kindest/node:${version}
 kubectl cluster-info --context kind-${name} --kubeconfig ~/.kube/${name}
-kind load docker-image -n kruise openkruise/kruise-manager:v1.4.0
-kind load docker-image -n kruise centos:7
-kind load docker-image -n kruise docker.io/alpine:3.13
-kind load docker-image -n kruise registry.cn-hangzhou.aliyuncs.com/acejilam/mygo:v1.21.5
+string_contains() {
+  local str=$1
+  local sub_str=$2
+  if [[ $str == *"$sub_str"* ]]; then
+    return 0
+  else
+    return 1
+  fi
+}
+
+# 使用示例
+
+if string_contains ${name} "koord"; then
+  docker pull registry.cn-beijing.aliyuncs.com/koordinator-sh/koord-manager:v1.4.0
+  docker pull registry.cn-beijing.aliyuncs.com/koordinator-sh/koordlet:v1.4.0
+  docker pull registry.cn-beijing.aliyuncs.com/koordinator-sh/koord-scheduler:v1.4.0
+  docker pull registry.cn-beijing.aliyuncs.com/koordinator-sh/koord-descheduler:v1.4.0
+
+  kind load docker-image -n ${name} registry.cn-beijing.aliyuncs.com/koordinator-sh/koord-manager:v1.4.0
+  kind load docker-image -n ${name} registry.cn-beijing.aliyuncs.com/koordinator-sh/koordlet:v1.4.0
+  kind load docker-image -n ${name} registry.cn-beijing.aliyuncs.com/koordinator-sh/koord-scheduler:v1.4.0
+  kind load docker-image -n ${name} registry.cn-beijing.aliyuncs.com/koordinator-sh/koord-descheduler:v1.4.0
+
+fi
+
+if string_contains ${name} "kruise"; then
+  docker pull openkruise/kruise-manager:v1.4.0
+  kind load docker-image -n ${name} openkruise/kruise-manager:v1.4.0
+  kind load docker-image -n ${name} centos:7
+  kind load docker-image -n ${name} registry.cn-hangzhou.aliyuncs.com/acejilam/mygo:v1.21.5
+fi
+
 echo "export KUBECONFIG=~/.kube/${name}"
