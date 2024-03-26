@@ -89,15 +89,15 @@ string_contains() {
 # 使用示例
 
 if string_contains ${name} "koord"; then
-  docker pull registry.cn-beijing.aliyuncs.com/koordinator-sh/koord-manager:v1.4.0
-  docker pull registry.cn-beijing.aliyuncs.com/koordinator-sh/koordlet:v1.4.0
-  docker pull registry.cn-beijing.aliyuncs.com/koordinator-sh/koord-scheduler:v1.4.0
-  docker pull registry.cn-beijing.aliyuncs.com/koordinator-sh/koord-descheduler:v1.4.0
+  # docker pull registry.cn-beijing.aliyuncs.com/koordinator-sh/koord-manager:v1.4.0
+  # docker pull registry.cn-beijing.aliyuncs.com/koordinator-sh/koordlet:v1.4.0
+  # docker pull registry.cn-beijing.aliyuncs.com/koordinator-sh/koord-scheduler:v1.4.0
+  # docker pull registry.cn-beijing.aliyuncs.com/koordinator-sh/koord-descheduler:v1.4.0
 
-  kind load docker-image -n ${name} registry.cn-beijing.aliyuncs.com/koordinator-sh/koord-manager:v1.4.0
-  kind load docker-image -n ${name} registry.cn-beijing.aliyuncs.com/koordinator-sh/koordlet:v1.4.0
-  kind load docker-image -n ${name} registry.cn-beijing.aliyuncs.com/koordinator-sh/koord-scheduler:v1.4.0
-  kind load docker-image -n ${name} registry.cn-beijing.aliyuncs.com/koordinator-sh/koord-descheduler:v1.4.0
+  # kind load docker-image -n ${name} registry.cn-beijing.aliyuncs.com/koordinator-sh/koord-manager:v1.4.0
+  # kind load docker-image -n ${name} registry.cn-beijing.aliyuncs.com/koordinator-sh/koordlet:v1.4.0
+  # kind load docker-image -n ${name} registry.cn-beijing.aliyuncs.com/koordinator-sh/koord-scheduler:v1.4.0
+  # kind load docker-image -n ${name} registry.cn-beijing.aliyuncs.com/koordinator-sh/koord-descheduler:v1.4.0
 
 fi
 
