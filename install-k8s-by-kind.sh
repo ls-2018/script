@@ -59,6 +59,17 @@ nodes:
     # apiServer:
     #   extraArgs:
     #     enable-admission-plugins: OwnerReferencesPermissionEnforcement,PodNodeSelector,PodTolerationRestriction,NodeRestriction,MutatingAdmissionWebhook,ValidatingAdmissionWebhook
+
+kubeadmConfigPatches:
+  - |
+    kind: InitConfiguration
+    nodeRegistration:
+      kubeletExtraArgs:
+        "cgroup-root": "/"
+    ---
+    kind: KubeletConfiguration
+    cgroupRoot: /
+
 ' >/tmp/${name}.yaml
 
 gsed -i "s/VERSION/${version}/g" /tmp/${name}.yaml
