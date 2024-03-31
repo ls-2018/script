@@ -20,8 +20,21 @@ source /etc/profile
 
 kind delete cluster -n ${name}
 
+mkdir -p /Users/acejilam/data/plugins/bin
+
+cd /Users/acejilam/data/plugins/bin
+test -e /Users/acejilam/data/plugins/bin/bridge || {
+  git clone https://github.com/containernetworking/plugins.git
+  cd plugins
+  bash ./build_linux.sh
+  mv ./bin/* ../
+}
+
 echo 'kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
+networking:
+  # the default CNI will not be installed
+  disableDefaultCNI: true
 # featureGates:
   # "EphemeralContainers": true
 nodes:
@@ -36,19 +49,31 @@ nodes:
   # - containerPort: 6443
   #   hostPort: 6443
   #   protocol: TCP
+  extraMounts:
+  - hostPath: /Users/acejilam/data/plugins/bin
+    containerPath: /opt/cni/bin
 - role: worker
   labels:
     node.kubernetes.io/instance-type: controlpanel
     topology.kubernetes.io/zone: zone-a
     node: zone-a
+  extraMounts:
+  - hostPath: /Users/acejilam/data/plugins/bin
+    containerPath: /opt/cni/bin
 - role: worker
   labels:
     topology.kubernetes.io/zone: zone-b
     node: zone-b
+  extraMounts:
+  - hostPath: /Users/acejilam/data/plugins/bin
+    containerPath: /opt/cni/bin
 - role: worker
   labels:
     topology.kubernetes.io/zone: zone-c
     node: zone-c
+  extraMounts:
+  - hostPath: /Users/acejilam/data/plugins/bin
+    containerPath: /opt/cni/bin
 # kubeadmConfigPatches:
 #   - |
 #     apiVersion: kubeadm.k8s.io/v1beta2
@@ -86,6 +111,13 @@ string_contains() {
   fi
 }
 
+curl -o /tmp/kube-flannel.yml https://raw.githubusercontent.com/flannel-io/flannel/master/Documentation/kube-flannel.yml
+
+sed=$(which gsed) || $(which sed)
+sed -i 's/docker.io/docker.m.daocloud.io/g' /tmp/kube-flannel.yml
+
+kubectl apply -f /tmp/kube-flannel.yml
+
 # 使用示例
 
 if string_contains ${name} "koord"; then
@@ -105,7 +137,6 @@ if string_contains ${name} "kruise"; then
   docker pull openkruise/kruise-manager:v1.4.0
   kind load docker-image -n ${name} openkruise/kruise-manager:v1.4.0
   kind load docker-image -n ${name} centos:7
-  kind load docker-image -n ${name} registry.cn-hangzhou.aliyuncs.com/acejilam/mygo:v1.21.5
 fi
 
 echo "export KUBECONFIG=~/.kube/${name}"
