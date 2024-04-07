@@ -111,7 +111,7 @@ string_contains() {
   fi
 }
 
-curl -o /tmp/kube-flannel.yml https://raw.githubusercontent.com/flannel-io/flannel/master/Documentation/kube-flannel.yml
+curl -o /tmp/kube-flannel.yml https://gitee.com/ls-2018/flannel/raw/master/Documentation/kube-flannel.yml
 
 sed=$(which gsed) || $(which sed)
 sed -i 's/docker.io/docker.m.daocloud.io/g' /tmp/kube-flannel.yml
