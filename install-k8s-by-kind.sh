@@ -97,8 +97,6 @@ kubeadmConfigPatches:
 
 ' >/tmp/${name}.yaml
 
-gsed -i "s/VERSION/${version}/g" /tmp/${name}.yaml
-
 kind create cluster --config /tmp/${name}.yaml -n ${name} --kubeconfig ~/.kube/${name} --image m.daocloud.io/docker.io/kindest/node:${version}
 kubectl cluster-info --context kind-${name} --kubeconfig ~/.kube/${name}
 string_contains() {
@@ -113,10 +111,7 @@ string_contains() {
 
 curl -o /tmp/kube-flannel.yml https://gitee.com/ls-2018/flannel/raw/master/Documentation/kube-flannel.yml
 
-sed=$(which gsed) || $(which sed)
-sed -i 's/docker.io/docker.m.daocloud.io/g' /tmp/kube-flannel.yml
-
-kubectl apply -f /tmp/kube-flannel.yml
+perl -pe 's/docker.io/docker.m.daocloud.io/g' /tmp/kube-flannel.yml | kubectl apply --kubeconfig ~/.kube/${name} -f -
 
 # 使用示例
 
