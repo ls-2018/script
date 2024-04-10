@@ -11,6 +11,7 @@ go install golang.org/x/tools/cmd/goimports@latest
 go install golang.org/x/lint/golint@latest
 go install github.com/fzipp/gocyclo/cmd/gocyclo@latest
 go install github.com/BurntSushi/toml/cmd/tomlv@latest
+go install github.com/ServiceWeaver/weaver/cmd/weaver@latest
 go install github.com/go-critic/go-critic/...@latest
 go install github.com/go-lintpack/lintpack/...@latest
 go install github.com/quasilyte/go-ruleguard/cmd/ruleguard@latest
