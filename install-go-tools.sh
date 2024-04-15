@@ -3,6 +3,14 @@ test -e "/Users/acejilam/.gvm/bin/gvm" || {
     git config --global url."https://github.com/".insteadof git://github.com/
     source ~/.gvm/scripts/gvm
 }
+test -e /Library/Fonts/Menlo-for-Powerline || {
+    export https_proxy=http://127.0.0.1:7890 http_proxy=http://127.0.0.1:7890 all_proxy=socks5://127.0.0.1:7890
+    # vscode font
+    cd /Library/Fonts
+    rm -rf Menlo-for-Powerline
+    git clone https://github.com/abertsch/Menlo-for-Powerline.git
+    unset https_proxy && unset http_proxy && unset all_proxy
+}
 
 GO111MODULE=on
 GOPROXY=https://goproxy.cn,direct
@@ -42,11 +50,6 @@ go get github.com/smartystreets/goconvey
 # neth
 go install github.com/microsoft/ethr@latest
 
-# vscode font
-cd /Library/Fonts
-rm -rf Menlo-for-Powerline
-git clone https://github.com/abertsch/Menlo-for-Powerline.git
-
 go install sigs.k8s.io/apiserver-builder-alpha/cmd/apiserver-boot@v1.23.0
 
 go install k8s.io/code-generator/cmd/{applyconfiguration-gen,defaulter-gen,client-gen,lister-gen,informer-gen,deepcopy-gen}@latest
@@ -64,3 +67,6 @@ go install github.com/mfridman/tparse@28967170dce4f9f13de77ec857f7aed4c4294a5f #
 
 # tools
 go install github.com/trzsz/trzsz-go/cmd/...@latest
+
+# cert
+go install github.com/cloudflare/cfssl/cmd/...@latest

@@ -35,7 +35,7 @@ echo 'kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
 networking:
   # the default CNI will not be installed
-  disableDefaultCNI: true
+  #disableDefaultCNI: true
 # featureGates:
   # "EphemeralContainers": true
 nodes:
@@ -72,9 +72,9 @@ nodes:
   labels:
     topology.kubernetes.io/zone: zone-c
     node: zone-c
-  extraMounts:
-  - hostPath: /Users/acejilam/data/plugins/bin
-    containerPath: /opt/cni/bin
+  # extraMounts:
+  # - hostPath: /Users/acejilam/data/plugins/bin
+  #   containerPath: /opt/cni/bin
 # kubeadmConfigPatches:
 #   - |
 #     apiVersion: kubeadm.k8s.io/v1beta2
@@ -112,7 +112,7 @@ string_contains() {
 
 curl -o /tmp/kube-flannel.yml https://gitee.com/ls-2018/flannel/raw/master/Documentation/kube-flannel.yml
 
-perl -pe 's/docker.io/docker.m.daocloud.io/g' /tmp/kube-flannel.yml | kubectl apply --kubeconfig ~/.kube/${name} -f -
+# perl -pe 's/docker.io/docker.m.daocloud.io/g' /tmp/kube-flannel.yml | kubectl apply --kubeconfig ~/.kube/${name} -f -
 
 # 使用示例
 
