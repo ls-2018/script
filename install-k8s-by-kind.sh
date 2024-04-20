@@ -20,7 +20,7 @@ chmod +x ~/.gopath/bin/*
 source /etc/profile
 
 kind delete cluster -n ${name}
-
+mkdir -p /Users/acejilam/data/build_cache
 mkdir -p /Users/acejilam/data/plugins/bin
 
 cd /Users/acejilam/data/plugins/bin
@@ -61,6 +61,8 @@ nodes:
   extraMounts:
   - hostPath: /Users/acejilam/data/plugins/bin
     containerPath: /opt/cni/bin
+  - hostPath: /Users/acejilam/data/build_cache
+    containerPath: /tmp/build_cache
 - role: worker
   labels:
     topology.kubernetes.io/zone: zone-b
@@ -68,13 +70,17 @@ nodes:
   extraMounts:
   - hostPath: /Users/acejilam/data/plugins/bin
     containerPath: /opt/cni/bin
+  - hostPath: /Users/acejilam/data/build_cache
+    containerPath: /tmp/build_cache
 - role: worker
   labels:
     topology.kubernetes.io/zone: zone-c
     node: zone-c
-  # extraMounts:
-  # - hostPath: /Users/acejilam/data/plugins/bin
-  #   containerPath: /opt/cni/bin
+  extraMounts:
+  - hostPath: /Users/acejilam/data/plugins/bin
+    containerPath: /opt/cni/bin
+  - hostPath: /Users/acejilam/data/build_cache
+    containerPath: /tmp/build_cache
 # kubeadmConfigPatches:
 #   - |
 #     apiVersion: kubeadm.k8s.io/v1beta2
