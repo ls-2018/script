@@ -53,6 +53,8 @@ nodes:
   extraMounts:
   - hostPath: /Users/acejilam/data/plugins/bin
     containerPath: /opt/cni/bin
+  - hostPath: /Users/acejilam/data/nfs
+    containerPath: /nfs
 - role: worker
   labels:
     node.kubernetes.io/instance-type: controlpanel
@@ -63,6 +65,8 @@ nodes:
     containerPath: /opt/cni/bin
   - hostPath: /Users/acejilam/data/build_cache
     containerPath: /tmp/build_cache
+  - hostPath: /Users/acejilam/data/nfs
+    containerPath: /nfs
 - role: worker
   labels:
     topology.kubernetes.io/zone: zone-b
@@ -72,6 +76,8 @@ nodes:
     containerPath: /opt/cni/bin
   - hostPath: /Users/acejilam/data/build_cache
     containerPath: /tmp/build_cache
+  - hostPath: /Users/acejilam/data/nfs
+    containerPath: /nfs
 - role: worker
   labels:
     topology.kubernetes.io/zone: zone-c
@@ -81,6 +87,8 @@ nodes:
     containerPath: /opt/cni/bin
   - hostPath: /Users/acejilam/data/build_cache
     containerPath: /tmp/build_cache
+  - hostPath: /Users/acejilam/data/nfs
+    containerPath: /nfs
 # kubeadmConfigPatches:
 #   - |
 #     apiVersion: kubeadm.k8s.io/v1beta2
