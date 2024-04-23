@@ -43,13 +43,16 @@ nodes:
   kubeadmConfigPatches:
   - |
     kind: ClusterConfiguration
-    # apiServer:
-    #     certSANs:
-    #       - 192.168.153.129
-  # extraPortMappings:
-  # - containerPort: 6443
-  #   hostPort: 6443
-  #   protocol: TCP
+    apiServer:
+        certSANs:
+          - 192.168.153.129
+          - 10.230.205.190
+          - 127.0.0.1
+          - localhost
+  extraPortMappings:
+  - containerPort: 6443
+    hostPort: 6443
+    protocol: TCP
   extraMounts:
   - hostPath: /Users/acejilam/data/plugins/bin
     containerPath: /opt/cni/bin
