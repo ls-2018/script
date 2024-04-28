@@ -24,6 +24,7 @@ go install github.com/go-critic/go-critic/...@latest
 go install github.com/go-lintpack/lintpack/...@latest
 go install github.com/quasilyte/go-ruleguard/cmd/ruleguard@latest
 go install github.com/quasilyte/go-ruleguard/dsl@latest
+go install sigs.k8s.io/kind@latest
 go get github.com/grpc-ecosystem/grpc-gateway@v2.18.0
 go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.42.1
 go install mvdan.cc/gofumpt@latest

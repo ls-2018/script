@@ -1,11 +1,5 @@
 #! /usr/bin/env zsh
 
-test -e ~/.gopath/bin/kind || {
-  curl -LO "https://github.com/kubernetes-sigs/kind/releases/download/v0.17.0/kind-$(uname | tr '[:upper:]' '[:lower:]')-$(go env GOHOSTARCH)"
-  mv kind-darwin-$(go env GOHOSTARCH) ~/.gopath/bin/kind
-  chmod +x ~/.gopath/bin/kind
-}
-
 test -e ~/.gopath/bin/kubectl || {
   curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/$(uname | tr '[:upper:]' '[:lower:]')/$(go env GOHOSTARCH)/kubectl"
   # curl -LO "https://dl.k8s.io/release/v1.24.15/bin/$(uname |tr '[:upper:]' '[:lower:]')/$(go env GOHOSTARCH)/kubectl"
@@ -62,6 +56,7 @@ nodes:
   labels:
     node.kubernetes.io/instance-type: controlpanel
     topology.kubernetes.io/zone: zone-a
+    nfs: true
     node: zone-a
   extraMounts:
   - hostPath: /Users/acejilam/data/plugins/bin
