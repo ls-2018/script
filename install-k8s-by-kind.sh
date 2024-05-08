@@ -43,10 +43,10 @@ nodes:
           - 10.230.205.190
           - 127.0.0.1
           - localhost
-  extraPortMappings:
-  - containerPort: 6443
-    hostPort: 6443
-    protocol: TCP
+  # extraPortMappings:
+  # - containerPort: 6443
+  #   hostPort: 6443
+  #   protocol: TCP
   extraMounts:
   - hostPath: /Users/acejilam/data/plugins/bin
     containerPath: /opt/cni/bin
