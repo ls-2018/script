@@ -144,3 +144,7 @@ test -e ~/.k8sconfig || {
     echo '/Users/acejilam/.kube/koord' >~/.k8sconfig
 }
 export KUBECONFIG=$(cat ~/.k8sconfig)
+
+if [[ $(arch) == "arm64" ]]; then
+    export DOCKER_HOST=192.168.113.128:2375
+fi

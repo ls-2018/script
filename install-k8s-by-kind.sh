@@ -40,16 +40,17 @@ nodes:
     apiServer:
         certSANs:
           - 192.168.153.129
+          - 192.168.113.128
           - 10.230.205.190
           - 127.0.0.1
           - localhost
-  # extraPortMappings:
-  # - containerPort: 6443
-  #   hostPort: 6443
-  #   protocol: TCP
+  extraPortMappings:
+  - containerPort: 6443
+    hostPort: 6443
+    protocol: TCP
   extraMounts:
-  - hostPath: /Users/acejilam/data/plugins/bin
-    containerPath: /opt/cni/bin
+  # - hostPath: /Users/acejilam/data/plugins/bin
+  #   containerPath: /opt/cni/bin
   - hostPath: /Users/acejilam/data/nfs
     containerPath: /nfs
 - role: worker
@@ -65,28 +66,28 @@ nodes:
     containerPath: /tmp/build_cache
   - hostPath: /Users/acejilam/data/nfs
     containerPath: /nfs
-- role: worker
-  labels:
-    topology.kubernetes.io/zone: zone-b
-    node: zone-b
-  extraMounts:
-  - hostPath: /Users/acejilam/data/plugins/bin
-    containerPath: /opt/cni/bin
-  - hostPath: /Users/acejilam/data/build_cache
-    containerPath: /tmp/build_cache
-  - hostPath: /Users/acejilam/data/nfs
-    containerPath: /nfs
-- role: worker
-  labels:
-    topology.kubernetes.io/zone: zone-c
-    node: zone-c
-  extraMounts:
-  - hostPath: /Users/acejilam/data/plugins/bin
-    containerPath: /opt/cni/bin
-  - hostPath: /Users/acejilam/data/build_cache
-    containerPath: /tmp/build_cache
-  - hostPath: /Users/acejilam/data/nfs
-    containerPath: /nfs
+# - role: worker
+#   labels:
+#     topology.kubernetes.io/zone: zone-b
+#     node: zone-b
+#   extraMounts:
+#   - hostPath: /Users/acejilam/data/plugins/bin
+#     containerPath: /opt/cni/bin
+#   - hostPath: /Users/acejilam/data/build_cache
+#     containerPath: /tmp/build_cache
+#   - hostPath: /Users/acejilam/data/nfs
+#     containerPath: /nfs
+# - role: worker
+#   labels:
+#     topology.kubernetes.io/zone: zone-c
+#     node: zone-c
+#   extraMounts:
+#   - hostPath: /Users/acejilam/data/plugins/bin
+#     containerPath: /opt/cni/bin
+#   - hostPath: /Users/acejilam/data/build_cache
+#     containerPath: /tmp/build_cache
+#   - hostPath: /Users/acejilam/data/nfs
+#     containerPath: /nfs
 # kubeadmConfigPatches:
 #   - |
 #     apiVersion: kubeadm.k8s.io/v1beta2
@@ -127,24 +128,5 @@ curl -o /tmp/kube-flannel.yml https://gitee.com/ls-2018/flannel/raw/master/Docum
 # perl -pe 's/docker.io/docker.m.daocloud.io/g' /tmp/kube-flannel.yml | kubectl apply --kubeconfig ~/.kube/${name} -f -
 
 # 使用示例
-
-if string_contains ${name} "koord"; then
-  # docker pull registry.cn-beijing.aliyuncs.com/koordinator-sh/koord-manager:v1.4.0
-  # docker pull registry.cn-beijing.aliyuncs.com/koordinator-sh/koordlet:v1.4.0
-  # docker pull registry.cn-beijing.aliyuncs.com/koordinator-sh/koord-scheduler:v1.4.0
-  # docker pull registry.cn-beijing.aliyuncs.com/koordinator-sh/koord-descheduler:v1.4.0
-
-  # kind load docker-image -n ${name} registry.cn-beijing.aliyuncs.com/koordinator-sh/koord-manager:v1.4.0
-  # kind load docker-image -n ${name} registry.cn-beijing.aliyuncs.com/koordinator-sh/koordlet:v1.4.0
-  # kind load docker-image -n ${name} registry.cn-beijing.aliyuncs.com/koordinator-sh/koord-scheduler:v1.4.0
-  # kind load docker-image -n ${name} registry.cn-beijing.aliyuncs.com/koordinator-sh/koord-descheduler:v1.4.0
-
-fi
-
-if string_contains ${name} "kruise"; then
-  docker pull openkruise/kruise-manager:v1.4.0
-  kind load docker-image -n ${name} openkruise/kruise-manager:v1.4.0
-  kind load docker-image -n ${name} centos:7
-fi
 
 echo "export KUBECONFIG=~/.kube/${name}"
