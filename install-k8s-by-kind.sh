@@ -60,8 +60,8 @@ nodes:
     nfs: true
     node: zone-a
   extraMounts:
-  - hostPath: /Users/acejilam/data/plugins/bin
-    containerPath: /opt/cni/bin
+  # - hostPath: /Users/acejilam/data/plugins/bin
+    # containerPath: /opt/cni/bin
   - hostPath: /Users/acejilam/data/build_cache
     containerPath: /tmp/build_cache
   - hostPath: /Users/acejilam/data/nfs
