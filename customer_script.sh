@@ -148,3 +148,8 @@ export KUBECONFIG=$(cat ~/.k8sconfig)
 if [[ $(arch) == "arm64" ]]; then
     export DOCKER_HOST=192.168.113.128:2375
 fi
+
+
+
+# 禁止生成.DS_store
+defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool TRUE
