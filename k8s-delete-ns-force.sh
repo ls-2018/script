@@ -18,7 +18,9 @@ try:
     with open("/tmp/terminate.json",'r',encoding='utf8') as f :
         data = json.loads(f.read())
         data['spec']= {}
-except Exception:
+        data['status']= {}
+except Exception as e :
+    print(e)
     data={}
 with open("/tmp/terminate.json",'w',encoding='utf8') as f :
     f.write(json.dumps(data))

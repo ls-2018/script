@@ -1,0 +1,75 @@
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+networking:
+# the default CNI will not be installed
+#disableDefaultCNI: true
+# featureGates:
+# "EphemeralContainers": true
+nodes:
+  - role: control-plane
+    extraPortMappings:
+      - containerPort: 6443
+        hostPort: 6443
+        protocol: TCP
+    extraMounts:
+      # - hostPath: /Users/acejilam/data/plugins/bin
+      #   containerPath: /opt/cni/bin
+      - hostPath: /Users/acejilam/data/nfs
+        containerPath: /nfs
+      - hostPath: /Users/acejilam/data/trace
+        containerPath: /trace
+  - role: worker
+    labels:
+     node.kubernetes.io/instance-type: controlpanel
+     topology.kubernetes.io/zone: zone-a
+     nfs: true
+     node: zone-a
+    extraMounts:
+     # - hostPath: /Users/acejilam/data/plugins/bin
+     # containerPath: /opt/cni/bin
+     - hostPath: /Users/acejilam/data/build_cache
+       containerPath: /tmp/build_cache
+     - hostPath: /Users/acejilam/data/nfs
+       containerPath: /nfs
+     - hostPath: /Users/acejilam/data/trace
+       containerPath: /trace
+
+kubeadmConfigPatches:
+  - |
+    kind: ClusterConfiguration
+    etcd:
+      local:
+        dataDir: /tmp/etcd # /tmp directory is a tmpfs(in memory),use it for speeding up etcd and lower disk IO.
+    apiServer:
+      certSANs:
+        - 192.168.153.129
+        - 192.168.113.128
+        - 10.230.205.190
+        - 127.0.0.1
+        - localhost
+      # extraEnvs:
+      #   - name: OTEL_EXPORTER_OTLP_TRACES_ENDPOINT
+      #     value: http://10.230.205.190:5080/api/default/traces
+      #   - name: OTEL_EXPORTER_OTLP_TRACES_HEADERS
+      #     value: Authorization='Basic cm9vdEBleGFtcGxlLmNvbTpmcHp4cTIwWWtPVXVWUG1r'
+      extraArgs:
+        # enable-admission-plugins: OwnerReferencesPermissionEnforcement,PodNodeSelector,PodTolerationRestriction,NodeRestriction,MutatingAdmissionWebhook,ValidatingAdmissionWebhook
+        # feature-gates: APIServerTracing=true
+        # tracing-config-file: /trace/kube-apiserver.tracing
+  - |
+    apiVersion: kubeadm.k8s.io/v1beta4
+    kind: InitConfiguration
+    nodeRegistration:
+      kubeletExtraArgs:
+        cgroup-root: "/"
+        feature-gates: KubeletTracing=true
+  - |
+    apiVersion: kubeadm.k8s.io/v1beta4
+    kind: KubeletConfiguration
+    # environment:
+    # - OTEL_EXPORTER_OTLP_TRACES_ENDPOINT=http://10.230.205.190:5080/api/default/traces
+    # - OTEL_EXPORTER_OTLP_TRACES_HEADERS=Authorization='Basic cm9vdEBleGFtcGxlLmNvbTpmcHp4cTIwWWtPVXVWUG1r'
+    cgroupRoot: /
+    #tracing:
+    # endpoint:
+    # samplingRatePerMillion:
