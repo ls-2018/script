@@ -4,20 +4,22 @@ if [ $# -eq 0 ]; then
 else
     ns=$1
 fi
+set -x
 kubectl delete deployment --all -n $ns --force
 kubectl delete daemonset --all -n $ns --force
 kubectl delete statefulset --all -n $ns --force
 kubectl delete persistentvolumeclaim --all -n $ns --force
 kubectl api-resources --namespaced=true | awk '{print $1}' | xargs -I F kubectl delete F --all -n $ns --force
-kubectl delete ns $ns
+kubectl delete ns $ns --force --timeout=2s || echo timeout
 kubectl get namespace $ns -o json >/tmp/terminate.json
 
-cat >/tmp/terminate.py <<EOF
+cat > /tmp/terminate.py <<EOF
 import json
 try:
     with open("/tmp/terminate.json",'r',encoding='utf8') as f :
         data = json.loads(f.read())
         data['spec']= {}
+        data['metadata']['finalizers']= []
         data['status']= {}
 except Exception as e :
     print(e)
