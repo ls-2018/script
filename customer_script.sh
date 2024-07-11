@@ -155,4 +155,5 @@ fi
 defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool TRUE
 
 
-alias company_proxy='export https_proxy=http://172.20.10.248:1080 http_proxy=http://172.20.10.248:1080 all_proxy=socks5://172.20.10.248:1080'
+alias company_proxy='export https_proxy=http://172.20.3.242:7890 http_proxy=http://172.20.3.242:7890 all_proxy=socks5://172.20.3.242:7890'
+alias ks='kubectl get pods -o custom-columns=NAME:.metadata.name,NAMESPACE:.metadata.namespace,RESOURCE_LIMIT:.spec.containers[*].resources.limits -A |grep -v none'
