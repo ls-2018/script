@@ -71,3 +71,13 @@ go install github.com/trzsz/trzsz-go/cmd/...@latest
 
 # cert
 go install github.com/cloudflare/cfssl/cmd/...@latest
+
+
+
+# k8s rbac
+go install github.com/corneliusweig/rakkess
+
+curl -LO https://github.com/corneliusweig/rakkess/releases/download/v0.5.0/rakkess-amd64-darwin.tar.gz \
+  && tar xf rakkess-amd64-darwin.tar.gz rakkess-amd64-darwin \
+  && chmod +x rakkess-amd64-darwin \
+  && mv -i rakkess-amd64-darwin $(go env GOPATH)/bin/rakkess

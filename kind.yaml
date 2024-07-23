@@ -1,8 +1,7 @@
 kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
 networking:
-# the default CNI will not be installed
-#disableDefaultCNI: true
+  disableDefaultCNI: true
 # featureGates:
 # "EphemeralContainers": true
 nodes:
@@ -12,8 +11,8 @@ nodes:
         hostPort: 6443
         protocol: TCP
     extraMounts:
-      # - hostPath: /Users/acejilam/data/plugins/bin
-      #   containerPath: /opt/cni/bin
+      - hostPath: /Users/acejilam/data/plugins/bin
+        containerPath: /opt/cni/bin
       - hostPath: /Users/acejilam/data/nfs
         containerPath: /nfs
       - hostPath: /Users/acejilam/data/trace
@@ -25,8 +24,8 @@ nodes:
      nfs: true
      node: zone-a
     extraMounts:
-     # - hostPath: /Users/acejilam/data/plugins/bin
-     # containerPath: /opt/cni/bin
+     - hostPath: /Users/acejilam/data/plugins/bin
+       containerPath: /opt/cni/bin
      - hostPath: /Users/acejilam/data/build_cache
        containerPath: /tmp/build_cache
      - hostPath: /Users/acejilam/data/nfs

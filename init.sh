@@ -53,3 +53,11 @@ cd sshpass-1.10
 ./configure
 make && make install
 mv ./sshpass /usr/local/bin/
+
+
+
+brew tap hashicorp/tap
+brew install hashicorp/tap/hashicorp-vagrant
+# 制作box 镜像
+brew tap hashicorp/tap
+brew install hashicorp/tap/packer

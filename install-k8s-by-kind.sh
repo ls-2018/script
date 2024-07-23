@@ -5,6 +5,9 @@ test -e ~/.gopath/bin/kubectl || {
   # curl -LO "https://dl.k8s.io/release/v1.28.0/bin/$(uname |tr '[:upper:]' '[:lower:]')/$(go env GOHOSTARCH)/kubectl"
   mv kubectl ~/.gopath/bin/kubectl
 }
+# kubectl krew install who-can
+# kubectl who-can get secret cluster-admin-creds
+# kubectl krew install rakkess
 
 name=${1-kind}
 version=${2-v1.28.0}
@@ -37,9 +40,8 @@ string_contains() {
   fi
 }
 
-# curl -o /tmp/kube-flannel.yml https://gitee.com/ls-2018/flannel/raw/master/Documentation/kube-flannel.yml
+kubectl --kubeconfig ~/.kube/${name} apply -f https://gitee.com/ls-2018/flannel/raw/master/Documentation/kube-flannel.yml
 
-# perl -pe 's/docker.io/docker.m.daocloud.io/g' /tmp/kube-flannel.yml | kubectl apply --kubeconfig ~/.kube/${name} -f -
 
 # 使用示例
 
