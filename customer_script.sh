@@ -145,15 +145,12 @@ test -e ~/.k8sconfig || {
 }
 export KUBECONFIG=$(cat ~/.k8sconfig)
 
-if [[ $(arch) == "arm64" ]]; then
-    export DOCKER_HOST=192.168.113.128:2375
-fi
-
-
+# if [[ $(arch) == "arm64" ]]; then
+#     export DOCKER_HOST=192.168.113.128:2375
+# fi
 
 # 禁止生成.DS_store
 defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool TRUE
-
 
 alias company_proxy='export https_proxy=http://172.20.3.242:7890 http_proxy=http://172.20.3.242:7890 all_proxy=socks5://172.20.3.242:7890'
 alias ks='kubectl get pods -o custom-columns=NAME:.metadata.name,NAMESPACE:.metadata.namespace,RESOURCE_LIMIT:.spec.containers[*].resources.limits -A |grep -v none'
