@@ -13,7 +13,8 @@ usage() {
 
 POSITIONAL=()
 CHECK_ONLY=false
-OPTIONS=(-style=file --verbose --sort-includes -i)
+#OPTIONS=(-style=file --verbose --sort-includes -i)
+OPTIONS=(-style=file --verbose -i)
 
 while [[ $# -gt 0 ]]; do
     key="$1"
