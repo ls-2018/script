@@ -1,7 +1,6 @@
 setopt no_nomatch
 
 export GOPATH=~/.gopath
-export GO111MODULE=on
 # export CGO_ENABLED=1
 # export CGO_CFLAGS=-Wno-undef-prefix
 export SDKROOT=/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk
@@ -27,6 +26,7 @@ export HELM_CONFIG_HOME=~/.helm/conf
 export HELM_DATA_HOME=~/.helm/data
 export HELM_CACHE_HOME=~/.helm/cache
 alias sed=gsed
+alias find=gfind
 
 export myself=$SOFTWARE_HOME/myself
 # export GOPROXY=https://mirrors.aliyun.com/goproxy/,direct

@@ -11,6 +11,7 @@ brew install jq
 brew install unix2dos
 brew install telnet
 brew install gsed
+brew install findutils # gfind
 brew install tree
 brew install harfbuzz
 brew install graphviz
@@ -53,8 +54,6 @@ cd sshpass-1.10
 ./configure
 make && make install
 mv ./sshpass /usr/local/bin/
-
-
 
 brew tap hashicorp/tap
 brew install hashicorp/tap/hashicorp-vagrant
