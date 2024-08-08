@@ -158,4 +158,4 @@ alias ks='kubectl get pods -o custom-columns=NAME:.metadata.name,NAMESPACE:.meta
 [[ -s "/Users/acejilam/.gvm/scripts/gvm" ]] && source "/Users/acejilam/.gvm/scripts/gvm"
 
 
-. "$HOME/.cargo/env
+. "$HOME/.cargo/env"
