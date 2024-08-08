@@ -156,3 +156,6 @@ alias company_proxy='export https_proxy=http://172.20.3.242:7890 http_proxy=http
 alias ks='kubectl get pods -o custom-columns=NAME:.metadata.name,NAMESPACE:.metadata.namespace,RESOURCE_LIMIT:.spec.containers[*].resources.limits -A |grep -v none'
 
 [[ -s "/Users/acejilam/.gvm/scripts/gvm" ]] && source "/Users/acejilam/.gvm/scripts/gvm"
+
+
+. "$HOME/.cargo/env
