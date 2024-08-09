@@ -37,6 +37,7 @@ export KUBE_EDITOR="code --wait"
 export MVN_HOME=$SOFTWARE_HOME/apache-maven-3.6.3
 export PROTOC_HOME=$SOFTWARE_HOME/protoc-3.14.0
 export ISTIO_HOME=$SOFTWARE_HOME/istio-1.12.2
+export CARGO_HOME=~/.cargo
 export JMETER_HOME=$SOFTWARE_HOME/apache-jmeter-5.5
 export PY_PATH="/Library/Frameworks/Python.framework/Versions/Current"
 
@@ -48,7 +49,7 @@ export PATH=$PATH:~/.dapr/bin
 
 export JAVA_8_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_333.jdk/Contents/Home
 export JAVA_HOME=$JAVA_8_HOME
-export PATH=$JAVA_HOME/bin:$PATH:.
+export PATH=$JAVA_HOME/bin:$CARGO_HOME/bin:$PATH:.
 export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
 
 export HOMEBREW_BREW_GIT_REMOTE="https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/brew.git"
@@ -156,6 +157,5 @@ alias company_proxy='export https_proxy=http://172.20.3.242:7890 http_proxy=http
 alias ks='kubectl get pods -o custom-columns=NAME:.metadata.name,NAMESPACE:.metadata.namespace,RESOURCE_LIMIT:.spec.containers[*].resources.limits -A |grep -v none'
 
 [[ -s "/Users/acejilam/.gvm/scripts/gvm" ]] && source "/Users/acejilam/.gvm/scripts/gvm"
-
 
 . "$HOME/.cargo/env"
