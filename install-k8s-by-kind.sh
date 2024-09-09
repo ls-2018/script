@@ -40,8 +40,7 @@ string_contains() {
   fi
 }
 
-kubectl --kubeconfig ~/.kube/${name} apply -f https://gitee.com/ls-2018/flannel/raw/master/Documentation/kube-flannel.yml
-
+# kubectl --kubeconfig ~/.kube/${name} apply -f https://gitee.com/ls-2018/flannel/raw/master/Documentation/kube-flannel.yml
 
 # 使用示例
 

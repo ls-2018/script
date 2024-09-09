@@ -154,7 +154,8 @@ export KUBECONFIG=$(cat ~/.k8sconfig)
 defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool TRUE
 
 alias company_proxy='export https_proxy=http://172.20.3.242:7890 http_proxy=http://172.20.3.242:7890 all_proxy=socks5://172.20.3.242:7890'
-alias ks='kubectl get pods -o custom-columns=NAME:.metadata.name,NAMESPACE:.metadata.namespace,RESOURCE_LIMIT:.spec.containers[*].resources.limits -A |grep -v none'
+alias kps='kubectl get pods -o custom-columns=NAME:.metadata.name,NAMESPACE:.metadata.namespace,RESOURCE_LIMIT:.spec.containers[*].resources.limits -A |grep -v none'
+alias kns='kubectl get node -o custom-columns=NAME:.metadata.name,RESOURCE_LIMIT:.status.capacity'
 
 [[ -s "/Users/acejilam/.gvm/scripts/gvm" ]] && source "/Users/acejilam/.gvm/scripts/gvm"
 
