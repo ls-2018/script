@@ -160,3 +160,4 @@ alias kns='kubectl get node -o custom-columns=NAME:.metadata.name,RESOURCE_LIMIT
 [[ -s "/Users/acejilam/.gvm/scripts/gvm" ]] && source "/Users/acejilam/.gvm/scripts/gvm"
 
 . "$HOME/.cargo/env"
+$()
