@@ -1,7 +1,8 @@
 #! /usr/bin/env zsh
+set -x
 podNameSpace=${1-kind}
 podName=${2-kind}
-nodeName=$(kubectl get pods -n $podNameSpace -owide | grep $podName | awk '{print $7}')
+nodeName=$(kubectl get pods -n $podNameSpace -owide | grep $podName | awk '{print $9}')
 
 cmd='[ "nsenter", "--target", "1", "--mount", "--uts", "--ipc", "--net", "--pid", "--","bash"]'
 overrides="$(
@@ -43,15 +44,26 @@ kubectl run --image=registry.cn-hangzhou.aliyuncs.com/acejilam/centos:7 --restar
 
 kubectl wait --for=condition=Ready pod/$pod
 
-cat <<EOT >/tmp/copy.txt
+cat <<EOT >/tmp/down.txt
+set -ex
+cd /tmp
+rm -rf /tmp/crictl*
+VERSION="v1.30.0"
+curl -L https://files.m.daocloud.io/github.com/kubernetes-sigs/cri-tools/releases/download/\$VERSION/crictl-\$VERSION-linux-amd64.tar.gz --output crictl-\$VERSION-linux-amd64.tar.gz
+sudo tar zxvf crictl-\$VERSION-linux-amd64.tar.gz -C /tmp/
+rm -f crictl-\$VERSION-linux-amd64.tar.gz
+EOT
 
-id=\$(crictl ps --label io.kubernetes.pod.name=$podName -o json | grep id | grep -v uid | awk -F '"' '{ print \$4 }')
-logPath=\$(crictl inspect \$id | grep logPath | awk -F '"' '{ print \$4 }')
+cat <<EOT >/tmp/copy.txt
+id=\$(/tmp/crictl ps --label io.kubernetes.pod.name=$podName -o json | grep id | grep -v uid | awk -F '"' '{ print \$4 }')
+logPath=\$(/tmp/crictl inspect \$id | grep logPath | awk -F '"' '{ print \$4 }')
 copyPath=\$(dirname \$logPath)
 echo \$copyPath
 EOT
 
+kubectl cp /tmp/down.txt default/$pod:/tmp/down.txt
 kubectl cp /tmp/copy.txt default/$pod:/tmp/copy.txt
+kubectl exec $pod bash /tmp/down.txt
 logPath=$(kubectl exec $pod bash /tmp/copy.txt)
 mkdir -p ./logs/$podName
 kubectl cp default/$pod:$logPath ./logs/$podName
