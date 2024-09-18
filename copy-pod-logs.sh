@@ -73,7 +73,7 @@ kubectl cp /tmp/down.txt default/$pod:/tmp/down.txt
 kubectl cp /tmp/copy.txt default/$pod:/tmp/copy.txt
 kubectl exec $pod bash /tmp/down.txt
 logPath=$(kubectl exec $pod bash /tmp/copy.txt)
-mkdir -p ./logs/$podName
-kubectl cp default/$pod:$logPath ./logs/$podName
+mkdir -p ~/Desktop/logs/$podName
+kubectl cp default/$pod:$logPath ~/Desktop/logs/$podName
 
 kubectl delete pod $pod --force
