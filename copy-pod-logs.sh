@@ -1,8 +1,16 @@
 #! /usr/bin/env zsh
-set -x
 podNameSpace=${1-kind}
 podName=${2-kind}
-nodeName=$(kubectl get pods -n $podNameSpace -owide | grep $podName | awk '{print $9}')
+nodeName=$(kubectl get pods -n $podNameSpace -o custom-columns=NAME:.metadata.name,NODE:.spec.nodeName | grep $podName | awk '{print $2}')
+
+echo "nodeName: " $nodeName
+
+if [[ $nodeName == "<none>" ]]; then
+  exit
+fi
+if [[ $nodeName == "" ]]; then
+  exit
+fi
 
 cmd='[ "nsenter", "--target", "1", "--mount", "--uts", "--ipc", "--net", "--pid", "--","bash"]'
 overrides="$(
