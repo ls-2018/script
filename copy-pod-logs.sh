@@ -56,10 +56,9 @@ cat <<EOT >/tmp/down.txt
 set -ex
 cd /tmp
 rm -rf /tmp/crictl*
-VERSION="v1.30.0"
-curl -L https://files.m.daocloud.io/github.com/kubernetes-sigs/cri-tools/releases/download/\$VERSION/crictl-\$VERSION-linux-amd64.tar.gz --output crictl-\$VERSION-linux-amd64.tar.gz
-sudo tar zxvf crictl-\$VERSION-linux-amd64.tar.gz -C /tmp/
-rm -f crictl-\$VERSION-linux-amd64.tar.gz
+curl -L https://gitee.com/ls-2018/cri-tools/releases/download/v1.31.1/crictl-v1.31.1-linux-amd64.tar.gz --output crictl-v1.31.1-linux-amd64.tar.gz
+sudo tar zxvf crictl-v1.31.1-linux-amd64.tar.gz -C /tmp/
+rm -f crictl-v1.31.1-linux-amd64.tar.gz
 EOT
 
 cat <<EOT >/tmp/copy.txt
