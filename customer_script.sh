@@ -124,7 +124,8 @@ export K8S_DEBUG=1
 source <(stern --completion=zsh)
 
 alias ssh='trzsz --dragfile ssh'
-alias dive="docker run -ti --rm  -v /var/run/docker.sock:/var/run/docker.sock wagoodman/dive"
+# alias dive="docker run -ti --rm  -v /var/run/docker.sock:/var/run/docker.sock wagoodman/dive"
+alias dive="docker run -ti --rm  -v /var/run/docker.sock:/var/run/docker.sock registry.cn-hangzhou.aliyuncs.com/acejilam/dive"
 
 # export ZSH="$HOME/.oh-my-zsh"
 # ZSH_THEME="robbyrussell"
@@ -161,3 +162,6 @@ alias kns='kubectl get node -o custom-columns=NAME:.metadata.name,RESOURCE_LIMIT
 
 . "$HOME/.cargo/env"
 $()
+
+# 修复运行 code . 报错
+# codesign --force --deep --sign - /Applications/Visual\ Studio\ Code.app
