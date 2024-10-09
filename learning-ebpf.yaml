@@ -9,8 +9,11 @@ cpus: 4
 memory: "10GiB"
 
 mounts:
-- location: "~/Desktop/todo/learning-ebpf"
+- location: "~/Desktop/"
   writable: true
+- location: "~/script/"
+  mountPoint: "/script"
+  writable: false
 - location: "/tmp/lima"
   writable: true
 provision:
@@ -18,7 +21,8 @@ provision:
   script: |
     apt-get update
     apt-get install -y apt-transport-https ca-certificates curl clang llvm jq
-    apt-get install -y libelf-dev libpcap-dev libbfd-dev binutils-dev build-essential make 
-    apt-get install -y linux-tools-common linux-tools-$(uname -r) 
+    apt-get install -y libelf-dev libpcap-dev libbfd-dev binutils-dev build-essential make
+    apt-get install -y linux-tools-common linux-tools-$(uname -r)
     apt-get install -y bpfcc-tools
     apt-get install -y python3-pip
+    bash /script/install-go.sh
