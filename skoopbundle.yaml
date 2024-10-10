@@ -608,6 +608,7 @@ data:
         type: sqlite3
       loki: http://loki-service:3100
       diagnose: {}
+      namespace: liushuo
 kind: ConfigMap
 metadata:
   name: kubeskoop-controller-config

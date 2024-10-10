@@ -9,6 +9,9 @@ cpus: 4
 memory: "10GiB"
 
 mounts:
+- location: "PWD"
+  mountPoint: "/ebpf"
+  writable: true
 - location: "~/Desktop/"
   writable: true
 - location: "~/script/"
