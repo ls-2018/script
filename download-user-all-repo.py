@@ -9,6 +9,14 @@ if len(sys.argv) < 3:
     sys.exit(1)
 who = sys.argv[1]
 _type = sys.argv[2]
+prefix = ""
+if _type == "orgs":
+    try:
+        os.mkdir(who)
+    except Exception:
+        pass
+    prefix = f'cd {who} && '
+
 
 for page in range(100):
     print(f'-------------> {page}')
@@ -19,5 +27,5 @@ for page in range(100):
         name = repo.split('/')[-1].split('.')[0]
         if name in sys.argv[3:]:
             continue
-        cmd = f'git clone {repo} || echo {repo} exists'
+        cmd = f'{prefix} git clone {repo} || echo {repo} exists'
         os.system(cmd)

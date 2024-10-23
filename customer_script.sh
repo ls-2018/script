@@ -105,16 +105,16 @@ alias k=\'kubectl\'
 alias kn='k get nodes'
 
 #### ffmpeg
-export PATH="/opt/homebrew/opt/ffmpeg@5/bin:$PATH"
-export LDFLAGS="-L/opt/homebrew/opt/ffmpeg@5/lib"
-export CPPFLAGS="-I/opt/homebrew/opt/ffmpeg@5/include"
-export PKG_CONFIG_PATH="/opt/homebrew/opt/ffmpeg@5/lib/pkgconfig"
+# export PATH="/opt/homebrew/opt/ffmpeg@5/bin:$PATH"
+# export LDFLAGS="-L/opt/homebrew/opt/ffmpeg@5/lib"
+# export CPPFLAGS="-I/opt/homebrew/opt/ffmpeg@5/include"
+# export PKG_CONFIG_PATH="/opt/homebrew/opt/ffmpeg@5/lib/pkgconfig"
 
-alias vmip='curl -s --basic -u ls:Bg8q9DRnY2A0OLKw http://49.232.16.245/ip'
+# alias vmip='curl -s --basic -u ls:Bg8q9DRnY2A0OLKw http://49.232.16.245/ip'
 
-# To use the bundled libc++ please add the following LDFLAGS:
-export LDFLAGS="-L/usr/local/opt/llvm/lib"
-export CPPFLAGS="-I/usr/local/opt/llvm/include"
+# # To use the bundled libc++ please add the following LDFLAGS:
+# export LDFLAGS="-L/usr/local/opt/llvm/lib"
+# export CPPFLAGS="-I/usr/local/opt/llvm/include"
 
 export K8S_DEBUG=1
 
