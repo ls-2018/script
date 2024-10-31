@@ -18,6 +18,14 @@ if _type == "orgs":
     prefix = f'cd {who} && '
 
 
+prefix = ""
+if _type == "orgs":
+    try:
+        os.mkdir(who)
+    except Exception:
+        pass
+    prefix = f"cd {who} && "
+
 for page in range(100):
     print(f'-------------> {page}')
     cmd = f'curl -s https://api.github.com/{_type}/{who}/repos?page={page}&per_page=1000 | grep -e \'clone_url*\' | cut -d \\" -f 4  '

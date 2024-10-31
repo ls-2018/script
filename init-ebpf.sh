@@ -1,5 +1,5 @@
 #! /usr/bin/env zsh
-set -ex
+set -x
 limactl delete learning-ebpf -f
 
 cp -rf ~/script/learning-ebpf.yaml /tmp/learning-ebpf.yaml

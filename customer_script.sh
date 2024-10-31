@@ -7,10 +7,10 @@ export SDKROOT=/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk
 export CC=clang
 export GOOS=darwin
 export GOARCH=amd64
-go env -w GOPATH=/Users/acejilam/.gopath
+# go env -w GOPATH=/Users/acejilam/.gopath
 # go env -w GOBIN=/Users/acejilam/.gopath/bin
 
-ldflags='-compressdwarf=false'
+# ldflags='-compressdwarf=false'
 mkdir -p $GOPATH/{bin,pkg,src}
 
 # Mac
@@ -99,7 +99,7 @@ alias grep='\grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox}
 # autoload -Uz compinit
 # compinit
 
-source <(kubectl completion zsh)
+# source <(kubectl completion zsh)
 alias k=\'kubectl\'
 
 alias kn='k get nodes'
@@ -112,7 +112,7 @@ alias kn='k get nodes'
 
 # alias vmip='curl -s --basic -u ls:Bg8q9DRnY2A0OLKw http://49.232.16.245/ip'
 
-# # To use the bundled libc++ please add the following LDFLAGS:
+# To use the bundled libc++ please add the following LDFLAGS:
 # export LDFLAGS="-L/usr/local/opt/llvm/lib"
 # export CPPFLAGS="-I/usr/local/opt/llvm/include"
 
@@ -121,7 +121,7 @@ export K8S_DEBUG=1
 # zsh 大小写敏感
 # autoload -Uz compinit && compinit
 # zstyle ':completion:*' matcher-list 'm:{a-z}={a-z}'
-source <(stern --completion=zsh)
+# source <(stern --completion=zsh)
 
 alias ssh='trzsz --dragfile ssh'
 # alias dive="docker run -ti --rm  -v /var/run/docker.sock:/var/run/docker.sock wagoodman/dive"
@@ -137,10 +137,10 @@ alias dive="docker run -ti --rm  -v /var/run/docker.sock:/var/run/docker.sock re
 # PROMPT='%B%(?:%F{green}➜ :%F{red}➜ )%f%{%}%F{red}%d%f%b%{%} %{$reset_color%}$(git_prompt_info)> '
 # source /Users/acejilam/script/customer_script.sh
 
-alias svm='ssh root@2j8g761566.wicp.vip -p 52575'
+# alias svm='ssh root@2j8g761566.wicp.vip -p 52575'
 
 export GIT_EDITOR=code\ --wait
-git config --global core.editor code
+# git config --global core.editor code
 
 test -e ~/.k8sconfig || {
     echo '/Users/acejilam/.kube/koord' >~/.k8sconfig
@@ -152,16 +152,16 @@ export KUBECONFIG=$(cat ~/.k8sconfig)
 # fi
 
 # 禁止生成.DS_store
-defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool TRUE
+# defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool TRUE
 
 alias company_proxy='export https_proxy=http://172.20.3.242:7890 http_proxy=http://172.20.3.242:7890 all_proxy=socks5://172.20.3.242:7890'
 alias kps='kubectl get pods -o custom-columns=NAME:.metadata.name,NAMESPACE:.metadata.namespace,RESOURCE_LIMIT:.spec.containers[*].resources.limits -A |grep -v none'
 alias kns='kubectl get node -o custom-columns=NAME:.metadata.name,RESOURCE_LIMIT:.status.capacity'
 
-[[ -s "/Users/acejilam/.gvm/scripts/gvm" ]] && source "/Users/acejilam/.gvm/scripts/gvm"
+# [[ -s "/Users/acejilam/.gvm/scripts/gvm" ]] && source "/Users/acejilam/.gvm/scripts/gvm"
 
-. "$HOME/.cargo/env"
-$()
+# . "$HOME/.cargo/env"
+# $()
 
 # 修复运行 code . 报错
 # codesign --force --deep --sign - /Applications/Visual\ Studio\ Code.app
