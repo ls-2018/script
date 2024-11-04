@@ -22,11 +22,9 @@ mounts:
 provision:
 - mode: system
   script: |
-    bash /script/update-ubuntu-source.sh
-    apt-get update
     apt-get install -y apt-transport-https ca-certificates curl clang llvm jq
     apt-get install -y libelf-dev libpcap-dev libbfd-dev binutils-dev build-essential make
     apt-get install -y linux-tools-common linux-tools-$(uname -r)
     apt-get install -y bpfcc-tools
     apt-get install -y python3-pip
-    bash /script/install-go.sh
+    HOME=/root bash /script/install-go.sh

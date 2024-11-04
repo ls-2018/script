@@ -1,11 +1,14 @@
 #! /usr/bin/env zsh
 set -x
-limactl delete learning-ebpf -f
 
-cp -rf ~/script/learning-ebpf.yaml /tmp/learning-ebpf.yaml
+name=${1-learning-ebpf}
 
-gsed -i "s#PWD#$(pwd)#" /tmp/learning-ebpf.yaml
+limactl delete $name -f
 
-limactl start /tmp/learning-ebpf.yaml
+cp -rf ~/script/learning-ebpf.yaml /tmp/$name.yaml
 
-limactl shell learning-ebpf
+gsed -i "s#PWD#$(pwd)#" /tmp/$name.yaml
+
+limactl start /tmp/$name.yaml
+
+limactl shell $name
