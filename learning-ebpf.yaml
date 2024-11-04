@@ -50,3 +50,18 @@ provision:
     export RUSTUP_DIST_SERVER=https://mirrors.ustc.edu.cn/rust-static
     export RUSTUP_UPDATE_ROOT=https://mirrors.ustc.edu.cn/rust-static/rustup
     EOF
+
+    cat << EOF > /root/.cargo/config.toml
+    [source.crates-io]
+    registry = "https://github.com/rust-lang/crates.io-index"
+
+    replace-with = 'ustc'
+
+    [source.ustc]
+    registry = "https://mirrors.ustc.edu.cn/crates.io-index/"
+
+    [net]
+    git-fetch-with-cli=true
+
+    EOF
+
