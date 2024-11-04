@@ -19,6 +19,12 @@ mounts:
   writable: false
 - location: "/tmp/lima"
   writable: true
+- location: "~/data/cargo_cache"
+  mountPoint: "/root/.cargo"
+  writable: false
+- location: "~/data/go_cache"
+  mountPoint: "/root/.gopath"
+  writable: true
 provision:
 - mode: system
   script: |
