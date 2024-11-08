@@ -1,5 +1,4 @@
 setopt no_nomatch
-
 export GOPATH=~/.gopath
 # export CGO_ENABLED=1
 # export CGO_CFLAGS=-Wno-undef-prefix
@@ -7,7 +6,7 @@ export SDKROOT=/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk
 export CC=clang
 export GOOS=darwin
 export GOARCH=amd64
-# go env -w GOPATH=/Users/acejilam/.gopath
+go env -w GOPATH=$GOPATH
 # go env -w GOBIN=/Users/acejilam/.gopath/bin
 
 # ldflags='-compressdwarf=false'

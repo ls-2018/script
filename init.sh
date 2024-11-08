@@ -7,7 +7,9 @@ git config --global --add safe.directory /opt/homebrew/Library/Taps/homebrew/hom
 brew install pkg-config
 brew install skopeo
 brew install llvm
+brew install wget
 brew install jq
+brew install git
 brew install unix2dos
 brew install telnet
 brew install gsed
@@ -19,7 +21,9 @@ brew install tokei
 brew install mysql
 brew install protobuf
 brew install ctop
+brew install make
 brew install zsh
+# 设置默认zsh
 chsh -s /bin/zsh
 brew install zsh-syntax-highlighting
 brew install zsh-autosuggestions
@@ -30,6 +34,7 @@ brew install stern
 # https://cmake.org/download/
 # sudo "/Applications/CMake.app/Contents/bin/cmake-gui" --install
 
+export https_proxy=http://127.0.0.1:7890 http_proxy=http://127.0.0.1:7890 all_proxy=socks5://127.0.0.1:7890
 cd /tmp
 git clone https://github.com/NanXiao/lscpu.git
 cd lscpu
@@ -46,6 +51,7 @@ cd fonts
 # clean-up a bit
 cd ..
 rm -rf fonts
+unset https_proxy && unset http_proxy && unset https_proxy
 
 cd /tmp
 wget https://zenlayer.dl.sourceforge.net/project/sshpass/sshpass/1.10/sshpass-1.10.tar.gz
@@ -55,8 +61,8 @@ cd sshpass-1.10
 make && make install
 mv ./sshpass /usr/local/bin/
 
-brew tap hashicorp/tap
-brew install hashicorp/tap/hashicorp-vagrant
-# 制作box 镜像
-brew tap hashicorp/tap
-brew install hashicorp/tap/packer
+# brew tap hashicorp/tap
+# brew install hashicorp/tap/hashicorp-vagrant
+# # 制作box 镜像
+# brew tap hashicorp/tap
+# brew install hashicorp/tap/packer

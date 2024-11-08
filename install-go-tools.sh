@@ -1,7 +1,9 @@
 test -e "/Users/acejilam/.gvm/bin/gvm" || {
+    export https_proxy=http://127.0.0.1:7890 http_proxy=http://127.0.0.1:7890 all_proxy=socks5://127.0.0.1:7890
     sh -c "$(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)"
     git config --global url."https://github.com/".insteadof git://github.com/
     source ~/.gvm/scripts/gvm
+    unset https_proxy && unset http_proxy && unset all_proxy
 }
 test -e /Library/Fonts/Menlo-for-Powerline || {
     export https_proxy=http://127.0.0.1:7890 http_proxy=http://127.0.0.1:7890 all_proxy=socks5://127.0.0.1:7890
@@ -23,13 +25,15 @@ go install github.com/ServiceWeaver/weaver/cmd/weaver@latest
 go install github.com/go-critic/go-critic/...@latest
 go install github.com/go-lintpack/lintpack/...@latest
 go install github.com/quasilyte/go-ruleguard/cmd/ruleguard@latest
-go install github.com/quasilyte/go-ruleguard/dsl@latest
+ 
 go install sigs.k8s.io/kind@latest
-go get github.com/grpc-ecosystem/grpc-gateway@v2.18.0
-go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.42.1
+go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway@latest
+go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2@latest
+
+go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
 go install mvdan.cc/gofumpt@latest
 go install github.com/go-delve/delve/cmd/dlv@master
-go get -v -u github.com/googleapis/gax-go/v2
+go install github.com/googleapis/gax-go/v2@latest
 go install github.com/wtfutil/wtf@latest
 go install github.com/kisielk/godepgraph@latest
 # 单测生成的覆盖文件转换成xml/html格式的覆盖率文件
@@ -46,7 +50,7 @@ go install github.com/AlekSi/gocov-xml@latest
 go install github.com/google/wire/cmd/wire@latest
 
 # test
-go get github.com/smartystreets/goconvey
+go install github.com/smartystreets/goconvey@latest
 
 # neth
 go install github.com/microsoft/ethr@latest
@@ -61,7 +65,7 @@ go install loov.dev/lensm@main
 # etcd
 go install github.com/br0xen/boltbrowser@latest
 
-go get -u github.com/go-bindata/go-bindata/...
+go install github.com/go-bindata/go-bindata/...@latest
 go install github.com/cilium/ebpf/cmd/bpf2go@latest
 go install github.com/mattn/goveralls@a36c7ef8f23b2952fa6e39663f52107dfc8ad69d # v0.0.11
 go install github.com/mfridman/tparse@28967170dce4f9f13de77ec857f7aed4c4294a5f # v0.12.3 (main) with -progress
@@ -73,11 +77,10 @@ go install github.com/trzsz/trzsz-go/cmd/...@latest
 go install github.com/cloudflare/cfssl/cmd/...@latest
 
 # k8s rbac
-go install github.com/corneliusweig/rakkess
-
-curl -LO https://github.com/corneliusweig/rakkess/releases/download/v0.5.0/rakkess-amd64-darwin.tar.gz &&
-    tar xf rakkess-amd64-darwin.tar.gz rakkess-amd64-darwin &&
-    chmod +x rakkess-amd64-darwin &&
-    mv -i rakkess-amd64-darwin $(go env GOPATH)/bin/rakkess
+go install github.com/corneliusweig/rakkess@latest
+# curl -LO https://github.com/corneliusweig/rakkess/releases/download/v0.5.0/rakkess-amd64-darwin.tar.gz &&
+#     tar xf rakkess-amd64-darwin.tar.gz rakkess-amd64-darwin &&
+#     chmod +x rakkess-amd64-darwin &&
+#     mv -i rakkess-amd64-darwin $(go env GOPATH)/bin/rakkess
 
 go install github.com/submariner-io/subctl/cmd@latest && mv ~/.gopath/bin/cmd ~/.gopath/bin/subctl
