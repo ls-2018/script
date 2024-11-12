@@ -1,5 +1,7 @@
 GO111MODULE="on" go install sigs.k8s.io/kind@v0.17.0
 
+brew install helm
+
 version="v3.9.1"
 os=$(go env GOOS)     #替换下面命令的darwin
 arch=$(go env GOARCH) #替换下面命令的amd64

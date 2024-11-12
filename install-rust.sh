@@ -63,3 +63,10 @@ brew install cargo-binstall
 
 # https://github.com/nextest-rs/nextest
 brew install cargo-nextest
+
+brew install cargo-generate
+
+cargo install bindgen-cli
+
+# linux 有用
+cargo install --git https://github.com/aya-rs/aya -- aya-tool

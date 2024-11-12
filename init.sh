@@ -9,6 +9,8 @@ brew install skopeo
 brew install llvm
 brew install wget
 brew install jq
+brew install yq
+brew install lima
 brew install git
 brew install unix2dos
 brew install telnet
