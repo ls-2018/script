@@ -1,5 +1,5 @@
 #! /usr/bin/env bash
-
+set -ex
 host=${1-vm}
 path=${2-/root/myapp}
-/usr/bin/rsync -aP --delete  . root@${host}:${path}
+/usr/bin/rsync -aP --delete --exclude-from=.gitignore . root@${host}:${path}
