@@ -70,3 +70,6 @@ cargo install bindgen-cli
 
 # linux 有用
 cargo install --git https://github.com/aya-rs/aya -- aya-tool
+
+
+rustup override set nightly
