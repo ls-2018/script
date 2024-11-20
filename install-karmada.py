@@ -51,7 +51,7 @@ cd {KARMADA_PATH}
 ./hack/local-up-karmada.sh
 ./hack/deploy-karmada-opensearch.sh  ~/.kube/karmada.config karmada-host
 IP=$(kubectl --kubeconfig ~/.kube/karmada.config --context karmada-host -n karmada-system get svc karmada-opensearch -oyaml |yq '.spec.clusterIP')
-sed -i "s@10.240.0.100@$IP@g" ./artifacts/example/resourceregistry.yaml
+gsed -i "s@10.240.0.100@$IP@g" ./artifacts/example/resourceregistry.yaml
 kubectl --kubeconfig ~/.kube/karmada.config --context karmada-apiserver apply -f ./artifacts/example/resourceregistry.yaml
 
 ''')
