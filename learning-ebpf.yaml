@@ -45,11 +45,19 @@ provision:
     apt-get install -y linux-tools-common linux-tools-$(uname -r)
     apt-get install -y bpfcc-tools
     apt-get install -y python3-pip
+    
     export HOME=/root
-    bash /script/install-go.sh
+
+    bash /script/linux-install-go.sh
 
     export RUSTUP_DIST_SERVER=https://mirrors.ustc.edu.cn/rust-static
     export RUSTUP_UPDATE_ROOT=https://mirrors.ustc.edu.cn/rust-static/rustup
+
+
+    cat <<EOF >> /etc/hosts
+    127.0.0.1  lima-HOSTNAME
+    EOF
+
 
     sudo apt install curl build-essential gcc make -y
 
@@ -60,7 +68,7 @@ provision:
     curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf > /tmp/rust.sh && chmod +x /tmp/rust.sh
     bash /tmp/rust.sh -y
 
-    cat <<EOF >>/etc/profile
+    cat <<EOF >> $HOME/.bashrc
     . "$HOME/.cargo/env"
     export RUSTUP_DIST_SERVER=https://mirrors.ustc.edu.cn/rust-static
     export RUSTUP_UPDATE_ROOT=https://mirrors.ustc.edu.cn/rust-static/rustup
