@@ -7,9 +7,9 @@ networking:
 nodes:
   - role: control-plane
     extraPortMappings:
-      - containerPort: 6443
-        hostPort: 6443
-        protocol: TCP
+      # - containerPort: 6443
+      #   hostPort: 6443
+      #   protocol: TCP
     extraMounts:
       - hostPath: /Users/acejilam/data/plugins/bin
         containerPath: /opt/cni/bin

@@ -68,3 +68,9 @@ mv ./sshpass /usr/local/bin/
 # # 制作box 镜像
 # brew tap hashicorp/tap
 # brew install hashicorp/tap/packer
+
+# grpc test、bench
+brew install ghz
+
+brew install FiloSottile/musl-cross/musl-cross
+brew install mingw-w64
