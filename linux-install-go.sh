@@ -19,7 +19,7 @@ export GOPATH=\$HOME/.gopath  #工作地址路径
 export GOBIN=\$GOROOT/bin
 export PATH=\$PATH:\$GOBIN
 EOF
-source ~/.bashrc
+source /etc/profile
 go version
 go env
 go env -w GO111MODULE=on
