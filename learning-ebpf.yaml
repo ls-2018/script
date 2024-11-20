@@ -7,6 +7,18 @@ images:
 
 cpus: 4
 memory: "10GiB"
+vmType: vz
+
+
+containerd:
+  archives:
+  - arch: x86_64
+    digest: sha256:2c841e097fcfb5a1760bd354b3778cb695b44cd01f9f271c17507dc4a0b25606
+    location: https://files.m.daocloud.io/github.com/containerd/nerdctl/releases/download/v1.7.6/nerdctl-full-1.7.6-linux-amd64.tar.gz
+  - arch: aarch64
+    digest: sha256:77c747f09853ee3d229d77e8de0dd3c85622537d82be57433dc1fca4493bab95
+    location: https://files.m.daocloud.io/github.com/containerd/nerdctl/releases/download/v1.7.6/nerdctl-full-1.7.6-linux-arm64.tar.gz
+
 
 mounts:
 - location: "PWD"
@@ -34,10 +46,7 @@ provision:
     apt-get install -y bpfcc-tools
     apt-get install -y python3-pip
 
-    export HOME=/root
-
     bash /script/install-go.sh
-
 
     export RUSTUP_DIST_SERVER=https://mirrors.ustc.edu.cn/rust-static
     export RUSTUP_UPDATE_ROOT=https://mirrors.ustc.edu.cn/rust-static/rustup
@@ -57,7 +66,7 @@ provision:
     export RUSTUP_UPDATE_ROOT=https://mirrors.ustc.edu.cn/rust-static/rustup
     EOF
 
-    cat << EOF > /root/.cargo/config.toml
+    cat << EOF > $HOME/.cargo/config.toml
     [source.crates-io]
     registry = "https://github.com/rust-lang/crates.io-index"
 

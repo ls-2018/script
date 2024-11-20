@@ -9,6 +9,6 @@ cp -rf ~/script/learning-ebpf.yaml /tmp/$name.yaml
 
 gsed -i "s#PWD#$(pwd)#" /tmp/$name.yaml
 
-limactl start /tmp/$name.yaml
+limactl start /tmp/$name.yaml --debug --log-level=debug
 
 limactl shell $name
