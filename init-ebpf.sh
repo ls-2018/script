@@ -1,6 +1,4 @@
 #! /usr/bin/env zsh
-set -x
-
 name=${1-learning-ebpf}
 
 limactl delete $name -f
@@ -13,6 +11,7 @@ gsed -i "s#HOSTNAME#${name}#" /tmp/$name.yaml
 
 limactl start /tmp/$name.yaml # --debug --log-level=debug
 
-limactl shell $name sudo bash -c "cd $(pwd) && bash"
 echo ✈️✈️✈️✈️✈️✈️✈️✈️✈️✈️✈️✈️✈️✈️
+
 echo limactl shell $name sudo bash -c "cd $(pwd) && bash"
+limactl shell $name sudo bash -c "cd $(pwd) && bash"

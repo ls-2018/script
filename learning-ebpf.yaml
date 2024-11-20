@@ -33,7 +33,7 @@ mounts:
   writable: true
 - location: "~/data/cargo_cache"
   mountPoint: "/root/.cargo"
-  writable: false
+  writable: true
 - location: "~/data/go_cache"
   mountPoint: "/root/.gopath"
   writable: true
