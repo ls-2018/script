@@ -12,14 +12,14 @@ tar -xvf go$version.linux-$ARCH.tar.gz -C /usr/local/go$version --strip-componen
 rm -rf go$version.linux-$ARCH.tar.gz
 mkdir -p ~/.go/{bin,src,pkg}
 chmod -R 777 /usr/local/go$version
-cat <<EOF >>/etc/profile
+cat <<EOF >>~/.bashrc
 
 export GOROOT="/usr/local/go$version"
-export GOPATH=\$HOME/.go  #工作地址路径
+export GOPATH=\$HOME/.gopath  #工作地址路径
 export GOBIN=\$GOROOT/bin
 export PATH=\$PATH:\$GOBIN
 EOF
-source /etc/profile
+source ~/.bashrc
 go version
 go env
 go env -w GO111MODULE=on

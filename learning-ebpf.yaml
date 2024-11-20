@@ -29,22 +29,23 @@ mounts:
 - location: "~/script/"
   mountPoint: "/script"
   writable: false
-- location: "/tmp/lima"
-  writable: true
 - location: "~/data/cargo_cache"
-  mountPoint: "/root/.cargo"
+  mountPoint: "~/.cargo"
   writable: true
 - location: "~/data/go_cache"
-  mountPoint: "/root/.gopath"
+  mountPoint: "~/.gopath"
   writable: true
 provision:
 - mode: system
   script: |
+    rm -rf /root
+    ln -s /Users/acejilam /root
     apt-get install -y apt-transport-https ca-certificates curl clang llvm jq
     apt-get install -y libelf-dev libpcap-dev libbfd-dev binutils-dev build-essential make
     apt-get install -y linux-tools-common linux-tools-$(uname -r)
     apt-get install -y bpfcc-tools
     apt-get install -y python3-pip
+    apt-get install -y curl build-essential gcc make
 
     export HOME=/root
 
@@ -59,7 +60,6 @@ provision:
     EOF
 
 
-    sudo apt install curl build-essential gcc make -y
 
     cat <<EOF > /etc/resolv.conf
     nameserver 114.114.114.114
@@ -98,3 +98,5 @@ provision:
       wget -O /usr/bin/ecli https://files.m.daocloud.io/github.com/eunomia-bpf/eunomia-bpf/releases/download/v1.0.27/ecli-aarch64
     fi 
     chmod +x /usr/bin/ec*
+
+
