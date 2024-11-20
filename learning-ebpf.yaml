@@ -45,7 +45,7 @@ provision:
     apt-get install -y linux-tools-common linux-tools-$(uname -r)
     apt-get install -y bpfcc-tools
     apt-get install -y python3-pip
-
+    export HOME=/root
     bash /script/install-go.sh
 
     export RUSTUP_DIST_SERVER=https://mirrors.ustc.edu.cn/rust-static
