@@ -7,7 +7,7 @@ images:
 
 cpus: 4
 memory: "10GiB"
-vmType: vz
+# vmType: vz
 
 
 containerd:
