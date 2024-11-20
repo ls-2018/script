@@ -7,7 +7,7 @@ images:
 
 cpus: 4
 memory: "10GiB"
-# vmType: vz
+vmType: qemu
 
 
 containerd:
@@ -45,7 +45,7 @@ provision:
     apt-get install -y linux-tools-common linux-tools-$(uname -r)
     apt-get install -y bpfcc-tools
     apt-get install -y python3-pip
-    
+
     export HOME=/root
 
     bash /script/linux-install-go.sh
@@ -88,3 +88,13 @@ provision:
 
     EOF
 
+    ARCH=$(arch | sed s/aarch64/arm64/ | sed s/x86_64/amd64/)
+    if [ "x86_64" = $(arch) ]
+    then
+      wget -O /usr/bin/ecli https://files.m.daocloud.io/github.com/eunomia-bpf/eunomia-bpf/releases/download/v1.0.27/ecli
+      wget -O /usr/bin/ecc https://files.m.daocloud.io/github.com/eunomia-bpf/eunomia-bpf/releases/download/v1.0.27/ecc-x86_64
+    else
+      wget -O /usr/bin/ecc https://files.m.daocloud.io/github.com/eunomia-bpf/eunomia-bpf/releases/download/v1.0.27/ecc-aarch64
+      wget -O /usr/bin/ecli https://files.m.daocloud.io/github.com/eunomia-bpf/eunomia-bpf/releases/download/v1.0.27/ecli-aarch64
+    fi 
+    chmod +x /usr/bin/ec*
