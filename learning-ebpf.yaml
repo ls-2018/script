@@ -21,9 +21,6 @@ containerd:
 
 
 mounts:
-- location: "PWD"
-  mountPoint: "/ebpf"
-  writable: true
 - location: "~/Desktop/"
   writable: true
 - location: "~/script/"
@@ -94,7 +91,7 @@ provision:
     else
       wget -O /usr/bin/ecc https://files.m.daocloud.io/github.com/eunomia-bpf/eunomia-bpf/releases/download/v1.0.27/ecc-aarch64
       wget -O /usr/bin/ecli https://files.m.daocloud.io/github.com/eunomia-bpf/eunomia-bpf/releases/download/v1.0.27/ecli-aarch64
-    fi 
+    fi
     chmod +x /usr/bin/ec*
 
 
