@@ -10,12 +10,11 @@ if len(sys.argv) < 3:
 who = sys.argv[1]
 _type = sys.argv[2]
 prefix = ""
-if _type == "orgs":
-    try:
-        os.mkdir(who)
-    except Exception:
-        pass
-    prefix = f'cd {who} && '
+try:
+    os.mkdir(who)
+except Exception:
+    pass
+prefix = f'cd {who} && '
 
 for page in range(100):
     print(f'-------------> {page}')
