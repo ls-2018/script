@@ -17,7 +17,6 @@ if _type == "orgs":
         pass
     prefix = f'cd {who} && '
 
-
 prefix = ""
 if _type == "orgs":
     try:
@@ -31,9 +30,12 @@ for page in range(100):
     cmd = f'curl -s https://api.github.com/{_type}/{who}/repos?page={page}&per_page=1000 | grep -e \'clone_url*\' | cut -d \\" -f 4  '
     res = subprocess.getoutput(cmd)
     for item in json.loads(res):
-        repo = item['clone_url']
-        name = repo.split('/')[-1].split('.')[0]
-        if name in sys.argv[3:]:
-            continue
-        cmd = f'{prefix} git clone {repo} || echo {repo} exists'
-        os.system(cmd)
+        try:
+            repo = item['clone_url']
+            name = repo.split('/')[-1].split('.')[0]
+            if name in sys.argv[3:]:
+                continue
+            cmd = f'{prefix} git clone {repo} || echo {repo} exists'
+            os.system(cmd)
+        except Exception:
+            print(res)
