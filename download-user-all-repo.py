@@ -26,6 +26,8 @@ for page in range(100):
             name = repo.split('/')[-1].split('.')[0]
             if name in sys.argv[3:]:
                 continue
+            if repo.endswith('linux.git'):
+                continue
             cmd = f'{prefix} git clone {repo} || echo {repo} exists'
             os.system(cmd)
         except Exception:
