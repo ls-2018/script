@@ -54,6 +54,7 @@ target-dir = "/Users/acejilam/.cargo/target"
 
 EOF
 
+# apt install pkg-config libssl-dev -y 
 
 # https://github.com/taiki-e/cargo-llvm-cov?tab=readme-ov-file#installation
 cargo +stable install cargo-llvm-cov --locked
