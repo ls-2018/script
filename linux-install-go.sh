@@ -1,6 +1,6 @@
 rm -rf /usr/local/go*
 rm -rf ./go*
-yum install wget vim -y || apt install wget vim -y
+yum install wget vim gcc -y || apt install wget vim gcc -y
 
 version=1.22.0
 mkdir /usr/local/go$version
@@ -35,4 +35,4 @@ go env -w GOFLAGS="-buildvcs=false"
 go env -w CGO_ENABLED="1"
 
 go install github.com/trzsz/trzsz-go/cmd/...@latest
-go install github.com/go-delve/delve/cmd/dlv@master
+go install github.com/go-delve/delve/cmd/dlv@latest

@@ -1,16 +1,16 @@
 #!/usr/bin/env zsh
 
-export RUSTUP_DIST_SERVER=https://mirrors.ustc.edu.cn/rust-static
-export RUSTUP_UPDATE_ROOT=https://mirrors.ustc.edu.cn/rust-static/rustup
+
 
 sudo apt install curl build-essential gcc make -y 
 sudo curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf > rust.sh && chmod +x rust.sh 
 
 bash rust.sh -y
 
-# cat << EOF >> /etc/profile
-# . "\$HOME/.cargo/env"
-# EOF
+cat << EOF >> /etc/profile
+export RUSTUP_DIST_SERVER=https://mirrors.ustc.edu.cn/rust-static
+export RUSTUP_UPDATE_ROOT=https://mirrors.ustc.edu.cn/rust-static/rustup
+EOF
 
 cat << EOF > ~/.cargo/config.toml
 [source.crates-io]
