@@ -1,16 +1,16 @@
 #!/usr/bin/env zsh
 
-
-
-sudo apt install curl build-essential gcc make -y 
+sudo apt install curl build-essential gcc make git -y 
 sudo curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf > rust.sh && chmod +x rust.sh 
-
-bash rust.sh -y
 
 cat << EOF >> /etc/profile
 export RUSTUP_DIST_SERVER=https://mirrors.ustc.edu.cn/rust-static
 export RUSTUP_UPDATE_ROOT=https://mirrors.ustc.edu.cn/rust-static/rustup
 EOF
+
+source /etc/profile
+
+bash rust.sh -y
 
 cat << EOF > ~/.cargo/config.toml
 [source.crates-io]
@@ -59,12 +59,12 @@ EOF
 cargo +stable install cargo-llvm-cov --locked
 
 # https://github.com/cargo-bins/cargo-binstall
-brew install cargo-binstall
+cargo install cargo-binstall
 
 # https://github.com/nextest-rs/nextest
-brew install cargo-nextest
+cargo install cargo-nextest
 
-brew install cargo-generate
+cargo install cargo-generate
 
 cargo install bindgen-cli
 
