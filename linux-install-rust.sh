@@ -3,6 +3,9 @@
 sudo apt install curl build-essential gcc make git -y
 sudo curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf >rust.sh && chmod +x rust.sh
 
+export RUSTUP_DIST_SERVER=https://mirrors.ustc.edu.cn/rust-static
+export RUSTUP_UPDATE_ROOT=https://mirrors.ustc.edu.cn/rust-static/rustup
+
 cat <<EOF >>/etc/profile
 export RUSTUP_DIST_SERVER=https://mirrors.ustc.edu.cn/rust-static
 export RUSTUP_UPDATE_ROOT=https://mirrors.ustc.edu.cn/rust-static/rustup
@@ -14,11 +17,12 @@ export RUSTUP_DIST_SERVER=https://mirrors.ustc.edu.cn/rust-static
 export RUSTUP_UPDATE_ROOT=https://mirrors.ustc.edu.cn/rust-static/rustup
 EOF
 
-source /etc/profile
-
 bash rust.sh -y
 
-cat <<EOF >~/.cargo/config.toml
+source /etc/profile
+source $HOME/.bashrc
+
+cat <<EOF >$HOME/.cargo/config.toml
 [source.crates-io]
 registry = "https://github.com/rust-lang/crates.io-index"
 
