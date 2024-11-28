@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-sudo apt install curl build-essential gcc make git -y
+sudo apt install curl build-essential gcc make git pkg-config libssl-dev -y
 sudo curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf >rust.sh && chmod +x rust.sh
 
 export RUSTUP_DIST_SERVER=https://mirrors.ustc.edu.cn/rust-static
