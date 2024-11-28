@@ -9,7 +9,6 @@ cpus: 4
 memory: "10GiB"
 vmType: qemu
 
-
 containerd:
   archives:
   - arch: x86_64
@@ -37,20 +36,11 @@ provision:
   script: |
     rm -rf /root
     ln -s /Users/acejilam /root
-    apt-get install -y apt-transport-https ca-certificates curl clang llvm jq
-    apt-get install -y libelf-dev libpcap-dev libbfd-dev binutils-dev build-essential make
-    apt-get install -y linux-tools-common linux-tools-$(uname -r)
-    apt-get install -y bpfcc-tools
-    apt-get install -y python3-pip
-    apt-get install -y curl build-essential gcc make
-
     export HOME=/root
 
     bash /script/linux-install-go.sh
-
-    export RUSTUP_DIST_SERVER=https://mirrors.ustc.edu.cn/rust-static
-    export RUSTUP_UPDATE_ROOT=https://mirrors.ustc.edu.cn/rust-static/rustup
-
+    bash /script/linux-install-rust.sh
+    bash /script/linux-install-bpf.sh
 
     cat <<EOF >> /etc/hosts
     127.0.0.1  lima-HOSTNAME
@@ -59,39 +49,3 @@ provision:
     cat <<EOF > /etc/resolv.conf
     nameserver 114.114.114.114
     EOF
-
-    curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf > /tmp/rust.sh && chmod +x /tmp/rust.sh
-    bash /tmp/rust.sh -y
-
-    cat <<EOF >> $HOME/.bashrc
-    . "$HOME/.cargo/env"
-    export RUSTUP_DIST_SERVER=https://mirrors.ustc.edu.cn/rust-static
-    export RUSTUP_UPDATE_ROOT=https://mirrors.ustc.edu.cn/rust-static/rustup
-    EOF
-
-    cat << EOF > $HOME/.cargo/config.toml
-    [source.crates-io]
-    registry = "https://github.com/rust-lang/crates.io-index"
-
-    replace-with = 'ustc'
-
-    [source.ustc]
-    registry = "https://mirrors.ustc.edu.cn/crates.io-index/"
-
-    [net]
-    git-fetch-with-cli=true
-
-    EOF
-
-    ARCH=$(arch | sed s/aarch64/arm64/ | sed s/x86_64/amd64/)
-    if [ "x86_64" = $(arch) ]
-    then
-      wget -O /usr/bin/ecli https://files.m.daocloud.io/github.com/eunomia-bpf/eunomia-bpf/releases/download/v1.0.27/ecli
-      wget -O /usr/bin/ecc https://files.m.daocloud.io/github.com/eunomia-bpf/eunomia-bpf/releases/download/v1.0.27/ecc-x86_64
-    else
-      wget -O /usr/bin/ecc https://files.m.daocloud.io/github.com/eunomia-bpf/eunomia-bpf/releases/download/v1.0.27/ecc-aarch64
-      wget -O /usr/bin/ecli https://files.m.daocloud.io/github.com/eunomia-bpf/eunomia-bpf/releases/download/v1.0.27/ecli-aarch64
-    fi
-    chmod +x /usr/bin/ec*
-
-

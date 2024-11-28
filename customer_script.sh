@@ -101,7 +101,7 @@ alias grep='\grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox}
 # source <(kubectl completion zsh)
 alias k=\'kubectl\'
 
-alias kn='k get nodes'
+# alias kn='k get nodes'
 
 #### ffmpeg
 # export PATH="/opt/homebrew/opt/ffmpeg@5/bin:$PATH"
@@ -146,8 +146,8 @@ test -e ~/.k8sconfig || {
 }
 export KUBECONFIG=$(cat ~/.k8sconfig)
 
-# if [[ $(arch) == "arm64" ]]; then
-#     export DOCKER_HOST=192.168.113.128:2375
+# if [[ $(arch) != "arm64" ]]; then
+#     export DOCKER_HOST='tcp://172.16.168.130:2375'
 # fi
 
 # 禁止生成.DS_store

@@ -1,9 +1,15 @@
 #!/usr/bin/env zsh
 
-sudo apt install curl build-essential gcc make git -y 
-sudo curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf > rust.sh && chmod +x rust.sh 
+sudo apt install curl build-essential gcc make git -y
+sudo curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf >rust.sh && chmod +x rust.sh
 
-cat << EOF >> /etc/profile
+cat <<EOF >>/etc/profile
+export RUSTUP_DIST_SERVER=https://mirrors.ustc.edu.cn/rust-static
+export RUSTUP_UPDATE_ROOT=https://mirrors.ustc.edu.cn/rust-static/rustup
+EOF
+
+cat <<EOF >>$HOME/.bashrc
+. "\$HOME/.cargo/env"
 export RUSTUP_DIST_SERVER=https://mirrors.ustc.edu.cn/rust-static
 export RUSTUP_UPDATE_ROOT=https://mirrors.ustc.edu.cn/rust-static/rustup
 EOF
@@ -12,7 +18,7 @@ source /etc/profile
 
 bash rust.sh -y
 
-cat << EOF > ~/.cargo/config.toml
+cat <<EOF >~/.cargo/config.toml
 [source.crates-io]
 registry = "https://github.com/rust-lang/crates.io-index"
 
@@ -54,7 +60,7 @@ target-dir = "/Users/acejilam/.cargo/target"
 
 EOF
 
-# apt install pkg-config libssl-dev -y 
+# apt install pkg-config libssl-dev -y
 
 # https://github.com/taiki-e/cargo-llvm-cov?tab=readme-ov-file#installation
 cargo +stable install cargo-llvm-cov --locked
@@ -71,6 +77,5 @@ cargo install bindgen-cli
 
 # linux 有用
 cargo install --git https://github.com/aya-rs/aya -- aya-tool
-
 
 rustup override set nightly
