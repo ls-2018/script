@@ -21,6 +21,7 @@ bash rust.sh -y
 
 source /etc/profile
 source $HOME/.bashrc
+. "$HOME/.cargo/env"
 
 cat <<EOF >$HOME/.cargo/config.toml
 [source.crates-io]
