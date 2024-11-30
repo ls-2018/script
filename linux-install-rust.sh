@@ -65,6 +65,9 @@ target-dir = "/Users/acejilam/.cargo/target"
 
 EOF
 
+# linux 有用
+cargo install --git https://github.com/aya-rs/aya -- aya-tool
+
 # apt install pkg-config libssl-dev -y
 
 # https://github.com/taiki-e/cargo-llvm-cov?tab=readme-ov-file#installation
@@ -79,9 +82,6 @@ cargo install cargo-nextest
 cargo install cargo-generate
 
 cargo install bindgen-cli
-
-# linux 有用
-cargo install --git https://github.com/aya-rs/aya -- aya-tool
 
 # rustup override set nightly
 # rustup override set stable
