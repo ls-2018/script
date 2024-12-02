@@ -4,7 +4,8 @@
 # 也可以直接在加一个net
 
 settings={
-    "box_name"=> "bento/ubuntu-22.04",
+    "box_name"=> "bento/ubuntu-24.10",
+    "box_version" => "2024.10.11",
     "vm"=> [
         # {
         #     "name"=> "controlplane",
@@ -38,6 +39,7 @@ Vagrant.configure("2") do |config|
   settings['vm'].each do |vm_config|
     config.vm.define vm_config['name'] do |vm|
       vm.vm.box = settings['box_name']
+      vm.vm.box_version = settings['box_version']
       vm.vm.hostname = vm_config['name']
       vm.vm.box_check_update = false
       vm.vm.network "private_network",ip: vm_config['ip'],hostname: true
