@@ -2,9 +2,13 @@
 
 apt install wget -y
 
-wget https://apt.llvm.org/llvm.sh
+# wget https://apt.llvm.org/llvm.sh
+# chmod +x llvm.sh
+# sudo ./llvm.sh 19 al
+
+wget https://mirrors.bfsu.edu.cn/llvm-apt/llvm.sh
 chmod +x llvm.sh
-sudo ./llvm.sh 19 al
+./llvm.sh 19 -m https://mirrors.bfsu.edu.cn/llvm-apt
 
 for file in $(ls /usr/bin | grep '\-19$'); do
     base=$(echo $file | sed 's/-[0-9]*$//')
@@ -16,7 +20,7 @@ apt-get install -y curl build-essential gcc make git pkg-config libssl-dev \
     libpcap-dev libbpf-dev libbfd-dev binutils-dev \
     linux-tools-common linux-tools-$(uname -r) bpfcc-tools \
     python3-pip \
-    linux-headers-$(uname -r) lldb lld gcc-multilib gcc
+    linux-headers-$(uname -r) lldb lld gcc
 
 sudo ln -s /usr/include/$(arch)-linux-gnu/asm /usr/include/asm
 
@@ -38,7 +42,7 @@ apt-get install -y bpftrace
 # cd libbpf/src && BUILD_STATIC_ONLY=y make install && cd - && rm -rf libbpf
 
 # bcc
-apt-get install zip bison build-essential cmake flex git \
+apt-get install -y zip bison build-essential cmake flex git \
     zlib1g-dev liblzma-dev arping netperf iperf \
     libpolly-19-dev libelf-dev libclang-19-dev libedit-dev
 
