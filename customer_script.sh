@@ -165,6 +165,7 @@ alias kns='kubectl get node -o custom-columns=NAME:.metadata.name,RESOURCE_LIMIT
 # 修复运行 code . 报错
 # codesign --force --deep --sign - /Applications/Visual\ Studio\ Code.app
 
-
 export RUSTUP_DIST_SERVER=https://mirrors.ustc.edu.cn/rust-static
 export RUSTUP_UPDATE_ROOT=https://mirrors.ustc.edu.cn/rust-static/rustup
+
+export VAGRANT_DEFAULT_PROVIDER=vmware_fusion
