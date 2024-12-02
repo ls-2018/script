@@ -65,6 +65,8 @@ target-dir = "/Users/acejilam/.cargo/target"
 
 EOF
 
+git config --global url."https://cf.ghproxy.cc/https://github.com".insteadOf "https://github.com"
+
 # linux 有用
 cargo install --git https://github.com/aya-rs/aya -- aya-tool
 
@@ -85,3 +87,5 @@ cargo install bindgen-cli
 
 # rustup override set nightly
 # rustup override set stable
+
+git config --global --unset url."https://cf.ghproxy.cc/https://github.com".insteadOf "https://github.com"

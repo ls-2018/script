@@ -24,3 +24,13 @@ apt-get install -y bpftrace
 # libbpf-dev 可以替换为:
 # git clone https://github.com/libbpf/libbpf.git
 # cd libbpf/src && BUILD_STATIC_ONLY=y make install && cd - && rm -rf libbpf
+
+git clone https://cf.ghproxy.cc/https://github.com/brendangregg/perf-tools.git /perf-tools
+
+cat <<EOF >>/etc/profile
+export PATH=\$PATH:/perf-tools/bin
+EOF
+
+cat <<EOF >>$HOME/.bashrc
+export PATH=\$PATH:/perf-tools/bin
+EOF
