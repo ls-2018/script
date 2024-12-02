@@ -2,12 +2,14 @@
 
 apt install wget -y
 
-wget https://cf.ghproxy.cc/https://apt.llvm.org/llvm.sh
+wget https://apt.llvm.org/llvm.sh
 chmod +x llvm.sh
 sudo ./llvm.sh 19 al
-ln -sf /usr/bin/clang-19 /usr/bin/clang
-ln -sf /usr/bin/clang++-19 /usr/bin/clang++
-ln -sf /usr/bin/clang-cpp-19 /usr/bin/clang-cpp
+
+for file in $(ls /usr/bin | grep '\-19$'); do
+    base=$(echo $file | sed 's/-[0-9]*$//')
+    ln -sf "/usr/bin/$file" "/usr/bin/$base"
+done
 
 apt-get install -y curl build-essential gcc make git pkg-config libssl-dev \
     apt-transport-https ca-certificates curl jq build-essential \
