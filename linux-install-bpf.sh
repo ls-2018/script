@@ -1,8 +1,17 @@
 #!/usr/bin/env zsh
+
 apt install wget -y
 
-apt-get install -y apt-transport-https ca-certificates curl clang llvm jq build-essential
-apt-get install -y libelf-dev libpcap-dev libbpf-dev libbfd-dev libpcap-dev binutils-dev build-essential make git
+wget https://files.m.daocloud.io/apt.llvm.org/llvm.sh
+chmod +x llvm.sh
+sudo ./llvm.sh 19 al
+ln -sf /usr/bin/clang-19 /usr/bin/clang
+ln -sf /usr/bin/clang++-19 /usr/bin/clang++
+ln -sf /usr/bin/clang-cpp-19 /usr/bin/clang-cpp
+
+apt-get install -y curl build-essential gcc make git pkg-config libssl-dev
+apt-get install -y apt-transport-https ca-certificates curl jq build-essential
+apt-get install -y libpcap-dev libbpf-dev libbfd-dev binutils-dev
 apt-get install -y linux-tools-common linux-tools-$(uname -r) bpfcc-tools
 apt-get install -y python3-pip
 apt-get install -y linux-headers-$(uname -r) lldb lld gcc-multilib gcc
@@ -25,7 +34,22 @@ apt-get install -y bpftrace
 # git clone https://github.com/libbpf/libbpf.git
 # cd libbpf/src && BUILD_STATIC_ONLY=y make install && cd - && rm -rf libbpf
 
-git clone https://cf.ghproxy.cc/https://github.com/brendangregg/perf-tools.git /perf-tools
+# bcc
+apt-get install zip bison build-essential cmake flex git libedit-dev zlib1g-dev liblzma-dev arping netperf iperf libpolly-19-dev libelf-dev libclang-19-dev
+
+git clone https://github.com/iovisor/bcc.git
+mkdir bcc/build
+cd bcc/build
+cmake .. -DCMAKE_PREFIX_PATH=/usr/lib/llvm-19/
+make -j $(nproc)
+sudo make install
+cmake -DPYTHON_CMD=python3 -DCMAKE_PREFIX_PATH=/usr/lib/llvm-19/ .. # build python3 binding
+pushd src/python/
+make -j $(nproc)
+sudo make install
+popd
+
+git clone https://github.com/brendangregg/perf-tools.git /perf-tools
 
 cat <<EOF >>/etc/profile
 export PATH=\$PATH:/perf-tools/bin
