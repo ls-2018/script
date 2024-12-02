@@ -4,8 +4,7 @@
 # 也可以直接在加一个net
 
 settings={
-    "box_name"=> "bento/ubuntu-24.10",
-    "box_version" => "2024.10.11",
+    "box_name"=> "gutehall/ubuntu24-04",
     "vm"=> [
         # {
         #     "name"=> "controlplane",

@@ -14,7 +14,7 @@ rs = [
     ['ARG BINARY', "RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories\nARG BINARY"],
     [
         r'''wget https://github.com/kubernetes-sigs/metrics-server/releases/download/v0.6.3/components.yaml -O "${_tmp}/components.yaml"''',
-        r'''wget https://files.m.daocloud.io/github.com/kubernetes-sigs/metrics-server/releases/download/v0.6.3/components.yaml -O "${_tmp}/components.yaml"
+        r'''wget https://cf.ghproxy.cc/https://github.com/kubernetes-sigs/metrics-server/releases/download/v0.6.3/components.yaml -O "${_tmp}/components.yaml"
     sed -i'' -e 's@registry.k8s.io/metrics-server@registry.cn-hangzhou.aliyuncs.com/acejilam@g' "${_tmp}/components.yaml"
     ''',
     ]
@@ -26,7 +26,7 @@ KARMADA_PATH = "/Users/acejilam/Desktop/karmada"
 shutil.rmtree(KARMADA_PATH, ignore_errors=True)
 
 os.system(rf'''
-export https_proxy=http://127.0.0.1:7890 http_proxy=http://127.0.0.1:7890 all_proxy=socks5://127.0.0.1:7890 
+export https_proxy=http://127.0.0.1:7890 http_proxy=http://127.0.0.1:7890 all_proxy=socks5://127.0.0.1:7890
 cd {os.path.dirname(KARMADA_PATH)}
 git clone https://github.com/karmada-io/karmada.git
 ''')

@@ -2,7 +2,7 @@
 
 apt install wget -y
 
-wget https://files.m.daocloud.io/apt.llvm.org/llvm.sh
+wget https://cf.ghproxy.cc/https://apt.llvm.org/llvm.sh
 chmod +x llvm.sh
 sudo ./llvm.sh 19 al
 ln -sf /usr/bin/clang-19 /usr/bin/clang
@@ -20,11 +20,12 @@ sudo ln -s /usr/include/$(arch)-linux-gnu/asm /usr/include/asm
 
 ARCH=$(arch | sed s/aarch64/arm64/ | sed s/x86_64/amd64/)
 if [ "x86_64" = $(arch) ]; then
-    wget -O /usr/bin/ecli https://files.m.daocloud.io/github.com/eunomia-bpf/eunomia-bpf/releases/download/v1.0.27/ecli
-    wget -O /usr/bin/ecc https://files.m.daocloud.io/github.com/eunomia-bpf/eunomia-bpf/releases/download/v1.0.27/ecc-x86_64
+
+    wget -O /usr/bin/ecli https://cf.ghproxy.cc/https://github.com/eunomia-bpf/eunomia-bpf/releases/download/v1.0.27/ecli
+    wget -O /usr/bin/ecc https://cf.ghproxy.cc/https://github.com/eunomia-bpf/eunomia-bpf/releases/download/v1.0.27/ecc-x86_64
 else
-    wget -O /usr/bin/ecc https://files.m.daocloud.io/github.com/eunomia-bpf/eunomia-bpf/releases/download/v1.0.27/ecc-aarch64
-    wget -O /usr/bin/ecli https://files.m.daocloud.io/github.com/eunomia-bpf/eunomia-bpf/releases/download/v1.0.27/ecli-aarch64
+    wget -O /usr/bin/ecc https://cf.ghproxy.cc/https://github.com/eunomia-bpf/eunomia-bpf/releases/download/v1.0.27/ecc-aarch64
+    wget -O /usr/bin/ecli https://cf.ghproxy.cc/https://github.com/eunomia-bpf/eunomia-bpf/releases/download/v1.0.27/ecli-aarch64
 fi
 chmod +x /usr/bin/ec*
 
