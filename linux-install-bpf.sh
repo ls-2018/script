@@ -9,12 +9,12 @@ ln -sf /usr/bin/clang-19 /usr/bin/clang
 ln -sf /usr/bin/clang++-19 /usr/bin/clang++
 ln -sf /usr/bin/clang-cpp-19 /usr/bin/clang-cpp
 
-apt-get install -y curl build-essential gcc make git pkg-config libssl-dev
-apt-get install -y apt-transport-https ca-certificates curl jq build-essential
-apt-get install -y libpcap-dev libbpf-dev libbfd-dev binutils-dev
-apt-get install -y linux-tools-common linux-tools-$(uname -r) bpfcc-tools
-apt-get install -y python3-pip
-apt-get install -y linux-headers-$(uname -r) lldb lld gcc-multilib gcc
+apt-get install -y curl build-essential gcc make git pkg-config libssl-dev \
+    apt-transport-https ca-certificates curl jq build-essential \
+    libpcap-dev libbpf-dev libbfd-dev binutils-dev \
+    linux-tools-common linux-tools-$(uname -r) bpfcc-tools \
+    python3-pip \
+    linux-headers-$(uname -r) lldb lld gcc-multilib gcc
 
 sudo ln -s /usr/include/$(arch)-linux-gnu/asm /usr/include/asm
 
@@ -36,7 +36,9 @@ apt-get install -y bpftrace
 # cd libbpf/src && BUILD_STATIC_ONLY=y make install && cd - && rm -rf libbpf
 
 # bcc
-apt-get install zip bison build-essential cmake flex git libedit-dev zlib1g-dev liblzma-dev arping netperf iperf libpolly-19-dev libelf-dev libclang-19-dev
+apt-get install zip bison build-essential cmake flex git \
+    zlib1g-dev liblzma-dev arping netperf iperf \
+    libpolly-19-dev libelf-dev libclang-19-dev libedit-dev
 
 git clone https://github.com/iovisor/bcc.git
 mkdir bcc/build
