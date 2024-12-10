@@ -25,7 +25,7 @@ go install github.com/ServiceWeaver/weaver/cmd/weaver@latest
 go install github.com/go-critic/go-critic/...@latest
 go install github.com/go-lintpack/lintpack/...@latest
 go install github.com/quasilyte/go-ruleguard/cmd/ruleguard@latest
- 
+
 go install sigs.k8s.io/kind@latest
 go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway@latest
 go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2@latest
@@ -84,3 +84,5 @@ go install github.com/corneliusweig/rakkess@latest
 #     mv -i rakkess-amd64-darwin $(go env GOPATH)/bin/rakkess
 
 go install github.com/submariner-io/subctl/cmd@latest && mv ~/.gopath/bin/cmd ~/.gopath/bin/subctl
+
+go install github.com/google/gops@latest

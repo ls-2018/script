@@ -67,3 +67,5 @@ EOF
 cat <<EOF >>$HOME/.bashrc
 export PATH=\$PATH:/perf-tools/bin
 EOF
+
+apt-get install -y pahole
