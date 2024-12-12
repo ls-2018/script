@@ -27,8 +27,8 @@ settings={
         {
             "name"=> "ebpf",
             "ip"=> "192.168.33.10",
-            "memory"=> 4096,
-            "cpus"=> 4
+            "memory"=> 6144,
+            "cpus"=> 6
         }
     ]
 }
@@ -43,6 +43,7 @@ Vagrant.configure("2") do |config|
       vm.vm.box_check_update = false
       vm.vm.network "private_network",ip: vm_config['ip'],hostname: true
       vm.vm.synced_folder "~/.ssh", "/host_ssh", mount_options:["dmode=775","fmode=664"]
+      vm.vm.synced_folder "~/Desktop/ebpf", "/ebpf"
 
       vm.vm.provider "vmware_fusion" do |vb|
         vb.gui = false
