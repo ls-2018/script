@@ -1,6 +1,3 @@
-#!/usr/bin/env zsh
-
-cat >Vagrantfile <<EOF
 
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
@@ -66,7 +63,7 @@ Vagrant.configure("2") do |config|
         git config --global url."https://cf.ghproxy.cc/https://github.com".insteadOf "https://github.com"
         # git config --global --unset url."https://cf.ghproxy.cc/https://github.com".insteadOf "https://github.com"
         curl -L https://cf.ghproxy.cc/https://raw.githubusercontent.com/ls-2018/script/refs/heads/master/linux-replace-sources.sh | bash
-        curl -L https://cf.ghproxy.cc/https://raw.githubusercontent.com/ls-2018/script/refs/heads/master/linux-install-rust.sh | bash
+        #curl -L https://cf.ghproxy.cc/https://raw.githubusercontent.com/ls-2018/script/refs/heads/master/linux-install-rust.sh | bash
         curl -L https://cf.ghproxy.cc/https://raw.githubusercontent.com/ls-2018/script/refs/heads/master/linux-install-bpf.sh | bash
         curl -L https://cf.ghproxy.cc/https://raw.githubusercontent.com/ls-2018/script/refs/heads/master/linux-install-go.sh | bash
 
@@ -74,21 +71,3 @@ Vagrant.configure("2") do |config|
     end
   end
 end
-
-EOF
-set -ex
-rm -rf .vagrant
-
-vagrant global-status --prune
-
-# 定义虚拟机名称数组
-vms=("1804" "2004" "2404")
-
-# 使用并发执行 vagrant up 命令
-for vm in "${vms[@]}"; do
-  vagrant destroy "$vm" --force
-  vagrant up "$vm" &
-done
-
-# 等待所有后台任务完成
-wait
