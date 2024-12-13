@@ -1,5 +1,4 @@
 #!/usr/bin/env zsh
-set -ex
 apt install wget -y
 
 # wget https://apt.llvm.org/llvm.sh
