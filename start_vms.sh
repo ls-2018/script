@@ -77,12 +77,16 @@ end
 
 EOF
 
+rm -rf .vagrant
+pkill -9 vagrant
+vagrant global-status --prune
+
 # 定义虚拟机名称数组
 vms=("1804" "2004" "2404")
 
 # 使用并发执行 vagrant up 命令
 for vm in "${vms[@]}"; do
-    vagrant up "$vm" &
+  vagrant up "$vm" &
 done
 
 # 等待所有后台任务完成
