@@ -76,9 +76,9 @@ Vagrant.configure("2") do |config|
 end
 
 EOF
-
+set -ex
 rm -rf .vagrant
-pkill -9 vagrant
+
 vagrant global-status --prune
 
 # 定义虚拟机名称数组
@@ -86,6 +86,7 @@ vms=("1804" "2004" "2404")
 
 # 使用并发执行 vagrant up 命令
 for vm in "${vms[@]}"; do
+  vagrant destroy "$vm" --force
   vagrant up "$vm" &
 done
 
