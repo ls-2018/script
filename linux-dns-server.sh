@@ -10,7 +10,7 @@ yum -y install mariadb mariadb-server
 systemctl enable mariadb
 systemctl start mariadb
 # 创建数据库pdns，
-
+$()
 cat <<\EOF >/tmp/tmp.sql
 create database pdns;
 grant all privileges on pdns.* to 'admin'@'localhost' identified by 'Abcd1234';

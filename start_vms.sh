@@ -1,34 +1,34 @@
+#!/usr/bin/env zsh
+
+cat >Vagrantfile <<EOF
+
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 # https://www.cnblogs.com/yinzhengjie/p/18257781
 # 也可以直接在加一个net
 
 settings={
-    "box_name"=> "gutehall/ubuntu24-04",
     "vm"=> [
-        # {
-        #     "name"=> "controlplane",
-        #     "ip"=> "192.168.33.31",
-        #     "memory"=> 2048,
-        #     "cpus"=>2
-        # },
-        # {
-        #     "name"=> "node01",
-        #     "ip"=> "192.168.33.32",
-        #     "memory"=> 2048,
-        #     "cpus"=> 1
-        # },
-        # {
-        #     "name"=> "node02",
-        #     "ip"=> "192.168.33.33",
-        #     "memory"=> 2048,
-        #     "cpus"=> 1
-        # },
         {
-            "name"=> "ebpf",
+          "box_name"=> "bento/ubuntu-18.04",
+            "name"=> "1804",
             "ip"=> "192.168.33.10",
-            "memory"=> 6144,
-            "cpus"=> 6
+            "memory"=> 2048,
+            "cpus"=> 2
+        },
+        {
+          "box_name"=> "bento/ubuntu-20.04",
+            "name"=> "2004",
+            "ip"=> "192.168.33.11",
+            "memory"=> 2048,
+            "cpus"=> 2
+        },
+        {
+            "box_name"=> "gutehall/ubuntu24-04",
+            "name"=> "2404",
+            "ip"=> "192.168.33.12",
+            "memory"=> 2048,
+            "cpus"=> 2
         }
     ]
 }
@@ -37,7 +37,7 @@ settings={
 Vagrant.configure("2") do |config|
   settings['vm'].each do |vm_config|
     config.vm.define vm_config['name'] do |vm|
-      vm.vm.box = settings['box_name']
+      vm.vm.box = vm_config['box_name']
       vm.vm.box_version = settings['box_version']
       vm.vm.hostname = vm_config['name']
       vm.vm.box_check_update = false
@@ -52,6 +52,7 @@ Vagrant.configure("2") do |config|
       end
 
       vm.vm.provision "shell", inline: <<-SHELL
+        mkdir -p ~/.ssh && apt update && apt install curl git make cmake htop -y
         cat /host_ssh/id_ed25519.pub > ~/.ssh/authorized_keys
         sudo sed -i 's/^#* *\\(PermitRootLogin\\)\\(.*\\)$/\\1 yes/' /etc/ssh/sshd_config
         sudo sed -i 's/^#* *\\(PasswordAuthentication\\)\\(.*\\)$/\\1 yes/' /etc/ssh/sshd_config
@@ -73,3 +74,16 @@ Vagrant.configure("2") do |config|
     end
   end
 end
+
+EOF
+
+# 定义虚拟机名称数组
+vms=("1804" "2004" "2404")
+
+# 使用并发执行 vagrant up 命令
+for vm in "${vms[@]}"; do
+    vagrant up "$vm" &
+done
+
+# 等待所有后台任务完成
+wait

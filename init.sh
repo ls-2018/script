@@ -74,3 +74,6 @@ brew install ghz
 
 brew install FiloSottile/musl-cross/musl-cross
 brew install mingw-w64
+
+brew tap tinygo-org/tools
+brew install tinygo

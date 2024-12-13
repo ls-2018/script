@@ -1,3 +1,7 @@
+#!/usr/bin/env zsh
+
+set -ex
+
 rm -rf /usr/local/go*
 rm -rf ./go*
 yum install wget vim gcc -y || apt install wget vim gcc -y
@@ -12,14 +16,14 @@ tar -xvf go$version.linux-$ARCH.tar.gz -C /usr/local/go$version --strip-componen
 rm -rf go$version.linux-$ARCH.tar.gz
 mkdir -p ~/.gopath/{bin,src,pkg}
 chmod -R 777 /usr/local/go$version
-cat <<EOF >> /etc/profile
+cat <<EOF >>/etc/profile
 export GOROOT="/usr/local/go$version"
 export GOPATH=\$HOME/.gopath  #工作地址路径
 export GOBIN=\$GOROOT/bin
 export PATH=\$PATH:\$GOBIN
 EOF
 
-cat <<EOF >> ~/.bashrc
+cat <<EOF >>~/.bashrc
 export GOROOT="/usr/local/go$version"
 export GOPATH=\$HOME/.gopath  #工作地址路径
 export GOBIN=\$GOROOT/bin

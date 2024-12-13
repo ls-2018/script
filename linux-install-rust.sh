@@ -1,4 +1,5 @@
 #!/usr/bin/env zsh
+set -ex
 
 sudo apt install curl build-essential gcc make git pkg-config libssl-dev -y
 sudo curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf >rust.sh && chmod +x rust.sh
