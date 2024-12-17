@@ -98,10 +98,9 @@ alias grep='\grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox}
 # autoload -Uz compinit
 # compinit
 
-# source <(kubectl completion zsh)
+source <(kubectl completion zsh)
 alias k=\'kubectl\'
-
-# alias kn='k get nodes'
+alias kn='k get nodes'
 
 #### ffmpeg
 # export PATH="/opt/homebrew/opt/ffmpeg@5/bin:$PATH"

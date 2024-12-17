@@ -86,3 +86,6 @@ go install github.com/corneliusweig/rakkess@latest
 go install github.com/submariner-io/subctl/cmd@latest && mv ~/.gopath/bin/cmd ~/.gopath/bin/subctl
 
 go install github.com/google/gops@latest
+
+# go 函数执行顺序及时间打印
+go install github.com/Asphaltt/functrace/cmd/gen@latest
