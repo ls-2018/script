@@ -8,4 +8,4 @@ curl -sfL https://cf.ghproxy.cc/https://github.com/labring/sealos/releases/downl
 
 sealos run registry.cn-hangzhou.aliyuncs.com/acejilam/kubernetes-docker:v1.25.16 \
     registry.cn-hangzhou.aliyuncs.com/acejilam/helm:v3.8.2 \
-    registry.cn-hangzhou.aliyuncs.com/acejilam/calico:v3.24.1
+    --masters 192.168.33.12 --passwd 'root'
