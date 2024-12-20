@@ -67,6 +67,7 @@ Vagrant.configure("2") do |config|
         curl -L https://cf.ghproxy.cc/https://raw.githubusercontent.com/ls-2018/script/refs/heads/master/linux-install-rust.sh | bash
         curl -L https://cf.ghproxy.cc/https://raw.githubusercontent.com/ls-2018/script/refs/heads/master/linux-install-bpf.sh | bash
         curl -L https://cf.ghproxy.cc/https://raw.githubusercontent.com/ls-2018/script/refs/heads/master/linux-install-go.sh | bash
+        curl -L https://cf.ghproxy.cc/https://raw.githubusercontent.com/ls-2018/script/refs/heads/master/linux-install-k8s.sh | bash
 
       SHELL
     end

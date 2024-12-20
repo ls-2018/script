@@ -13,6 +13,8 @@ for file in $(ls /usr/bin | grep '\-19$'); do
     base=$(echo $file | sed 's/-[0-9]*$//')
     ln -sf "/usr/bin/$file" "/usr/bin/$base"
 done
+# errno -l
+apt-get install -y moreutils
 
 apt-get install -y curl build-essential gcc make git pkg-config libssl-dev \
     apt-transport-https ca-certificates curl jq build-essential \
@@ -28,9 +30,14 @@ if [ "x86_64" = $(arch) ]; then
 
     wget -O /usr/bin/ecli https://cf.ghproxy.cc/https://github.com/eunomia-bpf/eunomia-bpf/releases/download/v1.0.27/ecli
     wget -O /usr/bin/ecc https://cf.ghproxy.cc/https://github.com/eunomia-bpf/eunomia-bpf/releases/download/v1.0.27/ecc-x86_64
+
+    wget -O - https://cf.ghproxy.cc/https://github.com/anakryiko/retsnoop/releases/download/v0.10.1/retsnoop-v0.10.1-amd64.tar.gz | tar -zxvf - && chmod +x ./retsnoop && mv retsnoop /usr/bin/
+
 else
     wget -O /usr/bin/ecc https://cf.ghproxy.cc/https://github.com/eunomia-bpf/eunomia-bpf/releases/download/v1.0.27/ecc-aarch64
     wget -O /usr/bin/ecli https://cf.ghproxy.cc/https://github.com/eunomia-bpf/eunomia-bpf/releases/download/v1.0.27/ecli-aarch64
+    wget -O - https://cf.ghproxy.cc/https://github.com/anakryiko/retsnoop/releases/download/v0.10.1/retsnoop-v0.10.1-arm64.tar.gz | tar -zxvf - && chmod +x ./retsnoop && mv retsnoop /usr/bin/
+
 fi
 chmod +x /usr/bin/ec*
 
