@@ -13,3 +13,5 @@ sed -i "s@deb https://mirrors.bfsu.edu.cn@# deb https://mirrors.bfsu.edu.cn@g" /
 sed -i "s@deb https://mirrors.bfsu.edu.cn@# deb https://mirrors.bfsu.edu.cn@g" /etc/apt/sources.list.d/*
 
 apt-get update && echo "🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥"
+
+apt install curl git make cmake htop bridge-utils net-tools -y
