@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-
+rm -rf /etc/apt/sources.list.d/gierens.list
 sed -i "s@http://.*archive.ubuntu.com@https://mirrors.tuna.tsinghua.edu.cn@g" /etc/apt/sources.list
 sed -i "s@http://.*archive.ubuntu.com@https://mirrors.tuna.tsinghua.edu.cn@g" /etc/apt/sources.list.d/*
 
