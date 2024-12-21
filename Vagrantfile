@@ -50,7 +50,9 @@ Vagrant.configure("2") do |config|
 
       vm.vm.provision "shell", inline: <<-SHELL
         mkdir -p ~/.ssh
-        apt update && apt install curl git make cmake htop bridge-utils net-tools -y
+
+        curl -L https://cf.ghproxy.cc/https://raw.githubusercontent.com/ls-2018/script/refs/heads/master/linux-replace-sources.sh | bash
+
         cat /host_ssh/id_ed25519.pub > ~/.ssh/authorized_keys
         sudo sed -i 's/^#* *\\(PermitRootLogin\\)\\(.*\\)$/\\1 yes/' /etc/ssh/sshd_config
         sudo sed -i 's/^#* *\\(PasswordAuthentication\\)\\(.*\\)$/\\1 yes/' /etc/ssh/sshd_config
@@ -63,8 +65,8 @@ Vagrant.configure("2") do |config|
         # git config --global url."https://gitclone.com/".insteadOf https://
         git config --global url."https://cf.ghproxy.cc/https://github.com".insteadOf "https://github.com"
         # git config --global --unset url."https://cf.ghproxy.cc/https://github.com".insteadOf "https://github.com"
-        curl -L https://cf.ghproxy.cc/https://raw.githubusercontent.com/ls-2018/script/refs/heads/master/linux-replace-sources.sh | bash
-        curl -L https://cf.ghproxy.cc/https://raw.githubusercontent.com/ls-2018/script/refs/heads/master/linux-install-rust.sh | bash
+
+        # curl -L https://cf.ghproxy.cc/https://raw.githubusercontent.com/ls-2018/script/refs/heads/master/linux-install-rust.sh | bash
         curl -L https://cf.ghproxy.cc/https://raw.githubusercontent.com/ls-2018/script/refs/heads/master/linux-install-bpf.sh | bash
         curl -L https://cf.ghproxy.cc/https://raw.githubusercontent.com/ls-2018/script/refs/heads/master/linux-install-go.sh | bash
         curl -L https://cf.ghproxy.cc/https://raw.githubusercontent.com/ls-2018/script/refs/heads/master/linux-install-k8s.sh | bash
