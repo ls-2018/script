@@ -18,5 +18,5 @@ curl -sfL https://cf.ghproxy.cc/https://github.com/cilium/cilium-cli/releases/do
 curl -sfL https://cf.ghproxy.cc/https://github.com/cilium/hubble/releases/download/v1.16.5/hubble-linux-${ARCH}.tar.gz | tar -zxvf - -C /usr/bin/
 
 cilium install --version 1.16.5
-cilium hubble enable --relay --ui
 cilium status --wait
+cilium hubble enable --relay --ui
