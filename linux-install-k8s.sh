@@ -14,7 +14,9 @@ sed -i "s#apiserver.cluster.local#$(hostname)#g" ~/.kube/config
 sed -i "s#kubernetes-admin@kubernetes#$(hostname)#g" ~/.kube/config
 cp -rf ~/.kube/config /.host_kube/$(hostname).config
 
-curl -sfL https://cf.ghproxy.cc/https://github.com/cilium/cilium-cli/releases/download/v0.16.22/cilium-linux-${ARCH}.tar.gz | tar -zxvf - -C /usr/bin/
+curl -sfL https://cf.ghproxy.cc/https://github.com/cilium/cilium-cli/releases/download/v0.16.5/cilium-linux-${ARCH}.tar.gz | tar -zxvf - -C /usr/bin/
+curl -sfL https://cf.ghproxy.cc/https://github.com/cilium/hubble/releases/download/v1.16.5/hubble-linux-${ARCH}.tar.gz | tar -zxvf - -C /usr/bin/
 
-cilium install --version 1.16.4
+cilium install --version 1.16.5
+cilium hubble enable --relay --ui
 cilium status --wait
