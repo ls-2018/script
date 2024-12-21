@@ -22,7 +22,7 @@ settings={
         # },
         {
             "box_name"=> "gutehall/ubuntu24-04",
-            "name"=> "2404",
+            "name"=> "vm2404",
             "ip"=> "192.168.33.12",
             "memory"=> 2048,
             "cpus"=> 2
@@ -40,6 +40,7 @@ Vagrant.configure("2") do |config|
       vm.vm.box_check_update = false
       vm.vm.network "private_network",ip: vm_config['ip'],hostname: true
       vm.vm.synced_folder "~/.ssh", "/host_ssh", mount_options:["dmode=775","fmode=664"]
+      vm.vm.synced_folder "~/.kube", "/.host_kube"
       vm.vm.synced_folder "~/Desktop/ebpf", "/ebpf"
 
       vm.vm.provider "vmware_fusion" do |vb|
