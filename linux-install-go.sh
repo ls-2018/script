@@ -2,7 +2,7 @@
 
 rm -rf /usr/local/go*
 rm -rf ./go*
-yum install wget vim gcc -y || apt install wget vim gcc -y
+apt install wget vim gcc -y
 
 version=1.22.0
 mkdir /usr/local/go$version

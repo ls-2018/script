@@ -20,3 +20,21 @@ curl -sfL https://cf.ghproxy.cc/https://github.com/cilium/hubble/releases/downlo
 cilium install --version 1.16.5
 cilium status --wait
 cilium hubble enable --relay --ui
+
+kubectl apply -f - <<EOF
+apiVersion: v1
+kind: Service
+metadata:
+  name: hubble-ui-node
+  namespace: kube-system
+spec:
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 8081
+      nodePort: 30081
+  selector:
+    k8s-app: hubble-ui
+  type: NodePort
+EOF
