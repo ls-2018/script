@@ -12,7 +12,7 @@ sealos run registry.cn-hangzhou.aliyuncs.com/acejilam/kubernetes-docker:v1.25.16
 
 sed -i "s#apiserver.cluster.local#$(hostname)#g" ~/.kube/config
 sed -i "s#kubernetes-admin@kubernetes#$(hostname)#g" ~/.kube/config
-cp -rf ~/.kube/config /.host_kube
+cp -rf ~/.kube/config /.host_kube/$(hostname).config
 
 curl -sfL https://cf.ghproxy.cc/https://github.com/cilium/cilium-cli/releases/download/v0.16.22/cilium-linux-${ARCH}.tar.gz | tar -zxvf - -C /usr/bin/
 
