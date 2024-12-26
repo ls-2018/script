@@ -14,6 +14,7 @@ tar -xvf go$version.linux-$ARCH.tar.gz -C /usr/local/go$version --strip-componen
 rm -rf go$version.linux-$ARCH.tar.gz
 mkdir -p ~/.gopath/{bin,src,pkg}
 chmod -R 777 /usr/local/go$version
+
 cat <<EOF >>/etc/profile
 export GOROOT="/usr/local/go$version"
 export GOPATH=\$HOME/.gopath  #工作地址路径

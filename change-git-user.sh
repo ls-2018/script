@@ -1,8 +1,8 @@
 #!/bin/sh
 
-res=$(git config --global -l | grep acejilam)
+res=$(git config --global -l | grep 刘硕)
 
-if [[ "$res" != "" ]]; then
+if [[ "$res" == "" ]]; then
     git config --global user.name "刘硕"
     git config --global user.email "liushuo@zetyun.com"
 else

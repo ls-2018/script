@@ -15,3 +15,9 @@ sed -i "s@deb https://mirrors.bfsu.edu.cn@# deb https://mirrors.bfsu.edu.cn@g" /
 apt-get update && echo "🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥"
 
 apt install curl git make cmake htop bridge-utils net-tools -y
+
+localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
+
+# disable unattended-upgrades
+dpkg-reconfigure unattended-upgrades
+apt remove -y unattended-upgrades

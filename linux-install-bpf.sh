@@ -14,14 +14,23 @@ for file in $(ls /usr/bin | grep '\-19$'); do
     ln -sf "/usr/bin/$file" "/usr/bin/$base"
 done
 # errno -l
-apt-get install -y moreutils
-
-apt-get install -y curl build-essential gcc make git pkg-config libssl-dev \
-    apt-transport-https ca-certificates curl jq build-essential \
-    libpcap-dev libbpf-dev libbfd-dev binutils-dev \
+apt-get install -y moreutils \
+    curl build-essential gcc make git pkg-config libssl-dev \
+    apt-transport-https ca-certificates jq build-essential \
+    libpcap-dev libbfd-dev binutils-dev \
     linux-tools-common linux-tools-$(uname -r) bpfcc-tools \
     python3-pip \
-    linux-headers-$(uname -r) lldb lld gcc
+    linux-headers-$(uname -r) lldb lld \
+    zip bison build-essential cmake flex \
+    zlib1g-dev liblzma-dev arping netperf iperf \
+    libpolly-19-dev libelf-dev libclang-19-dev libedit-dev \
+    g++ libfl-dev systemtap-sdt-dev \
+    libcereal-dev libgtest-dev libgmock-dev asciidoctor \
+    pahole libcurl4-openssl-dev liblldb-dev gdb
+
+# libbpf-dev 可以替换为:
+git clone https://github.com/libbpf/libbpf.git
+cd libbpf/src && BUILD_STATIC_ONLY=y make install && cd - && rm -rf libbpf
 
 sudo ln -s /usr/include/$(arch)-linux-gnu/asm /usr/include/asm
 
@@ -41,16 +50,17 @@ else
 fi
 chmod +x /usr/bin/ec*
 
-apt-get install -y bpftrace
-
-# libbpf-dev 可以替换为:
-# git clone https://github.com/libbpf/libbpf.git
-# cd libbpf/src && BUILD_STATIC_ONLY=y make install && cd - && rm -rf libbpf
-
-# bcc
-apt-get install -y zip bison build-essential cmake flex git \
-    zlib1g-dev liblzma-dev arping netperf iperf \
-    libpolly-19-dev libelf-dev libclang-19-dev libedit-dev
+git clone https://github.com/iovisor/bpftrace
+git config --global --unset http.postBuffer
+cp -R bpftrace bpftrace_scz
+mkdir bpftrace_scz/build
+cd bpftrace_scz/build
+cmake .. -DCMAKE_BUILD_TYPE=Release -DALLOW_UNSAFE_PROBE:BOOL=ON -DCMAKE_PREFIX_PATH=/usr/lib/llvm-19/
+make -j8
+make install
+bpftrace --info 2>&1 | grep bfd
+rm -rf ./*
+# apt-get install -y bpftrace
 
 git clone https://github.com/iovisor/bcc.git
 mkdir bcc/build
@@ -73,5 +83,3 @@ EOF
 cat <<EOF >>$HOME/.bashrc
 export PATH=\$PATH:/perf-tools/bin
 EOF
-
-apt-get install -y pahole
