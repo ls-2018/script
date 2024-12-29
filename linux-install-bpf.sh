@@ -52,20 +52,9 @@ else
 
 fi
 chmod +x /usr/bin/ec*
-cd ~
-git clone https://github.com/iovisor/bpftrace
-
-cp -R bpftrace bpftrace_scz
-mkdir bpftrace_scz/build
-cd bpftrace_scz/build
-cmake .. -DCMAKE_BUILD_TYPE=Release -DALLOW_UNSAFE_PROBE:BOOL=ON -DCMAKE_PREFIX_PATH=/usr/lib/llvm-19/
-make -j8
-make install
-bpftrace --info 2>&1 | grep bfd
 
 # apt-get install -y bpftrace
 cd ~
-
 git clone https://github.com/iovisor/bcc.git
 mkdir bcc/build
 cd bcc/build
@@ -77,6 +66,17 @@ pushd src/python/
 make -j $(nproc)
 sudo make install
 popd
+
+cd ~
+git clone https://github.com/iovisor/bpftrace
+
+cp -R bpftrace bpftrace_scz
+mkdir bpftrace_scz/build
+cd bpftrace_scz/build
+cmake .. -DCMAKE_BUILD_TYPE=Release -DALLOW_UNSAFE_PROBE:BOOL=ON -DCMAKE_PREFIX_PATH=/usr/lib/llvm-19/
+make -j8
+make install
+bpftrace --info 2>&1 | grep bfd
 
 rm -rf /perf-tools && echo 1
 git clone https://github.com/brendangregg/perf-tools.git /perf-tools
