@@ -55,8 +55,6 @@ chmod +x /usr/bin/ec*
 cd ~
 git clone https://github.com/iovisor/bpftrace
 
-# git config --global --unset http.postBuffer
-
 cp -R bpftrace bpftrace_scz
 mkdir bpftrace_scz/build
 cd bpftrace_scz/build
@@ -80,6 +78,7 @@ make -j $(nproc)
 sudo make install
 popd
 
+rm -rf /perf-tools && echo 1
 git clone https://github.com/brendangregg/perf-tools.git /perf-tools
 
 cat <<EOF >>/etc/profile
@@ -91,11 +90,12 @@ export PATH=\$PATH:/perf-tools/bin
 EOF
 
 cd ~
-wget https://cf.ghproxy.cc/https://www.tcpdump.org/release/libpcap-1.10.4.tar.gz
+wget https://www.tcpdump.org/release/libpcap-1.10.4.tar.gz
 tar -zxvf libpcap-1.10.4.tar.gz
 cd libpcap-1.10.4
 ./configure --disable-rdma --disable-shared --disable-usb --disable-netmap --disable-bluetooth --disable-dbus --without-libnl
 make
 sudo make install
 
+cd ~
 rm -rf ./*
