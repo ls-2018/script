@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-set -ex
+set -x
 apt install wget -y
 
 # wget https://apt.llvm.org/llvm.sh
@@ -54,7 +54,9 @@ fi
 chmod +x /usr/bin/ec*
 cd ~
 git clone https://github.com/iovisor/bpftrace
-git config --global --unset http.postBuffer
+
+# git config --global --unset http.postBuffer
+
 cp -R bpftrace bpftrace_scz
 mkdir bpftrace_scz/build
 cd bpftrace_scz/build
