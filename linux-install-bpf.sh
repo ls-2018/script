@@ -81,13 +81,8 @@ bpftrace --info 2>&1 | grep bfd
 rm -rf /perf-tools && echo 1
 git clone https://github.com/brendangregg/perf-tools.git /perf-tools
 
-cat <<EOF >>/etc/profile
-export PATH=\$PATH:/perf-tools/bin
-EOF
-
-cat <<EOF >>$HOME/.bashrc
-export PATH=\$PATH:/perf-tools/bin
-EOF
+echo 'export PATH=$PATH:/perf-tools/bin' | tee -a /etc/profile
+echo 'export PATH=$PATH:/perf-tools/bin' | tee -a $HOME/.bashrc
 
 cd ~
 wget https://www.tcpdump.org/release/libpcap-1.10.4.tar.gz

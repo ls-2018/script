@@ -62,6 +62,9 @@ Vagrant.configure("2") do |config|
         echo -e "root\nroot" | (passwd root)
         touch ~/.hushlogin
 
+        echo 'export PATH=$PATH:/script' | tee -a /etc/profile
+        echo 'export PATH=$PATH:/script' | tee -a $HOME/.bashrc
+
         echo 'nameserver 114.114.114.114' > /etc/resolv.conf
         # git config --global url."https://gitclone.com/".insteadOf https://
         git config --global url."https://cf.ghproxy.cc/https://github.com".insteadOf "https://github.com"
