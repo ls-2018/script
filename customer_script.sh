@@ -1,21 +1,12 @@
 # setopt no_nomatch
 
 if [ -z "$GITHUB_PROXY" ]; then
-  export GITHUB_PROXY="https://ghproxy.cn"
+    export GITHUB_PROXY="https://ghproxy.cn"
 fi
 
-
 export GOPATH=~/.gopath
-# export CGO_ENABLED=1
-# export CGO_CFLAGS=-Wno-undef-prefix
 export SDKROOT=/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk
-export CC=clang
-export GOOS=darwin
-export GOARCH=amd64
-go env -w GOPATH=$GOPATH
-# go env -w GOBIN=/Users/acejilam/.gopath/bin
 
-# ldflags='-compressdwarf=false'
 mkdir -p $GOPATH/{bin,pkg,src}
 
 # Mac
@@ -34,7 +25,6 @@ alias sed=gsed
 alias find=gfind
 
 export myself=$SOFTWARE_HOME/myself
-# export GOPROXY=https://mirrors.aliyun.com/goproxy/,direct
 export GOPROXY=https://goproxy.cn/,direct
 
 export KUBE_EDITOR="code --wait"
@@ -104,11 +94,6 @@ alias grep='\grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox}
 # autoload -Uz compinit
 # compinit
 
-test -e ~/.gopath/bin/kubectl || {
-    curl -LO "https://files.m.daocloud.io/dl.k8s.io/release/$(curl -L -s https://files.m.daocloud.io/dl.k8s.io/release/stable.txt)/bin/$(uname | tr '[:upper:]' '[:lower:]')/$(go env GOHOSTARCH)/kubectl"
-    chmod +x kubectl
-    mv kubectl ~/.gopath/bin/kubectl
-}
 if [[ "$SHELL" == *"bash" ]]; then
     source <(kubectl completion bash)
 elif [[ "$SHELL" == *"zsh" ]]; then

@@ -51,7 +51,6 @@ Vagrant.configure("2") do |config|
       end
 
       vm.vm.provision "shell", inline: <<-SHELL
-        mkdir -p ~/.ssh
 
         echo 'export GITHUB_PROXY=https://ghproxy.cn' | tee -a /etc/profile
         echo 'export GITHUB_PROXY=https://ghproxy.cn' | tee -a $HOME/.bashrc
@@ -60,18 +59,7 @@ Vagrant.configure("2") do |config|
         echo 'source /Users/acejilam/script/customer_script.sh' | tee -a $HOME/.bashrc
         source /etc/profile
 
-        curl -L ${GITHUB_PROXY}/raw.githubusercontent.com/ls-2018/script/refs/heads/master/linux-replace-sources.sh | bash
-
-        cat /host_ssh/id_ed25519.pub > ~/.ssh/authorized_keys
-        sudo sed -i 's/^#* *\\(PermitRootLogin\\)\\(.*\\)$/\\1 yes/' /etc/ssh/sshd_config
-        sudo sed -i 's/^#* *\\(PasswordAuthentication\\)\\(.*\\)$/\\1 yes/' /etc/ssh/sshd_config
-        ufw disable
-        systemctl restart sshd.service
-        echo -e "root\nroot" | (passwd root)
-        touch ~/.hushlogin
-
-        echo 'nameserver 114.114.114.114' > /etc/resolv.conf
-        git config --global url."${GITHUB_PROXY}/".insteadOf https://
+        curl -L ${GITHUB_PROXY}/raw.githubusercontent.com/ls-2018/script/refs/heads/master/linux-install-tools.sh | bash
 
         # curl -L ${GITHUB_PROXY}/raw.githubusercontent.com/ls-2018/script/refs/heads/master/linux-install-rust.sh | bash
         curl -L ${GITHUB_PROXY}/raw.githubusercontent.com/ls-2018/script/refs/heads/master/linux-install-bpf.sh | bash
