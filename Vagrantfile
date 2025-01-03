@@ -54,18 +54,19 @@ Vagrant.configure("2") do |config|
 
         echo 'export GITHUB_PROXY=https://ghproxy.cn' | tee -a /etc/profile
         echo 'export GITHUB_PROXY=https://ghproxy.cn' | tee -a $HOME/.bashrc
+        source /etc/profile
 
-        curl -L ${GITHUB_PROXY}/raw.githubusercontent.com/ls-2018/script/refs/heads/master/linux-install-tools.sh | bash
+        curl -L ${GITHUB_PROXY}/https://raw.githubusercontent.com/ls-2018/script/refs/heads/master/linux-install-tools.sh | bash
 
         echo 'source /Users/acejilam/script/customer_script.sh' | tee -a /etc/profile
         echo 'source /Users/acejilam/script/customer_script.sh' | tee -a $HOME/.bashrc
         source /etc/profile
 
 
-        # curl -L ${GITHUB_PROXY}/raw.githubusercontent.com/ls-2018/script/refs/heads/master/linux-install-rust.sh | bash
-        curl -L ${GITHUB_PROXY}/raw.githubusercontent.com/ls-2018/script/refs/heads/master/linux-install-bpf.sh | bash
-        curl -L ${GITHUB_PROXY}/raw.githubusercontent.com/ls-2018/script/refs/heads/master/linux-install-go.sh | bash
-        # curl -L ${GITHUB_PROXY}/raw.githubusercontent.com/ls-2018/script/refs/heads/master/linux-install-k8s.sh | bash
+        # curl -L ${GITHUB_PROXY}/https://raw.githubusercontent.com/ls-2018/script/refs/heads/master/linux-install-rust.sh | bash
+        curl -L ${GITHUB_PROXY}/https://raw.githubusercontent.com/ls-2018/script/refs/heads/master/linux-install-bpf.sh | bash
+        curl -L ${GITHUB_PROXY}/https://raw.githubusercontent.com/ls-2018/script/refs/heads/master/linux-install-go.sh | bash
+        # curl -L ${GITHUB_PROXY}/https://raw.githubusercontent.com/ls-2018/script/refs/heads/master/linux-install-k8s.sh | bash
 
       SHELL
     end
