@@ -18,15 +18,13 @@ chmod -R 777 /usr/local/go$version
 cat <<EOF >>/etc/profile
 export GOROOT="/usr/local/go$version"
 export GOPATH=\$HOME/.gopath  #工作地址路径
-export GOBIN=\$GOROOT/bin
-export PATH=\$PATH:\$GOBIN
+export PATH=\$PATH:\$GOROOT/bin
 EOF
 
 cat <<EOF >>~/.bashrc
 export GOROOT="/usr/local/go$version"
 export GOPATH=\$HOME/.gopath  #工作地址路径
-export GOBIN=\$GOROOT/bin
-export PATH=\$PATH:\$GOBIN
+export PATH=\$PATH:\$GOROOT/bin
 EOF
 
 source /etc/profile
