@@ -68,7 +68,7 @@ Vagrant.configure("2") do |config|
 
         echo 'nameserver 114.114.114.114' > /etc/resolv.conf
         # git config --global url."https://gitclone.com/".insteadOf https://
-        git config --global url."https://files.m.daocloud.io/github.com".insteadOf "https://github.com"
+        git config --global url."https://cf.ghproxy.cc/https://github.com".insteadOf "https://github.com"
         # git config --global --unset url."https://files.m.daocloud.io/github.com".insteadOf "https://github.com"
 
         # curl -L https://files.m.daocloud.io/raw.githubusercontent.com/ls-2018/script/refs/heads/master/linux-install-rust.sh | bash
