@@ -98,6 +98,11 @@ alias grep='\grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox}
 # autoload -Uz compinit
 # compinit
 
+test -e ~/.gopath/bin/kubectl || {
+    curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/$(uname | tr '[:upper:]' '[:lower:]')/$(go env GOHOSTARCH)/kubectl"
+    mv kubectl ~/.gopath/bin/kubectl
+}
+
 source <(kubectl completion zsh)
 alias k=\'kubectl\'
 alias kn='k get nodes'
