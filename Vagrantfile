@@ -24,8 +24,8 @@ settings={
             "box_name"=> "gutehall/ubuntu24-04",
             "name"=> "vm2404",
             "ip"=> "192.168.33.12",
-            "memory"=> 2048,
-            "cpus"=> 2
+            "memory"=> 6000,
+            "cpus"=> 6
         }
     ]
 }
@@ -42,6 +42,7 @@ Vagrant.configure("2") do |config|
       vm.vm.synced_folder "~/.ssh", "/host_ssh", mount_options:["dmode=775","fmode=664"]
       vm.vm.synced_folder "~/.kube", "/.host_kube"
       vm.vm.synced_folder "~/Desktop/ebpf", "/ebpf"
+      vm.vm.synced_folder "~/script", "/Users/acejilam/script", mount_options:["dmode=775","fmode=555"]
 
       vm.vm.provider "vmware_fusion" do |vb|
         vb.gui = false
@@ -52,7 +53,7 @@ Vagrant.configure("2") do |config|
       vm.vm.provision "shell", inline: <<-SHELL
         mkdir -p ~/.ssh
 
-        curl -L https://cf.ghproxy.cc/https://raw.githubusercontent.com/ls-2018/script/refs/heads/master/linux-replace-sources.sh | bash
+        curl -L https://files.m.daocloud.io/raw.githubusercontent.com/ls-2018/script/refs/heads/master/linux-replace-sources.sh | bash
 
         cat /host_ssh/id_ed25519.pub > ~/.ssh/authorized_keys
         sudo sed -i 's/^#* *\\(PermitRootLogin\\)\\(.*\\)$/\\1 yes/' /etc/ssh/sshd_config
@@ -62,18 +63,18 @@ Vagrant.configure("2") do |config|
         echo -e "root\nroot" | (passwd root)
         touch ~/.hushlogin
 
-        echo 'export PATH=$PATH:/script' | tee -a /etc/profile
-        echo 'export PATH=$PATH:/script' | tee -a $HOME/.bashrc
+        echo 'source /Users/acejilam/script/customer_script.sh' | tee -a /etc/profile
+        echo 'source /Users/acejilam/script/customer_script.sh' | tee -a $HOME/.bashrc
 
         echo 'nameserver 114.114.114.114' > /etc/resolv.conf
         # git config --global url."https://gitclone.com/".insteadOf https://
-        git config --global url."https://cf.ghproxy.cc/https://github.com".insteadOf "https://github.com"
-        # git config --global --unset url."https://cf.ghproxy.cc/https://github.com".insteadOf "https://github.com"
+        git config --global url."https://files.m.daocloud.io/github.com".insteadOf "https://github.com"
+        # git config --global --unset url."https://files.m.daocloud.io/github.com".insteadOf "https://github.com"
 
-        # curl -L https://cf.ghproxy.cc/https://raw.githubusercontent.com/ls-2018/script/refs/heads/master/linux-install-rust.sh | bash
-        curl -L https://cf.ghproxy.cc/https://raw.githubusercontent.com/ls-2018/script/refs/heads/master/linux-install-bpf.sh | bash
-        curl -L https://cf.ghproxy.cc/https://raw.githubusercontent.com/ls-2018/script/refs/heads/master/linux-install-go.sh | bash
-        curl -L https://cf.ghproxy.cc/https://raw.githubusercontent.com/ls-2018/script/refs/heads/master/linux-install-k8s.sh | bash
+        # curl -L https://files.m.daocloud.io/raw.githubusercontent.com/ls-2018/script/refs/heads/master/linux-install-rust.sh | bash
+        curl -L https://files.m.daocloud.io/raw.githubusercontent.com/ls-2018/script/refs/heads/master/linux-install-bpf.sh | bash
+        curl -L https://files.m.daocloud.io/raw.githubusercontent.com/ls-2018/script/refs/heads/master/linux-install-go.sh | bash
+        # curl -L https://files.m.daocloud.io/raw.githubusercontent.com/ls-2018/script/refs/heads/master/linux-install-k8s.sh | bash
 
       SHELL
     end

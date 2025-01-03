@@ -1,4 +1,4 @@
-setopt no_nomatch
+# setopt no_nomatch
 export GOPATH=~/.gopath
 # export CGO_ENABLED=1
 # export CGO_CFLAGS=-Wno-undef-prefix
