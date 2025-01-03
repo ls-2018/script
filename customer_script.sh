@@ -99,11 +99,18 @@ alias grep='\grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox}
 # compinit
 
 test -e ~/.gopath/bin/kubectl || {
-    curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/$(uname | tr '[:upper:]' '[:lower:]')/$(go env GOHOSTARCH)/kubectl"
+    curl -LO "https://files.m.daocloud.io/dl.k8s.io/release/$(curl -L -s https://files.m.daocloud.io/dl.k8s.io/release/stable.txt)/bin/$(uname | tr '[:upper:]' '[:lower:]')/$(go env GOHOSTARCH)/kubectl"
+    chmod +x kubectl
     mv kubectl ~/.gopath/bin/kubectl
 }
+if [[ "$SHELL" == *"bash" ]]; then
+    source <(kubectl completion bash)
+elif [[ "$SHELL" == *"zsh" ]]; then
+    source <(kubectl completion zsh)
+else
+    echo "当前 shell 不是 Bash 或 Zsh"
+fi
 
-source <(kubectl completion zsh)
 alias k=\'kubectl\'
 alias kn='k get nodes'
 
