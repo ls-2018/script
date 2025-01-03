@@ -1,4 +1,10 @@
 # setopt no_nomatch
+
+if [ -z "$GITHUB_PROXY" ]; then
+  export GITHUB_PROXY="https://ghproxy.cn"
+fi
+
+
 export GOPATH=~/.gopath
 # export CGO_ENABLED=1
 # export CGO_CFLAGS=-Wno-undef-prefix

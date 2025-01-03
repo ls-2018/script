@@ -7,6 +7,7 @@ cp -rf ~/script/learning-ebpf.yaml /tmp/$name.yaml
 
 gsed -i "s#PWD#$(pwd)#" /tmp/$name.yaml
 gsed -i "s#HOSTNAME#${name}#" /tmp/$name.yaml
+gsed -i "s#GITHUB_PROXY#${GITHUB_PROXY}#" /tmp/$name.yaml
 
 limactl start /tmp/$name.yaml # --debug --log-level=debug
 

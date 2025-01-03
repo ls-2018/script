@@ -3,7 +3,7 @@
 export VERSION=4.3.0
 ARCH=$(arch | sed s/aarch64/arm64/ | sed s/x86_64/amd64/)
 
-curl -sfL https://files.m.daocloud.io/github.com/labring/sealos/releases/download/v${VERSION}/sealos_${VERSION}_linux_${ARCH}.tar.gz | tar -zxvf - -C /usr/bin/
+curl -sfL ${GITHUB_PROXY}/github.com/labring/sealos/releases/download/v${VERSION}/sealos_${VERSION}_linux_${ARCH}.tar.gz | tar -zxvf - -C /usr/bin/
 # sealos reset
 
 sealos run registry.cn-hangzhou.aliyuncs.com/acejilam/kubernetes-docker:v1.25.16 \
@@ -14,8 +14,8 @@ sed -i "s#apiserver.cluster.local#$(hostname)#g" ~/.kube/config
 sed -i "s#kubernetes-admin@kubernetes#$(hostname)#g" ~/.kube/config
 cp -rf ~/.kube/config /.host_kube/$(hostname).config
 
-curl -sfL https://files.m.daocloud.io/github.com/cilium/cilium-cli/releases/download/v0.16.5/cilium-linux-${ARCH}.tar.gz | tar -zxvf - -C /usr/bin/
-curl -sfL https://files.m.daocloud.io/github.com/cilium/hubble/releases/download/v1.16.5/hubble-linux-${ARCH}.tar.gz | tar -zxvf - -C /usr/bin/
+curl -sfL ${GITHUB_PROXY}/github.com/cilium/cilium-cli/releases/download/v0.16.5/cilium-linux-${ARCH}.tar.gz | tar -zxvf - -C /usr/bin/
+curl -sfL ${GITHUB_PROXY}/github.com/cilium/hubble/releases/download/v1.16.5/hubble-linux-${ARCH}.tar.gz | tar -zxvf - -C /usr/bin/
 
 cilium install --version 1.16.5
 cilium status --wait

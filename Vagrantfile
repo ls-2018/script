@@ -53,7 +53,14 @@ Vagrant.configure("2") do |config|
       vm.vm.provision "shell", inline: <<-SHELL
         mkdir -p ~/.ssh
 
-        curl -L https://files.m.daocloud.io/raw.githubusercontent.com/ls-2018/script/refs/heads/master/linux-replace-sources.sh | bash
+        echo 'export GITHUB_PROXY=https://ghproxy.cn' | tee -a /etc/profile
+        echo 'export GITHUB_PROXY=https://ghproxy.cn' | tee -a $HOME/.bashrc
+
+        echo 'source /Users/acejilam/script/customer_script.sh' | tee -a /etc/profile
+        echo 'source /Users/acejilam/script/customer_script.sh' | tee -a $HOME/.bashrc
+        source /etc/profile
+
+        curl -L ${GITHUB_PROXY}/raw.githubusercontent.com/ls-2018/script/refs/heads/master/linux-replace-sources.sh | bash
 
         cat /host_ssh/id_ed25519.pub > ~/.ssh/authorized_keys
         sudo sed -i 's/^#* *\\(PermitRootLogin\\)\\(.*\\)$/\\1 yes/' /etc/ssh/sshd_config
@@ -64,17 +71,12 @@ Vagrant.configure("2") do |config|
         touch ~/.hushlogin
 
         echo 'nameserver 114.114.114.114' > /etc/resolv.conf
-        git config --global url."https://gitclone.com/".insteadOf https://
-        # git config --global url."https://github.com".insteadOf "https://cf.ghproxy.cc/https://github.com"
-        # git config --global --unset url."https://files.m.daocloud.io/github.com".insteadOf "https://github.com"
+        git config --global url."${GITHUB_PROXY}/".insteadOf https://
 
-        # curl -L https://files.m.daocloud.io/raw.githubusercontent.com/ls-2018/script/refs/heads/master/linux-install-rust.sh | bash
-        curl -L https://files.m.daocloud.io/raw.githubusercontent.com/ls-2018/script/refs/heads/master/linux-install-bpf.sh | bash
-        curl -L https://files.m.daocloud.io/raw.githubusercontent.com/ls-2018/script/refs/heads/master/linux-install-go.sh | bash
-        # curl -L https://files.m.daocloud.io/raw.githubusercontent.com/ls-2018/script/refs/heads/master/linux-install-k8s.sh | bash
-
-        echo 'source /Users/acejilam/script/customer_script.sh' | tee -a /etc/profile
-        echo 'source /Users/acejilam/script/customer_script.sh' | tee -a $HOME/.bashrc
+        # curl -L ${GITHUB_PROXY}/raw.githubusercontent.com/ls-2018/script/refs/heads/master/linux-install-rust.sh | bash
+        curl -L ${GITHUB_PROXY}/raw.githubusercontent.com/ls-2018/script/refs/heads/master/linux-install-bpf.sh | bash
+        curl -L ${GITHUB_PROXY}/raw.githubusercontent.com/ls-2018/script/refs/heads/master/linux-install-go.sh | bash
+        # curl -L ${GITHUB_PROXY}/raw.githubusercontent.com/ls-2018/script/refs/heads/master/linux-install-k8s.sh | bash
 
       SHELL
     end
