@@ -17,6 +17,9 @@ ARCH=$(arch | sed s/aarch64/arm64/ | sed s/x86_64/amd64/)
 
 curl -L ${GITHUB_PROXY}/https://raw.githubusercontent.com/ls-2018/script/refs/heads/master/linux-replace-sources.sh | bash
 
+apt install bash-completion -y
+source /etc/profile
+
 test -e ~/.gopath/bin/kubectl || {
     curl -LO "https://files.m.daocloud.io/dl.k8s.io/release/$(curl -L -s https://files.m.daocloud.io/dl.k8s.io/release/stable.txt)/bin/$(uname | tr '[:upper:]' '[:lower:]')/${ARCH}/kubectl"
     chmod +x kubectl
