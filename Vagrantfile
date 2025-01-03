@@ -63,9 +63,6 @@ Vagrant.configure("2") do |config|
         echo -e "root\nroot" | (passwd root)
         touch ~/.hushlogin
 
-        echo 'source /Users/acejilam/script/customer_script.sh' | tee -a /etc/profile
-        echo 'source /Users/acejilam/script/customer_script.sh' | tee -a $HOME/.bashrc
-
         echo 'nameserver 114.114.114.114' > /etc/resolv.conf
         git config --global url."https://gitclone.com/".insteadOf https://
         # git config --global url."https://cf.ghproxy.cc/https://github.com".insteadOf "https://github.com"
@@ -75,6 +72,9 @@ Vagrant.configure("2") do |config|
         curl -L https://files.m.daocloud.io/raw.githubusercontent.com/ls-2018/script/refs/heads/master/linux-install-bpf.sh | bash
         curl -L https://files.m.daocloud.io/raw.githubusercontent.com/ls-2018/script/refs/heads/master/linux-install-go.sh | bash
         # curl -L https://files.m.daocloud.io/raw.githubusercontent.com/ls-2018/script/refs/heads/master/linux-install-k8s.sh | bash
+
+        echo 'source /Users/acejilam/script/customer_script.sh' | tee -a /etc/profile
+        echo 'source /Users/acejilam/script/customer_script.sh' | tee -a $HOME/.bashrc
 
       SHELL
     end
