@@ -15,6 +15,7 @@ for file in $(ls /usr/bin | grep '\-19$'); do
     ln -sf "/usr/bin/$file" "/usr/bin/$base"
 done
 # errno -l
+#apt install -y linux-tools-generic
 apt-get install -y moreutils \
     curl build-essential gcc make git pkg-config libssl-dev \
     apt-transport-https ca-certificates jq build-essential \
@@ -94,5 +95,3 @@ sudo make install
 
 cd ~
 rm -rf ./*
-
-apt install -y linux-tools-generic
