@@ -48,4 +48,34 @@ sed -i "s#apiserver.cluster.local#$(hostname)#g" ~/.kube/config
 sed -i "s#kubernetes-admin@kubernetes#$(hostname)#g" ~/.kube/config
 cp -rf ~/.kube/config /.host_kube/$(hostname).config
 
-# drop cache
+cat >/etc/docker/daemon.json <<EOF
+{
+  "max-concurrent-downloads": 20,
+  "log-driver": "json-file",
+  "log-level": "warn",
+  "log-opts": {
+    "max-size": "10m",
+    "max-file": "3"
+  },
+  "exec-opts": [
+    "native.cgroupdriver=systemd"
+  ],
+  "insecure-registries": [
+    "sealos.hub:5000"
+  ],
+  "data-root": "/var/lib/docker",
+  "registry-mirrors": [
+    "https://docker.211678.top",
+    "https://docker.1panel.live",
+    "https://hub.rat.dev",
+    "https://docker.m.daocloud.io",
+    "https://do.nark.eu.org",
+    "https://dockerpull.com",
+    "https://dockerproxy.cn",
+    "https://docker.awsl9527.cn"
+  ]
+}
+EOF
+
+systemctl daemon-reload
+systemctl restart docker
