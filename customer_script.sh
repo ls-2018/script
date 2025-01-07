@@ -66,7 +66,12 @@ if [[ $(uname) == "Darwin" ]]; then
     alias ping=gping
     alias sed=gsed
     alias find=gfind
+    test -e ~/.k8sconfig || {
+        echo '/Users/acejilam/.kube/koord' >~/.k8sconfig
+    }
+    export KUBECONFIG=$(cat ~/.k8sconfig)
 fi
+
 alias grs='git add . && git reset --hard $((git show-ref --head --hash=8 2>/dev/null || echo 00000000) | head -n1) && git pull'
 alias grep='\grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox} -v grep|\grep'
 
@@ -143,11 +148,6 @@ alias dive="docker run -ti --rm  -v /var/run/docker.sock:/var/run/docker.sock re
 
 export GIT_EDITOR=code\ --wait
 # git config --global core.editor code
-
-test -e ~/.k8sconfig || {
-    echo '/Users/acejilam/.kube/koord' >~/.k8sconfig
-}
-export KUBECONFIG=$(cat ~/.k8sconfig)
 
 # if [[ $(arch) != "arm64" ]]; then
 #     export DOCKER_HOST='tcp://172.16.168.130:2375'

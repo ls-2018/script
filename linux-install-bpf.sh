@@ -27,7 +27,8 @@ apt-get install -y moreutils \
     libpolly-19-dev libelf-dev libclang-19-dev libedit-dev \
     g++ libfl-dev systemtap-sdt-dev \
     libcereal-dev libgtest-dev libgmock-dev asciidoctor \
-    pahole libcurl4-openssl-dev liblldb-dev gdb
+    pahole libcurl4-openssl-dev liblldb-dev gdb \
+    linux-tools-generic
 
 # libbpf-dev 可以替换为:
 cd ~

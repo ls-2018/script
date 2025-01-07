@@ -35,5 +35,7 @@ go env -w GOPROXY=https://goproxy.cn,direct
 go env -w GOFLAGS="-buildvcs=false"
 go env -w CGO_ENABLED="1"
 
-go install github.com/trzsz/trzsz-go/cmd/...@latest
+go install github.com/trzsz/trzsz-go/cmd/trz@latest
+go install github.com/trzsz/trzsz-go/cmd/tsz@latest
+go install github.com/trzsz/trzsz-go/cmd/trzsz@latest
 go install github.com/go-delve/delve/cmd/dlv@latest
