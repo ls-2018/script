@@ -21,8 +21,6 @@ SOFTWARE_HOME=~/software
 export HELM_CONFIG_HOME=~/.helm/conf
 export HELM_DATA_HOME=~/.helm/data
 export HELM_CACHE_HOME=~/.helm/cache
-alias sed=gsed
-alias find=gfind
 
 export myself=$SOFTWARE_HOME/myself
 export GOPROXY=https://goproxy.cn/,direct
@@ -62,11 +60,18 @@ export PATH="/usr/local/opt/llvm/bin:$PATH"
 export PATH="/Library/Frameworks/Python.framework/Versions/3.12/bin:$PATH"
 export PATH="/Users/acejilam/Library/Application Support/JetBrains/Toolbox/scripts":$PATH
 
-alias readelf=greadelf
-alias objdump=gobjdump
-alias ping=gping
+if [[ $(uname) == "Darwin" ]]; then
+    alias readelf=greadelf
+    alias objdump=gobjdump
+    alias ping=gping
+    alias sed=gsed
+    alias find=gfind
+fi
+alias grs='git add . && git reset --hard $((git show-ref --head --hash=8 2>/dev/null || echo 00000000) | head -n1) && git pull'
+alias grep='\grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox} -v grep|\grep'
 
 alias gs='git status -sb'
+alias gst='git status'
 alias gc='git checkout .'
 alias ga='git add .'
 alias gcb='git checkout -b'
@@ -86,10 +91,6 @@ alias docker-clean-all='docker stop $(docker container ls -a -q) && docker syste
 # GIT_SHA1=$( (git show-ref --head --hash=8 2>/dev/null || echo 00000000) | head -n1)
 # GIT_DIRTY=$(git diff --no-ext-diff 2>/dev/null | wc -l)
 # BUILD_ID=$(uname -n)"-"$(date +%s)
-
-alias grs='git add . && git reset --hard $((git show-ref --head --hash=8 2>/dev/null || echo 00000000) | head -n1) && git pull'
-
-alias grep='\grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox} -v grep|\grep'
 
 # autoload -Uz compinit
 # compinit
