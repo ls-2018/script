@@ -47,3 +47,5 @@ fi
 sed -i "s#apiserver.cluster.local#$(hostname)#g" ~/.kube/config
 sed -i "s#kubernetes-admin@kubernetes#$(hostname)#g" ~/.kube/config
 cp -rf ~/.kube/config /.host_kube/$(hostname).config
+
+# drop cache
