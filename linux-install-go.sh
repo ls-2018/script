@@ -4,7 +4,7 @@ rm -rf /usr/local/go*
 rm -rf ./go*
 apt install wget vim gcc -y
 
-version=1.22.0
+version=$(curl -s https://golang.google.cn/dl/ | grep -oP 'go\K[0-9]+\.[0-9]+\.[0-9]+' | sort -V | uniq | tail -n 1)
 mkdir /usr/local/go$version
 
 ARCH=$(arch | sed s/aarch64/arm64/ | sed s/x86_64/amd64/)
