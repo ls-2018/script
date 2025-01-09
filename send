@@ -2,4 +2,9 @@
 set -ex
 host=${1-vm}
 path=${2-/root/myapp}
-/usr/bin/rsync -aP --delete --exclude-from=.gitignore . root@${host}:${path}
+
+if [ -e "path/to/your/file" ]; then
+    /usr/bin/rsync -aP --delete --exclude-from=.gitignore . root@${host}:${path}
+else
+    /usr/bin/rsync -aP --delete . root@${host}:${path}
+fi

@@ -2,4 +2,8 @@
 
 host=${1-vm}
 path=${2-/root/myapp}
-/usr/bin/rsync -avz --exclude-from=.gitignore root@${host}:${path} ..
+if [ -e "path/to/your/file" ]; then
+    /usr/bin/rsync -avz --exclude-from=.gitignore root@${host}:${path} ..
+else
+    /usr/bin/rsync -avz root@${host}:${path} ..
+fi
