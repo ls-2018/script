@@ -26,4 +26,4 @@ test -e ~/.gopath/bin/kubectl || {
     mv kubectl ~/.gopath/bin/kubectl
 }
 
-git config --global url."${GITHUB_PROXY}/".insteadOf https://
+git config --global url."${GITHUB_PROXY}/https://github.com".insteadOf https://github.com
