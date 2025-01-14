@@ -21,7 +21,7 @@ apt install bash-completion -y
 source /etc/profile
 
 test -e ~/.gopath/bin/kubectl || {
-    curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/$(uname | tr '[:upper:]' '[:lower:]')/${ARCH}/kubectl"
+    curl -LO "${GITHUB_PROXY}/https://dl.k8s.io/release/$(curl -L -s ${GITHUB_PROXY}/https://dl.k8s.io/release/stable.txt)/bin/$(uname | tr '[:upper:]' '[:lower:]')/${ARCH}/kubectl"
     chmod +x kubectl
     mv kubectl ~/.gopath/bin/kubectl
 }
