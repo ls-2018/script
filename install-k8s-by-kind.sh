@@ -1,8 +1,9 @@
 #! /usr/bin/env zsh
 
+ARCH=$(arch | sed s/aarch64/arm64/ | sed s/x86_64/amd64/)
+
 test -e ~/.gopath/bin/kubectl || {
-  curl -LO "${GITHUB_PROXY}/https://dl.k8s.io/release/$(curl -L -s ${GITHUB_PROXY}/https://dl.k8s.io/release/stable.txt)/bin/$(uname | tr '[:upper:]' '[:lower:]')/$(go env GOHOSTARCH)/kubectl"
-  # curl -LO "${GITHUB_PROXY}/https://dl.k8s.io/release/v1.28.0/bin/$(uname |tr '[:upper:]' '[:lower:]')/$(go env GOHOSTARCH)/kubectl"
+  curl -LO "https://files.m.daocloud.io/dl.k8s.io/release/$(curl -L -s https://files.m.daocloud.io/dl.k8s.io/release/stable.txt)/bin/$(uname | tr '[:upper:]' '[:lower:]')/${ARCH}/kubectl"
   mv kubectl ~/.gopath/bin/kubectl
 }
 # kubectl krew install who-can

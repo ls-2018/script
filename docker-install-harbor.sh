@@ -88,9 +88,11 @@ if [ $with_chartmuseum ]; then
     prepare_para="${prepare_para} --with-chartmuseum"
 fi
 
+ARCH=$(arch | sed s/aarch64/arm64/ | sed s/x86_64/amd64/)
+
 cp -f ./docker-compose-tmp.yml ./docker-compose.yml
 cp -f ./prepare-tmp ./prepare
-if [ $(go env GOHOSTARCH) == "arm64" ]; then
+if [ $ARCH == "arm64" ]; then
 
     h2 "[Step $item]: gen yaml"
     gsed "s|goharbor|acejilam|g" -i ./prepare || sed "s|goharbor|acejilam|g" -i ./prepare
@@ -100,7 +102,7 @@ fi
 
 ./prepare $prepare_para
 
-if [ $(go env GOHOSTARCH) == "arm64" ]; then
+if [ $ARCH == "arm64" ]; then
 
     h2 "[Step $item]: gen yaml"
     gsed "s|goharbor|acejilam|g" -i ./docker-compose.yml || sed "s|goharbor|acejilam|g" -i ./docker-compose.yml
