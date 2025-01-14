@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-
+set -x
 mkdir -p ~/.ssh
 
 cat /host_ssh/id_ed25519.pub >~/.ssh/authorized_keys

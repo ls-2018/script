@@ -1,4 +1,5 @@
 #!/usr/bin/env zsh
+set -x
 
 rm -rf /usr/local/go*
 rm -rf ./go*

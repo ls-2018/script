@@ -1,4 +1,5 @@
 #!/usr/bin/env zsh
+set -x
 
 export VERSION=4.3.0
 ARCH=$(arch | sed s/aarch64/arm64/ | sed s/x86_64/amd64/)

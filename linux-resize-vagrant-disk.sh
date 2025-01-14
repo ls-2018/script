@@ -1,5 +1,5 @@
 #!/bin/bash
-
+set -x
 echo "查看当前的 LVM 配置..."
 sudo vgdisplay
 sudo lvdisplay

@@ -1,4 +1,5 @@
 #!/usr/bin/env zsh
+set -x
 touch ~/.hushlogin # 关闭登录提示
 
 rm -rf /etc/apt/sources.list.d/gierens.list
