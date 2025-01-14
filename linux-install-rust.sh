@@ -10,10 +10,14 @@ export RUSTUP_UPDATE_ROOT=https://mirrors.ustc.edu.cn/rust-static/rustup
 cat <<EOF >>/etc/profile
 export RUSTUP_DIST_SERVER=https://mirrors.ustc.edu.cn/rust-static
 export RUSTUP_UPDATE_ROOT=https://mirrors.ustc.edu.cn/rust-static/rustup
+export PATH=/Users/acejilam/.cargo/target/release:\$PATH
+export PATH=/Users/acejilam/.cargo/target/debug:\$PATH
 EOF
 
 cat <<EOF >>$HOME/.bashrc
 . "\$HOME/.cargo/env"
+
+export PATH=/Users/acejilam/.cargo/target/debug:\$PATH
 export RUSTUP_DIST_SERVER=https://mirrors.ustc.edu.cn/rust-static
 export RUSTUP_UPDATE_ROOT=https://mirrors.ustc.edu.cn/rust-static/rustup
 EOF
