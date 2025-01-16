@@ -7,6 +7,8 @@ sudo curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf >rust.sh && chmod
 export RUSTUP_DIST_SERVER=https://mirrors.ustc.edu.cn/rust-static
 export RUSTUP_UPDATE_ROOT=https://mirrors.ustc.edu.cn/rust-static/rustup
 
+bash rust.sh -y
+
 cat <<EOF >>/etc/profile
 export RUSTUP_DIST_SERVER=https://mirrors.ustc.edu.cn/rust-static
 export RUSTUP_UPDATE_ROOT=https://mirrors.ustc.edu.cn/rust-static/rustup
@@ -21,8 +23,6 @@ export PATH=/Users/acejilam/.cargo/target/debug:\$PATH
 export RUSTUP_DIST_SERVER=https://mirrors.ustc.edu.cn/rust-static
 export RUSTUP_UPDATE_ROOT=https://mirrors.ustc.edu.cn/rust-static/rustup
 EOF
-
-bash rust.sh -y
 
 source /etc/profile
 source $HOME/.bashrc
