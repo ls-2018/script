@@ -52,7 +52,7 @@ Vagrant.configure("2") do |config|
         curl -L ${GITHUB_PROXY}/https://raw.githubusercontent.com/ls-2018/script/refs/heads/master/linux-install-rust.sh | bash
         curl -sfL ${GITHUB_PROXY}/https://raw.githubusercontent.com/ls-2018/script/refs/heads/master/linux-install-bpf.sh | bash
         curl -sfL ${GITHUB_PROXY}/https://raw.githubusercontent.com/ls-2018/script/refs/heads/master/linux-install-go.sh | bash
-        # curl -sfL ${GITHUB_PROXY}/https://raw.githubusercontent.com/ls-2018/script/refs/heads/master/linux-install-k8s.sh | bash -s cilium
+        curl -sfL ${GITHUB_PROXY}/https://raw.githubusercontent.com/ls-2018/script/refs/heads/master/linux-install-k8s.sh | bash -s cilium
       SHELL
     end
 

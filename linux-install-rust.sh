@@ -90,3 +90,5 @@ cargo install bindgen-cli
 
 # rustup override set nightly
 # rustup override set stable
+
+echo 'nameserver 114.114.114.114' >/etc/resolv.conf
