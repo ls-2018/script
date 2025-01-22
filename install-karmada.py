@@ -14,7 +14,7 @@ rs = [
     ['ARG BINARY', "RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories\nARG BINARY"],
     [
         r'''wget https://github.com/kubernetes-sigs/metrics-server/releases/download/v0.6.3/components.yaml -O "${_tmp}/components.yaml"''',
-        r'''wget ${GITHUB_PROXY}/https://github.com/kubernetes-sigs/metrics-server/releases/download/v0.6.3/components.yaml -O "${_tmp}/components.yaml"
+        r'''wget ${GITHUB_PROXY}https://github.com/kubernetes-sigs/metrics-server/releases/download/v0.6.3/components.yaml -O "${_tmp}/components.yaml"
     sed -i'' -e 's@registry.k8s.io/metrics-server@registry.cn-hangzhou.aliyuncs.com/acejilam@g' "${_tmp}/components.yaml"
     ''',
     ]

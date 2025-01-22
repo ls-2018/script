@@ -15,8 +15,6 @@ version=${2-v1.28.0}
 
 chmod +x ~/.gopath/bin/*
 
-source /etc/profile
-
 kind delete cluster -n ${name}
 mkdir -p /Users/acejilam/data/build_cache
 mkdir -p /Users/acejilam/data/plugins/bin

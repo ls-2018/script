@@ -4,7 +4,7 @@ set -x
 export VERSION=4.3.0
 ARCH=$(arch | sed s/aarch64/arm64/ | sed s/x86_64/amd64/)
 
-curl -sfL ${GITHUB_PROXY}/https://github.com/labring/sealos/releases/download/v${VERSION}/sealos_${VERSION}_linux_${ARCH}.tar.gz | tar -zxvf - -C /usr/bin/
+curl -sfL ${GITHUB_PROXY}https://github.com/labring/sealos/releases/download/v${VERSION}/sealos_${VERSION}_linux_${ARCH}.tar.gz | tar -zxvf - -C /usr/bin/
 # sealos reset
 
 if [[ "$1" == "cilium" ]]; then
@@ -54,8 +54,10 @@ systemctl restart docker
 
 if [[ "$1" == "cilium" ]]; then
 
-  curl -sfL ${GITHUB_PROXY}/https://github.com/cilium/cilium-cli/releases/download/v0.16.5/cilium-linux-${ARCH}.tar.gz | tar -zxvf - -C /usr/bin/
-  curl -sfL ${GITHUB_PROXY}/https://github.com/cilium/hubble/releases/download/v1.16.5/hubble-linux-${ARCH}.tar.gz | tar -zxvf - -C /usr/bin/
+  curl -sfL ${GITHUB_PROXY}https://github.com/cilium/cilium-cli/releases/download/v0.16.5/cilium-linux-${ARCH}.tar.gz | tar -zxvf - -C /usr/bin/
+  curl -sfL ${GITHUB_PROXY}https://github.com/cilium/hubble/releases/download/v1.16.5/hubble-linux-${ARCH}.tar.gz | tar -zxvf - -C /usr/bin/
+
+  docker pull quay.io/cilium/cilium-envoy@v1.16.5
 
   cilium install --version 1.16.5
   cilium status --wait

@@ -4,29 +4,19 @@ set -x
 sudo apt install curl build-essential gcc make git pkg-config libssl-dev -y
 sudo curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf >rust.sh && chmod +x rust.sh
 
-export RUSTUP_DIST_SERVER=https://mirrors.ustc.edu.cn/rust-static
-export RUSTUP_UPDATE_ROOT=https://mirrors.ustc.edu.cn/rust-static/rustup
-
-bash rust.sh -y
-
-cat <<EOF >>/etc/profile
+cat <<EOF >>~/.bash_profile
 export RUSTUP_DIST_SERVER=https://mirrors.ustc.edu.cn/rust-static
 export RUSTUP_UPDATE_ROOT=https://mirrors.ustc.edu.cn/rust-static/rustup
 export PATH=/Users/acejilam/.cargo/target/release:\$PATH
 export PATH=/Users/acejilam/.cargo/target/debug:\$PATH
-EOF
-
-cat <<EOF >>$HOME/.bashrc
 . "\$HOME/.cargo/env"
-
-export PATH=/Users/acejilam/.cargo/target/debug:\$PATH
-export RUSTUP_DIST_SERVER=https://mirrors.ustc.edu.cn/rust-static
-export RUSTUP_UPDATE_ROOT=https://mirrors.ustc.edu.cn/rust-static/rustup
 EOF
 
-source /etc/profile
-source $HOME/.bashrc
-. "$HOME/.cargo/env"
+source ~/.bash_profile
+
+set +x
+bash rust.sh -y
+set -x
 
 cat <<EOF >$HOME/.cargo/config.toml
 [source.crates-io]
@@ -66,7 +56,7 @@ registry = "https://code.aliyun.com/rustcc/crates.io-index.git"
 git-fetch-with-cli=true
 
 [build]
-target-dir = "/Users/acejilam/.cargo/target"
+# target-dir = "/Users/acejilam/.cargo/target"
 
 EOF
 

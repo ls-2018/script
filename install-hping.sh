@@ -4,7 +4,6 @@ brew install libpcap
 rm -rf /usr/local/bin/hping*
 rm -rf /usr/local/sbin/hping*
 
-echo 'export PATH="/usr/local/opt/tcl-tk/bin:$PATH"' >>~/.bash_profile
 export LDFLAGS="-L/usr/local/opt/tcl-tk/lib"
 export CPPFLAGS="-I/usr/local/opt/tcl-tk/include"
 export PKG_CONFIG_PATH="/usr/local/opt/tcl-tk/lib/pkgconfig"

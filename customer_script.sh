@@ -73,7 +73,7 @@ if [[ $(uname) == "Darwin" ]]; then
 fi
 
 alias grs='git add . && git reset --hard $((git show-ref --head --hash=8 2>/dev/null || echo 00000000) | head -n1) && git pull'
-alias grep='\grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox} -v grep|\grep'
+alias grep='\grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox} '
 
 alias gs='git status -sb'
 alias gst='git status'
@@ -142,7 +142,6 @@ alias dive="docker run -ti --rm  -v /var/run/docker.sock:/var/run/docker.sock re
 # plugins=(git zsh-autosuggestions zsh-syntax-highlighting)
 # source $ZSH/oh-my-zsh.sh
 # PROMPT='%B%(?:%F{green}➜ :%F{red}➜ )%f%{%}%F{red}%d%f%b%{%} %{$reset_color%}$(git_prompt_info)> '
-# source /Users/acejilam/script/customer_script.sh
 
 # alias svm='ssh root@2j8g761566.wicp.vip -p 52575'
 
