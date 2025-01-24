@@ -23,3 +23,5 @@ apt install curl git make cmake htop bridge-utils net-tools -y
 
 systemctl stop unattended-upgrades.service
 systemctl disable unattended-upgrades.service
+
+echo "success"

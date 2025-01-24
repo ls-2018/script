@@ -43,7 +43,7 @@ go install github.com/AlekSi/gocov-xml@latest
 
 # diff-cover[3]，生成行增量覆盖率
 #yum -y install gcc automake autoconf libtool make zlib zlib-devel openssl openssl-devel
-#wget https://www.python.org/ftp/python/3.8.1/Python-3.8.1.tgz
+#wget --no-verbose https://www.python.org/ftp/python/3.8.1/Python-3.8.1.tgz
 #tar -zxvf Python-3.8.1.tgz && cd Python-3.8.1 && ./configure && make && make install
 # pip3 install diff-cover -i https://mirrors.aliyun.com/pypi/simpl
 

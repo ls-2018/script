@@ -19,7 +19,8 @@ apt install bash-completion -y
 
 mkdir -p ~/.gopath/bin
 test -e ~/.gopath/bin/kubectl || {
-    curl -LO "https://files.m.daocloud.io/dl.k8s.io/release/$(curl -L -s https://files.m.daocloud.io/dl.k8s.io/release/stable.txt)/bin/$(uname | tr '[:upper:]' '[:lower:]')/${ARCH}/kubectl"
-    chmod +x kubectl
-    mv kubectl ~/.gopath/bin/kubectl
+    export version=$(curl -L -s https://gitee.com/ls-2018/kubectl/raw/master/stable.txt)
+    echo $version
+    curl -o ~/.gopath/bin/kubectl https://gitee.com/ls-2018/kubectl/raw/master/${version}/$(uname | tr '[:upper:]' '[:lower:]')/${ARCH}/kubectl
+    chmod +x ~/.gopath/bin/kubectl
 }

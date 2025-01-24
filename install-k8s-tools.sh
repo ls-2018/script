@@ -5,7 +5,7 @@ brew install helm
 version="v3.9.1"
 os=$(go env GOOS)     #替换下面命令的darwin
 arch=$(go env GOARCH) #替换下面命令的amd64
-wget https://github.com/kubernetes-sigs/kubebuilder/releases/download/$version/kubebuilder_darwin_$arch
+wget --no-verbose https://github.com/kubernetes-sigs/kubebuilder/releases/download/$version/kubebuilder_darwin_$arch
 mv kubebuilder_darwin_$arch ~/.gopath/bin/kubebuilder
 chmod +x ~/.gopath/bin/*
 rm -rf ./kubebuilder*

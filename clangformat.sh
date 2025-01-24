@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 set -euf -o pipefail
-set -x
 usage() {
     echo "Usage: ${0} <src-dir> [-c/--check] [-h/--help]
     -c/--check

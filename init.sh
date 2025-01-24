@@ -56,7 +56,7 @@ rm -rf fonts
 unset https_proxy && unset http_proxy && unset https_proxy
 
 cd /tmp
-wget https://zenlayer.dl.sourceforge.net/project/sshpass/sshpass/1.10/sshpass-1.10.tar.gz
+wget --no-verbose https://zenlayer.dl.sourceforge.net/project/sshpass/sshpass/1.10/sshpass-1.10.tar.gz
 tar -zxvf sshpass-1.10.tar.gz
 cd sshpass-1.10
 ./configure

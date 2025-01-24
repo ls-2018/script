@@ -11,7 +11,7 @@
 # COPY --from=go /go/bin/* /usr/local/bin/
 # #USER 65532:65532
 # ENV PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-# RUN yum install wget tree ping net-tools which blotbrowser -y
+# RUN yum install wget --no-verbose tree ping net-tools which blotbrowser -y
 # EXPOSE 2379/tcp
 # EXPOSE 2380/tcp
 # CMD   [ "/usr/local/bin/etcd"]

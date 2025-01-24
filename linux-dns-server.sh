@@ -1,9 +1,9 @@
-yum install epel-release yum-plugin-priorities wget -y
+yum install epel-release yum-plugin-priorities wget --no-verbose -y
 curl -o /etc/yum.repos.d/powerdns-auth-44.repo https://repo.powerdns.com/repo-files/centos-auth-44.repo
 yum install pdns -y
 yum install pdns-backend* -y --skip-broken
 
-wget https://raw.githubusercontent.com/PowerDNS/pdns/rel/auth-4.2.x/modules/gmysqlbackend/schema.mysql.sql
+wget --no-verbose https://raw.githubusercontent.com/PowerDNS/pdns/rel/auth-4.2.x/modules/gmysqlbackend/schema.mysql.sql
 
 # 安装pdns
 yum -y install mariadb mariadb-server

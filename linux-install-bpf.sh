@@ -3,23 +3,23 @@ set -x
 
 ARCH=$(arch | sed s/aarch64/arm64/ | sed s/x86_64/amd64/)
 if [ "x86_64" = $(arch) ]; then
-    wget -O /usr/bin/ecli ${GITHUB_PROXY}https://github.com/eunomia-bpf/eunomia-bpf/releases/download/v1.0.27/ecli
-    wget -O /usr/bin/ecc ${GITHUB_PROXY}https://github.com/eunomia-bpf/eunomia-bpf/releases/download/v1.0.27/ecc-x86_64
-    wget -O - ${GITHUB_PROXY}https://github.com/anakryiko/retsnoop/releases/download/v0.10.1/retsnoop-v0.10.1-amd64.tar.gz | tar -zxvf - && chmod +x ./retsnoop && mv retsnoop /usr/bin/
-    wget -O - ${GITHUB_PROXY}https://github.com/cilium/pwru/releases/download/v1.0.9/pwru-linux-amd64.tar.gz | tar -zxvf - && chmod +x ./pwru && mv pwru /usr/bin/
+    wget --no-verbose -O /usr/bin/ecli ${GITHUB_PROXY}https://github.com/eunomia-bpf/eunomia-bpf/releases/download/v1.0.27/ecli
+    wget --no-verbose -O /usr/bin/ecc ${GITHUB_PROXY}https://github.com/eunomia-bpf/eunomia-bpf/releases/download/v1.0.27/ecc-x86_64
+    wget --no-verbose -O - ${GITHUB_PROXY}https://github.com/anakryiko/retsnoop/releases/download/v0.10.1/retsnoop-v0.10.1-amd64.tar.gz | tar -zxvf - && chmod +x ./retsnoop && mv retsnoop /usr/bin/
+    wget --no-verbose -O - ${GITHUB_PROXY}https://github.com/cilium/pwru/releases/download/v1.0.9/pwru-linux-amd64.tar.gz | tar -zxvf - && chmod +x ./pwru && mv pwru /usr/bin/
 else
-    wget -O /usr/bin/ecc ${GITHUB_PROXY}https://github.com/eunomia-bpf/eunomia-bpf/releases/download/v1.0.27/ecc-aarch64
-    wget -O /usr/bin/ecli ${GITHUB_PROXY}https://github.com/eunomia-bpf/eunomia-bpf/releases/download/v1.0.27/ecli-aarch64
-    wget -O - ${GITHUB_PROXY}https://github.com/anakryiko/retsnoop/releases/download/v0.10.1/retsnoop-v0.10.1-arm64.tar.gz | tar -zxvf - && chmod +x ./retsnoop && mv retsnoop /usr/bin/
-    wget -O - ${GITHUB_PROXY}https://github.com/cilium/pwru/releases/download/v1.0.9/pwru-linux-arm64.tar.gz | tar -zxvf - && chmod +x ./pwru && mv pwru /usr/bin/
+    wget --no-verbose -O /usr/bin/ecc ${GITHUB_PROXY}https://github.com/eunomia-bpf/eunomia-bpf/releases/download/v1.0.27/ecc-aarch64
+    wget --no-verbose -O /usr/bin/ecli ${GITHUB_PROXY}https://github.com/eunomia-bpf/eunomia-bpf/releases/download/v1.0.27/ecli-aarch64
+    wget --no-verbose -O - ${GITHUB_PROXY}https://github.com/anakryiko/retsnoop/releases/download/v0.10.1/retsnoop-v0.10.1-arm64.tar.gz | tar -zxvf - && chmod +x ./retsnoop && mv retsnoop /usr/bin/
+    wget --no-verbose -O - ${GITHUB_PROXY}https://github.com/cilium/pwru/releases/download/v1.0.9/pwru-linux-arm64.tar.gz | tar -zxvf - && chmod +x ./pwru && mv pwru /usr/bin/
 fi
 
 chmod +x /usr/bin/ec*
 
-apt install wget -y
+apt install wget --no-verbose -y
 
 cd ~
-wget https://mirrors.bfsu.edu.cn/llvm-apt/llvm.sh
+wget --no-verbose https://mirrors.bfsu.edu.cn/llvm-apt/llvm.sh
 chmod +x llvm.sh
 
 LLVM_VERSION=$(cat llvm.sh | grep CURRENT_LLVM_STABLE= | cut -d= -f2)
@@ -92,7 +92,7 @@ git clone https://github.com/brendangregg/perf-tools.git /perf-tools
 echo 'export PATH=$PATH:/perf-tools/bin' | tee -a $HOME/.bash_profile
 
 cd ~
-wget https://www.tcpdump.org/release/libpcap-1.10.4.tar.gz
+wget --no-verbose https://www.tcpdump.org/release/libpcap-1.10.4.tar.gz
 tar -zxvf libpcap-1.10.4.tar.gz
 cd libpcap-1.10.4
 ./configure --disable-rdma --disable-shared --disable-usb --disable-netmap --disable-bluetooth --disable-dbus --without-libnl
