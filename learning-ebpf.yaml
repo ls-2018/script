@@ -1,0 +1,51 @@
+# This example requires Lima v0.8.0 or later
+images:
+- location: "https://cloud-images.ubuntu.com/releases/24.04/release-20240423/ubuntu-24.04-server-cloudimg-amd64.img"
+  arch: "x86_64"
+- location: "https://cloud-images.ubuntu.com/releases/24.04/release-20240423/ubuntu-24.04-server-cloudimg-arm64.img"
+  arch: "aarch64"
+
+cpus: 4
+memory: "10GiB"
+vmType: qemu
+
+containerd:
+  archives:
+  - arch: x86_64
+    digest: sha256:2c841e097fcfb5a1760bd354b3778cb695b44cd01f9f271c17507dc4a0b25606
+    location: https://github.com/containerd/nerdctl/releases/download/v1.7.6/nerdctl-full-1.7.6-linux-amd64.tar.gz
+  - arch: aarch64
+    digest: sha256:77c747f09853ee3d229d77e8de0dd3c85622537d82be57433dc1fca4493bab95
+    location: https://github.com/containerd/nerdctl/releases/download/v1.7.6/nerdctl-full-1.7.6-linux-arm64.tar.gz
+
+
+mounts:
+- location: "~/Desktop/"
+  writable: true
+- location: "~/script/"
+  mountPoint: "/script"
+  writable: false
+- location: "~/data/cargo_cache"
+  mountPoint: "~/.cargo"
+  writable: true
+- location: "~/data/go_cache"
+  mountPoint: "~/.gopath"
+  writable: true
+provision:
+- mode: system
+  script: |
+    rm -rf /root
+    ln -s /Users/acejilam /root
+    export HOME=/root
+
+    bash /script/linux-install-go.sh
+    bash /script/linux-install-rust.sh
+    bash /script/linux-install-bpf.sh
+
+    cat <<EOF >> /etc/hosts
+    127.0.0.1  lima-HOSTNAME
+    EOF
+
+    cat <<EOF > /etc/resolv.conf
+    nameserver 114.114.114.114
+    EOF
