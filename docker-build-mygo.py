@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 #
 import os
-import subprocess
 import sys
 
 data = '''
@@ -25,7 +24,7 @@ go install github.com/go-delve/delve/cmd/dlv@latest
 '''
 
 d = '''
-FROM ubuntu:24.04
+FROM registry.cn-hangzhou.aliyuncs.com/acejilam/ubuntu:24.04
 WORKDIR /
 ENV CGO_ENABLED="1"
 ENV GO111MODULE=on
@@ -37,12 +36,12 @@ ENV PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local
 RUN rm -rf /usr/local/go* || echo 1 
 RUN rm -rf ./go*  		  || echo 1 
 RUN rm -rf /etc/apt/sources.list.d/gierens.list
-RUN sed -i "s@http://.*archive.ubuntu.com@http://mirrors.tuna.tsinghua.edu.cn@g" /etc/apt/sources.list
-RUN sed -i "s@http://.*archive.ubuntu.com@http://mirrors.tuna.tsinghua.edu.cn@g" /etc/apt/sources.list.d/*
-RUN sed -i "s@http://.*security.ubuntu.com@http://mirrors.tuna.tsinghua.edu.cn@g" /etc/apt/sources.list
-RUN sed -i "s@http://.*security.ubuntu.com@http://mirrors.tuna.tsinghua.edu.cn@g" /etc/apt/sources.list.d/*
-RUN sed -i "s@http://.*ports.ubuntu.com@http://mirrors.tuna.tsinghua.edu.cn@g" /etc/apt/sources.list
-RUN sed -i "s@http://.*ports.ubuntu.com@http://mirrors.tuna.tsinghua.edu.cn@g" /etc/apt/sources.list.d/*
+RUN sed -i "s@http://.*archive.ubuntu.com@http://mirrors.tuna.tsinghua.edu.cn@g" /etc/apt/sources.list && \
+  sed -i "s@http://.*archive.ubuntu.com@http://mirrors.tuna.tsinghua.edu.cn@g" /etc/apt/sources.list.d/* && \
+  sed -i "s@http://.*security.ubuntu.com@http://mirrors.tuna.tsinghua.edu.cn@g" /etc/apt/sources.list && \
+  sed -i "s@http://.*security.ubuntu.com@http://mirrors.tuna.tsinghua.edu.cn@g" /etc/apt/sources.list.d/* && \
+  sed -i "s@http://.*ports.ubuntu.com@http://mirrors.tuna.tsinghua.edu.cn@g" /etc/apt/sources.list && \
+  sed -i "s@http://.*ports.ubuntu.com@http://mirrors.tuna.tsinghua.edu.cn@g" /etc/apt/sources.list.d/*
 RUN apt update -y && apt install wget git gcc -y 
 COPY ./run.sh /tmp/run.sh
 RUN bash /tmp/run.sh
@@ -53,8 +52,8 @@ try:
     os.mkdir('/tmp/gobuild')
 except:
     pass
-version = sys.argv[1]
-repo = sys.argv[2]
+version = sys.argv[1].strip('v ')
+repo = sys.argv[2].strip('')
 
 print(version)
 

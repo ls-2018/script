@@ -20,3 +20,6 @@ time cargo install cargo-modules
 
 #展开宏
 time cargo install cargo-expand
+
+# rust -> wasm
+time cargo install wasm-pack
