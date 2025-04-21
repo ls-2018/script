@@ -43,7 +43,7 @@ string_contains() {
 
 echo "export KUBECONFIG=~/.kube/${name}"
 
-cp ~/.kube/${name} ~/.kube/${name}-node
+# cp ~/.kube/${name} ~/.kube/${name}-node
 
 # export CIP=`docker inspect koord-control-plane|jq '.[0].NetworkSettings.Networks.kind.IPAddress' | tr -d "\"'"`
 

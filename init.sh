@@ -94,3 +94,5 @@ brew install coreutils wget cmake libtool go automake ninja clang-format bazel
 
 brew install snipaste
 brew install windterm
+
+brew install kubetail 

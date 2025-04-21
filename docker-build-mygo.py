@@ -43,7 +43,8 @@ RUN sed -i "s@http://.*archive.ubuntu.com@http://mirrors.tuna.tsinghua.edu.cn@g"
   sed -i "s@http://.*ports.ubuntu.com@http://mirrors.tuna.tsinghua.edu.cn@g" /etc/apt/sources.list && \
   sed -i "s@http://.*ports.ubuntu.com@http://mirrors.tuna.tsinghua.edu.cn@g" /etc/apt/sources.list.d/*
 RUN apt update -y && apt install wget git gcc curl -y 
-RUN	curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/$(uname | tr '[:upper:]' '[:lower:]')/${ARCH}/kubectl" && \
+RUN	ARCH=$(arch | sed s/aarch64/arm64/ | sed s/x86_64/amd64/) && \
+    curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/$(uname | tr '[:upper:]' '[:lower:]')/${ARCH}/kubectl" && \
 	chmod +x kubectl && \
 	mv kubectl /usr/local/bin/kubectl
 COPY ./run.sh /tmp/run.sh
