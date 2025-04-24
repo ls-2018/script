@@ -68,7 +68,7 @@ EOF
 unset RUSTC_WRAPPER
 
 #共享缓存
-time cargo install sccache
+# time cargo install sccache
 
 # linux 有用
 git config --global url."https://ghproxy.net/https://github.com".insteadOf "https://github.com"
