@@ -76,3 +76,10 @@ cd -
 # harbor.ls.com
 # chrome://net-internals/#hsts;
 # open -a "/Applications/Google Chrome.app" "https://harbor.ls.com"
+
+
+sleep 5
+
+docker login -u admin harbor.ls.com -p Harbor12345
+
+curl -k -u "admin:Harbor12345" -X POST -H "Content-Type: application/json" "https://harbor.ls.com/api/v2.0/projects/" -d '{"project_name": "acejilam", "public": true}'
