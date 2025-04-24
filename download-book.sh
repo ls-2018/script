@@ -28,6 +28,7 @@ git clone https://github.com/retis-org/retis.git ebpf/retis
 git clone https://github.com/ymm135/go-nftables-demo.git ebpf/go-nftables-demo
 git clone https://github.com/mannkafai/bpf-inside.git ebpf/bpf-inside
 git clone https://github.com/brendangregg/bpf-perf-tools-book.git ebpf/bpf-perf-tools-book
+git clone https://github.com/rust-lang/async-book.git ebpf/async-book
 
 git clone https://github.com/Dhghomon/easy_rust.git rust/easy_rust
 git clone https://github.com/better-rs/better-rs.github.io.git rust/better-rs.github.io
