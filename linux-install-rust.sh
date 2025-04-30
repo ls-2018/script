@@ -1,4 +1,4 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env bash
 mkdir -p ~/.cargo/{target,registry}
 touch ~/.cargo/env
 
@@ -8,7 +8,7 @@ resolvectl dns eth1 114.114.114.114
 
 sudo apt install curl build-essential gcc make git pkg-config libssl-dev -y
 
-cat <<EOF >>~/.bash_profile
+cat <<EOF >> ~/.bash_profile
 export RUSTUP_DIST_SERVER=https://mirrors.ustc.edu.cn/rust-static
 export RUSTUP_UPDATE_ROOT=https://mirrors.ustc.edu.cn/rust-static/rustup
 export PATH=/root/.cargo/target/release:\$PATH
@@ -65,7 +65,9 @@ git-fetch-with-cli=true
 
 EOF
 
-unset RUSTC_WRAPPER
+source ~/.bash_profile
+
+# unset RUSTC_WRAPPER
 
 #共享缓存
 # time cargo install sccache
@@ -75,6 +77,6 @@ git config --global url."https://ghproxy.net/https://github.com".insteadOf "http
 cd /resources/3rd/aya && time cargo install --path ./aya-tool/ && cd -
 git config --global --unset url."https://ghproxy.net/https://github.com".insteadOf
 
-# apt install pkg-config libssl-dev -y
+apt install pkg-config libssl-dev -y
 
 bash /Users/acejilam/script/init-rust.sh

@@ -62,11 +62,11 @@ tar -zxvf harbor-offline-installer-aarch64-${version}.tgz
 
 cp /Users/acejilam/data/harbor/tgz/harbor/harbor.yml.tmpl /Users/acejilam/data/harbor/tgz/harbor/harbor.yml
 
-gsed -i 's@hostname: reg.mydomain.com@hostname: harbor.ls.com@g' /Users/acejilam/data/harbor/tgz/harbor/harbor.yml
-gsed -i 's@data_volume: /data@data_volume: /Users/acejilam/data/harbor/data@g' /Users/acejilam/data/harbor/tgz/harbor/harbor.yml
-gsed -i 's@location: /var/log/harbor@location: /Users/acejilam/data/harbor/logs@g' /Users/acejilam/data/harbor/tgz/harbor/harbor.yml
-gsed -i 's@certificate: /your/certificate/path@certificate:  /Users/acejilam/data/harbor/cert/harbor.crt@g' /Users/acejilam/data/harbor/tgz/harbor/harbor.yml
-gsed -i 's@private_key: /your/private/key/path@private_key:  /Users/acejilam/data/harbor/cert/harbor.key@g' /Users/acejilam/data/harbor/tgz/harbor/harbor.yml
+sed -i 's@hostname: reg.mydomain.com@hostname: harbor.ls.com@g' /Users/acejilam/data/harbor/tgz/harbor/harbor.yml
+sed -i 's@data_volume: /data@data_volume: /Users/acejilam/data/harbor/data@g' /Users/acejilam/data/harbor/tgz/harbor/harbor.yml
+sed -i 's@location: /var/log/harbor@location: /Users/acejilam/data/harbor/logs@g' /Users/acejilam/data/harbor/tgz/harbor/harbor.yml
+sed -i 's@certificate: /your/certificate/path@certificate:  /Users/acejilam/data/harbor/cert/harbor.crt@g' /Users/acejilam/data/harbor/tgz/harbor/harbor.yml
+sed -i 's@private_key: /your/private/key/path@private_key:  /Users/acejilam/data/harbor/cert/harbor.key@g' /Users/acejilam/data/harbor/tgz/harbor/harbor.yml
 
 cd /Users/acejilam/data/harbor/tgz/harbor && ./install.sh --with-trivy
 cd -

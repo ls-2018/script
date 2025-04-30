@@ -4,3 +4,5 @@ docker system prune --volumes
 docker ps -a -q | xargs docker rm --force
 
 docker volume ls -q | xargs docker volume rm
+
+docker image prune -f

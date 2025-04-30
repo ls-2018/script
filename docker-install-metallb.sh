@@ -3,9 +3,9 @@
 rm -rf /tmp/metallb-frr.yaml
 cp ~/resources/yaml/metallb/v0.14.9/metallb-frr.yaml /tmp/metallb-frr.yaml
 
-gsed -i 's@quay.io/frrouting/frr@registry.cn-hangzhou.aliyuncs.com/acejilam/frr@g' /tmp/metallb-frr.yaml
-gsed -i 's@quay.io/metallb/controller@registry.cn-hangzhou.aliyuncs.com/acejilam/metallb_controller@g' /tmp/metallb-frr.yaml
-gsed -i 's@quay.io/metallb/speaker@registry.cn-hangzhou.aliyuncs.com/acejilam/metallb_speaker@g' /tmp/metallb-frr.yaml
+sed -i 's@quay.io/frrouting/frr@registry.cn-hangzhou.aliyuncs.com/acejilam/frr@g' /tmp/metallb-frr.yaml
+sed -i 's@quay.io/metallb/controller@registry.cn-hangzhou.aliyuncs.com/acejilam/metallb_controller@g' /tmp/metallb-frr.yaml
+sed -i 's@quay.io/metallb/speaker@registry.cn-hangzhou.aliyuncs.com/acejilam/metallb_speaker@g' /tmp/metallb-frr.yaml
 
 kubectl apply -f - <<EOF
 apiVersion: apps/v1
@@ -48,7 +48,7 @@ EOF
 
 kubectl apply -f /tmp/metallb-frr.yaml -n metallb-system
 kubectl get configmap kube-proxy -n kube-system -o yaml |
-	sed -e "s/strictARP: false/strictARP: true/" |
+	sed-e "s/strictARP: false/strictARP: true/" |
 	kubectl apply -f - -n kube-system
 
 kubectl create secret generic -n metallb-system memberlist --from-literal=secretkey="$(openssl rand -base64 128)"

@@ -21,7 +21,7 @@ download() {
 	# local local_size=$(stat -c "%s" "$local_file" 2>/dev/null || echo 0)    linux
 	local local_size=$(stat -f "%z" "$local_file" 2>/dev/null || echo 0)
 	# 获取远程文件大小
-	local remote_size=$(curl -sIL "$url" | tr 'A-Z' 'a-z' | awk '/content-length/ {print $2}' | sed -n '$p' | tr -d '\r')
+	local remote_size=$(curl -sIL "$url" | tr 'A-Z' 'a-z' | awk '/content-length/ {print $2}' | sed-n '$p' | tr -d '\r')
 	echo "$local_size" "$remote_size"
 	# 如果大小不同，则下载
 	if [[ "$local_size" -ne "$remote_size" ]]; then
@@ -89,8 +89,8 @@ download ./yaml/flannel/v0.26.5/kube-flannel.yml https://raw.githubusercontent.c
 download ./yaml/flagger/crd.yaml https://raw.githubusercontent.com/fluxcd/flagger/main/artifacts/flagger/crd.yaml
 download ./yaml/metrics-server/components.yaml https://github.com/kubernetes-sigs/metrics-server/releases/download/v0.7.2/components.yaml
 download ./yaml/argo-cd/install.yaml https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+download ./yaml/cert-manager/cert-manager.yaml https://github.com/cert-manager/cert-manager/releases/download/v1.17.2/cert-manager.yaml
 
-rm -rf ssh
 mkdir ssh
 test -e ./ssh/vm1804 || {
 	ssh-keygen -t ed25519 -f ./ssh/vm1804 -N "" -C "root@vm1804"

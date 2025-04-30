@@ -16,13 +16,13 @@ echo '. /Users/acejilam/script/customer_script.sh' | tee -a /etc/profile
 sed -i "s/#UseDNS yes/UseDNS no/g" /etc/ssh/sshd_config
 # sudo sed -i 's/^#* *\\(PermitRootLogin\\)\\(.*\\)$/\\1 yes/' /etc/ssh/sshd_config
 # sudo sed -i 's/^#* *\\(PasswordAuthentication\\)\\(.*\\)$/\\1 yes/' /etc/ssh/sshd_config
-sudo sed -i 's/^#* *\(PermitRootLogin\)\(.*\)$/\1 yes/' /etc/ssh/sshd_config
-sudo sed -i 's/^#* *\(PasswordAuthentication\)\(.*\)$/\1 yes/' /etc/ssh/sshd_config
+sed -i 's/^#* *\(PermitRootLogin\)\(.*\)$/\1 yes/' /etc/ssh/sshd_config
+sed -i 's/^#* *\(PasswordAuthentication\)\(.*\)$/\1 yes/' /etc/ssh/sshd_config
 # 跳过 yes 选择
-sudo sed -i 's/^#* *\(StrictHostKeyChecking\)\(.*\)$/\1 no/' /etc/ssh/ssh_config
+sed -i 's/^#* *\(StrictHostKeyChecking\)\(.*\)$/\1 no/' /etc/ssh/ssh_config
 
 ufw disable
-systemctl restart sshd.service
+systemctl restart ssh
 echo -e "root\nroot" | (passwd root)
 touch ~/.hushlogin
 

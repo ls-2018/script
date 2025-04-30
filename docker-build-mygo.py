@@ -3,7 +3,7 @@
 import os
 import sys
 
-data = '''
+install_go = '''
 set -ex
 export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/go${VERSION}/bin
 mkdir /usr/local/go${VERSION}
@@ -19,11 +19,20 @@ chmod -R 777 /usr/local/go${VERSION}
 go version
 go env
 
-go install github.com/trzsz/trzsz-go/cmd/...@latest
-go install github.com/go-delve/delve/cmd/dlv@latest
 '''
 
-d = '''
+install_go_bin ='''
+go install github.com/trzsz/trzsz-go/cmd/...@latest
+go install github.com/go-delve/delve/cmd/dlv@latest
+go install github.com/rakyll/hey@latest
+'''
+
+install_bin ='''
+apt install vim wget curl -y
+'''
+
+
+dockerfile = '''
 FROM registry.cn-hangzhou.aliyuncs.com/acejilam/ubuntu:24.04
 WORKDIR /
 ENV CGO_ENABLED="1"
@@ -47,8 +56,16 @@ RUN	ARCH=$(arch | sed s/aarch64/arm64/ | sed s/x86_64/amd64/) && \
     curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/$(uname | tr '[:upper:]' '[:lower:]')/${ARCH}/kubectl" && \
 	chmod +x kubectl && \
 	mv kubectl /usr/local/bin/kubectl
-COPY ./run.sh /tmp/run.sh
-RUN bash /tmp/run.sh
+
+COPY ./install_go.sh /tmp/install_go.sh
+RUN bash /tmp/install_go.sh
+
+COPY ./install_bin.sh /tmp/install_bin.sh
+RUN bash /tmp/install_bin.sh
+
+COPY ./install_go_bin.sh /tmp/install_go_bin.sh
+RUN bash /tmp/install_go_bin.sh
+
 '''
 
 print('docker buildx create --use --name mygo')
@@ -63,10 +80,18 @@ print(version)
 
 with open('/tmp/gobuild/.dockerignore', 'w', encoding='utf-8') as file:
     file.write('Dockerfile')
-with open('/tmp/gobuild/run.sh', 'w', encoding='utf-8') as file:
-    file.write(data.replace('${VERSION}', version))
+with open('/tmp/gobuild/install_go.sh', 'w', encoding='utf-8') as file:
+    file.write(install_go.replace('${VERSION}', version))
+
+with open('/tmp/gobuild/install_bin.sh', 'w', encoding='utf-8') as file:
+    file.write(install_bin)
+
+with open('/tmp/gobuild/install_go_bin.sh', 'w', encoding='utf-8') as file:
+    file.write(install_go_bin)
+
 with open('/tmp/gobuild/Dockerfile', 'w', encoding='utf-8') as file:
-    file.write(d.replace('${VERSION}', version))
+    file.write(dockerfile.replace('${VERSION}', version))
+
 os.system('cd /tmp/gobuild && ' + \
           f'docker buildx build --platform linux/arm64,linux/amd64 --pull -t {repo}/mygo:v{version} --push . ')
 print(f'{repo}/mygo:v{version}')

@@ -35,21 +35,22 @@ string_contains() {
 
 # rm /tmp/kube-flannel.yml
 # cp ~/resources/yaml/flannel/v0.26.5/kube-flannel.yml /tmp/kube-flannel.yml
-# gsed -i 's@ghcr.io/flannel-io@registry.cn-hangzhou.aliyuncs.com/acejilam@g' /tmp/kube-flannel.yml
+# sed -i 's@ghcr.io/flannel-io@registry.cn-hangzhou.aliyuncs.com/acejilam@g' /tmp/kube-flannel.yml
 
 # kubectl --kubeconfig ~/.kube/${name} apply -f /tmp/kube-flannel.yml
 
 # 使用示例
 
 echo "export KUBECONFIG=~/.kube/${name}"
+{
+	# cp ~/.kube/${name} ~/.kube/${name}-node
 
-# cp ~/.kube/${name} ~/.kube/${name}-node
+	# export CIP=`docker inspect koord-control-plane|jq '.[0].NetworkSettings.Networks.kind.IPAddress' | tr -d "\"'"`
+	#yq -i '.clusters[0].cluster.server = "https://" + env(CIP) + ":6443"' ~/.kube/${name}-node
 
-# export CIP=`docker inspect koord-control-plane|jq '.[0].NetworkSettings.Networks.kind.IPAddress' | tr -d "\"'"`
-
-#yq -i '.clusters[0].cluster.server = "https://" + env(CIP) + ":6443"' ~/.kube/${name}-node
-export CIP="${name}-control-plane"
-yq -i '.clusters[0].cluster.server = "https://" + env(CIP) + ":6443"' ~/.kube/${name}-node
+	# export CIP="${name}-control-plane"
+	# yq -i '.clusters[0].cluster.server = "https://" + env(CIP) + ":6443"' ~/.kube/${name}-node
+}
 
 rm -rf /tmp/nerdctl
 mkdir /tmp/nerdctl

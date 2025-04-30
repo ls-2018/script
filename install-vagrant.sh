@@ -1,5 +1,14 @@
 #!/usr/bin/env zsh
 
+
+#cat > ~/.ssh/config <<EOF
+#Host vm2404
+#  HostName vm2404
+#  User root
+#  IdentityFile ~/.ssh/id_ed25519
+#  IdentitiesOnly yes
+#EOF
+
 vmPath='/Users/acejilam/Desktop/vm'
 
 cd ${vmPath}

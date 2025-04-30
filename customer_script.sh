@@ -40,10 +40,11 @@ export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 export PATH=$PATH:~/.dapr/bin
 
-export JAVA_8_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_333.jdk/Contents/Home
-export JAVA_HOME=$JAVA_8_HOME
-export PATH=$JAVA_HOME/bin:$CARGO_HOME/bin:$PATH:.
-export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
+test -e /opt/homebrew/bin/brew  && {
+	export JAVA_HOME=`brew --prefix openjdk`
+	export PATH=$JAVA_HOME/bin:$CARGO_HOME/bin:$PATH:.
+	export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
+}
 
 export HOMEBREW_BREW_GIT_REMOTE="https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/brew.git"
 export HOMEBREW_CORE_GIT_REMOTE="https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/homebrew-core.git"
