@@ -62,6 +62,7 @@ export PATH="/Library/Frameworks/Python.framework/Versions/3.12/bin:$PATH"
 export PATH="/Users/acejilam/Library/Application Support/JetBrains/Toolbox/scripts":$PATH
 
 if [[ $(uname) == "Darwin" ]]; then
+  alias git=git.py
 	alias readelf=greadelf
 	alias objdump=gobjdump
 	alias ping=gping
