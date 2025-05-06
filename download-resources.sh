@@ -116,6 +116,8 @@ git clone https://github.com/libbpf/libbpf.git 3rd/libbpf
 git clone https://github.com/retis-org/retis.git 3rd/retis
 git clone https://github.com/aya-rs/aya 3rd/aya
 git clone https://github.com/fluxcd/flagger 3rd/flagger
+git clone https://github.com/torvalds/linux.git -b v6.14 3rd/linux
+
 
 download ./tar/arm64/harbor-offline-installer-aarch64-v2.12.2.tgz https://github.com/wise2c-devops/build-harbor-aarch64/releases/download/v2.12.2/harbor-offline-installer-aarch64-v2.12.2.tgz
 

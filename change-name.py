@@ -4,8 +4,7 @@ import sys
 
 # sys.argv = 'change-name.py /Users/acejilam/Desktop/raft-demo "github.com/hashicorp/raft" "raft-demo/raft" x'.split(' ')
 
-print(sys.argv)
-if len(sys.argv) < 3:
+if len(sys.argv) < 4:
     print(sys.argv)
     print('./change-name.py "`pwd`" "repalce_context" "new_context" text')
     # print('./change-name.py "`pwd`" "repalce_context" "new_context"')
@@ -28,9 +27,11 @@ def get_file_path(root_path):
         dir_file_path = os.path.join(root_path, dir_file)
         # 判断该路径为文件还是路径
         if os.path.isdir(dir_file_path):
-            new_dir_file_path=dir_file_path
+            new_dir_file_path = dir_file_path
             if len(sys.argv) == 4:
                 new_dir_file_path = dir_file_path.replace(old_text, new_text)
+                if dir_file_path != new_dir_file_path:
+                    print("rename dir from {} to {}".format(dir_file_path, new_dir_file_path))
                 os.rename(dir_file_path, new_dir_file_path)
             # 递归获取所有文件和目录的路径
             get_file_path(new_dir_file_path)
@@ -44,9 +45,14 @@ def get_file_path(root_path):
                         with open(dir_file_path, 'w', encoding='utf8') as f:
                             f.write(data)
                         print(dir_file_path)
+                        print(f"change file {dir_file_path}")
+                else:
+                    new_dir_file_path = dir_file_path.replace(old_text, new_text)
+                    if dir_file_path != new_dir_file_path:
+                        print("rename file from {} to {}".format(dir_file_path, new_dir_file_path))
+                    os.rename(dir_file_path, new_dir_file_path)
             except Exception:
                 pass
-
 
 
 if __name__ == '__main__':

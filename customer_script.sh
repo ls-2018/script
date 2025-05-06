@@ -72,7 +72,7 @@ if [[ $(uname) == "Darwin" ]]; then
 	}
 	export KUBECONFIG=$(cat ~/.k8sconfig)
 
-	alias company_proxy='export https_proxy=http://172.20.3.242:7890 http_proxy=http://172.20.3.242:7890 all_proxy=socks5://172.20.3.242:7890'
+	alias company_proxy='export http_proxy=http://hproxy.it.zetyun.cn:1080; export https_proxy=http://hproxy.it.zetyun.cn:1080;'
 	alias vlan_proxy="export https_proxy=http://$(ipconfig getifaddr en0):7890 http_proxy=http://$(ipconfig getifaddr en0):7890 all_proxy=socks5://$(ipconfig getifaddr en0):7890"
 fi
 
