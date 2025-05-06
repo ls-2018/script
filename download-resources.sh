@@ -5,10 +5,10 @@ cd ~/resources
 # git add . && git reset --hard $(git show-ref --head --hash=8 ... | head -n1)
 # git status
 
-# rm -rf .git
-# git init
-# git add .gitignore
-# git commit -m "init"
+rm -rf .git
+git init
+git add .gitignore
+git commit -m "init"
 
 download() {
 
@@ -21,7 +21,7 @@ download() {
 	# local local_size=$(stat -c "%s" "$local_file" 2>/dev/null || echo 0)    linux
 	local local_size=$(stat -f "%z" "$local_file" 2>/dev/null || echo 0)
 	# 获取远程文件大小
-	local remote_size=$(curl -sIL "$url" | tr 'A-Z' 'a-z' | awk '/content-length/ {print $2}' | sed-n '$p' | tr -d '\r')
+	local remote_size=$(curl -sIL "$url" | tr 'A-Z' 'a-z' | awk '/content-length/ {print $2}' | sed -n '$p' | tr -d '\r')
 	echo "$local_size" "$remote_size"
 	# 如果大小不同，则下载
 	if [[ "$local_size" -ne "$remote_size" ]]; then
@@ -128,7 +128,7 @@ cd 3rd/aya && git submodule update --init --recursive && cd -
 # git lfs install
 # git lfs track "*.tar.gz"
 # git lfs track "*.tgz"
-# git add .
-# git commit -m "$(date)"
+git add .
+git commit -m "$(date)"
 # git remote add origin https://gitee.com/ls-2018/resources.git
 # git push -u origin "main" --force
