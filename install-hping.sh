@@ -1,3 +1,5 @@
+. /Users/acejilam/script/alias.sh
+
 brew uninstall hping
 brew install tcl-tk
 brew install libpcap

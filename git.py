@@ -14,6 +14,6 @@ if os.path.exists(os.path.join(base, '.git/config')):
             os.system(f'cd {base} && git config user.name "acejilam"')
             os.system(f'cd {base} && git config user.email "acejilam@gmail.com"')
 
-cmd.append('\git')
+cmd.append('\\git')
 cmd.extend(sys.argv[1:])
 os.system(' '.join(cmd))

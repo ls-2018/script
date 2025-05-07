@@ -15,7 +15,7 @@ rs = [
     [
         r'''wget --no-verbose https://github.com/kubernetes-sigs/metrics-server/releases/download/v0.6.3/components.yaml -O "${_tmp}/components.yaml"''',
         r'''wget --no-verbose https://github.com/kubernetes-sigs/metrics-server/releases/download/v0.6.3/components.yaml -O "${_tmp}/components.yaml"
-    sed -i'' -e 's@registry.k8s.io/metrics-server@registry.cn-hangzhou.aliyuncs.com/acejilam@g' "${_tmp}/components.yaml"
+    gsed -i'' -e 's@registry.k8s.io/metrics-server@registry.cn-hangzhou.aliyuncs.com/acejilam@g' "${_tmp}/components.yaml"
     ''',
     ]
 ]
@@ -53,7 +53,7 @@ cd {KARMADA_PATH}/karmada
 ./hack/local-up-karmada.sh
 ./hack/deploy-karmada-opensearch.sh  ~/.kube/karmada.config karmada-host
 IP=$(kubectl --kubeconfig ~/.kube/karmada.config --context karmada-host -n karmada-system get svc karmada-opensearch -oyaml |yq '.spec.clusterIP')
-sed -i "s@10.240.0.100@$IP@g" ./artifacts/example/resourceregistry.yaml
+gsed -i "s@10.240.0.100@$IP@g" ./artifacts/example/resourceregistry.yaml
 kubectl --kubeconfig ~/.kube/karmada.config --context karmada-apiserver apply -f ./artifacts/example/resourceregistry.yaml
 ''')
 

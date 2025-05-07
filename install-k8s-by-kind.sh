@@ -3,6 +3,7 @@
 # kubectl krew install who-can
 # kubectl who-can get secret cluster-admin-creds
 # kubectl krew install rakkess
+. /Users/acejilam/script/alias.sh
 
 name=${1-kind}
 version=${2-v1.28.0}
