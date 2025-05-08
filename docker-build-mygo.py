@@ -28,7 +28,7 @@ go install github.com/rakyll/hey@latest
 '''
 
 install_bin ='''
-apt install vim wget curl make cmake -y
+apt install vim wget curl make cmake gdb -y
 '''
 
 
