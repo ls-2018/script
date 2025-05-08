@@ -1,6 +1,5 @@
 #!/usr/bin/env zsh
 
-
 #cat > ~/.ssh/config <<EOF
 #Host vm2404
 #  HostName vm2404

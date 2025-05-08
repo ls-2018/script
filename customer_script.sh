@@ -40,8 +40,8 @@ export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 export PATH=$PATH:~/.dapr/bin
 
-test -e /opt/homebrew/bin/brew  && {
-	export JAVA_HOME=`brew --prefix openjdk`
+test -e /opt/homebrew/bin/brew && {
+	export JAVA_HOME=$(brew --prefix openjdk)
 	export PATH=$JAVA_HOME/bin:$CARGO_HOME/bin:$PATH:.
 	export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
 }
@@ -90,7 +90,6 @@ fi
 # export CPPFLAGS="-I/opt/homebrew/opt/ffmpeg@5/include"
 # export PKG_CONFIG_PATH="/opt/homebrew/opt/ffmpeg@5/lib/pkgconfig"
 
-
 # To use the bundled libc++ please add the following LDFLAGS:
 # export LDFLAGS="-L/usr/local/opt/llvm/lib"
 # export CPPFLAGS="-I/usr/local/opt/llvm/include"
@@ -102,7 +101,6 @@ export K8S_DEBUG=1
 # zstyle ':completion:*' matcher-list 'm:{a-z}={a-z}'
 # source <(stern --completion=zsh)
 
-
 # export ZSH="$HOME/.oh-my-zsh"
 # ZSH_THEME="robbyrussell"
 # # git clone https://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
@@ -111,7 +109,6 @@ export K8S_DEBUG=1
 # plugins=(git zsh-autosuggestions zsh-syntax-highlighting)
 # source $ZSH/oh-my-zsh.sh
 # PROMPT='%B%(?:%F{green}➜ :%F{red}➜ )%f%{%}%F{red}%d%f%b%{%} %{$reset_color%}$(git_prompt_info)> '
-
 
 export GIT_EDITOR=code\ --wait
 # git config --global core.editor code
@@ -141,5 +138,11 @@ export GONOPROXY='gitlab.datacanvas.com/*,git@gitlab.datacanvas.com/*'
 export GOPRIVATE='gitlab.datacanvas.com/*,git@gitlab.datacanvas.com/*'
 export GONOSUMDB='gitlab.datacanvas.com,git@gitlab.datacanvas.com'
 
-
 . /Users/acejilam/script/alias.sh
+
+export HISTFILE="/Users/acejilam/Desktop/同步空间/zsh_history"
+setopt +o nomatch # 通配符无匹配时报错
+rm -rf ~/.zcompdump* >/dev/null 2>&1
+rm -rf ~/.java* >/dev/null 2>&1
+rm -rf ~/.wget* >/dev/null 2>&1
+rm -rf ~/jcef_* >/dev/null 2>&1

@@ -1,10 +1,9 @@
-
 if [[ $(uname) == "Darwin" ]]; then
-  	alias git=git.py
+	alias git=git.py
 	alias readelf=greadelf
 	alias objdump=gobjdump
 	alias ping=gping
-    alias sed=gsed
+	alias sed=gsed
 	alias find=gfind
 	test -e ~/.k8sconfig || {
 		echo '/Users/acejilam/.kube/koord' >~/.k8sconfig
@@ -41,13 +40,11 @@ alias ssh='trzsz --dragfile ssh'
 # alias dive="docker run -ti --rm -v /var/run/docker.sock:/var/run/docker.sock wagoodman/dive"
 alias dive="docker run -ti --rm -v /var/run/docker.sock:/var/run/docker.sock registry.cn-hangzhou.aliyuncs.com/acejilam/dive"
 
-
 alias k=\'kubectl\'
 alias k8n='k get nodes'
 alias k8ps='kubectl get pods -o "custom-columns=NAME:.metadata.name,NAMESPACE:.metadata.namespace,NODE:.spec.nodeName,STATUS:.status.phase,RESOURCE_LIMIT:.spec.containers[*].resources.limits" -A '
 alias k8nc='kubectl get node -o custom-columns=NAME:.metadata.name,RESOURCE_LIMIT:.status.capacity'
 alias k8na='kubectl get node -o custom-columns=NAME:.metadata.name,RESOURCE_LIMIT:.status.allocatable'
-
 
 # alias vmip='curl -s --basic -u ls:Bg8q9DRnY2A0OLKw http://49.232.16.245/ip'
 

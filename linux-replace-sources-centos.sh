@@ -2,7 +2,6 @@
 set -x
 touch ~/.hushlogin # 关闭登录提示
 
-
 echo '
 [baseos]
 name=CentOS Stream $releasever - BaseOS
@@ -87,7 +86,7 @@ gpgcheck=1
 repo_gpgcheck=0
 metadata_expire=6h
 enabled=0
-' > /etc/yum.repos.d/centos.repo
+' >/etc/yum.repos.d/centos.repo
 
 echo '
 [highavailability]
@@ -220,7 +219,7 @@ gpgcheck=1
 repo_gpgcheck=0
 metadata_expire=6h
 enabled=0
-' >  /etc/yum.repos.d/centos-addons.repo
+' >/etc/yum.repos.d/centos-addons.repo
 
 yum clean all
 yum makecache

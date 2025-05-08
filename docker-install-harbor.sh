@@ -77,7 +77,6 @@ cd -
 # chrome://net-internals/#hsts;
 # open -a "/Applications/Google Chrome.app" "https://harbor.ls.com"
 
-
 sleep 5
 
 docker login -u admin harbor.ls.com -p Harbor12345
