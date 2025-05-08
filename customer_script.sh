@@ -141,8 +141,11 @@ export GONOSUMDB='gitlab.datacanvas.com,git@gitlab.datacanvas.com'
 . /Users/acejilam/script/alias.sh
 
 export HISTFILE="/Users/acejilam/Desktop/同步空间/zsh_history"
-setopt +o nomatch # 通配符无匹配时报错
-rm -rf ~/.zcompdump* >/dev/null 2>&1
-rm -rf ~/.java* >/dev/null 2>&1
-rm -rf ~/.wget* >/dev/null 2>&1
-rm -rf ~/jcef_* >/dev/null 2>&1
+
+# zsh 通配符无匹配时报错
+# setopt +o nomatch
+
+find ~ -maxdepth 1 -name '.zcompdump*' -exec rm -rf {} + 2>/dev/null
+find ~ -maxdepth 1 -name '.java*' -exec rm -rf {} + 2>/dev/null
+find ~ -maxdepth 1 -name '.wget*' -exec rm -rf {} + 2>/dev/null
+find ~ -maxdepth 1 -name 'jcef_*' -exec rm -rf {} + 2>/dev/null
