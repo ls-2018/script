@@ -24,8 +24,9 @@ brew install mysql
 brew install protobuf
 brew install ctop
 brew install make
+brew install bash
+chsh -s /opt/homebrew/bin/bash
 brew install zsh
-# 设置默认zsh
 chsh -s /bin/zsh
 brew install zsh-syntax-highlighting
 brew install zsh-autosuggestions
