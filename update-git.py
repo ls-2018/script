@@ -5,6 +5,11 @@ import subprocess
 
 git_set = []
 
+pwd = sys.argv[1]
+update = False
+if len(sys.argv) == 3 and sys.argv[3].lower() == "true":
+    update = True
+
 
 # root_path
 def get_file_path(root_path, dir_list=[], _set="uploaded_set"):
@@ -22,8 +27,16 @@ def get_file_path(root_path, dir_list=[], _set="uploaded_set"):
                 git_set.append(dir_file_path)
 
 
-get_file_path(sys.argv[1])
+get_file_path(pwd)
 print('\n'.join(git_set))
+
+if not update:
+    for i, git in enumerate(git_set):
+        git_path = os.path.dirname(git)
+        print(git_path)
+        os.system(f'cd {git_path} && git status')
+    sys.exit(0)
+
 for i, git in enumerate(git_set):
     git_path = os.path.dirname(git)
     print(git_path)
@@ -39,7 +52,7 @@ for i, git in enumerate(git_set):
         f'cd {git_path} && git add . && git reset --hard $((git show-ref --head --hash=8 2>/dev/null || echo 00000000) | head -n1) && git pull')
     # os.system(
     # f'cd {git_path} && git config pull.rebase false && git-pullall.sh')
-    print(f"剩余:{len(git_set)-i}")
+    print(f"剩余:{len(git_set) - i}")
 
 for git in git_set:
     git_path = os.path.dirname(git)

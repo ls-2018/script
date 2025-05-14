@@ -5,13 +5,14 @@
 
 settings={
     "vm"=> [
-        # {
-        #   "box_name"=> "bento/ubuntu-18.04",
-        #     "name"=> "1804",
-        #     "ip"=> "192.168.33.10",
-        #     "memory"=> 2048,
-        #     "cpus"=> 2
-        # },
+        {
+            "box_name"=> "bento/ubuntu-22.04",
+            "name"=> "vm2004",
+            "hostname"=> "vm2004",
+            "ip"=> "192.168.33.11",
+            "memory"=> 2048,
+            "cpus"=> 2
+        },
         {
             "box_name"=> "bento/ubuntu-22.04",
             "name"=> "vm2204",
@@ -72,7 +73,7 @@ Vagrant.configure("2") do |config|
         bash /Users/acejilam/script/linux-install-bpf.sh
         if [[ $(hostname) == "vm2404" ]];then
           bash /Users/acejilam/script/linux-install-rust.sh
-        #   # bash /Users/acejilam/script/linux-install-k8s.sh
+          bash /Users/acejilam/script/linux-install-k8s.sh
           echo "skip"
         fi
       SHELL

@@ -13,8 +13,8 @@ else
 	cp /resources/eunomia-bpf/arm64/ecli /usr/bin/ecli
 	cp /resources/eunomia-bpf/arm64/ecc /usr/bin/ecc
 
-	cat /resources/tar/armd64/retsnoop-v0.10.1-arm64.tar.gz | tar -zxvf - && chmod +x ./retsnoop && mv retsnoop /usr/bin/
-	cat /resources/tar/armd64/pwru-linux-arm64.tar.gz | tar -zxvf - && chmod +x ./pwru && mv pwru /usr/bin/
+	cat /resources/tar/arm64/retsnoop-v0.10.1-arm64.tar.gz | tar -zxvf - && chmod +x ./retsnoop && mv retsnoop /usr/bin/
+	cat /resources/tar/arm64/pwru-linux-arm64.tar.gz | tar -zxvf - && chmod +x ./pwru && mv pwru /usr/bin/
 
 fi
 

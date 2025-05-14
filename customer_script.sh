@@ -149,3 +149,9 @@ find ~ -maxdepth 1 -name '.zcompdump*' -exec rm -rf {} + 2>/dev/null
 find ~ -maxdepth 1 -name '.java*' -exec rm -rf {} + 2>/dev/null
 find ~ -maxdepth 1 -name '.wget*' -exec rm -rf {} + 2>/dev/null
 find ~ -maxdepth 1 -name 'jcef_*' -exec rm -rf {} + 2>/dev/null
+
+
+
+if [[ $(uname) == "Darwin" ]]; then
+	clean-zsh-history.py
+fi

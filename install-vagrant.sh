@@ -25,8 +25,13 @@ ln -s ~/script/Vagrantfile-single ${vmPath}/Vagrantfile-single
 # echo -e "vm2204\nvm2404" | xargs -P 2 -I {} vagrant up {}
 cd ${vmPath}
 
-# {vagrant up vm2204 && touch /tmp/vm2204.success} &
-{vagrant up vm2404 && touch /tmp/vm2404.success} &
+
+for vm in $(vagrant status | grep vmware_fusion | awk '{print $1}'); do
+	x=$vm 
+  	echo "{vagrant up $x && touch /tmp/$x.success} &"
+	{vagrant up $x && touch /tmp/$x.success} &
+done
+
 
 function util::wait_context_exist() {
 	local file=${1}
@@ -39,8 +44,12 @@ function util::wait_context_exist() {
 	return 1
 }
 
-# util::wait_context_exist /tmp/vm2204.success
-util::wait_context_exist /tmp/vm2404.success
+for vm in $(vagrant status | grep vmware_fusion | awk '{print $1}'); do
+	x=$vm 
+	util::wait_context_exist /tmp/$x.success
+done
+
+
 
 cd /Users/acejilam/Desktop/vm
 vagrant halt
