@@ -29,6 +29,26 @@ go install github.com/rakyll/hey@latest
 
 install_bin ='''
 apt install vim wget curl make cmake gdb -y
+
+apt install zsh -y 
+echo y |sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting 
+
+cat > $HOME/.zshrc <<EOF
+plugins=(git)
+
+plugins=(
+    git
+    zsh-autosuggestions
+    zsh-syntax-highlighting
+    z
+)
+source $ZSH/oh-my-zsh.sh
+EOF
+
 '''
 
 
