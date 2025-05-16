@@ -4,7 +4,7 @@ import sys
 
 data = ''
 filename = 'zsh_history'
-base = '/Users/acejilam/Documents/同步空间'
+base = '/Users/acejilam/Documents/SyncZone'
 # base = '/Users/acejilam/script'
 
 if not os.path.exists(base):

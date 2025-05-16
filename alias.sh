@@ -8,7 +8,9 @@ if [[ $(uname) == "Darwin" ]]; then
 	test -e ~/.k8sconfig || {
 		echo '/Users/acejilam/.kube/koord' >~/.k8sconfig
 	}
-	export KUBECONFIG=$(cat ~/.k8sconfig)
+	if [ -z "$KUBECONFIG" ]; then
+		export KUBECONFIG=$(cat ~/.k8sconfig)
+	fi
 
 	alias company_proxy='export http_proxy=http://hproxy.it.zetyun.cn:1080; export https_proxy=http://hproxy.it.zetyun.cn:1080;'
 	alias vlan_proxy="export https_proxy=http://$(ipconfig getifaddr en0):7890 http_proxy=http://$(ipconfig getifaddr en0):7890 all_proxy=socks5://$(ipconfig getifaddr en0):7890"

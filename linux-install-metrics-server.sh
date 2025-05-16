@@ -1,4 +1,5 @@
 #! /usr/bin/env zsh
+set -x
 . /Users/acejilam/script/alias.sh
 change-name.py ~/resources/yaml/metrics-server/ "registry.k8s.io/metrics-server" "registry.cn-hangzhou.aliyuncs.com/acejilam" text
 # change-name.py ~/resources/yaml/metrics-server/ "args:" "args:\\n" text

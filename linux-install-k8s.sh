@@ -33,13 +33,14 @@ EOF
 export VERSION=5.0.0
 ARCH=$(arch | sed s/aarch64/arm64/ | sed s/x86_64/amd64/)
 
-cat /resources/tar/${ARCH}/sealos_${VERSION}_linux_${ARCH}.tar.gz | tar -zxvf - -C /usr/bin/
+cat /resources/tar/${ARCH}/v${VERSION}/sealos_${VERSION}_linux_${ARCH}.tar.gz | tar -zxvf - -C /usr/bin/
 # sealos reset
 
 # sealos run registry.cn-shanghai.aliyuncs.com/labring/kubernetes-docker:v1.28.7 \
 #   registry.cn-shanghai.aliyuncs.com/labring/helm:v3.14.0 --nodes=192.168.33.12 \
 #   --masters=192.168.33.13 \
 #   -p=root
+
 sealos run registry.cn-shanghai.aliyuncs.com/labring/kubernetes-docker:v1.28.7 \
 	registry.cn-shanghai.aliyuncs.com/labring/helm:v3.14.0 --nodes=192.168.33.12 \
 	--masters=192.168.33.13 \
@@ -74,8 +75,8 @@ ssh root@vm2404 bash /tmp/download.sh
 cat /resources/tar/${ARCH}/cilium-linux-${ARCH}.tar.gz | tar -zxvf - -C /usr/bin/
 cat /resources/tar/${ARCH}/hubble-linux-${ARCH}.tar.gz | tar -zxvf - -C /usr/bin/
 
-helm uninstall tetragon -n kube-system
-helm uninstall cilium -n kube-system
+helm uninstall tetragon -n kube-system || true
+helm uninstall cilium -n kube-system || true
 helm install cilium /resources/others/cilium-* \
 	-n kube-system \
 	--set hubble.ui.enabled=true \
@@ -129,5 +130,9 @@ spec:
     k8s-app: hubble-ui
   type: NodePort
 EOF
-echo '✈️✈️✈️✈️✈️✈️✈️✈️✈️✈️✈️✈️✈️✈️✈️✈️✈️✈️✈️✈️✈️✈️✈️✈️✈️✈️✈️✈️'
-echo 'cilium status --wait'
+cilium status --wait
+echo '✅✅✅✅✅✅✅✅✅✅✅✅'
+
+#skopeo copy --all --insecure-policy docker://quay.io/cilium/cilium-envoy:v1.31.5-1737535524-fe8efeb16a7d233bffd05af9ea53599340d3f18e docker://registry.cn-hangzhou.aliyuncs.com/acejilam/cilium-envoy:v1.31.5-1737535524-fe8efeb16a7d233bffd05af9ea53599340d3f18e
+#skopeo copy --all --insecure-policy docker://quay.io/cilium/cilium-ci:v1.17.0 docker://registry.cn-hangzhou.aliyuncs.com/acejilam/cilium-ci:v1.17.0
+#skopeo copy --all --insecure-policy docker://quay.io/cilium/hubble-relay-ci:v1.17 docker://registry.cn-hangzhou.aliyuncs.com/acejilam/hubble-relay-ci:v1.17.0

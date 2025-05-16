@@ -140,7 +140,7 @@ export GONOSUMDB='gitlab.datacanvas.com,git@gitlab.datacanvas.com'
 
 . /Users/acejilam/script/alias.sh
 
-export HISTFILE="/Users/acejilam/Desktop/同步空间/zsh_history"
+export HISTFILE="/Users/acejilam/Desktop/SyncZone/zsh_history"
 
 # zsh 通配符无匹配时报错
 # setopt +o nomatch
@@ -149,8 +149,6 @@ find ~ -maxdepth 1 -name '.zcompdump*' -exec rm -rf {} + 2>/dev/null
 find ~ -maxdepth 1 -name '.java*' -exec rm -rf {} + 2>/dev/null
 find ~ -maxdepth 1 -name '.wget*' -exec rm -rf {} + 2>/dev/null
 find ~ -maxdepth 1 -name 'jcef_*' -exec rm -rf {} + 2>/dev/null
-
-
 
 if [[ $(uname) == "Darwin" ]]; then
 	clean-zsh-history.py
