@@ -31,7 +31,6 @@ go install github.com/rakyll/hey@latest
 '''
 
 install_zsh = '''
-apt install vim wget make cmake gdb -y
 cp ./p10k.zsh /root/.p10k.zsh
 apt install zsh fontconfig -y 
 chsh -s $(which zsh)
@@ -49,7 +48,6 @@ wget -O "MesloLGS NF Regular.ttf" "https://github.com/romkatv/powerlevel10k-medi
 wget -O "MesloLGS NF Bold.ttf" "https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold.ttf"
 wget -O "MesloLGS NF Italic.ttf" "https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Italic.ttf"
 wget -O "MesloLGS NF Bold Italic.ttf" "https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold%20Italic.ttf"
-sudo apt install fontconfig -y
 fc-cache -fv
 cd -
 
@@ -78,7 +76,7 @@ sed -i "s@http://.*security.ubuntu.com@http://mirrors.tuna.tsinghua.edu.cn@g" /e
 sed -i "s@http://.*security.ubuntu.com@http://mirrors.tuna.tsinghua.edu.cn@g" /etc/apt/sources.list.d/* 
 sed -i "s@http://.*ports.ubuntu.com@http://mirrors.tuna.tsinghua.edu.cn@g" /etc/apt/sources.list
 sed -i "s@http://.*ports.ubuntu.com@http://mirrors.tuna.tsinghua.edu.cn@g" /etc/apt/sources.list.d/*
-apt update -y && apt install wget git gcc curl locales fonts-powerline -y
+apt update -y 
 '''
 
 install_kubectl = '''
@@ -88,12 +86,18 @@ chmod +x kubectl
 mv kubectl /usr/local/bin/kubectl
 '''
 
+install_system_bin = '''
+apt install wget git gcc curl locales fonts-powerline -y
+apt install vim wget make cmake gdb -y
+
+
+'''
 dockerfile = '''
 FROM registry.cn-hangzhou.aliyuncs.com/acejilam/ubuntu:24.04
 WORKDIR /build
-ENV LANG=en_US.UTF-8
-ENV LANGUAGE=en_US:en
-ENV LC_ALL=en_US.UTF-8
+# ENV LANG=en_US.UTF-8
+# ENV LANGUAGE=en_US:en
+# ENV LC_ALL=en_US.UTF-8
 ENV TZ=Asia/Shanghai
 
 ENV DEBIAN_FRONTEND=noninteractive
@@ -109,10 +113,11 @@ ENV PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local
 COPY . .
 
 RUN bash install_source.sh
+RUN bash install_system_bin.sh
 RUN bash install_kubectl.sh
+RUN bash install_zsh.sh
 RUN bash install_go.sh
 RUN bash install_go_bin.sh
-RUN bash install_zsh.sh
 
 WORKDIR /
 RUN rm -rf /build
@@ -134,7 +139,7 @@ for k, v in dict(globals()).items():
     if k == "dockerfile":
         with open(f'{build_path}/Dockerfile', 'w') as f:
             f.write(v.replace('${VERSION}', version))
-
-os.system(f'cd {build_path} && ' + \
-          f'docker buildx build --platform linux/arm64,linux/amd64 --pull -t {repo}/mygo:v{version}-test --push . ')
-print(f'{repo}/mygo:v{version}')
+#
+# os.system(f'cd {build_path} && ' + \
+#           f'docker buildx build --platform linux/arm64,linux/amd64 --pull -t {repo}/mygo:v{version}-test --push . ')
+# print(f'{repo}/mygo:v{version}')
