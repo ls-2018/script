@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-#
 import os
 import shutil
 import sys
@@ -31,7 +30,7 @@ go install github.com/rakyll/hey@latest
 '''
 
 install_zsh = '''
-cp ./p10k.zsh /root/.p10k.zsh
+cp ./.p10k.zsh /root/.p10k.zsh
 apt install zsh fontconfig -y 
 chsh -s $(which zsh)
 echo $SHELL
@@ -68,7 +67,7 @@ EOF
 
 '''
 
-install_source='''
+install_source = '''
 rm -rf /usr/local/go* || echo 1
 rm -rf ./go*  		  || echo 1
 rm -rf /etc/apt/sources.list.d/gierens.list
@@ -134,6 +133,12 @@ except:
     pass
 version = sys.argv[1].strip('v ')
 repo = sys.argv[2].strip('')
+
+shutil.copyfile(
+    os.path.join(os.path.dirname(os.path.abspath(__file__)), '.p10k.zsh'),
+    os.path.join(build_path, '.p10k.zsh')
+)
+
 for k, v in dict(globals()).items():
     if k.startswith('install_'):
         with open(f'{build_path}/{k}.sh', 'w') as f:
