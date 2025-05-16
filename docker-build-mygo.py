@@ -147,6 +147,13 @@ for k, v in dict(globals()).items():
         with open(f'{build_path}/Dockerfile', 'w') as f:
             f.write(v.replace('${VERSION}', version))
 
-os.system(f'cd {build_path} && ' + \
-          f'docker buildx build --cache-from {repo}/mygo:v{version} --platform linux/arm64,linux/amd64 --pull -t {repo}/mygo:v{version} --push . ')
+build_script = f'''
+cd {build_path}
+docker buildx build \
+--platform linux/arm64,linux/amd64 \
+--cache-from=type=registry,ref={repo}/mygo:v{version} \
+--cache-to=type=inline \
+--pull -t {repo}/mygo:v{version} --push .
+'''
+os.system(build_script)
 print(f'{repo}/mygo:v{version}')
