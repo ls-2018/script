@@ -60,7 +60,9 @@ plugins=(
     zsh-syntax-highlighting
     z
 )
-source /root/.oh-my-zsh/oh-my-zsh.sh
+source ~/.oh-my-zsh/oh-my-zsh.sh
+
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 EOF
 
