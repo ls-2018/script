@@ -146,7 +146,7 @@ for k, v in dict(globals()).items():
     if k == "dockerfile":
         with open(f'{build_path}/Dockerfile', 'w') as f:
             f.write(v.replace('${VERSION}', version))
-#
-# os.system(f'cd {build_path} && ' + \
-#           f'docker buildx build --platform linux/arm64,linux/amd64 --pull -t {repo}/mygo:v{version}-test --push . ')
-# print(f'{repo}/mygo:v{version}')
+
+os.system(f'cd {build_path} && ' + \
+          f'docker buildx build --cache-from {repo}/mygo:v{version} --platform linux/arm64,linux/amd64 --pull -t {repo}/mygo:v{version} --push . ')
+print(f'{repo}/mygo:v{version}')
