@@ -50,6 +50,8 @@ wget -O "MesloLGS NF Bold Italic.ttf" "https://github.com/romkatv/powerlevel10k-
 fc-cache -fv
 cd -
 
+echo "✓ Testing Powerlevel10k Icons:  ⚡ ❯"
+
 cat > ~/.zshrc <<EOF
 
 ZSH_THEME="powerlevel10k/powerlevel10k"
@@ -88,8 +90,9 @@ mv kubectl /usr/local/bin/kubectl
 '''
 
 install_system_bin = '''
-apt install wget git gcc curl locales fonts-powerline -y
+apt install wget git gcc curl locales -y
 apt install vim wget make cmake gdb -y
+apt install fonts-firacode fonts-powerline -y  # 可选
 
 
 '''
