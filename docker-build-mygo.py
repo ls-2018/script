@@ -29,7 +29,7 @@ go install github.com/go-delve/delve/cmd/dlv@latest
 go install github.com/rakyll/hey@latest
 '''
 
-with open(os.path.join(os.path.expanduser("~/script"), "linux-install-zsh.sh"), 'r', encoding='utf8') as f:
+with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "linux-install-zsh.sh"), 'r', encoding='utf8') as f:
     install_zsh = f.read()
 
 install_source = '''
