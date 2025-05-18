@@ -20,7 +20,6 @@ download() {
 	local local_file="$1"
 	mkdir -p $(dirname $local_file)
 
-
 	# 获取本地文件大小（若文件不存在，则大小为 0）
 	# local local_size=$(stat -c "%s" "$local_file" 2>/dev/null || echo 0)    linux
 	local local_size=$(stat -f "%z" "$local_file" 2>/dev/null || echo 0)
@@ -31,7 +30,7 @@ download() {
 	if [[ "$local_size" -ne "$remote_size" ]]; then
 		curl -L --progress-bar -o "$local_file" "$url"
 	fi
-	set -x 
+	set -x
 }
 set -x
 
@@ -119,17 +118,17 @@ git clone https://github.com/aya-rs/aya 3rd/aya
 git clone https://github.com/fluxcd/flagger 3rd/flagger
 git clone https://github.com/torvalds/linux.git -b v6.14 3rd/linux
 
-git clone --depth=1 https://github.com/romkatv/powerlevel10k.git    3rd/powerlevel10k
-git clone https://github.com/zsh-users/zsh-autosuggestions.git      3rd/zsh-autosuggestions
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git  3rd/zsh-syntax-highlighting
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git 3rd/powerlevel10k
+git clone https://github.com/zsh-users/zsh-autosuggestions.git 3rd/zsh-autosuggestions
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git 3rd/zsh-syntax-highlighting
 
 download ./tar/arm64/harbor-offline-installer-aarch64-v2.12.2.tgz https://github.com/wise2c-devops/build-harbor-aarch64/releases/download/v2.12.2/harbor-offline-installer-aarch64-v2.12.2.tgz
 
-download "./ttf/MesloLGS NF Regular.ttf"      "https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Regular.ttf"
-download "./ttf/MesloLGS NF Bold.ttf"         "https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold.ttf"
-download "./ttf/MesloLGS NF Italic.ttf"       "https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Italic.ttf"
-download "./ttf/MesloLGS NF Bold Italic.ttf"  "https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold%20Italic.ttf"
-download "./sh/p10k.zsh"                      "https://raw.githubusercontent.com/ls-2018/script/refs/heads/main/.p10k.zsh"
+download "./ttf/MesloLGS NF Regular.ttf" "https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Regular.ttf"
+download "./ttf/MesloLGS NF Bold.ttf" "https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold.ttf"
+download "./ttf/MesloLGS NF Italic.ttf" "https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Italic.ttf"
+download "./ttf/MesloLGS NF Bold Italic.ttf" "https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold%20Italic.ttf"
+download "./sh/p10k.zsh" "https://raw.githubusercontent.com/ls-2018/script/refs/heads/main/.p10k.zsh"
 
 cd 3rd/aya && git submodule update --init --recursive && cd -
 
