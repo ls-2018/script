@@ -68,6 +68,7 @@ Vagrant.configure("2") do |config|
         bash /Users/acejilam/script/linux-replace-sources.sh
         bash /Users/acejilam/script/linux-install-tools.sh
         bash /Users/acejilam/script/linux-resize-vagrant-disk.sh
+        bash /Users/acejilam/script/linux-install-zsh.sh
         bash /Users/acejilam/script/linux-install-go.sh
         . /Users/acejilam/script/linux-add-env.sh
         bash /Users/acejilam/script/linux-install-bpf.sh
