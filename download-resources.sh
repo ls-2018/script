@@ -1,4 +1,8 @@
+#!/usr/bin/env bash
+
 export GITHUB_PROXY=""
+
+export PS4='line: ${LINENO}  '
 
 mkdir -p ~/resources
 cd ~/resources
@@ -11,11 +15,11 @@ git add .gitignore
 git commit -m "init"
 
 download() {
-
+	set +x
 	local url="$2"
 	local local_file="$1"
 	mkdir -p $(dirname $local_file)
-	set +ex
+
 
 	# 获取本地文件大小（若文件不存在，则大小为 0）
 	# local local_size=$(stat -c "%s" "$local_file" 2>/dev/null || echo 0)    linux
@@ -25,20 +29,17 @@ download() {
 	echo "$local_size" "$remote_size"
 	# 如果大小不同，则下载
 	if [[ "$local_size" -ne "$remote_size" ]]; then
-		set -ex
 		curl -L --progress-bar -o "$local_file" "$url"
-		set +ex
 	fi
-
+	set -x 
 }
+set -x
 
 # --no-verbose
 export version=$(curl -L -s https://cdn.dl.k8s.io/release/stable.txt)
 echo $version
 
 # rm -rf PowerDNS others ssh k8s eunomia-bpf tar .git 3rd yaml
-
-set -ex
 
 download ./k8s/amd64/kubectl "https://cdn.dl.k8s.io/release/${version}/bin/linux/amd64/kubectl"
 download ./k8s/arm64/kubectl "https://cdn.dl.k8s.io/release/${version}/bin/linux/arm64/kubectl"
@@ -91,7 +92,7 @@ download ./yaml/metrics-server/components.yaml https://github.com/kubernetes-sig
 download ./yaml/argo-cd/install.yaml https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 download ./yaml/cert-manager/cert-manager.yaml https://github.com/cert-manager/cert-manager/releases/download/v1.17.2/cert-manager.yaml
 
-mkdir ssh
+mkdir -p ssh
 test -e ./ssh/vm1804 || {
 	ssh-keygen -t ed25519 -f ./ssh/vm1804 -N "" -C "root@vm1804"
 	ssh-keygen -t ed25519 -f ./ssh/vm2004 -N "" -C "root@vm2004"
@@ -107,7 +108,7 @@ helm pull cilium/cilium --version 1.17.0
 helm pull flagger/flagger --version 1.40.0
 cd -
 
-mkdir 3rd
+mkdir -p 3rd
 git clone https://github.com/brendangregg/perf-tools.git 3rd/perf-tools
 git clone https://github.com/iovisor/bcc.git 3rd/bcc
 cd 3rd/bcc && git submodule update --init --recursive && cd -
