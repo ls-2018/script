@@ -1,4 +1,4 @@
-set -x
+set -ex
 cp -rf /resources/sh/p10k.zsh /root/.p10k.zsh
 mkdir -p ~/.local/share/fonts
 
@@ -10,6 +10,7 @@ apt install zsh fontconfig -y
 chsh -s $(which zsh)
 echo $SHELL
 
+REMOTE=https://gitee.com/ls-2018/ohmyzsh.git \
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 
 cp -rf /resources/3rd/powerlevel10k                 ~/.oh-my-zsh/custom/themes/powerlevel10k
