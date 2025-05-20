@@ -136,7 +136,7 @@ download "./sh/p10k.zsh" "https://raw.githubusercontent.com/ls-2018/script/refs/
 download "./sh/install-zsh.sh" https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
 
 download ./tar/arm64/gitstatusd-linux-aarch64.tar.gz https://github.com/romkatv/gitstatus/releases/download/v1.5.4/gitstatusd-linux-aarch64.tar.gz
-download ./tar/amd64/gitstatusd-linux-amd64.tar.gz https://github.com/romkatv/gitstatus/releases/download/v1.5.4/gitstatusd-linux-x86_64.tar.gz
+download ./tar/amd64/gitstatusd-linux-x86_64.tar.gz https://github.com/romkatv/gitstatus/releases/download/v1.5.4/gitstatusd-linux-x86_64.tar.gz
 
 chmod-x.sh ./sh
 
