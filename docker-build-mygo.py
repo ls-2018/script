@@ -130,14 +130,6 @@ docker buildx build \
 --pull -t {repo}/mygo:v{version} --push .
 '''
 
-build_script = f'''
-cd {build_path}
-docker buildx build \
---platform linux/arm64 \
---cache-from=type=registry,ref={repo}/mygo:v{version} \
---cache-to=type=inline \
---pull -t {repo}/mygo:v{version} --push .
-'''
 print(build_script)
 os.system(build_script)
 print(f'{repo}/mygo:v{version}')
