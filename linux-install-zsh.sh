@@ -2,11 +2,12 @@ set -ex
 cp -rf /resources/sh/p10k.zsh /root/.p10k.zsh
 mkdir -p ~/.local/share/fonts
 
+mkdir -p /root/.cache/gitstatus/
 ARCH=$(arch | sed s/aarch64/arm64/ | sed s/x86_64/amd64/)
 if [ "arm64" = ${ARCH} ]; then
-	cat /resources/tar/arm64/gitstatusd-linux-aarch64.tar.gz | tar -zxvf - && chmod +x ./gitstatusd-linux-aarch64 && mv gitstatusd-linux-aarch64 /usr/bin/gitstatusd
+	wget -qO- https://github.com/romkatv/gitstatus/releases/download/v1.5.4/gitstatusd-linux-aarch64.tar.gz | tar -zxvf - && chmod +x ./gitstatusd-linux-aarch64 && mv gitstatusd-linux-aarch64 /root/.cache/gitstatus/
 else
-	cat /resources/tar/arm64/gitstatusd-linux-x86_64.tar.gz | tar -zxvf - && chmod +x ./gitstatusd-linux-x86_64 && mv gitstatusd-linux-x86_64 /usr/bin/gitstatusd
+	wget -qO- https://github.com/romkatv/gitstatus/releases/download/v1.5.4/gitstatusd-linux-x86_64.tar.gz | tar -zxvf - && chmod +x ./gitstatusd-linux-x86_64 && mv gitstatusd-linux-x86_64 /root/.cache/gitstatus/
 fi
 
 apt install fonts-firacode fonts-powerline -y # 可选
