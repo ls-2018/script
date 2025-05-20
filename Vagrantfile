@@ -74,7 +74,7 @@ Vagrant.configure("2") do |config|
         bash /Users/acejilam/script/linux-install-bpf.sh
         if [[ $(hostname) == "vm2404" ]];then
           bash /Users/acejilam/script/linux-install-rust.sh
-          bash /Users/acejilam/script/linux-install-k8s.sh
+          # bash /Users/acejilam/script/linux-install-k8s.sh
           echo "over"
         fi
       SHELL

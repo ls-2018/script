@@ -2,10 +2,12 @@
 
 export GITHUB_PROXY=""
 
-export PS4='line: ${LINENO}  '
+lines=$(wc -l < "$0")
+lines=$(printf "%03d" "$lines")
+export PS4='${LINENO}/'"$lines"': '
 
 mkdir -p ~/resources
-cd ~/resources
+cd ~/resources || exit
 # git add . && git reset --hard $(git show-ref --head --hash=8 ... | head -n1)
 # git status
 
@@ -118,7 +120,8 @@ git clone https://github.com/aya-rs/aya 3rd/aya
 git clone https://github.com/fluxcd/flagger 3rd/flagger
 git clone https://github.com/torvalds/linux.git -b v6.14 3rd/linux
 
-git clone --depth=1 https://github.com/romkatv/powerlevel10k.git 3rd/powerlevel10k
+git clone -b v1.20.0 --depth=1 https://github.com/romkatv/powerlevel10k.git 3rd/powerlevel10k
+
 git clone https://github.com/zsh-users/zsh-autosuggestions.git 3rd/zsh-autosuggestions
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git 3rd/zsh-syntax-highlighting
 
@@ -128,7 +131,14 @@ download "./ttf/MesloLGS NF Regular.ttf" "https://github.com/romkatv/powerlevel1
 download "./ttf/MesloLGS NF Bold.ttf" "https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold.ttf"
 download "./ttf/MesloLGS NF Italic.ttf" "https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Italic.ttf"
 download "./ttf/MesloLGS NF Bold Italic.ttf" "https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold%20Italic.ttf"
+
 download "./sh/p10k.zsh" "https://raw.githubusercontent.com/ls-2018/script/refs/heads/main/.p10k.zsh"
+download "./sh/install-zsh.sh" https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
+
+download ./tar/arm64/gitstatusd-linux-aarch64.tar.gz https://github.com/romkatv/gitstatus/releases/download/v1.5.4/gitstatusd-linux-aarch64.tar.gz
+download ./tar/amd64/gitstatusd-linux-amd64.tar.gz https://github.com/romkatv/gitstatus/releases/download/v1.5.4/gitstatusd-linux-x86_64.tar.gz
+
+chmod-x.sh ./sh
 
 cd 3rd/aya && git submodule update --init --recursive && cd -
 

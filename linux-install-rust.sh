@@ -8,22 +8,21 @@ resolvectl dns eth1 114.114.114.114
 
 sudo apt install curl build-essential gcc make git pkg-config libssl-dev -y
 
-cat <<EOF >>~/.bash_profile
+cat <<EOF >> "$HOME"/.cargo/env
 export RUSTUP_DIST_SERVER=https://mirrors.ustc.edu.cn/rust-static
 export RUSTUP_UPDATE_ROOT=https://mirrors.ustc.edu.cn/rust-static/rustup
 export PATH=/root/.cargo/target/release:\$PATH
 export PATH=/root/.cargo/target/debug:\$PATH
-. "\$HOME/.cargo/env"
 EOF
 
-source ~/.bash_profile
+. "$HOME"/.cargo/env
 
 sudo curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf >rust.sh && chmod +x rust.sh
 export RUSTUP_DIST_SERVER=https://mirrors.ustc.edu.cn/rust-static
 export RUSTUP_UPDATE_ROOT=https://mirrors.ustc.edu.cn/rust-static/rustup
 bash rust.sh -y
 
-cat <<EOF >$HOME/.cargo/config.toml
+cat <<EOF >"$HOME"/.cargo/config.toml
 [source.crates-io]
 registry = "https://github.com/rust-lang/crates.io-index"
 
@@ -74,7 +73,7 @@ source ~/.bash_profile
 
 # linux 有用
 git config --global url."https://ghproxy.net/https://github.com".insteadOf "https://github.com"
-cd /resources/3rd/aya && time cargo install --path ./aya-tool/ && cd -
+cd /resources/3rd/aya && time cargo install --path ./aya-tool/ && cd - || exit
 git config --global --unset url."https://ghproxy.net/https://github.com".insteadOf
 
 apt install pkg-config libssl-dev -y
