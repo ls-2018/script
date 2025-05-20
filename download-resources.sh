@@ -2,7 +2,7 @@
 
 export GITHUB_PROXY=""
 
-lines=$(wc -l < "$0")
+lines=$(wc -l <"$0")
 lines=$(printf "%03d" "$lines")
 export PS4='${LINENO}/'"$lines"': '
 

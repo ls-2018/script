@@ -1,5 +1,4 @@
 #! /usr/bin/env zsh
-
 # kubectl krew install who-can
 # kubectl who-can get secret cluster-admin-creds
 # kubectl krew install rakkess
@@ -7,6 +6,13 @@
 
 name=${1-kind}
 version=${2-v1.28.0}
+
+# if [[ $name == "" ]]; then
+# 	echo "Usage: $0 <name> <version>"
+# 	exit 1
+# fi
+
+# echo '' >~/.kube/${name}
 
 chmod +x ~/.gopath/bin/*
 
@@ -22,8 +28,8 @@ test -e /Users/acejilam/data/plugins/bin/bridge || {
 	mv ./bin/* ../
 }
 
-kind create cluster --config ~/script/kind.yaml -n ${name} --kubeconfig ~/.kube/${name} --image registry.cn-hangzhou.aliyuncs.com/acejilam/node:${version}
-kubectl cluster-info --context kind-${name} --kubeconfig ~/.kube/${name}
+kind create cluster --config ~/script/kind.yaml -n ${name} --kubeconfig ~/.kube/kind-${name} --image registry.cn-hangzhou.aliyuncs.com/acejilam/node:${version}
+kubectl cluster-info --context kind-${name} --kubeconfig ~/.kube/kind-${name}
 string_contains() {
 	local str=$1
 	local sub_str=$2
@@ -42,9 +48,11 @@ string_contains() {
 
 # 使用示例
 
-echo "export KUBECONFIG=~/.kube/${name}"
+# gsed -i "s@kind-@@g" ~/.kube/${name}
+
+echo "export KUBECONFIG=~/.kube/kind-${name}"
 {
-	# cp ~/.kube/${name} ~/.kube/${name}-node
+	# cp ~/.kube/${name} ~/.kube/kind-${name}-node
 
 	# export CIP=`docker inspect koord-control-plane|jq '.[0].NetworkSettings.Networks.kind.IPAddress' | tr -d "\"'"`
 	#yq -i '.clusters[0].cluster.server = "https://" + env(CIP) + ":6443"' ~/.kube/${name}-node

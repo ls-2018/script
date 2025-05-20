@@ -8,7 +8,7 @@ resolvectl dns eth1 114.114.114.114
 
 sudo apt install curl build-essential gcc make git pkg-config libssl-dev -y
 
-cat <<EOF >> "$HOME"/.cargo/env
+cat <<EOF >>"$HOME"/.cargo/env
 export RUSTUP_DIST_SERVER=https://mirrors.ustc.edu.cn/rust-static
 export RUSTUP_UPDATE_ROOT=https://mirrors.ustc.edu.cn/rust-static/rustup
 export PATH=/root/.cargo/target/release:\$PATH

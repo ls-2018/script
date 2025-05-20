@@ -6,8 +6,9 @@ if [[ $(uname) == "Darwin" ]]; then
 	alias sed=gsed
 	alias find=gfind
 	test -e ~/.k8sconfig || {
-		echo '/Users/acejilam/.kube/koord' >~/.k8sconfig
+		echo '/Users/acejilam/.kube/kind-koord' >~/.k8sconfig
 	}
+
 	if [ -z "$KUBECONFIG" ]; then
 		export KUBECONFIG=$(cat ~/.k8sconfig)
 	fi

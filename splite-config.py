@@ -33,7 +33,7 @@ def find_user(_data, name):
 
 
 res = []
-with open('/Users/acejilam/.kube/koord', 'r', encoding='utf8') as f:
+with open('/Users/acejilam/.kube/kind-koord', 'r', encoding='utf8') as f:
     data = yaml.load(f.read(), yaml.BaseLoader)
 
     for item in data['clusters']:
@@ -48,5 +48,3 @@ for item in res:
     with open(f'/Users/acejilam/.kube/{item["current-context"]}', 'w', encoding='utf8') as f:
         f.write(yaml.dump(item))
 
-os.remove("/Users/acejilam/.kube/koord")
-os.system(f"cp /Users/acejilam/.kube/kind-koord /Users/acejilam/.kube/koord")
