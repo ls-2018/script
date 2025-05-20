@@ -22,6 +22,19 @@ file = os.path.join(base, filename)
 with open(file, 'r', encoding='utf-8') as f:
     try:
         data = f.read()
+    except UnicodeDecodeError as e:
+        start = 0
+        end = e.start
+        for i in range(0, e.start):
+            if e.object[e.start - i] == 10:
+                start = e.start - i
+                break
+        for i in range(e.start + 1, e.end):
+            if e.object[i] == 10:
+                end = i
+                break
+        print(e.object[start:end])
+        os.system(f'code {file}')
     except Exception as e:
         print(e)
         os.system(f'code {file}')
@@ -46,7 +59,6 @@ for line in t_data.split('\n'):
     vs.add(ss[1])
 
 ks = sorted(list(res.keys()))
-
 
 with open(file, 'w', encoding='utf-8') as f:
     for k in ks:

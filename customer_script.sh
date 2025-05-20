@@ -153,3 +153,6 @@ find ~ -maxdepth 1 -name 'jcef_*' -exec rm -rf {} + 2>/dev/null
 if [[ $(uname) == "Darwin" ]]; then
 	clean-zsh-history.py
 fi
+
+export LANG="en_US.UTF-8"
+export LC_ALL="en_US.UTF-8"

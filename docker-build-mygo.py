@@ -29,7 +29,11 @@ go install github.com/go-delve/delve/cmd/dlv@latest
 go install github.com/rakyll/hey@latest
 '''
 
-with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "linux-install-zsh-docker.sh"), 'r', encoding='utf8') as f:
+with open(
+        os.path.join(os.path.dirname(os.path.abspath(__file__)), "linux-install-zsh-docker.sh"),
+        'r',
+        encoding='utf8'
+) as f:
     install_zsh = f.read()
 
 install_source = '''
@@ -54,6 +58,7 @@ mv kubectl /usr/local/bin/kubectl
 
 install_system_bin = '''
 set -x 
+apt update -y
 apt install wget git gcc curl locales -y
 apt install vim make cmake gdb -y
 
@@ -113,10 +118,22 @@ for k, v in dict(globals()).items():
         with open(f'{build_path}/Dockerfile', 'w') as f:
             f.write(v.replace('${VERSION}', version))
 
+with open(f'{build_path}/.dockerignore', 'w') as f:
+    f.write('Dockerfile\n')
+
 build_script = f'''
 cd {build_path}
 docker buildx build \
 --platform linux/arm64,linux/amd64 \
+--cache-from=type=registry,ref={repo}/mygo:v{version} \
+--cache-to=type=inline \
+--pull -t {repo}/mygo:v{version} --push .
+'''
+
+build_script = f'''
+cd {build_path}
+docker buildx build \
+--platform linux/arm64 \
 --cache-from=type=registry,ref={repo}/mygo:v{version} \
 --cache-to=type=inline \
 --pull -t {repo}/mygo:v{version} --push .
