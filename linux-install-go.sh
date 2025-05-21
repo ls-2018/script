@@ -4,6 +4,8 @@ rm -rf /usr/local/go*
 rm -rf ./go*
 apt install wget vim gcc -y
 
+apt install musl musl-tools musl-dev -y
+
 version=$(curl -s https://golang.google.cn/dl/ | grep -oP 'go\K[0-9]+\.[0-9]+\.[0-9]+' | sort -V | uniq | tail -n 1)
 mkdir /usr/local/go$version
 
@@ -19,10 +21,19 @@ cat <<EOF >>~/.bash_profile
 export GOROOT="/usr/local/go$version"
 export GOPATH=\$HOME/.gopath  #工作地址路径
 export PATH=\$PATH:\$GOROOT/bin:\$GOPATH/bin
+export CC=musl-gcc
+EOF
+
+cat <<EOF >>~/.zshenv
+export GOROOT="/usr/local/go$version"
+export GOPATH=\$HOME/.gopath  #工作地址路径
+export PATH=\$PATH:\$GOROOT/bin:\$GOPATH/bin
+export CC=musl-gcc
 EOF
 
 set +x
 source ~/.bash_profile
+source ~/.zshenv
 set -x
 
 go version

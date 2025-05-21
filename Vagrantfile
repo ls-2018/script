@@ -18,8 +18,8 @@ settings={
             "name"=> "vm2204",
             "hostname"=> "vm2204",
             "ip"=> "192.168.33.12",
-            "memory"=> 2048,
-            "cpus"=> 2
+            "memory"=> 6144,
+            "cpus"=> 6
         },
         {
             "box_name"=> "bento/ubuntu-24.04",
@@ -69,12 +69,12 @@ Vagrant.configure("2") do |config|
         bash /Users/acejilam/script/linux-install-tools.sh
         bash /Users/acejilam/script/linux-resize-vagrant-disk.sh
         bash /Users/acejilam/script/linux-install-zsh.sh
-        bash /Users/acejilam/script/linux-install-go.sh
+        zsh /Users/acejilam/script/linux-install-go.sh
         . /Users/acejilam/script/linux-add-env.sh
-        bash /Users/acejilam/script/linux-install-bpf.sh
+        zsh /Users/acejilam/script/linux-install-bpf.sh
         if [[ $(hostname) == "vm2404" ]];then
-          bash /Users/acejilam/script/linux-install-rust.sh
-          # bash /Users/acejilam/script/linux-install-k8s.sh
+          zsh /Users/acejilam/script/linux-install-rust.sh
+          # zsh /Users/acejilam/script/linux-install-k8s.sh
           echo "over"
         fi
       SHELL
