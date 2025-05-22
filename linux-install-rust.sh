@@ -9,8 +9,10 @@ resolvectl dns eth1 114.114.114.114
 sudo apt install curl build-essential gcc make git pkg-config libssl-dev -y
 
 cat <<EOF >>"$HOME"/.cargo/env
-export RUSTUP_DIST_SERVER=https://mirrors.ustc.edu.cn/rust-static
-export RUSTUP_UPDATE_ROOT=https://mirrors.ustc.edu.cn/rust-static/rustup
+# 临时设置环境变量以替换默认更新源和分发服务器
+export RUSTUP_UPDATE_ROOT=https://mirrors.aliyun.com/rustup/rustup
+export RUSTUP_DIST_SERVER=https://mirrors.aliyun.com/rustup
+
 export PATH=/root/.cargo/target/release:\$PATH
 export PATH=/root/.cargo/target/debug:\$PATH
 EOF
@@ -27,8 +29,10 @@ cat <<EOF >"$HOME"/.cargo/config.toml
 registry = "https://github.com/rust-lang/crates.io-index"
 
 #replace-with = 'rsproxy'
-# 中国科学技术大学
-replace-with = 'ustc'
+replace-with = 'aliyun'
+
+[source.aliyun]
+registry = "sparse+https://mirrors.aliyun.com/crates.io-index/"
 
 # rsproxy
 [source.rsproxy]
@@ -64,13 +68,8 @@ target-dir = "/root/.cargo/target"
 
 EOF
 
-if [[ "$SHELL" == *"bash" ]]; then
-    source ~/.bash_profile
-elif [[ "$SHELL" == *"zsh" ]]; then
-    source ~/.zshenv
-else
-    echo "当前 shell 不是 Bash 或 Zsh"
-fi
+source ~/.bash_profile
+source ~/.zshenv
 
 # unset RUSTC_WRAPPER
 
