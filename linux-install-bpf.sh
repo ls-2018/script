@@ -106,6 +106,7 @@ rm -rf /perf-tools && echo 1
 cp -rf /resources/3rd/perf-tools /perf-tools
 
 echo 'export PATH=$PATH:/perf-tools/bin' | tee -a $HOME/.bash_profile
+echo 'export PATH=$PATH:/perf-tools/bin' | tee -a $HOME/.zshenv
 
 cd ~
 cp /resources/others/libpcap-1.10.4.tar.gz .

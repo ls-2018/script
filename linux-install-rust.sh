@@ -17,10 +17,10 @@ EOF
 
 . "$HOME"/.cargo/env
 
-sudo curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf >rust.sh && chmod +x rust.sh
+cp /resources/sh/install-rust.sh install-rust.sh && chmod +x install-rust.sh
 export RUSTUP_DIST_SERVER=https://mirrors.ustc.edu.cn/rust-static
 export RUSTUP_UPDATE_ROOT=https://mirrors.ustc.edu.cn/rust-static/rustup
-bash rust.sh -y
+./install-rust.sh -y
 
 cat <<EOF >"$HOME"/.cargo/config.toml
 [source.crates-io]
@@ -64,7 +64,13 @@ target-dir = "/root/.cargo/target"
 
 EOF
 
-source ~/.bash_profile
+if [[ "$SHELL" == *"bash" ]]; then
+    source ~/.bash_profile
+elif [[ "$SHELL" == *"zsh" ]]; then
+    source ~/.zshenv
+else
+    echo "当前 shell 不是 Bash 或 Zsh"
+fi
 
 # unset RUSTC_WRAPPER
 

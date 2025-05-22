@@ -21,14 +21,14 @@ cat <<EOF >>~/.bash_profile
 export GOROOT="/usr/local/go$version"
 export GOPATH=\$HOME/.gopath  #工作地址路径
 export PATH=\$PATH:\$GOROOT/bin:\$GOPATH/bin
-export CC=musl-gcc
+# export CC=musl-gcc
 EOF
 
 cat <<EOF >>~/.zshenv
 export GOROOT="/usr/local/go$version"
 export GOPATH=\$HOME/.gopath  #工作地址路径
 export PATH=\$PATH:\$GOROOT/bin:\$GOPATH/bin
-export CC=musl-gcc
+# export CC=musl-gcc
 EOF
 
 set +x

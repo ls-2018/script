@@ -69,12 +69,12 @@ Vagrant.configure("2") do |config|
         bash /Users/acejilam/script/linux-install-tools.sh
         bash /Users/acejilam/script/linux-resize-vagrant-disk.sh
         bash /Users/acejilam/script/linux-install-zsh.sh
-        zsh /Users/acejilam/script/linux-install-go.sh
+        bash /Users/acejilam/script/linux-install-go.sh
         . /Users/acejilam/script/linux-add-env.sh
-        zsh /Users/acejilam/script/linux-install-bpf.sh
+        bash /Users/acejilam/script/linux-install-bpf.sh
         if [[ $(hostname) == "vm2404" ]];then
-          zsh /Users/acejilam/script/linux-install-rust.sh
-          # zsh /Users/acejilam/script/linux-install-k8s.sh
+          bash /Users/acejilam/script/linux-install-rust.sh
+          # bash /Users/acejilam/script/linux-install-k8s.sh
           echo "over"
         fi
       SHELL
