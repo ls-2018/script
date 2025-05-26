@@ -55,13 +55,12 @@ for line in t_data.split('\n'):
     if line.strip() == "":
         continue
     ss = line.split(";")
-    res[ss[0]] = ss[1]
-    vs.add(ss[1])
+    res[ss[1]] = ss[0]
 
-ks = sorted(list(res.keys()))
+ks = sorted(list(res.values()))
+
+reversed_dict = {v: k for k, v in res.items()}
 
 with open(file, 'w', encoding='utf-8') as f:
-    for k in ks:
-        if res[k] in vs:
-            f.write(k + ';' + res[k] + '\n')
-            vs.remove(res[k])
+    for t in ks:
+        f.write(t + ';' + reversed_dict[t] + '\n')

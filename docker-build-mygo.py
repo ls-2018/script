@@ -61,7 +61,7 @@ set -x
 apt update -y
 apt install wget git gcc curl locales -y
 apt install vim make cmake gdb -y
-
+apt install telnetd -y 
 
 '''
 dockerfile = '''
