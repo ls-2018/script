@@ -20,6 +20,10 @@ kind delete cluster -n ${name}
 mkdir -p /Users/acejilam/data/build_cache
 mkdir -p /Users/acejilam/data/plugins/bin
 
+rm -rf /Users/acejilam/data/kind/*
+
+mkdir -p /Users/acejilam/data/kind/logs
+
 cd /Users/acejilam/data/plugins/bin
 test -e /Users/acejilam/data/plugins/bin/bridge || {
 	git clone https://github.com/containernetworking/plugins.git -b v1.4.0

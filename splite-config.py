@@ -2,6 +2,8 @@
 import copy
 import os
 
+os.system("pip3 install pyyaml")
+
 import yaml
 
 template = {
