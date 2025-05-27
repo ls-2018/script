@@ -5,9 +5,9 @@ mkdir -p ~/.local/share/fonts
 mkdir -p /root/.cache/gitstatus/
 ARCH=$(arch | sed s/aarch64/arm64/ | sed s/x86_64/amd64/)
 if [ "arm64" = ${ARCH} ]; then
-	cat /resources/tar/arm64/gitstatusd-linux-aarch64.tar.gz | tar -zxvf - && chmod +x ./gitstatusd-linux-aarch64 && mv gitstatusd-linux-aarch64 /root/.cache/gitstatus/
+    cat /resources/tar/arm64/gitstatusd-linux-aarch64.tar.gz | tar -zxvf - && chmod +x ./gitstatusd-linux-aarch64 && mv gitstatusd-linux-aarch64 /root/.cache/gitstatus/
 else
-	cat /resources/tar/amd64/gitstatusd-linux-x86_64.tar.gz | tar -zxvf - && chmod +x ./gitstatusd-linux-x86_64 && mv gitstatusd-linux-x86_64 /root/.cache/gitstatus/
+    cat /resources/tar/amd64/gitstatusd-linux-x86_64.tar.gz | tar -zxvf - && chmod +x ./gitstatusd-linux-x86_64 && mv gitstatusd-linux-x86_64 /root/.cache/gitstatus/
 fi
 
 apt install fonts-firacode fonts-powerline -y # 可选
@@ -18,7 +18,7 @@ chsh -s $(which zsh)
 echo $SHELL
 
 REMOTE=https://gitee.com/ls-2018/ohmyzsh.git \
-	sh -c /resources/sh/install-zsh.sh "" --unattended
+    sh -c /resources/sh/install-zsh.sh "" --unattended
 
 cp -rf /resources/3rd/powerlevel10k ~/.oh-my-zsh/custom/themes/powerlevel10k
 cp -rf /resources/3rd/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions

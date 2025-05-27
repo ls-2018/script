@@ -55,7 +55,9 @@ for line in t_data.split('\n'):
     if line.strip() == "":
         continue
     ss = line.split(";")
-    res[ss[1]] = ss[0]
+    if len(ss)==2 :
+        res[ss[0]] = ss[1]
+        vs.add(ss[1])
 
 ks = sorted(list(res.values()))
 
