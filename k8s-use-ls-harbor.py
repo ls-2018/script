@@ -3,13 +3,13 @@ import toml
 import os
 import subprocess
 
-input("需要再docker的noproxy 中配置: *.ls.com,*.aliyun.com,*.*.aliyuncs.com,*.aliyuncs.com")
-
-cmd = '''
-ip=``
-echo $ip
-k -n kube-system get configmap coredns -oyaml |yq '.data.Corefile' > /tmp/Corefile.yaml
-'''
+proxy = '*.ls.com,*.aliyun.com,*.zetyun.com,*.*.aliyuncs.com,*.aliyuncs.com'
+with open('/Users/acejilam/Library/Group Containers/group.com.docker/settings-store.json', 'r', encoding='utf-8') as f:
+    data = f.read()
+    if proxy in data:
+        pass
+    else:
+        input(f"需要再docker的noproxy 中配置: {proxy}")
 
 os.system("kubectl -n kube-system get configmap coredns -oyaml |yq '.data.Corefile' > /tmp/Corefile.yaml")
 
@@ -18,6 +18,11 @@ for i in range(5):
     if ip == '':
         ip = subprocess.getoutput(f'ipconfig getifaddr en{i}')
 print(ip)
+
+hosts_ip = subprocess.getoutput("""cat /etc/hosts|grep 'harbor.ls.com'|awk -F ' ' '{print $1}'""")
+if hosts_ip != ip:
+    print(f"当前hosts中harbor.ls.com的IP不是{ip}，请检查")
+    exit(1)
 
 aliyun = 'registry.cn-hangzhou.aliyuncs.com'
 ls = 'harbor.ls.com'
@@ -74,9 +79,11 @@ with open("/tmp/change-host.sh", 'w', encoding='utf8') as f:
     f.write("\n")
     f.write(f'''echo -e "{ip} {ls}" >> /etc/hosts''')
 
+
 def system(_cmd):
     print(_cmd)
     os.system(_cmd)
+
 
 ns = subprocess.getoutput("kubectl get nodes |awk -F ' ' '{print $1}'|grep -v NAME").strip().split('\n')
 for n in ns:
@@ -90,7 +97,6 @@ for n in ns:
     with open(f"/tmp/config.toml", "w", encoding='utf8') as f:
         f.write(toml.dumps(data))
     system(f'docker cp /tmp/config.toml {n}:/etc/containerd/config.toml')
-
 
     system(f'docker exec {n} mkdir -p /etc/containerd/certs.d/{aliyun}')
     system(f'docker cp /tmp/{aliyun}.toml {n}:/etc/containerd/certs.d/{aliyun}/hosts.toml')
@@ -106,7 +112,6 @@ for n in ns:
 
     system(f'docker cp /Users/acejilam/data/harbor/cert/harbor.crt {n}:/etc/containerd/certs.d/{aliyun}/harbor.crt')
     system(f'docker cp /Users/acejilam/data/harbor/cert/harbor.crt {n}:/etc/containerd/certs.d/{ls}/harbor.crt')
-
 
     system(f'docker exec {n} bash /root/change-host.sh')
     system(f'docker exec {n} apt install iputils-ping -y')

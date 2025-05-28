@@ -6,7 +6,6 @@
 
 name=${1-kind}
 version=${2-v1.28.0}
-
 # if [[ $name == "" ]]; then
 # 	echo "Usage: $0 <name> <version>"
 # 	exit 1
@@ -17,6 +16,8 @@ version=${2-v1.28.0}
 chmod +x ~/.gopath/bin/*
 
 kind delete cluster -n ${name}
+set -e
+
 mkdir -p /Users/acejilam/data/build_cache
 mkdir -p /Users/acejilam/data/plugins/bin
 
@@ -34,6 +35,7 @@ test -e /Users/acejilam/data/plugins/bin/bridge || {
 
 kind create cluster --config ~/script/kind.yaml -n ${name} --kubeconfig ~/.kube/kind-${name} --image registry.cn-hangzhou.aliyuncs.com/acejilam/node:${version}
 kubectl cluster-info --context kind-${name} --kubeconfig ~/.kube/kind-${name}
+
 string_contains() {
 	local str=$1
 	local sub_str=$2
@@ -72,3 +74,11 @@ ARCH=$(arch | sed s/aarch64/arm64/ | sed s/x86_64/amd64/)
 cat ~/resources/tar/${ARCH}/nerdctl-2.0.3-linux-${ARCH}.tar.gz | tar -zxvf - -C /tmp/nerdctl
 
 kubectl get nodes | awk -F ' ' '{print $1}' | grep -v NAME | xargs -I F docker cp /tmp/nerdctl/nerdctl F:/usr/bin/
+
+if [[ "$(docker network ls)" == *harbor* ]]; then
+  docker-compose -f `docker-compose ls --format json | jq -r '.[] | select(.Name == "harbor") | .ConfigFiles'` restart
+else
+  docker-install-harbor.sh
+fi
+
+k8s-use-ls-harbor.py
