@@ -6,7 +6,7 @@ omitStages:
 rules:
 - level: RequestResponse
   resources:
-  - group: ""
+  - group: "leaderworkerset.x-k8s.io"
     # Resource "pods" doesn't match requests to any subresource of pods,
     # which is consistent with the RBAC policy.
-    resources: ["pods"]
+    resources: ["kstatefulsets"]

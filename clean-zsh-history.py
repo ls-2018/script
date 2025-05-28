@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import os
 import sys
+import chardet
 
 data = ''
 filename = 'zsh_history'
@@ -19,25 +20,33 @@ for cd, dirs, files in os.walk(base):
             os.remove(os.path.join(cd, file))
 
 file = os.path.join(base, filename)
-with open(file, 'r', encoding='utf-8') as f:
-    try:
-        data = f.read()
-    except UnicodeDecodeError as e:
-        start = 0
-        end = e.start
-        for i in range(0, e.start):
-            if e.object[e.start - i] == 10:
-                start = e.start - i
-                break
-        for i in range(e.start + 1, e.end):
-            if e.object[i] == 10:
-                end = i
-                break
-        print(e.object[start:end])
-        os.system(f'code {file}')
-    except Exception as e:
-        print(e)
-        os.system(f'code {file}')
+
+with open(file, 'rb') as f:
+    raw = f.read()
+
+result = chardet.detect(raw)
+encoding = result['encoding']
+data = raw.decode(encoding, errors='replace')
+
+# with open(file, 'r', encoding='utf-8') as f:
+#     try:
+#         data = f.read()
+#     except UnicodeDecodeError as e:
+#         start = 0
+#         end = e.start
+#         for i in range(0, e.start):
+#             if e.object[e.start - i] == 10:
+#                 start = e.start - i
+#                 break
+#         for i in range(e.start + 1, e.end):
+#             if e.object[i] == 10:
+#                 end = i
+#                 break
+#         print(e.object[start:end])
+#         os.system(f'code {file}')
+#     except Exception as e:
+#         print(e)
+#         os.system(f'code {file}')
 
 t_data = ''
 for line in data.split('\n'):
