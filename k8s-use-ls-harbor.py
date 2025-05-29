@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
-import toml
 import os
+os.system('pip3 install toml')
 import subprocess
+import toml
 
 proxy = '*.ls.com,*.aliyun.com,*.zetyun.com,*.*.aliyuncs.com,*.aliyuncs.com'
 with open('/Users/acejilam/Library/Group Containers/group.com.docker/settings-store.json', 'r', encoding='utf-8') as f:
@@ -20,8 +21,8 @@ for i in range(5):
 print(ip)
 
 hosts_ip = subprocess.getoutput("""cat /etc/hosts|grep 'harbor.ls.com'|awk -F ' ' '{print $1}'""")
-if hosts_ip != ip:
-    print(f"当前hosts中harbor.ls.com的IP不是{ip}，请检查")
+if hosts_ip != '127.0.0.1':
+    print(f"当前hosts中harbor.ls.com的IP不是 127.0.0.1, 请检查")
     exit(1)
 
 aliyun = 'registry.cn-hangzhou.aliyuncs.com'
@@ -112,6 +113,8 @@ for n in ns:
 
     system(f'docker cp /Users/acejilam/data/harbor/cert/harbor.crt {n}:/etc/containerd/certs.d/{aliyun}/harbor.crt')
     system(f'docker cp /Users/acejilam/data/harbor/cert/harbor.crt {n}:/etc/containerd/certs.d/{ls}/harbor.crt')
+    system(f'docker cp /Users/acejilam/data/harbor/cert/harbor.crt {n}:/usr/local/share/ca-certificates/')
 
+    system(f'docker exec {n} bash update-ca-certificates')
     system(f'docker exec {n} bash /root/change-host.sh')
     system(f'docker exec {n} apt install iputils-ping -y')

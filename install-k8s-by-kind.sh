@@ -66,16 +66,18 @@ echo "export KUBECONFIG=~/.kube/kind-${name}"
 	# export CIP="${name}-control-plane"
 	# yq -i '.clusters[0].cluster.server = "https://" + env(CIP) + ":6443"' ~/.kube/${name}-node
 }
-
-rm -rf /tmp/nerdctl
-mkdir /tmp/nerdctl
-
+rm -rf ./nerdctl
+mkdir ./nerdctl
+export KUBECONFIG=~/.kube/kind-${name}
 ARCH=$(arch | sed s/aarch64/arm64/ | sed s/x86_64/amd64/)
-cat ~/resources/tar/${ARCH}/nerdctl-2.0.3-linux-${ARCH}.tar.gz | tar -zxvf - -C /tmp/nerdctl
+cat ~/resources/tar/${ARCH}/nerdctl-2.0.3-linux-${ARCH}.tar.gz | tar -zxvf - -C ./nerdctl
 
-kubectl get nodes | awk -F ' ' '{print $1}' | grep -v NAME | xargs -I F docker cp /tmp/nerdctl/nerdctl F:/usr/bin/
+kubectl get nodes | awk -F ' ' '{print $1}' | grep -v NAME | xargs -I F docker cp ./nerdctl/nerdctl F:/usr/bin/
 
-if [[ "$(docker network ls)" == *harbor* ]]; then
+rm -rf ./nerdctl
+
+
+if [[ "$(docker network ls)" == *harbor* && "$(docker ps -a)" == *harbor-core* ]]; then
   docker-compose -f `docker-compose ls --format json | jq -r '.[] | select(.Name == "harbor") | .ConfigFiles'` restart
 else
   docker-install-harbor.sh
