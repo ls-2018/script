@@ -34,6 +34,7 @@ cd -
 echo "✓ Testing Powerlevel10k Icons:  ⚡ ❯"
 
 cat >~/.zshrc <<EOF
+export ZSH="\$HOME/.oh-my-zsh"
 
 ZSH_THEME="powerlevel10k/powerlevel10k"
 plugins=(
@@ -42,7 +43,7 @@ plugins=(
     zsh-syntax-highlighting
     z
 )
-source ~/.oh-my-zsh/oh-my-zsh.sh
+source \$ZSH/oh-my-zsh.sh
 
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
