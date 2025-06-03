@@ -68,6 +68,8 @@ target-dir = "/root/.cargo/target"
 
 EOF
 
+export PATH="$HOME/.cargo/bin:$PATH"
+
 # unset RUSTC_WRAPPER
 
 #共享缓存
