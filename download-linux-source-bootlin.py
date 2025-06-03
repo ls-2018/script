@@ -16,7 +16,7 @@ if len(sys.argv) < 4:
 path = sys.argv[1]
 file_path = sys.argv[2]
 func = sys.argv[3]
-# path = '/Users/acejilam/Desktop/ebpf/ebpf-nftrace'
+# path = '/Users/acejilam/Desktop/book/ebpf/ebpf-nftrace'
 # file_path = 'net/netfilter/nf_tables_core.c'
 
 try:

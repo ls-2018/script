@@ -11,7 +11,7 @@ if os.path.exists(os.path.join(base, '.git/config')):
     with open(os.path.join(base, '.git/config'), 'r') as f:
         data = f.read()
         if 'add' in sys.argv:
-            if 'datacanvas' not in data:
+            if 'github' in data:
                 os.system(f'cd {base} && git config user.name "acejilam"')
                 os.system(f'cd {base} && git config user.email "acejilam@gmail.com"')
             else:

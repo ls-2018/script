@@ -15,7 +15,8 @@ sed -i "s@http://.*ports.ubuntu.com@http://mirrors.tuna.tsinghua.edu.cn@g" /etc/
 sed -i "s@deb https://mirrors.bfsu.edu.cn@# deb http://mirrors.bfsu.edu.cn@g" /etc/apt/sources.list
 sed -i "s@deb https://mirrors.bfsu.edu.cn@# deb http://mirrors.bfsu.edu.cn@g" /etc/apt/sources.list.d/*
 
-sed -i 's@deb.debian.org@mirrors.aliyun.com@g' /etc/apt/sources.list.d/debian.sources
+# sed -i 's@deb.debian.org@mirrors.aliyun.com@g' /etc/apt/sources.list.d/debian.sources
+sed -i 's@deb.debian.org@mirrors.tuna.tsinghua.edu.cn@g' /etc/apt/sources.list.d/debian.sources
 
 localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
 

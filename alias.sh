@@ -52,3 +52,12 @@ alias k8na='kubectl get node -o custom-columns=NAME:.metadata.name,RESOURCE_LIMI
 # alias vmip='curl -s --basic -u ls:Bg8q9DRnY2A0OLKw http://49.232.16.245/ip'
 
 # alias svm='ssh root@2j8g761566.wicp.vip -p 52575'
+
+gtp() {
+  git add .
+  git commit -s -m "$1"	
+  git push --force
+  git tag -d "$1"
+  git tag "$1"
+  git push --tags --force
+}

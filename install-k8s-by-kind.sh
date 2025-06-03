@@ -6,6 +6,7 @@
 
 name=${1-kind}
 version=${2-v1.28.0}
+my_harbor=${3-}
 # if [[ $name == "" ]]; then
 # 	echo "Usage: $0 <name> <version>"
 # 	exit 1
@@ -76,11 +77,12 @@ kubectl get nodes | awk -F ' ' '{print $1}' | grep -v NAME | xargs -I F docker c
 
 rm -rf ./nerdctl
 
+if [[ ${my_harbor} == "harbor" ]]; then
+	if [[ "$(docker network ls)" == *harbor* && "$(docker ps -a)" == *harbor-core* ]]; then
+		docker-compose -f $(docker-compose ls --format json | jq -r '.[] | select(.Name == "harbor") | .ConfigFiles') restart
+	else
+		docker-install-harbor.sh
+	fi
 
-if [[ "$(docker network ls)" == *harbor* && "$(docker ps -a)" == *harbor-core* ]]; then
-  docker-compose -f `docker-compose ls --format json | jq -r '.[] | select(.Name == "harbor") | .ConfigFiles'` restart
-else
-  docker-install-harbor.sh
+	k8s-use-ls-harbor.py
 fi
-
-k8s-use-ls-harbor.py

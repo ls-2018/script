@@ -16,7 +16,7 @@ proxy = sys.argv[3]
 file_path = sys.argv[4]
 func = sys.argv[5]
 
-# path = '/Users/acejilam/Desktop/ebpf/ebpf-nftrace'
+# path = '/Users/acejilam/Desktop/book/ebpf/ebpf-nftrace'
 # file_path = 'net/netfilter/nf_tables_core.c'
 # res = requests.get('https://elixir.bootlin.com/linux/v6.10.3/source')
 try:
