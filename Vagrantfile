@@ -46,7 +46,11 @@ Vagrant.configure("2") do |config|
       vm.vm.network "private_network",ip: vm_config['ip'], hostname: true
       vm.vm.synced_folder "~/.ssh", "/host_ssh", mount_options:["dmode=777","fmode=666"]
       vm.vm.synced_folder "~/.kube", "/.host_kube"
-      vm.vm.synced_folder "~/Desktop/book/ebpf", "/ebpf", owner: "root", group: "root"
+      vm.vm.synced_folder "~/Desktop/book/ebpf", "/ebpf",
+        type: "nfs",
+        mount_options: ['rw', 'vers=3', 'tcp', 'fsc', 'actimeo=2']
+
+
       vm.vm.synced_folder "~/script", "/Users/acejilam/script", mount_options:["dmode=555","fmode=444"]
       vm.vm.synced_folder "~/resources", "/resources"
       vm.vm.synced_folder "~/.docker_images", "/docker_images"
@@ -65,15 +69,15 @@ Vagrant.configure("2") do |config|
 
       vm.vm.provision "shell", inline: <<-SHELL
         set -ex
-        bash /Users/acejilam/script/linux-replace-sources.sh
-        bash /Users/acejilam/script/linux-install-tools.sh
-        bash /Users/acejilam/script/linux-resize-vagrant-disk.sh
-        bash /Users/acejilam/script/linux-install-zsh.sh
-        bash /Users/acejilam/script/linux-install-go.sh
-        bash /Users/acejilam/script/linux-add-env.sh
-        bash /Users/acejilam/script/linux-install-bpf.sh
+         bash /Users/acejilam/script/linux-replace-sources.sh
+         bash /Users/acejilam/script/linux-install-tools.sh
+         bash /Users/acejilam/script/linux-resize-vagrant-disk.sh
+         bash /Users/acejilam/script/linux-install-zsh.sh
+         zsh /Users/acejilam/script/linux-install-go.sh
+         zsh /Users/acejilam/script/linux-add-env.sh
+         zsh /Users/acejilam/script/linux-install-bpf.sh
         if [[ $(hostname) == "vm2404" ]];then
-          bash /Users/acejilam/script/linux-install-rust.sh
+          zsh /Users/acejilam/script/linux-install-rust.sh
           # bash /Users/acejilam/script/linux-install-k8s.sh
           echo "over"
         fi

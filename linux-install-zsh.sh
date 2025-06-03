@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 set -ex
 cp -rf /resources/sh/p10k.zsh /root/.p10k.zsh
 mkdir -p ~/.local/share/fonts

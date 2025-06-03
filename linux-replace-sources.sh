@@ -1,4 +1,4 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env bash
 set -x
 touch ~/.hushlogin # 关闭登录提示
 onlyUpdate=$1

@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
 mkdir -p ~/.cargo/{target,registry}
 touch ~/.cargo/env
 
@@ -67,9 +67,6 @@ git-fetch-with-cli=true
 target-dir = "/root/.cargo/target"
 
 EOF
-
-source ~/.bash_profile
-source ~/.zshenv
 
 # unset RUSTC_WRAPPER
 

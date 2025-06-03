@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -x
 echo "查看当前的 LVM 配置..."
 sudo vgdisplay
