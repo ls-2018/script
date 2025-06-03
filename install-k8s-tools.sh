@@ -1,4 +1,4 @@
-set -x 
+set -x
 GO111MODULE="on" go install sigs.k8s.io/kind@latest
 
 brew install helm
@@ -9,7 +9,6 @@ arch=$(go env GOARCH) #替换下面命令的amd64
 rm ~/.gopath/bin/kubebuilder
 curl -L -o kubebuilder "https://go.kubebuilder.io/dl/latest/$(go env GOOS)/$(go env GOARCH)"
 chmod +x kubebuilder && sudo mv kubebuilder ~/.gopath/bin/kubebuilder
-
 
 # #下载安装包 如果需要指定版本 使用版本号替换 $(curl -L -s https://files.m.daocloud.io/dl.k8s.io/release/stable.txt) 即可
 # curl -LO "https://files.m.daocloud.io/dl.k8s.io/release/$(curl -L -s https://files.m.daocloud.io/dl.k8s.io/release/stable.txt)/bin/$(uname |tr '[:upper:]' '[:lower:]')/amd64/kubectl"

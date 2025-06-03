@@ -1,5 +1,8 @@
 #!/usr/bin/env zsh
 
+autoload -Uz compinit
+compinit
+
 # setopt no_nomatch
 export GOPATH=${HOME}/.gopath
 export GOPATH=~/.gopath
@@ -65,9 +68,6 @@ export PATH="/Users/acejilam/Library/Application Support/JetBrains/Toolbox/scrip
 # GIT_DIRTY=$(git diff --no-ext-diff 2>/dev/null | wc -l)
 # BUILD_ID=$(uname -n)"-"$(date +%s)
 
-# autoload -Uz compinit
-# compinit
-
 ARCH=$(arch | sed s/aarch64/arm64/ | sed s/x86_64/amd64/)
 
 test -e ~/.gopath/bin/kubectl || {
@@ -96,9 +96,7 @@ fi
 
 export K8S_DEBUG=1
 
-# zsh 大小写敏感
-# autoload -Uz compinit && compinit
-# zstyle ':completion:*' matcher-list 'm:{a-z}={a-z}'
+# https://github.com/stern/stern
 # source <(stern --completion=zsh)
 
 # export ZSH="$HOME/.oh-my-zsh"

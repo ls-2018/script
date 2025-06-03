@@ -70,7 +70,7 @@ Vagrant.configure("2") do |config|
         bash /Users/acejilam/script/linux-resize-vagrant-disk.sh
         bash /Users/acejilam/script/linux-install-zsh.sh
         bash /Users/acejilam/script/linux-install-go.sh
-        . /Users/acejilam/script/linux-add-env.sh
+        bash /Users/acejilam/script/linux-add-env.sh
         bash /Users/acejilam/script/linux-install-bpf.sh
         if [[ $(hostname) == "vm2404" ]];then
           bash /Users/acejilam/script/linux-install-rust.sh

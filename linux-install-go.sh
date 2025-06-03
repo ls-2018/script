@@ -1,5 +1,4 @@
 #!/usr/bin/env zsh
-set -x
 rm -rf /usr/local/go*
 rm -rf ./go*
 apt install wget vim gcc -y
@@ -31,10 +30,8 @@ export PATH=\$PATH:\$GOROOT/bin:\$GOPATH/bin
 # export CC=musl-gcc
 EOF
 
-set +x
 source ~/.bash_profile
 source ~/.zshenv
-set -x
 
 go version
 go env

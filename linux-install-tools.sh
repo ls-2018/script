@@ -11,8 +11,6 @@ mv ~/.ssh/$(hostname) ~/.ssh/id_ed25519
 chmod 600 ~/.ssh/id_ed25519
 mv ~/.ssh/$(hostname).pub ~/.ssh/id_ed25519.pub
 
-echo '. /Users/acejilam/script/customer_script.sh' | tee -a /etc/profile
-
 sed -i "s/#UseDNS yes/UseDNS no/g" /etc/ssh/sshd_config
 # sudo sed -i 's/^#* *\\(PermitRootLogin\\)\\(.*\\)$/\\1 yes/' /etc/ssh/sshd_config
 # sudo sed -i 's/^#* *\\(PasswordAuthentication\\)\\(.*\\)$/\\1 yes/' /etc/ssh/sshd_config
@@ -25,8 +23,6 @@ ufw disable
 systemctl restart ssh
 echo -e "root\nroot" | (passwd root)
 touch ~/.hushlogin
-
-# echo '. /Users/acejilam/script/customer_script.sh' | tee -a /etc/profile
 
 echo 'nameserver 114.114.114.114' >/etc/resolv.conf
 resolvectl dns eth0 114.114.114.114
