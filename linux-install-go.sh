@@ -1,4 +1,3 @@
-#!/usr/bin/env zsh
 rm -rf /usr/local/go*
 rm -rf ./go*
 apt install wget vim gcc -y

@@ -1,4 +1,3 @@
-#!/usr/bin/env zsh
 set -ex
 
 ARCH=$(arch | sed s/aarch64/arm64/ | sed s/x86_64/amd64/)

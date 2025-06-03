@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 
-autoload -Uz compinit
-compinit
+# autoload -Uz compinit
+# compinit
 
 # setopt no_nomatch
 export GOPATH=${HOME}/.gopath

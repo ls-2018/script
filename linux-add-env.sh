@@ -1,4 +1,3 @@
-#!/usr/bin/env zsh
 echo '. /Users/acejilam/script/customer_script.sh' | tee -a ~/.bash_profile
 echo '. /Users/acejilam/script/customer_script.sh' | tee -a ~/.bashrc
 echo '. /Users/acejilam/script/customer_script.sh' | tee -a ~/.zshenv

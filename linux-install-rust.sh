@@ -1,4 +1,3 @@
-#!/usr/bin/env zsh
 mkdir -p ~/.cargo/{target,registry}
 touch ~/.cargo/env
 
