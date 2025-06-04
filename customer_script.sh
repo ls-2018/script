@@ -1,21 +1,11 @@
-#!/usr/bin/env zsh
-if [[ "$SHELL" == *"bash" ]]; then
-	source <(kubectl completion bash)
-elif [[ "$SHELL" == *"zsh" ]]; then
-	source <(kubectl completion zsh)
-	autoload -Uz compinit
-	compinit
-else
-	echo "当前 shell 不是 Bash 或 Zsh"
-fi
+ACEHOME="/Users/acejilam"
 
 # setopt no_nomatch
-export GOPATH=${HOME}/.gopath
-export GOPATH=~/.gopath
+export GOPATH=${ACEHOME}/.gopath 
 export SDKROOT=/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk
 
 mkdir -p $GOPATH/{bin,pkg,src}
-mkdir -p ~/.cargo/{target,registry,git}
+mkdir -p ${ACEHOME}/.cargo/{target,registry,git}
 # export RUSTC_WRAPPER=sccache
 
 # Mac
@@ -26,10 +16,10 @@ mkdir -p ~/.cargo/{target,registry,git}
 # CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build main.go
 
 # https://zhuanlan.zhihu.com/p/383707713
-SOFTWARE_HOME=~/software
-export HELM_CONFIG_HOME=~/.helm/conf
-export HELM_DATA_HOME=~/.helm/data
-export HELM_CACHE_HOME=~/.helm/cache
+SOFTWARE_HOME=${ACEHOME}/software
+export HELM_CONFIG_HOME=${ACEHOME}/.helm/conf
+export HELM_DATA_HOME=${ACEHOME}/.helm/data
+export HELM_CACHE_HOME=${ACEHOME}/.helm/cache
 
 export myself=$SOFTWARE_HOME/myself
 export GOPROXY=https://goproxy.cn/,direct
@@ -39,15 +29,15 @@ export KUBE_EDITOR="code --wait"
 export MVN_HOME=$SOFTWARE_HOME/apache-maven-3.6.3
 export PROTOC_HOME=$SOFTWARE_HOME/protoc-3.14.0
 export ISTIO_HOME=$SOFTWARE_HOME/istio-1.12.2
-export CARGO_HOME=~/.cargo
+export CARGO_HOME=${ACEHOME}/.cargo
 export JMETER_HOME=$SOFTWARE_HOME/apache-jmeter-5.5
 export PY_PATH="/Library/Frameworks/Python.framework/Versions/Current"
 
-export PATH=$JMETER_HOME/bin:$MVN_HOME/bin:$ISTIO_HOME/bin:$PROTOC_HOME/bin:$GOPATH/bin:$SOFTWARE_HOME:~/script:$myself:$ETCD_HOME:$PATH
+export PATH=$JMETER_HOME/bin:$MVN_HOME/bin:$ISTIO_HOME/bin:$PROTOC_HOME/bin:$GOPATH/bin:$SOFTWARE_HOME:${ACEHOME}/script:$myself:$ETCD_HOME:$PATH
 
-export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
-export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
-export PATH=$PATH:~/.dapr/bin
+export PATH="$ACEHOME/.yarn/bin:$ACEHOME/.config/yarn/global/node_modules/.bin:$PATH"
+export PATH="${KREW_ROOT:-$ACEHOME/.krew}/bin:$PATH"
+export PATH=$PATH:${ACEHOME}/.dapr/bin
 
 test -e /opt/homebrew/bin/brew && {
 	export JAVA_HOME=$(brew --prefix openjdk)
@@ -76,10 +66,10 @@ export PATH="/Users/acejilam/Library/Application Support/JetBrains/Toolbox/scrip
 
 ARCH=$(arch | sed s/aarch64/arm64/ | sed s/x86_64/amd64/)
 
-test -e ~/.gopath/bin/kubectl || {
+test -e ${ACEHOME}/.gopath/bin/kubectl || {
 	curl -LO "https://files.m.daocloud.io/dl.k8s.io/release/$(curl -L -s https://files.m.daocloud.io/dl.k8s.io/release/stable.txt)/bin/$(uname | tr '[:upper:]' '[:lower:]')/${ARCH}/kubectl"
 	chmod +x kubectl
-	mv kubectl ~/.gopath/bin/kubectl
+	mv kubectl ${ACEHOME}/.gopath/bin/kubectl
 }
 
 #### ffmpeg
@@ -97,15 +87,7 @@ export K8S_DEBUG=1
 # https://github.com/stern/stern
 # source <(stern --completion=zsh)
 
-# export ZSH="$HOME/.oh-my-zsh"
-# ZSH_THEME="robbyrussell"
-# # git clone https://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
-# # git clone https://github.com/zsh-users/zsh-syntax-highlighting ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
-# # git clone https://github.com/zsh-users/autojump ~/.oh-my-zsh/custom/plugins/autojump
-# plugins=(git zsh-autosuggestions zsh-syntax-highlighting)
-# source $ZSH/oh-my-zsh.sh
-# PROMPT='%B%(?:%F{green}➜ :%F{red}➜ )%f%{%}%F{red}%d%f%b%{%} %{$reset_color%}$(git_prompt_info)> '
-
+ 
 export GIT_EDITOR=code\ --wait
 # git config --global core.editor code
 
@@ -115,10 +97,6 @@ export GIT_EDITOR=code\ --wait
 
 # 禁止生成.DS_store
 # defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool TRUE
-# [[ -s "/Users/acejilam/.gvm/scripts/gvm" ]] && source "/Users/acejilam/.gvm/scripts/gvm"
-
-# . "$HOME/.cargo/env"
-# $()
 
 # 修复运行 code . 报错
 # codesign --force --deep --sign - /Applications/Visual\ Studio\ Code.app
@@ -133,9 +111,10 @@ export PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION=python
 export GONOPROXY='gitlab.datacanvas.com/*,git@gitlab.datacanvas.com/*'
 export GOPRIVATE='gitlab.datacanvas.com/*,git@gitlab.datacanvas.com/*'
 export GONOSUMDB='gitlab.datacanvas.com,git@gitlab.datacanvas.com'
-
+export GOFLAGS='-buildvcs=false'
 . /Users/acejilam/script/alias.sh
 
+mkdir -p /Users/acejilam/Desktop/SyncZone
 export HISTFILE="/Users/acejilam/Desktop/SyncZone/zsh_history"
 
 # zsh 通配符无匹配时报错

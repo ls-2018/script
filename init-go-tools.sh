@@ -94,3 +94,5 @@ cd /tmp && git clone https://gitee.com/ls-2018/functrace.git && cd functrace/cmd
 go install github.com/google/yamlfmt/cmd/yamlfmt@latest
 
 cd /tmp && git clone https://github.com/lestrrat-go/jwx.git && cd jwx && make && cd -
+
+go install github.com/goreleaser/goreleaser/v2@latest

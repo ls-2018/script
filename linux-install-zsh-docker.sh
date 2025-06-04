@@ -14,7 +14,6 @@ fi
 apt install zsh fontconfig -y
 
 chsh -s $(which zsh)
-echo $SHELL
 
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 

@@ -15,8 +15,8 @@ apt install fonts-firacode fonts-powerline -y # 可选
 
 apt install zsh fontconfig -y
 
+# shellcheck disable=SC2046
 chsh -s $(which zsh)
-echo $SHELL
 
 REMOTE=https://gitee.com/ls-2018/ohmyzsh.git \
 	sh -c /resources/sh/install-zsh.sh "" --unattended
