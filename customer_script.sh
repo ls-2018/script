@@ -1,7 +1,13 @@
 #!/usr/bin/env zsh
-
-# autoload -Uz compinit
-# compinit
+if [[ "$SHELL" == *"bash" ]]; then
+	source <(kubectl completion bash)
+elif [[ "$SHELL" == *"zsh" ]]; then
+	source <(kubectl completion zsh)
+	autoload -Uz compinit
+	compinit
+else
+	echo "当前 shell 不是 Bash 或 Zsh"
+fi
 
 # setopt no_nomatch
 export GOPATH=${HOME}/.gopath
@@ -75,14 +81,6 @@ test -e ~/.gopath/bin/kubectl || {
 	chmod +x kubectl
 	mv kubectl ~/.gopath/bin/kubectl
 }
-
-if [[ "$SHELL" == *"bash" ]]; then
-	source <(kubectl completion bash)
-elif [[ "$SHELL" == *"zsh" ]]; then
-	source <(kubectl completion zsh)
-else
-	echo "当前 shell 不是 Bash 或 Zsh"
-fi
 
 #### ffmpeg
 # export PATH="/opt/homebrew/opt/ffmpeg@5/bin:$PATH"
