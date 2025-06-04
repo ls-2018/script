@@ -1,3 +1,4 @@
+# shellcheck disable=SC2148
 rm -rf /usr/local/go*
 rm -rf ./go*
 apt install wget vim gcc -y
@@ -15,22 +16,9 @@ rm -rf go$version.linux-$ARCH.tar.gz
 mkdir -p ~/.gopath/{bin,src,pkg}
 chmod -R 777 /usr/local/go$version
 
-cat <<EOF >>~/.bash_profile
 export GOROOT="/usr/local/go$version"
-export GOPATH=\$HOME/.gopath  #工作地址路径
-export PATH=\$PATH:\$GOROOT/bin:\$GOPATH/bin
-# export CC=musl-gcc
-EOF
-
-cat <<EOF >>~/.zshenv
-export GOROOT="/usr/local/go$version"
-export GOPATH=\$HOME/.gopath  #工作地址路径
-export PATH=\$PATH:\$GOROOT/bin:\$GOPATH/bin
-# export CC=musl-gcc
-EOF
-
-source ~/.bash_profile
-source ~/.zshenv
+export GOPATH=$HOME/.gopath #工作地址路径
+export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
 
 go version
 go env

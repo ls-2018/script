@@ -1,7 +1,8 @@
+# shellcheck disable=SC2148
 ACEHOME="/Users/acejilam"
 
 # setopt no_nomatch
-export GOPATH=${ACEHOME}/.gopath 
+export GOPATH=${ACEHOME}/.gopath
 export SDKROOT=/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk
 
 mkdir -p $GOPATH/{bin,pkg,src}
@@ -87,7 +88,6 @@ export K8S_DEBUG=1
 # https://github.com/stern/stern
 # source <(stern --completion=zsh)
 
- 
 export GIT_EDITOR=code\ --wait
 # git config --global core.editor code
 
@@ -112,6 +112,8 @@ export GONOPROXY='gitlab.datacanvas.com/*,git@gitlab.datacanvas.com/*'
 export GOPRIVATE='gitlab.datacanvas.com/*,git@gitlab.datacanvas.com/*'
 export GONOSUMDB='gitlab.datacanvas.com,git@gitlab.datacanvas.com'
 export GOFLAGS='-buildvcs=false'
+
+# shellcheck disable=SC1091
 . /Users/acejilam/script/alias.sh
 
 mkdir -p /Users/acejilam/Desktop/SyncZone
