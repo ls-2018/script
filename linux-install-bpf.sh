@@ -83,6 +83,9 @@ sudo ln -s /usr/include/$(arch)-linux-gnu/asm /usr/include/asm
 # make -j $(nproc)
 # sudo make install
 # popd
+
+
+# shellcheck disable=SC2046
 apt-get install bpfcc-tools linux-headers-$(uname -r) -y
 
 # if [[ $(cat /etc/os-release | grep "VERSION_ID") == *"24.04"* ]]; then
@@ -104,8 +107,8 @@ rm -rf /perf-tools && echo 1
 
 cp -rf /resources/3rd/perf-tools /perf-tools
 
-echo 'export PATH=$PATH:/perf-tools/bin' | tee -a $HOME/.bash_profile
-echo 'export PATH=$PATH:/perf-tools/bin' | tee -a $HOME/.zshenv
+echo 'export PATH=$PATH:/perf-tools/bin' | tee -a $HOME/.bashrc
+echo 'export PATH=$PATH:/perf-tools/bin' | tee -a $HOME/.zshrc
 
 cd ~
 cp /resources/others/libpcap-1.10.4.tar.gz .

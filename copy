@@ -1,9 +1,12 @@
 #! /usr/bin/env bash
 host=${1-vm}
 path=${2-/root/myapp}
-# if [ -e ".gitignore" ]; then
-# shellcheck disable=SC2046
-# /usr/bin/rsync -avz --exclude-from=$(pwd)/.gitignore root@${host}:${path}/* .
-# else
-/usr/bin/rsync -avz root@${host}:${path}/* .
-# fi
+if [ -e ".gitignore" ]; then
+    set -ex   
+    # shellcheck disable=SC2046
+    /usr/bin/rsync -avz --exclude-from=$(pwd)/.gitignore root@${host}:${path}/* .
+else
+    set -ex
+    # shellcheck disable=SC2086
+    /usr/bin/rsync -avz root@${host}:${path}/* .
+fi

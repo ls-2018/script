@@ -18,8 +18,8 @@ apt install zsh fontconfig -y
 # shellcheck disable=SC2046
 chsh -s $(which zsh)
 
-REMOTE=https://gitee.com/ls-2018/ohmyzsh.git \
-	sh -c /resources/sh/install-zsh.sh "" --unattended
+REMOTE=https://gitee.com/ls-2018/ohmyzsh.git 
+	bash -c /resources/sh/install-zsh.sh "" --unattended
 
 cp -rf /resources/3rd/powerlevel10k ~/.oh-my-zsh/custom/themes/powerlevel10k
 cp -rf /resources/3rd/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
@@ -43,5 +43,4 @@ plugins=(
 source \$ZSH/oh-my-zsh.sh
 
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
 EOF
