@@ -63,22 +63,21 @@ gtp() {
 	git push --tags --force
 }
 
-
 fix_path_spaces() {
-  local fixed_path=""
-  local IFS=':'  # 分隔 PATH 变量
-  for entry in $PATH; do
-    # 如果路径中含空格，则转义空格
-    # shellcheck disable=SC2001
-    entry_fixed=$(echo "$entry" | sed 's/ /\\ /g')
-    if [ -z "$fixed_path" ]; then
-      fixed_path="$entry_fixed"
-    else
-      fixed_path="$fixed_path:$entry_fixed"
-    fi
-  done
+	local fixed_path=""
+	local IFS=':' # 分隔 PATH 变量
+	for entry in $PATH; do
+		# 如果路径中含空格，则转义空格
+		# shellcheck disable=SC2001
+		entry_fixed=$(echo "$entry" | sed 's/ /\\ /g')
+		if [ -z "$fixed_path" ]; then
+			fixed_path="$entry_fixed"
+		else
+			fixed_path="$fixed_path:$entry_fixed"
+		fi
+	done
 
-  export PATH="$fixed_path"
+	export PATH="$fixed_path"
 }
 
 # fix_path_spaces

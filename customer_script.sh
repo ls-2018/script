@@ -122,10 +122,10 @@ export HISTFILE="/Users/acejilam/Desktop/SyncZone/zsh_history"
 # zsh 通配符无匹配时报错
 # setopt +o nomatch
 
-find ~ -maxdepth 1 -name '.zcompdump*' -exec rm -rf {} + 2>/dev/null
-find ~ -maxdepth 1 -name '.java*' -exec rm -rf {} + 2>/dev/null
-find ~ -maxdepth 1 -name '.wget*' -exec rm -rf {} + 2>/dev/null
-find ~ -maxdepth 1 -name 'jcef_*' -exec rm -rf {} + 2>/dev/null
+# find ~ -maxdepth 1 -name '.zcompdump*' -exec rm -rf {} + 2>/dev/null
+# find ~ -maxdepth 1 -name '.java*' -exec rm -rf {} + 2>/dev/null
+# find ~ -maxdepth 1 -name '.wget*' -exec rm -rf {} + 2>/dev/null
+# find ~ -maxdepth 1 -name 'jcef_*' -exec rm -rf {} + 2>/dev/null
 
 export LANG="en_US.UTF-8"
 export LC_ALL="en_US.UTF-8"
