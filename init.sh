@@ -97,3 +97,6 @@ brew install snipaste
 brew install windterm
 
 brew install kubetail
+
+# dockerfile 格式化
+brew install hadolint

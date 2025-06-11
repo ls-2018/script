@@ -7,7 +7,7 @@ cd ~/Desktop
 mkdir book
 cd book
 git clone https://github.com/iovisor/bcc.git ebpf/ebpf.io/bcc
-git clone https://github.com/hengyoush/kyanos.git ebpf/kyanos
+git clone https://github.com/translatecn/kyanos.git -b cn ebpf/kyanos
 git clone https://github.com/Sysinternals/SysmonForLinux.git ebpf/ebpf.io/SysmonForLinux
 git clone https://github.com/mannkafai/bpf-inside.git ebpf/bpf-inside
 git clone https://github.com/zhangzihengya/oscomp-diagnose-tools.git ebpf/oscomp-diagnose-tools
