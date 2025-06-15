@@ -52,7 +52,7 @@ kubectl taint nodes vm2404 node-role.kubernetes.io/control-plane-
 
 sed -i "s#apiserver.cluster.local#$(hostname)#g" ~/.kube/config
 sed -i "s#kubernetes-admin@kubernetes#$(hostname)#g" ~/.kube/config
-cp -rf ~/.kube/config /.host_kube/$(hostname).config
+cp -rf ~/.kube/config /host_kube/$(hostname).config
 
 scp /tmp/daemon.json root@vm2204:/etc/docker/daemon.json
 scp /tmp/daemon.json root@vm2404:/etc/docker/daemon.json

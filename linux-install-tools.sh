@@ -58,4 +58,4 @@ crontab /tmp/crontab.bak
 echo "*/1 * * * * /usr/sbin/ntpdate -u ntp1.aliyun.com | logger -t NTP" >>/tmp/crontab.bak
 crontab /tmp/crontab.bak
 
-apt install musl-tools -y
+apt install musl-tools git curl -y

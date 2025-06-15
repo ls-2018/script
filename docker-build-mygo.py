@@ -66,6 +66,7 @@ apt install telnet -y
 '''
 dockerfile = '''
 FROM registry.cn-hangzhou.aliyuncs.com/acejilam/ubuntu:24.04
+COPY localtime /etc/localtime
 WORKDIR /build
 # ENV LANG=en_US.UTF-8
 # ENV LANGUAGE=en_US:en
@@ -108,6 +109,11 @@ repo = sys.argv[2].strip('')
 shutil.copyfile(
     os.path.join(os.path.dirname(os.path.abspath(__file__)), '.p10k.zsh'),
     os.path.join(build_path, '.p10k.zsh')
+)
+
+shutil.copyfile(
+    os.path.join(os.path.dirname(os.path.abspath(__file__)), 'localtime'),
+    os.path.join(build_path, 'localtime')
 )
 
 for k, v in dict(globals()).items():

@@ -47,7 +47,7 @@ apt-get install -y moreutils \
 	curl build-essential gcc make git pkg-config libssl-dev \
 	apt-transport-https ca-certificates jq build-essential \
 	libpcap-dev libbfd-dev binutils-dev \
-	linux-tools-common linux-tools-$(uname -r) \
+	linux-tools-common linux-tools-$(uname -r) linux-tools-generic \
 	python3-pip \
 	linux-headers-$(uname -r) \
 	zip bison build-essential cmake flex \
@@ -57,13 +57,16 @@ apt-get install -y moreutils \
 	libcereal-dev libgtest-dev libgmock-dev asciidoctor \
 	pahole libcurl4-openssl-dev lldb-${LLVM_VERSION} \
 	lld-${LLVM_VERSION} liblldb-${LLVM_VERSION}-dev gdb python3-dev zstd libzstd-dev \
-	libpolly-${LLVM_VERSION}-dev libclang-${LLVM_VERSION}-dev llvm-${LLVM_VERSION}-dev
+	libpolly-${LLVM_VERSION}-dev libclang-${LLVM_VERSION}-dev llvm-${LLVM_VERSION}-dev \
+	pkgconf bc rsync
 
 apt install libbpf-dev -y
 # libbpf-dev 可以替换为:
 # cd ~
 # cp -rf /resources/3rd/libbpf libbpf
 # cd libbpf/src && BUILD_STATIC_ONLY=y make install && cd - && rm -rf libbpf
+
+apt install musl-tools -y
 
 sudo ln -s /usr/include/$(arch)-linux-gnu/asm /usr/include/asm
 

@@ -4,6 +4,7 @@ touch ~/.cargo/env
 echo 'nameserver 114.114.114.114' >/etc/resolv.conf
 resolvectl dns eth0 114.114.114.114
 resolvectl dns eth1 114.114.114.114
+resolvectl dns enp0s5 114.114.114.114
 
 sudo apt install curl build-essential gcc make git pkg-config libssl-dev -y
 

@@ -5,9 +5,12 @@ import subprocess
 
 git_set = []
 
+print(sys.argv)
+
 pwd = sys.argv[1]
+
 update = False
-if len(sys.argv) == 3 and sys.argv[3].lower() == "true":
+if len(sys.argv) == 3 and sys.argv[2].lower() == "true":
     update = True
 
 
@@ -37,6 +40,14 @@ if not update:
         os.system(f'cd {git_path} && git status')
     sys.exit(0)
 
+
+def write_file_exec(content):
+    p='/tmp/update-git-stats.sh'
+    with open(p , 'w') as f:
+        f.write(content)
+    os.system(f'chmod +x {p}')
+    os.system(f'bash {p}')
+
 for i, git in enumerate(git_set):
     git_path = os.path.dirname(git)
     print(git_path)
@@ -44,14 +55,15 @@ for i, git in enumerate(git_set):
     #     f'cd {git_path} && git log --oneline'
     # ).split('\n')[0].split(' ')[0]
 
-    os.system(
-        f'cd {git_path} && git add . && git reset --hard `git show-ref --head --hash=8 2`')
-    os.system(
-        f'cd {git_path} && git pull')
-    os.system(
-        f'cd {git_path} && git submodule update --init --recursive')
-    os.system(
-        f'cd {git_path} && git add . && git reset --hard $((git show-ref --head --hash=8 2>/dev/null || echo 00000000) | head -n1) && git pull')
+    write_file_exec(f"""
+echo {git_path} 
+cd {git_path} 
+git add . 
+git reset --hard `git show-ref --head --hash=8 2`
+git pull
+git submodule update --init --recursive
+
+""")
     # os.system(
     # f'cd {git_path} && git config pull.rebase false && git-pullall.sh')
     print(f"剩余:{len(git_set) - i}")

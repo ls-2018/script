@@ -99,6 +99,7 @@ test -e ./ssh/vm1804 || {
 	ssh-keygen -t ed25519 -f ./ssh/vm2004 -N "" -C "root@vm2004"
 	ssh-keygen -t ed25519 -f ./ssh/vm2204 -N "" -C "root@vm2204"
 	ssh-keygen -t ed25519 -f ./ssh/vm2404 -N "" -C "root@vm2404"
+	ssh-keygen -t ed25519 -f ./ssh/ebpf -N "" -C "root@ebpf"
 }
 
 cd others
