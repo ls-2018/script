@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-set -x
+set -ex
 
 cat >/tmp/daemon.json <<EOF
 {
@@ -41,12 +41,13 @@ cat /resources/tar/${ARCH}/v${VERSION}/sealos_${VERSION}_linux_${ARCH}.tar.gz | 
 #   --masters=192.168.33.13 \
 #   -p=root
 
+# sealos reset --nodes=192.168.33.11,192.168.33.12 --masters=192.168.33.13
 sealos run registry.cn-shanghai.aliyuncs.com/labring/kubernetes-docker:v1.30.0 \
-  registry.cn-shanghai.aliyuncs.com/labring/helm:v3.14.0 --nodes=192.168.33.11,192.168.33.12 \
+  registry.cn-shanghai.aliyuncs.com/labring/helm:v3.14.0 \
+  --nodes=192.168.33.11,192.168.33.12 \
   --masters=192.168.33.13 \
   -p=root
-
-# sealos reset --nodes=192.168.33.12 --masters=192.168.33.13
+#
 
 kubectl taint nodes vm2404 node-role.kubernetes.io/control-plane-
 
@@ -54,19 +55,24 @@ sed -i "s#apiserver.cluster.local#$(hostname)#g" ~/.kube/config
 sed -i "s#kubernetes-admin@kubernetes#$(hostname)#g" ~/.kube/config
 cp -rf ~/.kube/config /host_kube/$(hostname).config
 
-scp /tmp/daemon.json root@worker1:/etc/docker/daemon.json
-scp /tmp/daemon.json root@worker2:/etc/docker/daemon.json
+scp /tmp/daemon.json root@vm2004:/etc/docker/daemon.json
+scp /tmp/daemon.json root@vm2204:/etc/docker/daemon.json
+scp /tmp/daemon.json root@vm2404:/etc/docker/daemon.json
 
-ssh root@worker1 systemctl daemon-reload
-ssh root@worker2 systemctl daemon-reload
-ssh root@worker1 systemctl restart docker
-ssh root@worker2 systemctl restart docker
+ssh root@vm2004 systemctl daemon-reload
+ssh root@vm2004 systemctl restart docker
+ssh root@vm2204 systemctl daemon-reload
+ssh root@vm2204 systemctl restart docker
+ssh root@vm2404 systemctl daemon-reload
+ssh root@vm2404 systemctl restart docker
 
 cat >/tmp/download.sh <<EOF
   apt install socat -y
   cd /docker_images && ls |xargs -I F docker load -i F
 EOF
 
+scp /tmp/download.sh root@vm2004:/tmp/download.sh
+ssh root@vm2004 bash /tmp/download.sh
 scp /tmp/download.sh root@vm2204:/tmp/download.sh
 ssh root@vm2204 bash /tmp/download.sh
 scp /tmp/download.sh root@vm2404:/tmp/download.sh

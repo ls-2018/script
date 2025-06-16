@@ -7,27 +7,27 @@ settings={
     "vm"=> [
         {
             "box_name"=> "bento/ubuntu-24.04",
-            "name"=> "worker1",
-            "hostname"=> "worker1",
+            "name"=> "vm2004",
+            "hostname"=> "vm2004",
             "ip"=> "192.168.33.11",
-            "memory"=> 2048,
-            "cpus"=> 2
+            "memory"=> 3072,
+            "cpus"=> 3
         },
         {
             "box_name"=> "bento/ubuntu-24.04",
-            "name"=> "worker2",
-            "hostname"=> "worker2",
+            "name"=> "vm2204",
+            "hostname"=> "vm2204",
             "ip"=> "192.168.33.12",
-            "memory"=> 6144,
-            "cpus"=> 6
+            "memory"=> 3072,
+            "cpus"=> 3
         },
         {
             "box_name"=> "bento/ubuntu-24.04",
             "name"=> "vm2404",
             "hostname"=> "vm2404",
             "ip"=> "192.168.33.13",
-            "memory"=> 6144,
-            "cpus"=> 6
+            "memory"=> 3072,
+            "cpus"=> 3
         }
     ]
 }
@@ -74,9 +74,9 @@ Vagrant.configure("2") do |config|
         bash /Users/acejilam/script/linux-install-go.sh
         bash /Users/acejilam/script/linux-add-env.sh
         if [[ $(hostname) == "vm2404" ]];then
-          bash /Users/acejilam/script/linux-install-bpf.sh
-          bash /Users/acejilam/script/linux-install-rust.sh
-          # bash /Users/acejilam/script/linux-install-k8s.sh
+          # bash /Users/acejilam/script/linux-install-bpf.sh
+          # bash /Users/acejilam/script/linux-install-rust.sh
+          bash /Users/acejilam/script/linux-install-k8s.sh
           echo "over"
         fi
       SHELL
