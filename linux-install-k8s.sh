@@ -41,10 +41,10 @@ cat /resources/tar/${ARCH}/v${VERSION}/sealos_${VERSION}_linux_${ARCH}.tar.gz | 
 #   --masters=192.168.33.13 \
 #   -p=root
 
-sealos run registry.cn-shanghai.aliyuncs.com/labring/kubernetes-docker:v1.28.7 \
-	registry.cn-shanghai.aliyuncs.com/labring/helm:v3.14.0 --nodes=192.168.33.12 \
-	--masters=192.168.33.13 \
-	-p=root
+sealos run registry.cn-shanghai.aliyuncs.com/labring/kubernetes-docker:v1.30.0 \
+  registry.cn-shanghai.aliyuncs.com/labring/helm:v3.14.0 --nodes=192.168.33.11,192.168.33.12 \
+  --masters=192.168.33.13 \
+  -p=root
 
 # sealos reset --nodes=192.168.33.12 --masters=192.168.33.13
 
@@ -54,13 +54,13 @@ sed -i "s#apiserver.cluster.local#$(hostname)#g" ~/.kube/config
 sed -i "s#kubernetes-admin@kubernetes#$(hostname)#g" ~/.kube/config
 cp -rf ~/.kube/config /host_kube/$(hostname).config
 
-scp /tmp/daemon.json root@vm2204:/etc/docker/daemon.json
-scp /tmp/daemon.json root@vm2404:/etc/docker/daemon.json
+scp /tmp/daemon.json root@worker1:/etc/docker/daemon.json
+scp /tmp/daemon.json root@worker2:/etc/docker/daemon.json
 
-ssh root@vm2204 systemctl daemon-reload
-ssh root@vm2404 systemctl daemon-reload
-ssh root@vm2204 systemctl restart docker
-ssh root@vm2404 systemctl restart docker
+ssh root@worker1 systemctl daemon-reload
+ssh root@worker2 systemctl daemon-reload
+ssh root@worker1 systemctl restart docker
+ssh root@worker2 systemctl restart docker
 
 cat >/tmp/download.sh <<EOF
   apt install socat -y
@@ -78,37 +78,37 @@ cat /resources/tar/${ARCH}/hubble-linux-${ARCH}.tar.gz | tar -zxvf - -C /usr/bin
 helm uninstall tetragon -n kube-system || true
 helm uninstall cilium -n kube-system || true
 helm install cilium /resources/others/cilium-* \
-	-n kube-system \
-	--set hubble.ui.enabled=true \
-	--set hubble.relay.enabled=true \
-	--set hubble.ui.enabled=true \
-	--set hubble.ui.standalone.enabled=true \
-	--set image.repository=registry.cn-hangzhou.aliyuncs.com/acejilam/cilium-ci \
-	--set certgen.image.repository=registry.cn-hangzhou.aliyuncs.com/acejilam/certgen \
-	--set hubble.relay.image.repository=registry.cn-hangzhou.aliyuncs.com/acejilam/hubble-relay-ci \
-	--set hubble.ui.backend.image.repository=registry.cn-hangzhou.aliyuncs.com/acejilam/hubble-ui-backend \
-	--set hubble.ui.frontend.image.repository=registry.cn-hangzhou.aliyuncs.com/acejilam/hubble-ui \
-	--set envoy.image.repository=registry.cn-hangzhou.aliyuncs.com/acejilam/cilium-envoy \
-	--set operator.image.repository=registry.cn-hangzhou.aliyuncs.com/acejilam/operator \
-	--set nodeinit.image.repository=registry.cn-hangzhou.aliyuncs.com/acejilam/startup-script \
-	--set preflight.image.repository=registry.cn-hangzhou.aliyuncs.com/acejilam/cilium-ci \
-	--set apiserver.image.repository=registry.cn-hangzhou.aliyuncs.com/acejilam/clustermesh-apiserver-ci \
-	--set authentication.mutual.spire.install.initImage.repository=registry.cn-hangzhou.aliyuncs.com/acejilam/busybox \
-	--set authentication.mutual.spire.install.agent.image.repository=registry.cn-hangzhou.aliyuncs.com/acejilam/spire-agent \
-	--set authentication.mutual.spire.install.agent.image.repository=registry.cn-hangzhou.aliyuncs.com/acejilam/spire-server \
-	--set image.useDigest=false \
-	--set certgen.image.useDigest=false \
-	--set hubble.relay.image.useDigest=false \
-	--set hubble.ui.backend.image.useDigest=false \
-	--set hubble.ui.frontend.image.useDigest=false \
-	--set envoy.image.useDigest=false \
-	--set operator.image.useDigest=false \
-	--set nodeinit.image.useDigest=false \
-	--set preflight.image.useDigest=false \
-	--set apiserver.image.useDigest=false \
-	--set authentication.mutual.spire.install.initImage.useDigest=false \
-	--set authentication.mutual.spire.install.agent.image.useDigest=false \
-	--set authentication.mutual.spire.install.server.image.useDigest=false
+  -n kube-system \
+  --set hubble.ui.enabled=true \
+  --set hubble.relay.enabled=true \
+  --set hubble.ui.enabled=true \
+  --set hubble.ui.standalone.enabled=true \
+  --set image.repository=registry.cn-hangzhou.aliyuncs.com/acejilam/cilium-ci \
+  --set certgen.image.repository=registry.cn-hangzhou.aliyuncs.com/acejilam/certgen \
+  --set hubble.relay.image.repository=registry.cn-hangzhou.aliyuncs.com/acejilam/hubble-relay-ci \
+  --set hubble.ui.backend.image.repository=registry.cn-hangzhou.aliyuncs.com/acejilam/hubble-ui-backend \
+  --set hubble.ui.frontend.image.repository=registry.cn-hangzhou.aliyuncs.com/acejilam/hubble-ui \
+  --set envoy.image.repository=registry.cn-hangzhou.aliyuncs.com/acejilam/cilium-envoy \
+  --set operator.image.repository=registry.cn-hangzhou.aliyuncs.com/acejilam/operator \
+  --set nodeinit.image.repository=registry.cn-hangzhou.aliyuncs.com/acejilam/startup-script \
+  --set preflight.image.repository=registry.cn-hangzhou.aliyuncs.com/acejilam/cilium-ci \
+  --set apiserver.image.repository=registry.cn-hangzhou.aliyuncs.com/acejilam/clustermesh-apiserver-ci \
+  --set authentication.mutual.spire.install.initImage.repository=registry.cn-hangzhou.aliyuncs.com/acejilam/busybox \
+  --set authentication.mutual.spire.install.agent.image.repository=registry.cn-hangzhou.aliyuncs.com/acejilam/spire-agent \
+  --set authentication.mutual.spire.install.agent.image.repository=registry.cn-hangzhou.aliyuncs.com/acejilam/spire-server \
+  --set image.useDigest=false \
+  --set certgen.image.useDigest=false \
+  --set hubble.relay.image.useDigest=false \
+  --set hubble.ui.backend.image.useDigest=false \
+  --set hubble.ui.frontend.image.useDigest=false \
+  --set envoy.image.useDigest=false \
+  --set operator.image.useDigest=false \
+  --set nodeinit.image.useDigest=false \
+  --set preflight.image.useDigest=false \
+  --set apiserver.image.useDigest=false \
+  --set authentication.mutual.spire.install.initImage.useDigest=false \
+  --set authentication.mutual.spire.install.agent.image.useDigest=false \
+  --set authentication.mutual.spire.install.server.image.useDigest=false
 
 # helm install tetragon /resources/others/tetragon-* -n kube-system
 # cilium hubble enable --relay --ui
