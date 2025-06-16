@@ -81,3 +81,6 @@ fix_path_spaces() {
 }
 
 # fix_path_spaces
+
+
+alias mk="minikube kubectl --"

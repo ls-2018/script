@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 #rm -rf /Users/acejilam/data/harbor/{tgz,cert,logs}
 
-rm -rf /Users/acejilam/data/harbor
+# rm -rf /Users/acejilam/data/harbor
 # rm -rf /Users/acejilam/data/harbor/{tgz,cert,logs}
 mkdir -p /Users/acejilam/data/harbor/{tgz,cert,data,logs}
 

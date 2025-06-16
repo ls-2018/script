@@ -79,7 +79,8 @@ rm -rf ./nerdctl
 
 if [[ ${my_harbor} == "harbor" ]]; then
 	if [[ "$(docker network ls)" == *harbor* && "$(docker ps -a)" == *harbor-core* ]]; then
-		docker-compose -f $(docker-compose ls --format json | jq -r '.[] | select(.Name == "harbor") | .ConfigFiles') restart
+		echo "skip"
+		# docker-compose -f $(docker-compose ls --format json | jq -r '.[] | select(.Name == "harbor") | .ConfigFiles') restart
 	else
 		docker-install-harbor.sh
 	fi

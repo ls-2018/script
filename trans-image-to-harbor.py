@@ -24,4 +24,5 @@ if user not in users:
         f"""curl -k -u "admin:Harbor12345" -X POST -H "Content-Type: application/json" "https://{me_domain}/api/v2.0/projects/" -d '{{"project_name": "{user}", "public": true}}'""")
 
 os.system('skopeo login harbor.ls.com -u admin -p Harbor12345')
+print(raw_image)
 os.system(f'skopeo copy --override-os=linux --insecure-policy docker://{raw_image} docker://{new_image}')
