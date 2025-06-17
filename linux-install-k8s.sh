@@ -1,4 +1,4 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env bash
 set -ex
 
 cat >/tmp/daemon.json <<EOF
@@ -30,7 +30,7 @@ cat >/tmp/daemon.json <<EOF
 }
 EOF
 
-export VERSION=5.0.0
+export VERSION=5.0.1
 ARCH=$(arch | sed s/aarch64/arm64/ | sed s/x86_64/amd64/)
 
 cat /resources/tar/${ARCH}/v${VERSION}/sealos_${VERSION}_linux_${ARCH}.tar.gz | tar -zxvf - -C /usr/bin/
@@ -43,10 +43,10 @@ cat /resources/tar/${ARCH}/v${VERSION}/sealos_${VERSION}_linux_${ARCH}.tar.gz | 
 
 # sealos reset --nodes=192.168.33.11,192.168.33.12 --masters=192.168.33.13
 sealos run registry.cn-shanghai.aliyuncs.com/labring/kubernetes-docker:v1.30.0 \
-  registry.cn-shanghai.aliyuncs.com/labring/helm:v3.14.0 \
-  --nodes=192.168.33.11,192.168.33.12 \
-  --masters=192.168.33.13 \
-  -p=root
+	registry.cn-shanghai.aliyuncs.com/labring/helm:v3.14.0 \
+	--nodes=192.168.33.11,192.168.33.12 \
+	--masters=192.168.33.13 \
+	-p=root
 #
 
 kubectl taint nodes vm2404 node-role.kubernetes.io/control-plane-
@@ -55,34 +55,36 @@ sed -i "s#apiserver.cluster.local#$(hostname)#g" ~/.kube/config
 sed -i "s#kubernetes-admin@kubernetes#$(hostname)#g" ~/.kube/config
 cp -rf ~/.kube/config /host_kube/$(hostname).config
 
-scp /tmp/daemon.json root@vm2004:/etc/docker/daemon.json
-scp /tmp/daemon.json root@vm2204:/etc/docker/daemon.json
-scp /tmp/daemon.json root@vm2404:/etc/docker/daemon.json
-
-ssh root@vm2004 systemctl daemon-reload
-ssh root@vm2004 systemctl restart docker
-ssh root@vm2204 systemctl daemon-reload
-ssh root@vm2204 systemctl restart docker
-ssh root@vm2404 systemctl daemon-reload
-ssh root@vm2404 systemctl restart docker
-
 cat >/tmp/download.sh <<EOF
+  export DEBIAN_FRONTEND=noninteractive 
   apt install socat -y
   cd /docker_images && ls |xargs -I F docker load -i F
 EOF
 
-scp /tmp/download.sh root@vm2004:/tmp/download.sh
-ssh root@vm2004 bash /tmp/download.sh
-scp /tmp/download.sh root@vm2204:/tmp/download.sh
-ssh root@vm2204 bash /tmp/download.sh
-scp /tmp/download.sh root@vm2404:/tmp/download.sh
-ssh root@vm2404 bash /tmp/download.sh
+hosts=("vm1804" "vm2004" "vm2204" "vm2404")
+
+for host in "${hosts[@]}"; do
+	echo "Checking $host..."
+	if ping -c 1 -W 1 "$host" &>/dev/null; then
+		scp /tmp/daemon.json root@${host}:/etc/docker/daemon.json
+		ssh root@${host} systemctl daemon-reload
+		ssh root@${host} systemctl restart docker
+		scp /tmp/download.sh root@${host}:/tmp/download.sh
+		ssh root@${host} bash /tmp/download.sh
+	fi
+done
 
 cat /resources/tar/${ARCH}/cilium-linux-${ARCH}.tar.gz | tar -zxvf - -C /usr/bin/
 cat /resources/tar/${ARCH}/hubble-linux-${ARCH}.tar.gz | tar -zxvf - -C /usr/bin/
 
-helm uninstall tetragon -n kube-system || true
-helm uninstall cilium -n kube-system || true
+if helm list -n kube-system | grep -q "tetragon"; then
+    helm uninstall tetragon -n kube-system
+fi
+
+if helm list -n kube-system | grep -q "tetrciliumagon"; then
+    helm uninstall cilium -n kube-system
+fi
+
 helm install cilium /resources/others/cilium-* \
   -n kube-system \
   --set hubble.ui.enabled=true \
@@ -136,9 +138,9 @@ spec:
     k8s-app: hubble-ui
   type: NodePort
 EOF
-cilium status --wait
 echo '✅✅✅✅✅✅✅✅✅✅✅✅'
+cilium status
 
-#skopeo copy --all --insecure-policy docker://quay.io/cilium/cilium-envoy:v1.31.5-1737535524-fe8efeb16a7d233bffd05af9ea53599340d3f18e docker://registry.cn-hangzhou.aliyuncs.com/acejilam/cilium-envoy:v1.31.5-1737535524-fe8efeb16a7d233bffd05af9ea53599340d3f18e
-#skopeo copy --all --insecure-policy docker://quay.io/cilium/cilium-ci:v1.17.0 docker://registry.cn-hangzhou.aliyuncs.com/acejilam/cilium-ci:v1.17.0
-#skopeo copy --all --insecure-policy docker://quay.io/cilium/hubble-relay-ci:v1.17 docker://registry.cn-hangzhou.aliyuncs.com/acejilam/hubble-relay-ci:v1.17.0
+# #skopeo copy --all --insecure-policy docker://quay.io/cilium/cilium-envoy:v1.31.5-1737535524-fe8efeb16a7d233bffd05af9ea53599340d3f18e docker://registry.cn-hangzhou.aliyuncs.com/acejilam/cilium-envoy:v1.31.5-1737535524-fe8efeb16a7d233bffd05af9ea53599340d3f18e
+# #skopeo copy --all --insecure-policy docker://quay.io/cilium/cilium-ci:v1.17.0 docker://registry.cn-hangzhou.aliyuncs.com/acejilam/cilium-ci:v1.17.0
+# #skopeo copy --all --insecure-policy docker://quay.io/cilium/hubble-relay-ci:v1.17 docker://registry.cn-hangzhou.aliyuncs.com/acejilam/hubble-relay-ci:v1.17.0

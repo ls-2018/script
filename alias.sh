@@ -14,6 +14,7 @@ if [[ $(uname) == "Darwin" ]]; then
 	fi
 
 	alias vlan_proxy="export https_proxy=http://$(ipconfig getifaddr en0):7890 http_proxy=http://$(ipconfig getifaddr en0):7890 all_proxy=socks5://$(ipconfig getifaddr en0):7890"
+
 fi
 
 alias company_proxy='export http_proxy=http://hproxy.it.zetyun.cn:1080; export https_proxy=http://hproxy.it.zetyun.cn:1080;'
@@ -81,6 +82,5 @@ fix_path_spaces() {
 }
 
 # fix_path_spaces
-
 
 alias mk="minikube kubectl --"

@@ -66,12 +66,23 @@ export PATH="/Users/acejilam/Library/Application Support/JetBrains/Toolbox/scrip
 # BUILD_ID=$(uname -n)"-"$(date +%s)
 
 ARCH=$(arch | sed s/aarch64/arm64/ | sed s/x86_64/amd64/)
+if [[ $(uname) == "Darwin" ]]; then
+	test -e ${ACEHOME}/.gopath/bin/kubectl || {
+		curl -LO "https://files.m.daocloud.io/dl.k8s.io/release/$(curl -L -s https://files.m.daocloud.io/dl.k8s.io/release/stable.txt)/bin/$(uname | tr '[:upper:]' '[:lower:]')/${ARCH}/kubectl"
+		chmod +x kubectl
+		mv kubectl ${ACEHOME}/.gopath/bin/kubectl
+	}
 
-test -e ${ACEHOME}/.gopath/bin/kubectl || {
-	curl -LO "https://files.m.daocloud.io/dl.k8s.io/release/$(curl -L -s https://files.m.daocloud.io/dl.k8s.io/release/stable.txt)/bin/$(uname | tr '[:upper:]' '[:lower:]')/${ARCH}/kubectl"
-	chmod +x kubectl
-	mv kubectl ${ACEHOME}/.gopath/bin/kubectl
-}
+
+	test -e  /usr/local/bin/iterm2-zmodem|| {
+		sudo cp ~/script/iterm2-zmodem.sh /usr/local/bin/iterm2-zmodem
+		sudo chmod +x /usr/local/bin/iterm2-zmodem
+	}
+fi
+
+
+
+
 
 #### ffmpeg
 # export PATH="/opt/homebrew/opt/ffmpeg@5/bin:$PATH"

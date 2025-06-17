@@ -51,11 +51,7 @@ download ./eunomia-bpf/amd64/ecc ${GITHUB_PROXY}https://github.com/eunomia-bpf/e
 download ./eunomia-bpf/arm64/ecc ${GITHUB_PROXY}https://github.com/eunomia-bpf/eunomia-bpf/releases/download/v1.0.27/ecc
 download ./eunomia-bpf/arm64/ecli ${GITHUB_PROXY}https://github.com/eunomia-bpf/eunomia-bpf/releases/download/v1.0.27/ecli
 
-export VERSION=4.3.0
-download ./tar/amd64/v${VERSION}/sealos_${VERSION}_linux_amd64.tar.gz https://github.com/labring/sealos/releases/download/v${VERSION}/sealos_${VERSION}_linux_amd64.tar.gz
-download ./tar/arm64/v${VERSION}/sealos_${VERSION}_linux_arm64.tar.gz https://github.com/labring/sealos/releases/download/v${VERSION}/sealos_${VERSION}_linux_arm64.tar.gz
-
-export VERSION=5.0.0
+export VERSION=5.0.1
 download ./tar/amd64/v${VERSION}/sealos_${VERSION}_linux_amd64.tar.gz https://github.com/labring/sealos/releases/download/v${VERSION}/sealos_${VERSION}_linux_amd64.tar.gz
 download ./tar/arm64/v${VERSION}/sealos_${VERSION}_linux_arm64.tar.gz https://github.com/labring/sealos/releases/download/v${VERSION}/sealos_${VERSION}_linux_arm64.tar.gz
 

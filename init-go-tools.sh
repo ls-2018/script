@@ -96,3 +96,5 @@ go install github.com/google/yamlfmt/cmd/yamlfmt@latest
 cd /tmp && git clone https://github.com/lestrrat-go/jwx.git && cd jwx && make && cd -
 
 go install github.com/goreleaser/goreleaser/v2@latest
+
+go install github.com/davecheney/httpstat@latest
