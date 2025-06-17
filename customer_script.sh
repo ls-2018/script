@@ -73,16 +73,11 @@ if [[ $(uname) == "Darwin" ]]; then
 		mv kubectl ${ACEHOME}/.gopath/bin/kubectl
 	}
 
-
-	test -e  /usr/local/bin/iterm2-zmodem|| {
+	test -e /usr/local/bin/iterm2-zmodem || {
 		sudo cp ~/script/iterm2-zmodem.sh /usr/local/bin/iterm2-zmodem
 		sudo chmod +x /usr/local/bin/iterm2-zmodem
 	}
 fi
-
-
-
-
 
 #### ffmpeg
 # export PATH="/opt/homebrew/opt/ffmpeg@5/bin:$PATH"

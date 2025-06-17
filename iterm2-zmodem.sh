@@ -47,7 +47,7 @@ send_file() {
 		EOF
 	)"
 
-	if [ -z "$file_path" ] ; then
+	if [ -z "$file_path" ]; then
 		cancel_zmodem
 
 		sleep 1 # sleep to make next "echo" works
@@ -56,7 +56,7 @@ send_file() {
 		exit 0
 	fi
 
-	if sz "$file_path" -b -B 4096 -e -E 2>/dev/null ; then
+	if sz "$file_path" -b -B 4096 -e -E 2>/dev/null; then
 		alert "File sent to remote: $file_path" "$SEND_DIALOG_TITLE" "note"
 
 		echo
@@ -81,7 +81,7 @@ recv_file() {
 		EOF
 	)"
 
-	if [ -z "$folder_path" ] ; then
+	if [ -z "$folder_path" ]; then
 		cancel_zmodem
 
 		sleep 1
@@ -90,7 +90,7 @@ recv_file() {
 		exit 0
 	fi
 
-	if [ ! -d "$folder_path" ] ; then
+	if [ ! -d "$folder_path" ]; then
 		cancel_zmodem
 
 		alert "Can't find local folder: $folder_path" "$RECEIVE_DIALOG_TITLE" "stop"
@@ -98,7 +98,7 @@ recv_file() {
 		echo
 		exit 1
 	else
-		if ! cd "$folder_path" ; then
+		if ! cd "$folder_path"; then
 			cancel_zmodem
 
 			alert "Can't open local folder: $folder_path" "$RECEIVE_DIALOG_TITLE" "stop"
@@ -107,7 +107,7 @@ recv_file() {
 			exit 1
 		fi
 
-		if rz -b -B 4096 -e -E 2>/dev/null ; then
+		if rz -b -B 4096 -e -E 2>/dev/null; then
 			cd - || true
 
 			alert "File saved to local folder: $folder_path" "$RECEIVE_DIALOG_TITLE" "note"
@@ -125,8 +125,8 @@ recv_file() {
 }
 
 action=${1:-"noop"}
-if [ "$action" = "send" ] ; then
-	if ! command -v sz 2>/dev/null ; then
+if [ "$action" = "send" ]; then
+	if ! command -v sz 2>/dev/null; then
 		cancel_zmodem
 
 		alert "Command not found: sz"
@@ -136,8 +136,8 @@ if [ "$action" = "send" ] ; then
 	fi
 
 	send_file
-elif [ "$action" = "recv" ] ; then
-	if ! command -v rz 2>/dev/null ; then
+elif [ "$action" = "recv" ]; then
+	if ! command -v rz 2>/dev/null; then
 		cancel_zmodem
 
 		alert "Command not found: rz"
