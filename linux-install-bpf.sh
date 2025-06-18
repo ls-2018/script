@@ -43,29 +43,68 @@ apt-get install -y
 
 # errno -l
 #apt install -y linux-tools-generic
-apt-get install -y moreutils \
-	curl build-essential gcc make git pkg-config libssl-dev \
-	apt-transport-https ca-certificates jq build-essential \
-	libpcap-dev libbfd-dev binutils-dev \
-	linux-tools-common linux-tools-$(uname -r) linux-tools-generic \
+
+# build-essential				:包括 GCC 编译器、基本库和像 make 这样的构建相关工具
+# linux-tools-$(uname -r) 		:内核级开发、性能分析和故障排除的工具 , 包含perf
+apt-get install -y \
+	moreutils \
+	curl \
+	build-essential \
+	git \
+	pkg-config \
+	libssl-dev \
+	apt-transport-https \
+	ca-certificates jq \
+	libpcap-dev \
+	libbfd-dev \
+	binutils-dev \
+	linux-tools-common \
+	linux-tools-$(uname -r) \
+	linux-tools-generic \
 	python3-pip \
 	linux-headers-$(uname -r) \
-	zip bison build-essential cmake flex \
-	zlib1g-dev liblzma-dev arping netperf iperf \
-	libelf-dev libedit-dev \
-	g++ libfl-dev systemtap-sdt-dev \
-	libcereal-dev libgtest-dev libgmock-dev asciidoctor \
-	pahole libcurl4-openssl-dev lldb-${LLVM_VERSION} \
-	lld-${LLVM_VERSION} liblldb-${LLVM_VERSION}-dev gdb python3-dev zstd libzstd-dev \
-	libpolly-${LLVM_VERSION}-dev libclang-${LLVM_VERSION}-dev llvm-${LLVM_VERSION}-dev \
-	pkgconf bc rsync
+	zip \
+	bison \
+	cmake flex \
+	zlib1g-dev \
+	liblzma-dev \
+	arping \
+	netperf \
+	iperf \
+	libelf-dev \
+	libedit-dev \
+	g++ \
+	libfl-dev \
+	systemtap-sdt-dev \
+	libcereal-dev \
+	libgtest-dev \
+	libgmock-dev \
+	asciidoctor \
+	pahole \
+	libcurl4-openssl-dev \
+	lldb-${LLVM_VERSION} \
+	lld-${LLVM_VERSION} \
+	liblldb-${LLVM_VERSION}-dev \
+	gdb \
+	python3-dev \
+	zstd \
+	libzstd-dev \
+	libpolly-${LLVM_VERSION}-dev \
+	libclang-${LLVM_VERSION}-dev \
+	llvm-${LLVM_VERSION}-dev \
+	pkgconf \
+	bc \
+	rsync
 
+# eBPF 程序和映射交互的低级接口。它提供了加载、验证和执行 eBPF 程序的功能。
 apt install libbpf-dev -y
 # libbpf-dev 可以替换为:
 # cd ~
 # cp -rf /resources/3rd/libbpf libbpf
 # cd libbpf/src && BUILD_STATIC_ONLY=y make install && cd - && rm -rf libbpf
 
+# 为多种架构编译和构建软件
+apt install gcc-multilib -y
 apt install musl-tools -y
 
 sudo ln -s /usr/include/$(arch)-linux-gnu/asm /usr/include/asm
