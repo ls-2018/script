@@ -41,12 +41,12 @@ rm -rf /usr/local/go* || echo 1
 rm -rf ./go*  		  || echo 1
 rm -rf /etc/apt/sources.list.d/gierens.list
 sed -i "s@http://.*archive.ubuntu.com@http://mirrors.tuna.tsinghua.edu.cn@g" /etc/apt/sources.list
-sed -i "s@http://.*archive.ubuntu.com@http://mirrors.tuna.tsinghua.edu.cn@g" /etc/apt/sources.list.d/* 
-sed -i "s@http://.*security.ubuntu.com@http://mirrors.tuna.tsinghua.edu.cn@g" /etc/apt/sources.list 
-sed -i "s@http://.*security.ubuntu.com@http://mirrors.tuna.tsinghua.edu.cn@g" /etc/apt/sources.list.d/* 
+sed -i "s@http://.*archive.ubuntu.com@http://mirrors.tuna.tsinghua.edu.cn@g" /etc/apt/sources.list.d/*
+sed -i "s@http://.*security.ubuntu.com@http://mirrors.tuna.tsinghua.edu.cn@g" /etc/apt/sources.list
+sed -i "s@http://.*security.ubuntu.com@http://mirrors.tuna.tsinghua.edu.cn@g" /etc/apt/sources.list.d/*
 sed -i "s@http://.*ports.ubuntu.com@http://mirrors.tuna.tsinghua.edu.cn@g" /etc/apt/sources.list
 sed -i "s@http://.*ports.ubuntu.com@http://mirrors.tuna.tsinghua.edu.cn@g" /etc/apt/sources.list.d/*
-apt update -y 
+apt update -y
 '''
 
 install_kubectl = '''
@@ -57,11 +57,11 @@ mv kubectl /usr/local/bin/kubectl
 '''
 
 install_system_bin = '''
-set -x 
+set -x
 apt update -y
 apt install wget git gcc curl locales -y
 apt install vim make cmake gdb -y
-apt install telnet -y 
+apt install telnet dnsutils -y
 
 '''
 dockerfile = '''
