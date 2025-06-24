@@ -89,4 +89,4 @@ git config --global --unset url."https://ghproxy.net/https://github.com".instead
 
 apt install pkg-config libssl-dev -y
 
-bash /Users/acejilam/script/init-rust.sh
+# bash /Users/acejilam/script/init-rust.sh
