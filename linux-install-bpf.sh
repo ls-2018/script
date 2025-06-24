@@ -1,4 +1,5 @@
 set -ex
+export DEBIAN_FRONTEND=noninteractive
 
 ARCH=$(arch | sed s/aarch64/arm64/ | sed s/x86_64/amd64/)
 if [ "amd64" = ${ARCH} ]; then
@@ -103,8 +104,8 @@ apt install libbpf-dev -y
 # cp -rf /resources/3rd/libbpf libbpf
 # cd libbpf/src && BUILD_STATIC_ONLY=y make install && cd - && rm -rf libbpf
 
-# 为多种架构编译和构建软件
-apt install gcc-multilib -y
+# 为多种架构编译和构建软件  studio 安装出错
+# apt install gcc-multilib -y
 apt install musl-tools -y
 
 sudo ln -s /usr/include/$(arch)-linux-gnu/asm /usr/include/asm
