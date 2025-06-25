@@ -57,7 +57,7 @@ cp -rf ~/.kube/config /host_kube/$(hostname).config
 
 cat >/tmp/download.sh <<EOF
   export DEBIAN_FRONTEND=noninteractive
-  apt install socat net-tools -y
+  apt install socat net-tools nfs-common -y
   cd /docker_images && ls |xargs -I F docker load -i F
 EOF
 
