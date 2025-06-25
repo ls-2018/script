@@ -22,13 +22,17 @@ set -e
 mkdir -p /Users/acejilam/data/build_cache
 mkdir -p /Users/acejilam/data/plugins/bin
 
-rm -rf /Users/acejilam/data/kind/*
+if test -d "/Users/acejilam/data/kind"; then
+	rm -rf /Users/acejilam/data/kind/*
+fi
 
 mkdir -p /Users/acejilam/data/kind/logs
 
 cd /Users/acejilam/data/plugins/bin
 test -e /Users/acejilam/data/plugins/bin/bridge || {
+	company_proxy
 	git clone https://github.com/containernetworking/plugins.git -b v1.4.0
+	unset https_proxy && unset http_proxy && unset all_proxy
 	cd plugins
 	bash ./build_linux.sh
 	mv ./bin/* ../
