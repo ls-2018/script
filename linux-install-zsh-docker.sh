@@ -1,14 +1,14 @@
 # 会在容器内执行
 
-wget -O /root/.p10k.zsh https://raw.githubusercontent.com/ls-2018/script/refs/heads/main/.p10k.zsh
+wget -O ~/.p10k.zsh https://raw.githubusercontent.com/ls-2018/script/refs/heads/main/.p10k.zsh
 apt install fonts-firacode fonts-powerline -y # 可选
 
-mkdir -p /root/.cache/gitstatus/
+mkdir -p ~/.cache/gitstatus/
 ARCH=$(arch | sed s/aarch64/arm64/ | sed s/x86_64/amd64/)
 if [ "arm64" = ${ARCH} ]; then
-	wget -qO- https://github.com/romkatv/gitstatus/releases/download/v1.5.4/gitstatusd-linux-aarch64.tar.gz | tar -zxvf - && chmod +x ./gitstatusd-linux-aarch64 && mv gitstatusd-linux-aarch64 /root/.cache/gitstatus/
+	wget -qO- https://github.com/romkatv/gitstatus/releases/download/v1.5.4/gitstatusd-linux-aarch64.tar.gz | tar -zxvf - && chmod +x ./gitstatusd-linux-aarch64 && mv gitstatusd-linux-aarch64 ~/.cache/gitstatus/
 else
-	wget -qO- https://github.com/romkatv/gitstatus/releases/download/v1.5.4/gitstatusd-linux-x86_64.tar.gz | tar -zxvf - && chmod +x ./gitstatusd-linux-x86_64 && mv gitstatusd-linux-x86_64 /root/.cache/gitstatus/
+	wget -qO- https://github.com/romkatv/gitstatus/releases/download/v1.5.4/gitstatusd-linux-x86_64.tar.gz | tar -zxvf - && chmod +x ./gitstatusd-linux-x86_64 && mv gitstatusd-linux-x86_64 ~/.cache/gitstatus/
 fi
 
 apt install zsh fontconfig -y

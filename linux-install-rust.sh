@@ -20,8 +20,8 @@ cat <<EOF >>"$HOME"/.cargo/env
 export RUSTUP_UPDATE_ROOT=https://mirrors.aliyun.com/rustup/rustup
 export RUSTUP_DIST_SERVER=https://mirrors.aliyun.com/rustup
 
-export PATH=/root/.cargo/target/release:\$PATH
-export PATH=/root/.cargo/target/debug:\$PATH
+export PATH=~/.cargo/target/release:\$PATH
+export PATH=~/.cargo/target/debug:\$PATH
 EOF
 
 . "$HOME"/.cargo/env
@@ -71,7 +71,7 @@ registry = "https://code.aliyun.com/rustcc/crates.io-index.git"
 git-fetch-with-cli=true
 
 [build]
-target-dir = "/root/.cargo/target"
+target-dir = "~/.cargo/target"
 
 EOF
 
