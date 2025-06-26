@@ -3,7 +3,7 @@ mkdir -p ~/.ssh
 
 set -x
 
-cat /host_ssh/id_ed25519.pub >~/.ssh/authorized_keys
+cat /host_ssh/id_ed25519.pub >>~/.ssh/authorized_keys
 ls /resources/ssh | grep pub | xargs -I {} cat /resources/ssh/{} | tee -a ~/.ssh/authorized_keys
 cp /resources/ssh/$(hostname)* ~/.ssh
 
@@ -28,10 +28,10 @@ echo 'nameserver 114.114.114.114' >/etc/resolv.conf
 resolvectl dns eth0 114.114.114.114
 resolvectl dns eth1 114.114.114.114
 cat <<EOT >/etc/hosts
-192.168.33.10 vm1804
-192.168.33.11 vm2004
-192.168.33.12 vm2204
-192.168.33.13 vm2404
+192.168.31.10 vm1804
+192.168.31.11 vm2004
+192.168.31.12 vm2204
+192.168.31.13 vm2404
 EOT
 
 ARCH=$(arch | sed s/aarch64/arm64/ | sed s/x86_64/amd64/)

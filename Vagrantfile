@@ -9,7 +9,7 @@ settings={
             "box_name"=> "bento/ubuntu-24.04",
             "name"=> "vm2004",
             "hostname"=> "vm2004",
-            "ip"=> "192.168.33.11",
+            "ip"=> "192.168.31.11",
             "memory"=> 3072,
             "cpus"=> 3
         },
@@ -17,7 +17,7 @@ settings={
             "box_name"=> "bento/ubuntu-24.04",
             "name"=> "vm2204",
             "hostname"=> "vm2204",
-            "ip"=> "192.168.33.12",
+            "ip"=> "192.168.31.12",
             "memory"=> 3072,
             "cpus"=> 3
         },
@@ -25,7 +25,7 @@ settings={
             "box_name"=> "bento/ubuntu-24.04",
             "name"=> "vm2404",
             "hostname"=> "vm2404",
-            "ip"=> "192.168.33.13",
+            "ip"=> "192.168.31.13",
             "memory"=> 3072,
             "cpus"=> 3
         }
@@ -42,7 +42,8 @@ Vagrant.configure("2") do |config|
       vm.vm.box_check_update = false
       # vm.vm.disk :disk, size: "100GB", primary: true
 
-      vm.vm.network "private_network",ip: vm_config['ip'], hostname: true
+      vm.vm.network "public_network",ip: vm_config['ip'], hostname: true, bridge: "en1: Wi-Fi"
+      # vm.vm.network "private_network",ip: vm_config['ip'], hostname: true
 
       vm.vm.synced_folder ".", "/vagrant", disabled: true
       vm.vm.synced_folder "~/.ssh", "/host_ssh", mount_options:["dmode=777","fmode=666"]

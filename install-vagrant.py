@@ -13,7 +13,7 @@ print(vm_names)
 
 # 配置路径
 vm_path = '/Users/acejilam/Desktop/vm'
-script_path = os.path.expanduser('~/script')
+script_path = '/Users/acejilam/script'
 tmp_path = '/tmp'
 
 # 销毁现有 VM 并清理
