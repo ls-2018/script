@@ -42,7 +42,9 @@ Vagrant.configure("2") do |config|
       vm.vm.box_check_update = false
       # vm.vm.disk :disk, size: "100GB", primary: true
 
-      vm.vm.network "public_network",ip: vm_config['ip'], hostname: true, bridge: "en1: Wi-Fi"
+      # vm.vm.network "public_network",ip: vm_config['ip'], hostname: true, bridge: "en1: Wi-Fi"
+      # vm.vm.network "public_network",ip: vm_config['ip'], hostname: true, bridge: "ens160"
+      vm.vm.network "public_network",ip: vm_config['ip'], hostname: true
       # vm.vm.network "private_network",ip: vm_config['ip'], hostname: true
 
       vm.vm.synced_folder ".", "/vagrant", disabled: true

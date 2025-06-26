@@ -1,14 +1,16 @@
 # shellcheck disable=SC2148
 cat <<COMMENT >/dev/null
 apt install openssh-server net-tools vim htop -y
-mkdir -p /Users/acejilam/script /resources /host_ssh /host_kube
 sed -i 's@/root@/Users/acejilam@g' /etc/passwd
+
+mkdir -p /Users/acejilam/script /Users/acejilam/resources /resources /host_ssh /host_kube /Users/acejilam/.kube /Users/acejilam/.docker_images
 chmod 700 /Users/acejilam
 chown root:root /Users/acejilam
 COMMENT
 
 rsync -avzP --delete --delete /Users/acejilam/script/ root@pxe:/Users/acejilam/script/
 rsync -avzP --delete --delete /Users/acejilam/resources/ root@pxe:/resources/
+rsync -avzP --delete --delete /Users/acejilam/resources/ root@pxe:/Users/acejilam/resources/
 
 ssh root@pxe "bash -i /Users/acejilam/script/linux-replace-sources.sh"
 ssh root@pxe "bash -i /Users/acejilam/script/linux-install-tools.sh"
