@@ -27,12 +27,6 @@ touch ~/.hushlogin
 echo 'nameserver 114.114.114.114' >/etc/resolv.conf
 resolvectl dns eth0 114.114.114.114
 resolvectl dns eth1 114.114.114.114
-cat <<EOT >/etc/hosts
-192.168.31.10 vm1804
-192.168.31.11 vm2004
-192.168.31.12 vm2204
-192.168.31.13 vm2404
-EOT
 
 ARCH=$(arch | sed s/aarch64/arm64/ | sed s/x86_64/amd64/)
 

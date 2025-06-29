@@ -9,7 +9,7 @@ Vagrant.configure("2") do |config|
       vm.vm.hostname = "vm2404"
 
       vm.vm.box_check_update = false
-      vm.vm.network "private_network",ip: "192.168.33.12",hostname: true
+      vm.vm.network "private_network",ip: "192.168.31.12",hostname: true
       vm.vm.synced_folder "~/.ssh", "/host_ssh", mount_options:["dmode=777","fmode=666"]
       vm.vm.synced_folder "~/.kube", "/host_kube"
       vm.vm.synced_folder "~/Desktop/book/ebpf", "/ebpf", owner: "root", group: "root"
@@ -37,7 +37,7 @@ Vagrant.configure("2") do |config|
     #   vm.vm.box = "bento/ubuntu-20.04"
     #   vm.vm.hostname = "vm2004"
     #   vm.vm.box_check_update = false
-    #   vm.vm.network "private_network",ip: "192.168.33.11",hostname: true
+    #   vm.vm.network "private_network",ip: "192.168.31.11",hostname: true
     #   vm.vm.synced_folder "~/.ssh", "/host_ssh", mount_options:["dmode=775","fmode=664"]
     #   vm.vm.provider "vmware_fusion" do |vb|
     #     vb.gui = false

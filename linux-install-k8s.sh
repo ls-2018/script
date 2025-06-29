@@ -34,20 +34,22 @@ export VERSION=5.0.1
 ARCH=$(arch | sed s/aarch64/arm64/ | sed s/x86_64/amd64/)
 
 cat /resources/tar/${ARCH}/v${VERSION}/sealos_${VERSION}_linux_${ARCH}.tar.gz | tar -zxvf - -C /usr/bin/
+cat /resources/tar/${ARCH}/cilium-linux-${ARCH}.tar.gz | tar -zxvf - -C /usr/bin/
+cat /resources/tar/${ARCH}/hubble-linux-${ARCH}.tar.gz | tar -zxvf - -C /usr/bin/
+
 # sealos reset
 
-# sealos run registry.cn-shanghai.aliyuncs.com/labring/kubernetes-docker:v1.28.7 \
-#   registry.cn-shanghai.aliyuncs.com/labring/helm:v3.14.0 --nodes=192.168.33.12 \
-#   --masters=192.168.33.13 \
-#   -p=root
+\ping registry.cn-shanghai.aliyuncs.com -c 4
 
-# sealos reset --nodes=192.168.33.11,192.168.33.12 --masters=192.168.33.13
+parse_ip() {
+	cat /etc/hosts | grep $1 | awk -F ' ' '{print $1}' | head -n 1
+}
+# shellcheck disable=SC2046
 sealos run registry.cn-shanghai.aliyuncs.com/labring/kubernetes-docker:v1.30.0 \
 	registry.cn-shanghai.aliyuncs.com/labring/helm:v3.14.0 \
-	--nodes=192.168.33.11,192.168.33.12 \
-	--masters=192.168.33.13 \
+	--nodes=$(parse_ip vm2204),$(parse_ip vm2004) \
+	--masters=$(parse_ip vm2404) \
 	-p=root
-#
 
 kubectl taint nodes vm2404 node-role.kubernetes.io/control-plane-
 
@@ -73,9 +75,6 @@ for host in "${hosts[@]}"; do
 		ssh root@${host} bash /tmp/download.sh
 	fi
 done
-
-cat /resources/tar/${ARCH}/cilium-linux-${ARCH}.tar.gz | tar -zxvf - -C /usr/bin/
-cat /resources/tar/${ARCH}/hubble-linux-${ARCH}.tar.gz | tar -zxvf - -C /usr/bin/
 
 if helm list -n kube-system | grep -q "tetragon"; then
 	helm uninstall tetragon -n kube-system
