@@ -13,23 +13,23 @@ if current_hostname == "Studio.local"
         "name" => "vm2004",
         "hostname" => "vm2004",
         "ip" => "192.168.31.11",
-        "memory" => 3072,
-        "cpus" => 2
+        "memory" => 9172,
+        "cpus" => 8
       },
       {
         "box_name" => "bento/ubuntu-22.04",
         "name" => "vm2204",
         "hostname" => "vm2204",
         "ip" => "192.168.31.12",
-        "memory" => 3072,
-        "cpus" => 2
+        "memory" => 4096,
+        "cpus" => 4
       },
       {
         "box_name" => "bento/ubuntu-24.04",
         "name" => "vm2404",
         "hostname" => "vm2404",
         "ip" => "192.168.31.13",
-        "memory" => 3072,
+        "memory" => 4096,
         "cpus" => 4
       }
     ]
@@ -86,16 +86,15 @@ Vagrant.configure("2") do |config|
   settings['vm'].each do |vm_config|
     config.vm.define vm_config['name'] do |vm|
       vm.vm.box = vm_config['box_name']
-      vm.vm.box_version = vm_config['box_version']
       vm.vm.hostname = vm_config['hostname']
       vm.vm.box_check_update = false
       # vm.vm.disk :disk, size: "100GB", primary: true
 
-      # if current_hostname == "Studio.local"
-      #   vm.vm.network "public_network", ip: vm_config['ip'], hostname: true, bridge: "en0: Wi-Fi"
-      # else
-      vm.vm.network "private_network", ip: vm_config['ip'], hostname: true
-      # end
+      if current_hostname == "Studio.local"
+        vm.vm.network "public_network", ip: vm_config['ip'], hostname: true, bridge: "en1: Wi-Fi"
+      else
+        vm.vm.network "private_network", ip: vm_config['ip'], hostname: true
+      end
 
       vm.vm.synced_folder ".", "/vagrant", disabled: true
       vm.vm.synced_folder "~/.ssh", "/host_ssh"
@@ -110,25 +109,18 @@ Vagrant.configure("2") do |config|
 
       # brew tap hashicorp/tap
       # brew install hashicorp/tap/hashicorp-vagrant
-      
       # vagrant plugin uninstall vagrant-vmware-fusion
       # vagrant plugin uninstall vagrant-vmware-desktop
       # vagrant plugin uninstall vagrant-virtualbox
+      # vagrant plugin install vagrant-vmware-fusion  vagrant-disksize vagrant-sshfs
 
-      # vagrant plugin install vagrant-vmware-fusion  vagrant-disksize vagrant-sshfs 
-
-      vm.vm.provider "vmware-desktop" do |vb|
-        vb.name = vm_config['hostname']
-        vb.gui = false
-        vb.linked_clone = false
-        vb.memory = vm_config['memory']
-        vb.cpus = vm_config['cpus']
+      vm.vm.provider :vmware_desktop do |vb|
+        vb.vmx["memsize"] = "4096"
+        vb.vmx["numvcpus"] = "4"
+        vb.vmx["cpuid.coresPerSocket"] = "2"
       end
 
-      vm.vm.provider "virtualbox" do |vb|
-        vb.name = vm_config['hostname']
-        vb.gui = false
-        vb.linked_clone = false
+      vm.vm.provider :virtualbox do |vb|
         vb.memory = vm_config['memory']
         vb.cpus = vm_config['cpus']
       end
@@ -136,7 +128,7 @@ Vagrant.configure("2") do |config|
       vm.vm.provision "shell", env: {"HOSTS_CONTENT" => hosts_string}, inline: <<-SHELL
         set -ex
         echo "$HOSTS_CONTENT" >> /etc/hosts
-        
+
         bash /Users/acejilam/script/linux-replace-sources.sh
         bash /Users/acejilam/script/linux-install-tools.sh
         bash /Users/acejilam/script/linux-resize-vagrant-disk.sh

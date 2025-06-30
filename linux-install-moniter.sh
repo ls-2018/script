@@ -19,7 +19,7 @@ kubectl apply --server-side -f manifests/      # 安装 promethes metric adapter
 # 增大权限
 kubectl patch clusterrole prometheus-k8s -p '{"rules":[{"apiGroups":[""],"resources":["nodes/metrics","endpoints","pods","services"],"verbs":["get","list","watch"]},{"nonResourceURLs":["/metrics"],"verbs":["get"]}]}'
 
-kubectl -n monitoring wait --for=condition=Ready pod --all
+kubectl -n monitoring wait --for=condition=Ready pod --all --timeout=3000s
 kubectl port-forward --address 0.0.0.0 pod/prometheus-k8s-0 -n monitoring 9090:9090 &
 sleep 1
 open -a "/Applications/Google Chrome.app" "http://127.0.0.1:9090"
