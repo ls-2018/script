@@ -1,3 +1,5 @@
+export DEBIAN_FRONTEND=noninteractive
+
 mkdir -p ~/.cargo/{target,registry}
 touch ~/.cargo/env
 

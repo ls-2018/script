@@ -9,7 +9,7 @@ if current_hostname == "Studio.local"
   settings = {
     "vm" => [
       {
-        "box_name" => "bento/ubuntu-24.04",
+        "box_name" => "bento/ubuntu-22.04",
         "name" => "vm2004",
         "hostname" => "vm2004",
         "ip" => "192.168.31.11",
@@ -17,7 +17,7 @@ if current_hostname == "Studio.local"
         "cpus" => 2
       },
       {
-        "box_name" => "bento/ubuntu-24.04",
+        "box_name" => "bento/ubuntu-22.04",
         "name" => "vm2204",
         "hostname" => "vm2204",
         "ip" => "192.168.31.12",
@@ -38,7 +38,7 @@ else
   settings = {
     "vm" => [
       {
-        "box_name" => "bento/ubuntu-24.04",
+        "box_name" => "bento/ubuntu-22.04",
         "name" => "vm2004",
         "hostname" => "vm2004",
         "ip" => "192.168.33.11",
@@ -46,7 +46,7 @@ else
         "cpus" => 2
       },
       {
-        "box_name" => "bento/ubuntu-24.04",
+        "box_name" => "bento/ubuntu-22.04",
         "name" => "vm2204",
         "hostname" => "vm2204",
         "ip" => "192.168.33.12",
@@ -155,9 +155,8 @@ Vagrant.configure("2") do |config|
           showmount -e
           sudo /etc/init.d/nfs-kernel-server start
         fi
-
+        bash /Users/acejilam/script/linux-install-bpf.sh
         if [[ $(hostname) == "vm2404" ]]; then
-          # bash /Users/acejilam/script/linux-install-bpf.sh
           # bash /Users/acejilam/script/linux-install-rust.sh
           bash /Users/acejilam/script/linux-install-k8s.sh
           echo "over"
