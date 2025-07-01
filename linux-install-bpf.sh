@@ -47,7 +47,7 @@ apt-get install -y
 
 # build-essential				:包括 GCC 编译器、基本库和像 make 这样的构建相关工具
 # linux-tools-$(uname -r) 		:内核级开发、性能分析和故障排除的工具 , 包含perf
-apt install pkg-config -y 
+apt install pkg-config -y
 apt-get install -y \
 	moreutils \
 	curl \

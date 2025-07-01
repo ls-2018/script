@@ -44,13 +44,32 @@ cat /resources/tar/${ARCH}/hubble-linux-${ARCH}.tar.gz | tar -zxvf - -C /usr/bin
 parse_ip() {
 	cat /etc/hosts | grep $1 | awk -F ' ' '{print $1}' | head -n 1
 }
+nodes_Str=""
+hosts=("vm2404" "vm1804" "vm2004" "vm2204")
+
+worker_hosts=("${hosts[@]:1}")
+for host in "${worker_hosts[@]}"; do
+	echo "Checking Worker $host..."
+	if ping -c 1 -W 1 "$host" &>/dev/null; then
+		nodes_Str+=$(parse_ip "$host"),
+	fi
+done
+nodes_Str=${nodes_Str%,}
+
+if test -d "/docker_images/sealos"; then
+	# shellcheck disable=SC2011
+	ls /docker_images/sealos | xargs -I F sealos load -i /docker_images/sealos/F
+fi
+
+# shellcheck disable=SC2086
 # shellcheck disable=SC2046
 sealos run registry.cn-shanghai.aliyuncs.com/labring/kubernetes-docker:v1.30.0 \
 	registry.cn-shanghai.aliyuncs.com/labring/helm:v3.14.0 \
-	--nodes=$(parse_ip vm2204),$(parse_ip vm2004) \
+	--nodes=${nodes_Str} \
 	--masters=$(parse_ip vm2404) \
 	-p=root
 
+kubectl label node vm2004 nfs=true
 kubectl taint nodes vm2404 node-role.kubernetes.io/control-plane-
 
 sed -i "s#apiserver.cluster.local#$(hostname)#g" ~/.kube/config
@@ -60,10 +79,8 @@ cp -rf ~/.kube/config /host_kube/$(hostname).config
 cat >/tmp/download.sh <<EOF
   export DEBIAN_FRONTEND=noninteractive
   apt install socat net-tools nfs-common -y
-  cd /docker_images && ls |xargs -I F docker load -i F
+  cd /docker_images && ls | grep tar |xargs -I F docker load -i F
 EOF
-
-hosts=("vm1804" "vm2004" "vm2204" "vm2404")
 
 for host in "${hosts[@]}"; do
 	echo "Checking $host..."

@@ -42,7 +42,7 @@ else
         "name" => "vm2004",
         "hostname" => "vm2004",
         "ip" => "192.168.33.11",
-        "memory" => 3072,
+        "memory" => 4096,
         "cpus" => 2
       },
       {
@@ -50,7 +50,7 @@ else
         "name" => "vm2204",
         "hostname" => "vm2204",
         "ip" => "192.168.33.12",
-        "memory" => 3072,
+        "memory" => 4096,
         "cpus" => 2
       },
       {
@@ -58,7 +58,7 @@ else
         "name" => "vm2404",
         "hostname" => "vm2404",
         "ip" => "192.168.33.13",
-        "memory" => 3072,
+        "memory" => 4096,
         "cpus" => 4
       }
     ]
@@ -147,7 +147,7 @@ Vagrant.configure("2") do |config|
           showmount -e
           sudo /etc/init.d/nfs-kernel-server start
         fi
-        bash /Users/acejilam/script/linux-install-bpf.sh
+        # bash /Users/acejilam/script/linux-install-bpf.sh
         if [[ $(hostname) == "vm2404" ]]; then
           # bash /Users/acejilam/script/linux-install-rust.sh
           bash /Users/acejilam/script/linux-install-k8s.sh
