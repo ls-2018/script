@@ -82,3 +82,16 @@ docker login -u admin harbor.ls.com -p Harbor12345
 curl -k -u "admin:Harbor12345" -X POST -H "Content-Type: application/json" "https://harbor.ls.com/api/v2.0/projects/" -d '{"project_name": "acejilam", "public": true}'
 curl -k -u "admin:Harbor12345" -X POST -H "Content-Type: application/json" "https://harbor.ls.com/api/v2.0/projects/" -d '{"project_name": "ls-2018", "public": true}'
 curl -k -u "admin:Harbor12345" -X POST -H "Content-Type: application/json" "https://harbor.ls.com/api/v2.0/projects/" -d '{"project_name": "ls-mock", "public": true}'
+
+
+cat > /Users/acejilam/.config/buildkit/buildkitd.toml <<EOF
+[registry."harbor.ls.com"]
+mirrors = ["$(ipconfig getifaddr en0)","$(ipconfig getifaddr en1)"]
+insecure = true
+ca=["/Users/acejilam/data/harbor/cert/harbor.crt"]
+EOF
+
+docker buildx rm mygo  || true 
+docker buildx create --name mygo --buildkitd-config /Users/acejilam/.config/buildkit/buildkitd.toml
+
+# wget -O ~/.docker/cli-plugins/docker-buildx https://github.com/docker/buildx/releases/download/v0.25.0/buildx-v0.25.0.darwin-arm64
