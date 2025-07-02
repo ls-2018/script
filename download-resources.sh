@@ -45,11 +45,11 @@ echo $version
 download ./k8s/amd64/kubectl "https://cdn.dl.k8s.io/release/${version}/bin/linux/amd64/kubectl"
 download ./k8s/arm64/kubectl "https://cdn.dl.k8s.io/release/${version}/bin/linux/arm64/kubectl"
 
-download ./eunomia-bpf/amd64/ecli ${GITHUB_PROXY}https://github.com/eunomia-bpf/eunomia-bpf/releases/download/v1.0.27/ecli
-download ./eunomia-bpf/amd64/ecc ${GITHUB_PROXY}https://github.com/eunomia-bpf/eunomia-bpf/releases/download/v1.0.27/ecc
+download ./eunomia-bpf/amd64/ecli ${GITHUB_PROXY}hhttps://github.com/eunomia-bpf/eunomia-bpf/releases/download/v1.0.27/ecli
+download ./eunomia-bpf/amd64/ecc ${GITHUB_PROXY}https://github.com/eunomia-bpf/eunomia-bpf/releases/download/v1.0.27/ecc-x86_64
 
-download ./eunomia-bpf/arm64/ecc ${GITHUB_PROXY}https://github.com/eunomia-bpf/eunomia-bpf/releases/download/v1.0.27/ecc
-download ./eunomia-bpf/arm64/ecli ${GITHUB_PROXY}https://github.com/eunomia-bpf/eunomia-bpf/releases/download/v1.0.27/ecli
+download ./eunomia-bpf/arm64/ecc ${GITHUB_PROXY}https://github.com/eunomia-bpf/eunomia-bpf/releases/download/v1.0.27/ecc-aarch64
+download ./eunomia-bpf/arm64/ecli ${GITHUB_PROXY}https://github.com/eunomia-bpf/eunomia-bpf/releases/download/v1.0.27/ecli-aarch64
 
 export VERSION=5.0.1
 download ./tar/amd64/v${VERSION}/sealos_${VERSION}_linux_amd64.tar.gz https://github.com/labring/sealos/releases/download/v${VERSION}/sealos_${VERSION}_linux_amd64.tar.gz
@@ -116,6 +116,7 @@ git clone https://github.com/retis-org/retis.git 3rd/retis
 git clone https://github.com/aya-rs/aya 3rd/aya
 git clone https://github.com/fluxcd/flagger 3rd/flagger
 git clone https://github.com/torvalds/linux.git -b v6.14 3rd/linux
+git clone https://github.com/ohmyzsh/ohmyzsh.git 3rd/ohmyzsh
 
 git clone -b v1.20.0 --depth=1 https://github.com/romkatv/powerlevel10k.git 3rd/powerlevel10k
 

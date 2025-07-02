@@ -9,13 +9,11 @@ if [ "amd64" = ${ARCH} ]; then
 	cat /resources/tar/amd64/retsnoop-v0.10.1-amd64.tar.gz | tar -zxvf - && chmod +x ./retsnoop && mv retsnoop /usr/bin/
 	cat /resources/tar/amd64/pwru-linux-amd64.tar.gz | tar -zxvf - && chmod +x ./pwru && mv pwru /usr/bin/
 else
-
 	cp /resources/eunomia-bpf/arm64/ecli /usr/bin/ecli
 	cp /resources/eunomia-bpf/arm64/ecc /usr/bin/ecc
 
 	cat /resources/tar/arm64/retsnoop-v0.10.1-arm64.tar.gz | tar -zxvf - && chmod +x ./retsnoop && mv retsnoop /usr/bin/
 	cat /resources/tar/arm64/pwru-linux-arm64.tar.gz | tar -zxvf - && chmod +x ./pwru && mv pwru /usr/bin/
-
 fi
 
 chmod +x /usr/bin/ec*

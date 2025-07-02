@@ -13,8 +13,8 @@ if current_hostname == "Studio.local"
         "name" => "vm2004",
         "hostname" => "vm2004",
         "ip" => "192.168.31.11",
-        "memory" => 9172,
-        "cpus" => 8
+        "memory" => 4096,
+        "cpus" => 4
       },
       {
         "box_name" => "bento/ubuntu-22.04",
@@ -147,7 +147,7 @@ Vagrant.configure("2") do |config|
           showmount -e
           sudo /etc/init.d/nfs-kernel-server start
         fi
-        # bash /Users/acejilam/script/linux-install-bpf.sh
+        bash /Users/acejilam/script/linux-install-bpf.sh
         if [[ $(hostname) == "vm2404" ]]; then
           # bash /Users/acejilam/script/linux-install-rust.sh
           bash /Users/acejilam/script/linux-install-k8s.sh
