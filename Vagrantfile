@@ -29,8 +29,8 @@ if current_hostname == "Studio.local"
         "name" => "vm2404",
         "hostname" => "vm2404",
         "ip" => "192.168.31.13",
-        "memory" => 4096,
-        "cpus" => 4
+        "memory" => 8192,
+        "cpus" => 8
       }
     ]
   }
@@ -115,8 +115,8 @@ Vagrant.configure("2") do |config|
       # vagrant plugin install vagrant-vmware-fusion  vagrant-disksize vagrant-sshfs
 
       vm.vm.provider :vmware_desktop do |vb|
-        vb.vmx["memsize"] = "4096"
-        vb.vmx["numvcpus"] = "4"
+        vb.vmx["memsize"] = vm_config['memory']
+        vb.vmx["numvcpus"] = vm_config['cpus']
         vb.vmx["cpuid.coresPerSocket"] = "2"
       end
 

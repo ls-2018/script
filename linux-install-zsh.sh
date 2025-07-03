@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-set -ex
 cp -rf /resources/sh/p10k.zsh ~/.p10k.zsh
 mkdir -p ~/.local/share/fonts
 
@@ -18,7 +17,15 @@ apt install zsh fontconfig -y
 # shellcheck disable=SC2046
 chsh -s $(which zsh)
 
-REMOTE=https://gh-proxy.com/https://github.com/ohmyzsh/ohmyzsh.git bash -c /resources/sh/install-zsh.sh "" --unattended
+# shellcheck disable=SC2034
+for i in {0..255}; do
+    REMOTE=https://gh-proxy.com/https://github.com/ohmyzsh/ohmyzsh.git bash -c /resources/sh/install-zsh.sh "" --unattended
+    if [ $? == 0 ]; then
+        break
+    fi
+    echo "Retrying Oh My Zsh installation..."
+    sleep 2
+done
 
 cp -rf /resources/3rd/powerlevel10k ~/.oh-my-zsh/custom/themes/powerlevel10k
 cp -rf /resources/3rd/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions

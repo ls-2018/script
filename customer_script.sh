@@ -42,9 +42,9 @@ export PATH=$PATH:${ACEHOME}/.dapr/bin
 test -e /opt/homebrew/bin/brew && {
 	export CARGO_HOME=${ACEHOME}/.cargo
 	export JAVA_HOME=$(brew --prefix openjdk)
-	export PATH=$JAVA_HOME/bin:$CARGO_HOME/bin:$PATH:.
+	export PATH=$JAVA_HOME/bin:$CARGO_HOME/bin:$PATH
 	export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
-	
+
 }
 
 export HOMEBREW_BREW_GIT_REMOTE="https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/brew.git"
@@ -60,7 +60,6 @@ export PATH="/usr/local/opt/openssl@3/bin:$PATH"
 export PATH="/usr/local/opt/llvm/bin:$PATH"
 
 export PATH="/Library/Frameworks/Python.framework/Versions/3.12/bin:$PATH"
-export PATH="/Users/acejilam/Library/Application Support/JetBrains/Toolbox/scripts":$PATH
 
 # GIT_SHA1=$( (git show-ref --head --hash=8 2>/dev/null || echo 00000000) | head -n1)
 # GIT_DIRTY=$(git diff --no-ext-diff 2>/dev/null | wc -l)
