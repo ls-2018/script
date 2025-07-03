@@ -80,6 +80,7 @@ git clone https://github.com/grafana/beyla.git ebpf/ebpf.io/beyla
 git clone https://github.com/Asphaltt/socketrace.git ebpf/socketrace
 git clone https://github.com/retis-org/retis.git ebpf/retis
 git clone https://github.com/DavadDi/bpf_study.git ebpf/bpf_study
+git clone https://github.com/aliyun/coolbpf.git ebpf/coolbpf
 
 git clone https://github.com/rust-lang/async-book.git rust/async-book
 git clone https://github.com/Dhghomon/easy_rust.git rust/easy_rust

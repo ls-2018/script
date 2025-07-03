@@ -20,11 +20,6 @@ for i in range(5):
         ip = subprocess.getoutput(f'ipconfig getifaddr en{i}')
 print(ip)
 
-hosts_ip = subprocess.getoutput("""cat /etc/hosts|grep 'harbor.ls.com'|awk -F ' ' '{print $1}'""")
-if hosts_ip != '127.0.0.1':
-    print(f"当前hosts中harbor.ls.com的IP不是 127.0.0.1, 请检查")
-    exit(1)
-
 aliyun = 'registry.cn-hangzhou.aliyuncs.com'
 ls = 'harbor.ls.com'
 
@@ -88,7 +83,7 @@ def system(_cmd):
 
 ns = subprocess.getoutput("kubectl get nodes |awk -F ' ' '{print $1}'|grep -v NAME").strip().split('\n')
 for n in ns:
-    system('docker cp koord-worker:/etc/containerd/config.toml /tmp/config.toml')
+    system(f'docker cp {n}:/etc/containerd/config.toml /tmp/config.toml')
 
     data = toml.load("/tmp/config.toml")
     if 'registry' not in data['plugins']['io.containerd.grpc.v1.cri']:
@@ -106,15 +101,15 @@ for n in ns:
     system(f'docker cp /tmp/{ls}.toml {n}:/etc/containerd/certs.d/{ls}/hosts.toml')
 
     system(f'docker exec {n} systemctl restart containerd')
-    system(f'docker cp /Users/acejilam/script/linux-replace-sources.sh {n}:~/linux-replace-sources.sh')
-    system(f'docker exec {n} bash ~/linux-replace-sources.sh')
+    system(f'docker cp /Users/acejilam/script/linux-replace-sources.sh {n}:/root/linux-replace-sources.sh')
+    system(f'docker exec {n} bash /root/linux-replace-sources.sh')
 
-    system(f'docker cp /tmp/change-host.sh {n}:~/change-host.sh')
+    system(f'docker cp /tmp/change-host.sh {n}:/root/change-host.sh')
 
     system(f'docker cp /Users/acejilam/data/harbor/cert/harbor.crt {n}:/etc/containerd/certs.d/{aliyun}/harbor.crt')
     system(f'docker cp /Users/acejilam/data/harbor/cert/harbor.crt {n}:/etc/containerd/certs.d/{ls}/harbor.crt')
     system(f'docker cp /Users/acejilam/data/harbor/cert/harbor.crt {n}:/usr/local/share/ca-certificates/')
 
     system(f'docker exec {n} bash update-ca-certificates')
-    system(f'docker exec {n} bash ~/change-host.sh')
+    system(f'docker exec {n} bash /root/change-host.sh')
     system(f'docker exec {n} apt install iputils-ping -y')

@@ -28,3 +28,5 @@ time cargo install cargo-expand
 
 # rust -> wasm
 time cargo install wasm-pack
+
+rustup target add wasm32-wasi
