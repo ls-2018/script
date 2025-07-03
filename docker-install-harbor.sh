@@ -86,7 +86,6 @@ curl -k -u "admin:Harbor12345" -X POST -H "Content-Type: application/json" "http
 
 cat > /Users/acejilam/.config/buildkit/buildkitd.toml <<EOF
 [registry."harbor.ls.com"]
-mirrors = ["$(ipconfig getifaddr en0)","$(ipconfig getifaddr en1)"]
 insecure = true
 ca=["/Users/acejilam/data/harbor/cert/harbor.crt"]
 EOF

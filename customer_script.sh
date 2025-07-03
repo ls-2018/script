@@ -30,7 +30,6 @@ export KUBE_EDITOR="code --wait"
 export MVN_HOME=$SOFTWARE_HOME/apache-maven-3.6.3
 export PROTOC_HOME=$SOFTWARE_HOME/protoc-3.14.0
 export ISTIO_HOME=$SOFTWARE_HOME/istio-1.12.2
-export CARGO_HOME=${ACEHOME}/.cargo
 export JMETER_HOME=$SOFTWARE_HOME/apache-jmeter-5.5
 export PY_PATH="/Library/Frameworks/Python.framework/Versions/Current"
 
@@ -41,9 +40,11 @@ export PATH="${KREW_ROOT:-$ACEHOME/.krew}/bin:$PATH"
 export PATH=$PATH:${ACEHOME}/.dapr/bin
 
 test -e /opt/homebrew/bin/brew && {
+	export CARGO_HOME=${ACEHOME}/.cargo
 	export JAVA_HOME=$(brew --prefix openjdk)
 	export PATH=$JAVA_HOME/bin:$CARGO_HOME/bin:$PATH:.
 	export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
+	
 }
 
 export HOMEBREW_BREW_GIT_REMOTE="https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/brew.git"

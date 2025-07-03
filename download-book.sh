@@ -79,6 +79,7 @@ git clone https://github.com/pyroscope-io/pyroscope.git ebpf/ebpf.io/pyroscope
 git clone https://github.com/grafana/beyla.git ebpf/ebpf.io/beyla
 git clone https://github.com/Asphaltt/socketrace.git ebpf/socketrace
 git clone https://github.com/retis-org/retis.git ebpf/retis
+git clone https://github.com/DavadDi/bpf_study.git ebpf/bpf_study
 
 git clone https://github.com/rust-lang/async-book.git rust/async-book
 git clone https://github.com/Dhghomon/easy_rust.git rust/easy_rust

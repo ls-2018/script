@@ -85,9 +85,6 @@ export PATH="$HOME/.cargo/bin:$PATH"
 # time cargo install sccache
 
 # linux 有用
-git config --global url."https://ghproxy.net/https://github.com".insteadOf "https://github.com"
-cd /resources/3rd/aya && time cargo install --path ./aya-tool/ && cd - || exit
-git config --global --unset url."https://ghproxy.net/https://github.com".insteadOf
 
 apt install pkg-config libssl-dev -y
 
