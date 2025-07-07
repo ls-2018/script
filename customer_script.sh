@@ -1,4 +1,6 @@
-# shellcheck disable=SC2148
+#!/usr/bin/env bash
+
+
 ACEHOME="/Users/acejilam"
 
 # setopt no_nomatch
@@ -119,7 +121,6 @@ export GOPRIVATE='gitlab.datacanvas.com/*,git@gitlab.datacanvas.com/*'
 export GONOSUMDB='gitlab.datacanvas.com,git@gitlab.datacanvas.com'
 export GOFLAGS='-buildvcs=false'
 
-# shellcheck disable=SC1091
 . /Users/acejilam/script/alias.sh
 
 mkdir -p /Users/acejilam/Desktop/SyncZone
@@ -138,7 +139,6 @@ export LC_ALL="en_US.UTF-8"
 
 skopeo_copy() {
 	source_image=$1
-	dest_image=$2
-	# shellcheck disable=SC2086
+	dest_image=$2 
 	skopeo copy --all --insecure-policy docker://$source_image docker://${dest_image} "${@:3}"
 }

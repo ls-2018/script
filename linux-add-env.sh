@@ -1,4 +1,3 @@
-# shellcheck disable=SC2148
 echo 'source /Users/acejilam/script/customer_script.sh' | tee -a ~/.bashrc
 echo 'source /Users/acejilam/script/linux-env-bash.env' | tee -a ~/.bashrc
 

@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 if [[ $(uname) == "Darwin" ]]; then
 	alias git=git.py
 	alias readelf=greadelf
@@ -69,7 +71,6 @@ fix_path_spaces() {
 	local IFS=':' # 分隔 PATH 变量
 	for entry in $PATH; do
 		# 如果路径中含空格，则转义空格
-		# shellcheck disable=SC2001
 		entry_fixed=$(echo "$entry" | sed 's/ /\\ /g')
 		if [ -z "$fixed_path" ]; then
 			fixed_path="$entry_fixed"

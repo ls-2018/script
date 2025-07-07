@@ -6,9 +6,7 @@ git clone https://github.com/coreos/kube-prometheus.git -b v0.15.0
 unset https_proxy && unset http_proxy && unset all_proxy
 cd kube-prometheus/
 git checkout v0.15.0
-# shellcheck disable=SC2046
 trans_image_name.py dir $(pwd)/manifests/setup
-# shellcheck disable=SC2046
 trans_image_name.py dir $(pwd)/manifests
 
 # kubectl delete -f manifests/setup --ignore-not-found=true # 安装 prometheus-operator

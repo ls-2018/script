@@ -60,7 +60,7 @@ git clone https://github.com/Exein-io/pulsar.git ebpf/ebpf.io/pulsar
 git clone https://github.com/lizrice/ebpf-networking.git ebpf/ebpf-networking
 git clone https://github.com/deepflowys/deepflow.git ebpf/ebpf.io/deepflow
 git clone https://github.com/rubrikinc/wachy.git ebpf/ebpf.io/wachy
-git clone https://github.com/libbpf/vmlinux.h.git ebpf/libbpf-bootstrap
+git clone https://github.com/libbpf/vmlinux.h.git ebpf/vmlinux
 git clone https://github.com/jelipo/ebpf_demo.git ebpf/ebpf_demo
 git clone https://github.com/zhangzihengya/eBPF_proc_image.git ebpf/eBPF_proc_image
 git clone https://github.com/istio/ztunnel.git ebpf/ztunnel

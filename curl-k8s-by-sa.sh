@@ -1,4 +1,6 @@
-# shellcheck disable=SC2148
+#!/usr/bin/env bash
+
+
 echo "=========== SA 类型的 secret ============="
 # kubectl get secret -A -o jsonpath="{range .items[?(@.type=='kubernetes.io/service-account-token')]}{.metadata.namespace}{'\t'}{.metadata.name}{'\n'}{end}"
 kubectl get secrets --field-selector type=kubernetes.io/service-account-token -A
@@ -12,9 +14,9 @@ if [[ "$ns" == "" || "$secret" == "" ]]; then
 	exit 1
 fi
 
-# shellcheck disable=SC2086
+ 
 TOKEN=$(kubectl describe secrets $secret -n $ns | grep -E '^token' | cut -f2 -d':' | tr -d '\t' | tr -d ' ')
 APISERVER=$(kubectl config view --minify | grep server | cut -f 2- -d ":" | tr -d " ")
 
-# shellcheck disable=SC2086
+ 
 curl --header "Authorization: Bearer $TOKEN" --insecure $APISERVER$url

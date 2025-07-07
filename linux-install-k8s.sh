@@ -1,4 +1,5 @@
-#!/usr/bin/env bash
+#!/usr/bin/env bash 
+
 set -ex
 
 cat >/tmp/daemon.json <<EOF
@@ -57,12 +58,9 @@ done
 nodes_Str=${nodes_Str%,}
 
 if test -d "/docker_images/sealos"; then
-	# shellcheck disable=SC2011
 	ls /docker_images/sealos | xargs -I F sealos load -i /docker_images/sealos/F
 fi
 
-# shellcheck disable=SC2086
-# shellcheck disable=SC2046
 sealos run registry.cn-shanghai.aliyuncs.com/labring/kubernetes-docker:v1.30.0 \
 	registry.cn-shanghai.aliyuncs.com/labring/helm:v3.14.0 \
 	--nodes=${nodes_Str} \

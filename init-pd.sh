@@ -1,4 +1,4 @@
-# shellcheck disable=SC2148
+#!/usr/bin/env bash
 rm -rf ~/.cargo /host_ssh /host_kube /Users/acejilam /resources
 mkdir -p /Users/acejilam
 mkdir -p ~/.cargo

@@ -1,4 +1,3 @@
-# shellcheck disable=SC2148
 cat <<COMMENT >/dev/null
 apt install openssh-server net-tools vim htop -y
 sed -i 's@/root@/Users/acejilam@g' /etc/passwd

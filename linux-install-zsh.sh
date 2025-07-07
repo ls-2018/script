@@ -14,10 +14,8 @@ apt install fonts-firacode fonts-powerline -y # 可选
 
 apt install zsh fontconfig -y
 
-# shellcheck disable=SC2046
 chsh -s $(which zsh)
 
-# shellcheck disable=SC2034
 for i in {0..255}; do
     REMOTE=https://gh-proxy.com/https://github.com/ohmyzsh/ohmyzsh.git bash -c /resources/sh/install-zsh.sh "" --unattended
     if [ $? == 0 ]; then

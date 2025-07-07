@@ -1,14 +1,15 @@
+#!/usr/bin/env bash
+
+
 # https://hackcpp.github.io/other/6%20linux_kernel_debug.html#%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87
 apt install gdb-multiarch -y
 
 base_dir=/root
 
 compile_linux() {
-    # shellcheck disable=SC2164
     cd $base_dir
     # wget https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.15.4.tar.xz
     tar -xf linux-6.15.4.tar.xz
-    # shellcheck disable=SC2164
     cd linux-6.15.4
     # Kernel hacking --->
     #  Compile-time checks and compiler options --->
@@ -35,11 +36,9 @@ compile_linux() {
 }
 
 compile_fs() {
-    # shellcheck disable=SC2164
     cd $base_dir
     wget https://busybox.net/downloads/busybox-1.36.1.tar.bz2
     tar -xvf busybox-1.36.1.tar.bz2
-    # shellcheck disable=SC2164
     cd busybox-1.36.1
 
     make menuconfig
@@ -50,7 +49,6 @@ compile_fs() {
     sed -i 's/CONFIG_TC=y/CONFIG_TC=n/g' .config
     # 安装完成后生成的相关文件会在 _install 目录下
     make && make install
-    # shellcheck disable=SC2164
     cd _install
     mkdir proc
     mkdir sys
@@ -84,19 +82,6 @@ install_qemu() {
     sudo apt-get install qemu-system git libncurses-dev fakeroot build-essential ncurses-dev xz-utils libssl-dev bc
 }
 
-fs() {
-    wget https://buildroot.org/downloads/buildroot-2024.02.1.tar.gz
-    tar -xf buildroot-2024.02.1.tar.gz
-
-    make qemu_aarch64_virt_defconfig
-    make -j$(nproc)
-
-    wget https://cdimage.ubuntu.com/ubuntu-base/noble/daily/20250629/noble-base-arm64.tar.gz
-    mkdir rootfs-ubuntu
-    tar -xzf noble-base-arm64.tar.gz -C rootfs-ubuntu
-
-}
-
 run() {
     qemu-system-aarch64 -machine help
     ps -ef | grep qemu | awk -F ' ' '{print $2}' | xargs -I F kill -9 F
@@ -110,32 +95,33 @@ run() {
         -s -S -nographic
 }
 
-compile_linux
-compile_fs
-install_qemu
+# compile_linux
+# compile_fs
+# install_qemu
+# run
 
-# ps -ef |grep qemu|awk -F ' ' '{print $2}'|xargs -I F kill -9 F
-# gdb-multiarch -ex 'target remote :1234' vmlinux
-# break start_kernel
-
-M2() {
+buildroot() {
     sudo apt update
-    sudo apt install -y git build-essential libncurses-dev flex bison unzip bc
+    sudo apt install -y qemu-system git build-essential libncurses-dev flex bison unzip bc 
 
     # 获取最新版 Buildroot
     git clone https://github.com/buildroot/buildroot.git
     cd buildroot
     make qemu_aarch64_virt_defconfig
-    make -j$(nproc)
+    env PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin make -j$(nproc)
+    cd ./output/images
+    sed -i 's/-nographic/-nographic -s -S/g' start-qemu.sh
+    sed -i 's/rootwait/nokaslr rootwait/g' start-qemu.sh
+    echo "✈️ ✈️ ✈️ ✈️ ✈️ ✈️ ✈️ ✈️ ✈️"
+    echo "ps -ef |grep qemu-system |awk -F ' ' '{print $2}'|xargs -I F kill -9 F"
+    echo "gdb-multiarch -ex 'target remote :1234' ./linux-6.12.27/vmlinux"
+    echo "break start_kernel"
+    echo "c"
+    echo "✈️ ✈️ ✈️ ✈️ ✈️ ✈️ ✈️ ✈️ ✈️"
 
-    qemu-system-aarch64 \
-        -M virt \
-        -cpu cortex-a53 \
-        -nographic \
-        -kernel output/images/Image \
-        -initrd output/images/rootfs.cpio \
-        -append "console=ttyAMA0"
-
-    export PATH=$(echo "$PATH" | tr ':' '\n' | grep -vE '^(\.|./)$' | paste -sd:)
-
+    bash ./start-qemu.sh
 }
+
+buildroot
+
+

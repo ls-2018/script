@@ -1,4 +1,4 @@
-# shellcheck disable=SC2148
+#!/usr/bin/env bash
 rm -rf /usr/local/go*
 rm -rf ./go*
 apt install wget vim gcc -y

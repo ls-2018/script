@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 set -ex
 export DEBIAN_FRONTEND=noninteractive
 
@@ -125,7 +127,6 @@ sudo ln -s /usr/include/$(arch)-linux-gnu/asm /usr/include/asm
 # sudo make install
 # popd
 
-# shellcheck disable=SC2046
 apt-get install bpfcc-tools linux-headers-$(uname -r) -y
 
 # if [[ $(cat /etc/os-release | grep "VERSION_ID") == *"24.04"* ]]; then
