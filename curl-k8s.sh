@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 
-
 export clientcert=$(grep client-cert ${KUBECONFIG} | cut -d" " -f 6)
-
 
 export clientkey=$(grep client-key-data ${KUBECONFIG} | cut -d" " -f 6)
 export certauth=$(grep certificate-authority-data ${KUBECONFIG} | cut -d" " -f 6)

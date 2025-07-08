@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-
 ACEHOME="/Users/acejilam"
 
 # setopt no_nomatch
@@ -139,6 +138,6 @@ export LC_ALL="en_US.UTF-8"
 
 skopeo_copy() {
 	source_image=$1
-	dest_image=$2 
+	dest_image=$2
 	skopeo copy --all --insecure-policy docker://$source_image docker://${dest_image} "${@:3}"
 }
