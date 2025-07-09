@@ -141,3 +141,9 @@ skopeo_copy() {
 	dest_image=$2
 	skopeo copy --all --insecure-policy docker://$source_image docker://${dest_image} "${@:3}"
 }
+
+parse_cert(){
+	cert=$1
+	echo $cert |base64 -d  > /tmp/cert.txt
+	openssl x509 -noout -text -in /tmp/cert.txt
+}
