@@ -1,0 +1,12 @@
+apiVersion: audit.k8s.io/v1
+kind: Policy
+# Don't generate audit events for all requests in RequestReceived stage.
+omitStages:
+  - "RequestReceived"
+rules:
+- level: RequestResponse
+  resources:
+  - group: "leaderworkerset.x-k8s.io"
+    # Resource "pods" doesn't match requests to any subresource of pods,
+    # which is consistent with the RBAC policy.
+    resources: ["kstatefulsets"]

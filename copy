@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+host=${1-vm}
+path=${2-/root/myapp}
+
+cmd=""
+# 检查远端是否存在 .git 目录
+if [ -e ".gitignore" ]; then
+	cmd="/usr/bin/rsync -avz --delete --exclude=.git --exclude-from=$(pwd)/.gitignore root@${host}:${path}/ ."
+else 
+	cmd="/usr/bin/rsync -avz --delete --exclude=.git root@${host}:${path}/ ."
+fi
+set -x
+eval "${cmd}"
