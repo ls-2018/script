@@ -13,11 +13,11 @@ print(home_dir)
 
 os.makedirs(f"{home_dir}/Desktop/{project}_test", exist_ok=True)
 
-# os.system(f'''
-# cd {home_dir}/Desktop/{project}_test
-# rm -rf {home_dir}/Desktop/{project}_test/*
-# git clone {head_project}.git
-# ''')
+os.system(f'''
+cd {home_dir}/Desktop/{project}_test
+rm -rf {home_dir}/Desktop/{project}_test/*
+git clone {head_project}.git
+''')
 
 for item in json.loads(subprocess.getoutput(
         f'cd {home_dir}/Desktop/{project}_test/{project} && gh pr list --author "@me" --json number')):
@@ -31,6 +31,7 @@ cp -rf {project} {number}
 cd {number}
 grs
 gh pr checkout {number}
+open -a "/Applications/Google Chrome.app" "{head_project}/pull/{number}"
 
 git log --format="%H" |head -n 2 |awk -F ' ' '{{print $1}}'|tail -n 1  |xargs git reset --soft
 '''
