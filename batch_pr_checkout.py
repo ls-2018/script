@@ -11,6 +11,18 @@ os.environ['https_proxy'] = 'http://127.0.0.1:7890'
 os.environ['http_proxy'] = 'http://127.0.0.1:7890'
 os.environ['all_proxy'] = 'http://127.0.0.1:7890'
 
+need_handle = [
+    6094, 6093, 6092, 6091,
+    6090, 6089, 6088,
+    6087, 6086, 6085, 6084, 6083, 6082, 6081, 6080,
+    6079, 6078, 6077, 6076, 6075, 6074, 6073,
+    6072, 6071, 6070, 6069, 6068,
+    6066, 6065, 6064, 6063,
+    6062, 6061, 6060, 6059, 6058,
+    6057, 6052, 6051, 6050, 6049,
+    6048, 6047, 6046, 6045, 6042,
+]
+
 base_dir = '/Users/acejilam/Desktop'
 
 os.makedirs(f"{base_dir}/{project}_test", exist_ok=True)
@@ -24,10 +36,11 @@ git clone {head_project}.git
 ''')
 
 for item in json.loads(subprocess.getoutput(
-        f'cd {base_dir}/{project}_test/{project} && gh pr list --author "@me" --json number,headRefName --state=closed')):
+        f'cd {base_dir}/{project}_test/{project} && gh pr list --author "@me" --json number,headRefName --state=closed -L 1000')
+):
     print(item)
     number = int(item['number'])
-    if number in [6067]:
+    if number not in need_handle:
         continue
     headRefName = item['headRefName']
 
@@ -48,8 +61,8 @@ git log --format="%H" |head -n 2 |awk -F ' ' '{{print $1}}'|tail -n 1  |xargs gi
     os.system(f"chmod +x /tmp/pr.sh")
     os.system(f"/tmp/pr.sh")
 
-    out = subprocess.getoutput(
-        f"cd {os.path.join(f"{base_dir}/{project}_test", str(number))} && git status --porcelain")
+    pr_project = os.path.join(f"{base_dir}/{project}_test", str(number))
+    out = subprocess.getoutput(f"cd {pr_project} && git status --porcelain")
     file_map = {}
     for line in out.splitlines():
         f = os.path.join(f"{base_dir}/{project}_test", str(number), line.split(' ')[-1])

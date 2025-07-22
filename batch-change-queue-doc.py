@@ -27,10 +27,47 @@ replace_list_not_confirm = [
 
 ref_list = [
     ('## 概要', 'synopsis'),
+    ('### 重新入队策略', 'Requeuing Strategy'),
+    ('### 1. 准备工作', '1 Preparation'),
+    ('#### 运行作业', 'Run the jobs'),
+    ('### 2. 在默认配置下诱发死锁（可选）', '2 Induce a deadlock under the default configuration optional'),
+    ('## 设置保留策略', 'Set up a retention policy'),
+    ('## AppWrapper 定义', 'AppWrapper definition'),
+    ('#### 启用 waitForPodsReady', 'Enable waitForPodsReady'),
+    ('## 启用 waitForPodsReady', 'Enabling waitForPodsReady'),
+    ('### 3. 启用 waitForPodsReady 后运行', '3 Run with waitForPodsReady enabled'),
+    ('## 局限性', 'Drawbacks'),
+    ('## 前置条件', 'Prerequisites'),
+    ('## 包含 Deployment 的 AppWrapper 示例', 'Example AppWrapper containing a Deployment'),
+    ('## 包含 PyTorchJob 的 AppWrapper 示例', 'Example AppWrapper containing a PyTorchJob'),
+    ('## 在配额管理中排除任意资源', 'Exclude arbitrary resources in the quota management'),
+    ('### 1. 创建 [ClusterQueue](/docs/concepts/cluster_queue)', '1 create clusterqueue'),
+    ('### 2. 创建 [ResourceFlavor](/docs/concepts/cluster_queue#resourceflavor-object)', '2 create ResourceFlavor'),
+    ('### 3. 创建 [LocalQueues](/docs/concepts/local_queue)', '3 create LocalQueues'),
+    ('### Kueue 配置', 'Kueue Configuration'),
+    ('### Workload 保留策略', 'Workload Retention Policy'),
+    ('## 在你开始之前', 'Before you begin'),
+    ('### 场景 A：成功完成的 Workload', 'Scenario A Successfully finished Workload'),
+    ('## 单一 ClusterQueue 和单一 ResourceFlavor 设置', 'Single ClusterQueue and single ResourceFlavor setup'),
+    ('## 多 ResourceFlavor 设置', 'Multiple ResourceFlavors setup'),
+    ('### 1. 创建 ResourceFlavors', '1 Create ResourceFlavors'),
+    ('### 2. 创建引用风味的 ClusterQueue', '2 Create a ClusterQueue referencing the flavors'),
+    ('## 多 ClusterQueue 与借用 cohort', 'Multiple ClusterQueues and borrowing cohorts'),
+    ('## 多 ClusterQueue 的专用与回退风味', 'Multiple ClusterQueue with dedicated and fallback flavors'),
+    ('## 配额管理的资源转换', 'Transform resources for quota management'),
+    ('## 在工作集群中', 'In the Worker Cluster'),
+    ('### MultiKueue 专用 Kubeconfig', 'MultiKueue Specific Kubeconfig'),
+    ('### Kubeflow 安装', 'Kubeflow Installation'),
+    ('## 在管理集群中', 'In the Manager Cluster'),
+    ('### CRD 安装', 'CRDs installation'),
+    ('### 创建工作集群的 Kubeconfig Secret', 'Create workers Kubeconfig secret'),
+    ('### 创建示例配置', 'Create a sample setup'),
     ('## 选项', 'options'),
+    ('## （可选）结合 Open Cluster Management 配置 MultiKueue', 'optional Setup MultiKueue with Open Cluster Management'),
     ('## 从父命令继承的选项', 'options-inherited-from-parent-commands'),
     ('## 示例', 'examples'),
     ('## 0. 识别您命名空间中的可用队列', '0 identify-the-queues-available-in-your-namespace'),
+    ('### 另请参阅', 'see-also'),
     ('## 另请参阅', 'see-also'),
     ('## 开始之前', 'before-you-begin'),
     ('## 在开始之前', 'before-you-begin'),
@@ -84,6 +121,8 @@ ref_list = [
     ('### [Trainer](https://github.com/kubeflow/trainer) 集成', 'Trainer Integration'),
     ('### [MPI Operator](https://github.com/kubeflow/mpi-operator) 集成', 'MPI Operator Integration'),
     ('### 终止', 'Termination'),
+    ('## 说明', 'Notes'),
+    ('### 场景 B：通过 `waitForPodsReady` 驱逐的 Workload', 'Scenario B Evicted Workload via waitForPodsReady'),
     ('### 功能限制', ' Feature limitations'),
     ('### d. 限制', 'd Limitations'),
     ('## 运行一组需要被 Kueue 管理的 Pod', 'Running a group of Pods to be admitted together'),
@@ -132,20 +171,18 @@ def replace(data):
 def h1(file, project_dir):
     with open(file, 'r', encoding='utf8') as f:
         data = f.read()
-    print(file)
     for line in data.split('\n'):
         raw_line = line
-
         for item in ref_list:
-            new_ref = f'{{#{item[1].lower().strip().replace(' ', '-')}}}'
-            if item[0] in line:
+            new_ref = '{#' + item[1].lower().strip().replace(' ', '-') + "}"
+            if line.startswith(item[0]):
                 line = line.replace(item[0], f"{item[0]} {new_ref}")
-            if f"{item[0]} {new_ref} {new_ref} {new_ref}" in line:
+            if line.startswith(f"{item[0]} {new_ref} {new_ref} {new_ref}"):
                 line = line.replace(f"{item[0]} {new_ref} {new_ref} {new_ref}", f"{item[0]} {new_ref}")
-            if f"{item[0]} {new_ref} {new_ref}" in line:
+            if line.startswith(f"{item[0]} {new_ref} {new_ref}"):
                 line = line.replace(f"{item[0]} {new_ref} {new_ref}", f"{item[0]} {new_ref}")
-
-        cmd = f'cd {project_dir} && git diff {file[len(project_dir) + 1:]} |grep "{line.strip()}" -C 5  '
+        data = data.replace(raw_line, line)
+        cmd = f"cd {project_dir} && git diff {file[len(project_dir) + 1:]} |grep '{line.strip()}' -C 5  "
         if line.startswith('### ') and '{#' not in line:
             print("⚠️", line)
             print(cmd)
@@ -157,7 +194,6 @@ def h1(file, project_dir):
             os.system(cmd)
         if line.startswith('##') and len(re.findall('\{#', line)) > 1:
             print("⚠️", line)
-        data = data.replace(raw_line, line)
     with open(file, 'w', encoding='utf8') as f:
         f.write(data)
 
