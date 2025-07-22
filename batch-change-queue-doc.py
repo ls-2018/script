@@ -14,8 +14,6 @@ replace_list_need_confirm = [
 replace_list_not_confirm = [
     ('例如1s', '例如 1s'),
     (')	 -', ') -'),
-    (' pod ', ' Pod '),
-    (' kueue ', ' Kueue '),
     ('识别您命名空间中的队列', '识别命名空间中的队列'),
     ('clusterQueue', 'ClusterQueue'),
     ('用于 API 服务器身份验证的 Bearer 令牌', "用于 API 服务器身份验证的持有者令牌"),
