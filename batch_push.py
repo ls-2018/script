@@ -18,6 +18,5 @@ git status
 git commit -s -m "doc"
 git push ls --force
 ''')
-    if input("Press Enter to continue...\n").lower() != "n":
-        os.system(f"chmod +x /tmp/push.sh")
-        os.system(f"/tmp/push.sh")
+    os.system(f"chmod +x /tmp/push.sh")
+    os.system(f"/tmp/push.sh")
