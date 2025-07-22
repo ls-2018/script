@@ -7,6 +7,7 @@ import time
 base_dir = '/Users/acejilam/Desktop/kueue_test'
 
 replace_list_need_confirm = [
+    (' `pod` ', ' `Pod` '),
     (' pod ', ' Pod '),
     (' kueue ', ' Kueue '),
     ('clusterQueue', 'ClusterQueue'),
