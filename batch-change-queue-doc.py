@@ -11,6 +11,7 @@ replace_list_need_confirm = [
     (' pod ', ' Pod '),
     (' kueue ', ' Kueue '),
     ('clusterQueue', 'ClusterQueue'),
+    ('](/docs', '](/zh-CN/docs'),
 ]
 replace_list_not_confirm = [
     ('例如1s', '例如 1s'),
@@ -157,6 +158,7 @@ def replace_confirm(data):
 
 
 def replace(data):
+    data = replace_confirm(data)
     ds = data.split('\n')
     for line in ds:
         raw_line = line
