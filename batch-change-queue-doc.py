@@ -8,7 +8,7 @@ import time
 base_dir = '/Users/acejilam/Desktop/kueue_test'
 
 replace_list_need_confirm = [
-    (' `pod` ', ' `Pod` '),
+    # (' `pod` ', ' `Pod` '),
     (' pod ', ' Pod '),
     (' kueue ', ' Kueue '),
     ('clusterQueue', 'ClusterQueue'),
@@ -231,7 +231,7 @@ def h2(file):
         data = f.read()
 
     for match_str in [
-        (r'\u4e00-\u9fff [\u4e00-\u9fff]', ''),  # 文 [中
+        ('[\u4e00-\u9fff] \[[\u4e00-\u9fff]', ''),  # 文 [中
         (r'\) [\u4e00-\u9fff]', ''),
         (r'\] [\u4e00-\u9fff]', ''),
         (r'[\u4e00-\u9fff][a-zA-Z]', ' '),
@@ -243,7 +243,9 @@ def h2(file):
                 raw_line = line
                 print("✈️✈️✈️✈️✈️✈️✈️✈️✈️", res, line)
                 for xx in set(res):
-                    if len(list(xx)) == 3:
+                    if len(list(xx)) == 4:
+                        i1,i2=xx.split(' ')
+                    elif len(list(xx)) == 3:
                         i1, _, i2 = list(xx)
                     else:
                         i1, i2 = list(xx)
@@ -265,17 +267,19 @@ def link(f):
 
 
 def walk():
-    for number in os.listdir(base_dir):
-        if not number.isdigit():
-            continue
-        print(number)
-        out = subprocess.getoutput(f"cd {os.path.join(base_dir, number)} && git status --porcelain")
-        for line in out.splitlines():
-            f = os.path.join(base_dir, number, line.split(' ')[-1])
-            # os.system(f"code {f}")
-            link(f)
-            h2(f)
-            h1(f, os.path.join(base_dir, number))
+    # for number in os.listdir(base_dir):
+    #     if not number.isdigit():
+    #         continue
+    #     print(number)
+    # pr_dir = os.path.join(base_dir, number)
+    pr_dir = '/Users/acejilam/Desktop/asdf'
+    out = subprocess.getoutput(f"cd {pr_dir} && git status --porcelain")
+    for line in out.splitlines():
+        f = os.path.join(pr_dir, line.split(' ')[-1])
+        # os.system(f"code {f}")
+        link(f)
+        h2(f)
+        h1(f, pr_dir)
 
 
 if __name__ == '__main__':
