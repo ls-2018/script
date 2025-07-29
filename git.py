@@ -12,11 +12,11 @@ if os.path.exists(os.path.join(base, '.git/config')):
         data = f.read()
         if 'add' in sys.argv:
             if 'github' in data:
-                os.system(f'cd {base} && git config user.name "acejilam"')
-                os.system(f'cd {base} && git config user.email "acejilam@gmail.com"')
+                os.system(f'cd "{base}" && git config user.name "acejilam"')
+                os.system(f'cd "{base}" && git config user.email "acejilam@gmail.com"')
             else:
-                os.system(f'cd {base} && git config user.name "刘硕"')
-                os.system(f'cd {base} && git config user.email "liushuo@zetyun.com"')
+                os.system(f'cd "{base}" && git config user.name "刘硕"')
+                os.system(f'cd "{base}" && git config user.email "liushuo@zetyun.com"')
 cmds.extend(sys.argv[1:])
 cmd_str ='\\git '+ ' '.join(shlex.quote(arg) for arg in cmds)
 
