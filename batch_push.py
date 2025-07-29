@@ -15,9 +15,9 @@ for git in gits:
         f.write(f'''
 cd {git}
 git add .
-git status
 git commit -s -m "doc" || true 
-git push ls --force
+git push --force
+git status
 ''')
     os.system(f"chmod +x /tmp/push.sh")
     code, txt = subprocess.getstatusoutput(["/tmp/push.sh"])

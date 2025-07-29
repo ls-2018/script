@@ -244,7 +244,7 @@ def h2(file):
                 print("✈️✈️✈️✈️✈️✈️✈️✈️✈️", res, line)
                 for xx in set(res):
                     if len(list(xx)) == 4:
-                        i1,i2=xx.split(' ')
+                        i1, i2 = xx.split(' ')
                     elif len(list(xx)) == 3:
                         i1, _, i2 = list(xx)
                     else:
@@ -261,25 +261,26 @@ shutil.rmtree(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data'), 
 os.makedirs(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data'), exist_ok=True)
 
 
-def link(f):
-    l_f = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data', str(time.time_ns()) + '.md')
+def link(number, f):
+    l_f = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data',
+                       str(number) + '-' + str(time.time_ns()) + '.md')
     os.system(f'ln -s {f} {l_f}')
 
 
 def walk():
-    # for number in os.listdir(base_dir):
-    #     if not number.isdigit():
-    #         continue
-    #     print(number)
-    # pr_dir = os.path.join(base_dir, number)
-    pr_dir = '/Users/acejilam/Desktop/asdf'
-    out = subprocess.getoutput(f"cd {pr_dir} && git status --porcelain")
-    for line in out.splitlines():
-        f = os.path.join(pr_dir, line.split(' ')[-1])
-        # os.system(f"code {f}")
-        link(f)
-        h2(f)
-        h1(f, pr_dir)
+    for number in os.listdir(base_dir):
+        if not number.isdigit():
+            continue
+        print(number)
+        pr_dir = os.path.join(base_dir, number)
+        # pr_dir = '/Users/acejilam/Desktop/asdf'
+        out = subprocess.getoutput(f"cd {pr_dir} && git status --porcelain")
+        for line in out.splitlines():
+            f = os.path.join(pr_dir, line.split(' ')[-1])
+            # os.system(f"code {f}")
+            link(number, f)
+            h2(f)
+            h1(f, pr_dir)
 
 
 if __name__ == '__main__':

@@ -12,10 +12,9 @@ os.environ['http_proxy'] = 'http://127.0.0.1:7890'
 os.environ['all_proxy'] = 'http://127.0.0.1:7890'
 
 need_handle = [
-    6089, 6088,
-    6086, 6085, 6083, 6082, 6081,
+    6083, 6082, 6081,
     6080, 6078, 6077,
-    6072, 6065, 6064, 6063,
+    6072, 6064, 6063,
     6062, 6061, 6060, 6058, 6057,
     6052, 6051, 6050, 6049,
     6048, 6047, 6046, 6045, 6042,
@@ -27,10 +26,13 @@ os.makedirs(f"{base_dir}/{project}_test", exist_ok=True)
 os.makedirs(f"{base_dir}/{project}_test/change", exist_ok=True)
 
 os.system(f'''
+eval "$(print-proxy.py)"
+
 cd {base_dir}/{project}_test
 rm -rf {base_dir}/{project}_test/*
 mkdir -p {base_dir}/{project}_test/change
-git clone {head_project}.git
+git clone https://github.com/kubernetes-sigs/kueue.git {project}
+git clone https://github.com/ls-2018/kueue.git ls-kueue
 ''')
 
 # gh pr list --label approved --state=closed --author "@me" -L 1000
@@ -44,21 +46,26 @@ for item in json.loads(subprocess.getoutput(
     headRefName = item['headRefName']
 
     cmd = f'''
+eval "$(print-proxy.py)"
 source /Users/acejilam/script/customer_script.sh
 cd {base_dir}/{project}_test
 rm -rf {number}
-cp -rf {project} {number}
+cp -rf ls-kueue {number}
 cd {number}
 grs
-gh pr checkout {number}
+git checkout {headRefName}
+grs
+# git reset --soft 2d47a1ae1d8407bbf284a99da0d6ff974cb34053
 # open -a "/Applications/Google Chrome.app" "{head_project}/pull/{number}"
-
 git log --format="%H" |head -n 2 |awk -F ' ' '{{print $1}}'|tail -n 1  |xargs git reset --soft
 '''
     with open("/tmp/pr.sh", 'w') as f:
         f.write(cmd)
     os.system(f"chmod +x /tmp/pr.sh")
-    os.system(f"/tmp/pr.sh")
+    code, txt = subprocess.getstatusoutput(f"/tmp/pr.sh", encoding='utf8')
+    print(txt)
+    if code != 0:
+        print(f"⚠️ {headRefName} -> {number}")
 
     pr_project = os.path.join(f"{base_dir}/{project}_test", str(number))
     out = subprocess.getoutput(f"cd {pr_project} && git status --porcelain")
@@ -74,22 +81,22 @@ git log --format="%H" |head -n 2 |awk -F ' ' '{{print $1}}'|tail -n 1  |xargs gi
     copy_file = ''
     for k, v in file_map.items():
         copy_file += f'cp {v} {k}\n'
-
-    cmd = f'''
-source /Users/acejilam/script/customer_script.sh
-cd {base_dir}/{project}_test
-rm -rf {number}
-cp -rf {project} {number}
-cd {number}
-grs
-git checkout -b {headRefName}
-git remote add ls https://github.com/ls-2018/kueue.git
-
-{copy_file}
-# git push --set-upstream ls {headRefName} --force
-'''
-
-    with open("/tmp/pr.sh", 'w') as f:
-        f.write(cmd)
-    os.system(f"chmod +x /tmp/pr.sh")
-    os.system(f"/tmp/pr.sh")
+#
+#     cmd = f'''
+# source /Users/acejilam/script/customer_script.sh
+# cd {base_dir}/{project}_test
+# rm -rf {number}
+# cp -rf {project} {number}
+# cd {number}
+# grs
+# git checkout -b {headRefName}
+# git remote add ls https://github.com/ls-2018/kueue.git
+#
+# {copy_file}
+# # git push --set-upstream ls {headRefName} --force
+# '''
+#
+#     with open("/tmp/pr.sh", 'w') as f:
+#         f.write(cmd)
+#     os.system(f"chmod +x /tmp/pr.sh")
+#     os.system(f"/tmp/pr.sh")
