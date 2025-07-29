@@ -6,7 +6,7 @@
 mkdir -p /Users/acejilam/data/harbor/{tgz,cert,data,logs}
 
 export version=v2.12.2
-cp /Users/acejilam/resources/tar/arm64/harbor-offline-installer-aarch64-${version}.tgz /Users/acejilam/data/harbor/tgz/
+cp /Volumes/Tf/resources/tar/arm64/harbor-offline-installer-aarch64-${version}.tgz /Users/acejilam/data/harbor/tgz/
 
 cat >/tmp/openssl.cnf <<EOF
 [req]

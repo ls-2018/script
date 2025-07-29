@@ -12,12 +12,12 @@ os.environ['http_proxy'] = 'http://127.0.0.1:7890'
 os.environ['all_proxy'] = 'http://127.0.0.1:7890'
 
 need_handle = [
-    6094, 6093, 6092, 6091, 6090, 6089, 6088,
-    6087, 6086, 6085, 6084, 6083, 6082, 6081,
-    6080, 6079, 6078, 6077, 6076, 6075, 6074,
-    6073, 6072, 6071, 6066, 6065, 6064, 6063,
-    6062, 6061, 6060,  6058,
-    6057, 6052, 6051, 6050, 6049,
+    6089, 6088,
+    6086, 6085, 6083, 6082, 6081,
+    6080, 6078, 6077,
+    6072, 6065, 6064, 6063,
+    6062, 6061, 6060, 6058, 6057,
+    6052, 6051, 6050, 6049,
     6048, 6047, 6046, 6045, 6042,
 ]
 
@@ -33,6 +33,7 @@ mkdir -p {base_dir}/{project}_test/change
 git clone {head_project}.git
 ''')
 
+# gh pr list --label approved --state=closed --author "@me" -L 1000
 for item in json.loads(subprocess.getoutput(
         f'cd {base_dir}/{project}_test/{project} && gh pr list --author "@me" --json number,headRefName --state=closed -L 1000')
 ):

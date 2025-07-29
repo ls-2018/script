@@ -16,8 +16,6 @@ for git in gits:
 cd {git}
 git add .
 git status
-git commit -s -m "doc" || true 
-git push ls --force
 ''')
     os.system(f"chmod +x /tmp/push.sh")
     code, txt = subprocess.getstatusoutput(["/tmp/push.sh"])
