@@ -16,8 +16,8 @@ if ! kubectl $kubectl_args cluster-info >/dev/null 2>&1; then
 fi
 
 # 获取重启次数大于 0 的 Pod（包含 namespace 信息）
- 
-restarting_pods_info=$(kubectl $kubectl_args get pods -A --no-headers 2>/dev/null  | awk '$5 > 0 {print $2 " " $1}')
+
+restarting_pods_info=$(kubectl $kubectl_args get pods -A --no-headers 2>/dev/null | awk '$5 > 0 {print $2 " " $1}')
 
 if [ -z "$restarting_pods_info" ]; then
 	echo "✓ No pods with restart count > 0 found"

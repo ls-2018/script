@@ -14,6 +14,7 @@ replace_list_need_confirm = [
     ('clusterQueue', 'ClusterQueue'),
     ('](/docs', '](/zh-CN/docs'),
     ('安装]', '安装文档]'),
+    ('扩展', '扩缩'),
 ]
 replace_list_not_confirm = [
     ('例如1s', '例如 1s'),
