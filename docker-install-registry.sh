@@ -1,11 +1,16 @@
 mkdir -p /Users/acejilam/data/registry
 
+delete=${1-}
+if [[ ${delete} == "delete" ]]; then
+	rm -rf /Users/acejilam/data/registry/*
+fi
+
 docker rm registry -f
 docker rm registry-ui -f
 
 docker run -d -v /Users/acejilam/data/registry:/var/lib/registry \
 	-e REGISTRY_STORAGE_DELETE_ENABLED=true \
-	-p 5000:5000 --restart=always --name registry registry:2
+	-p 5000:5000 --restart=always --name registry registry:latest
 
 docker run -p 8280:80 --restart=always --name registry-ui \
 	--link registry:registry \
@@ -15,4 +20,4 @@ docker run -p 8280:80 --restart=always --name registry-ui \
 	-e CATALOG_ELEMENTS_LIMIT="1000" \
 	-d registry.cn-hangzhou.aliyuncs.com/acejilam/docker-registry-ui:1.5-static
 
-open -a "/Applications/Google Chrome.app" "http://127.0.0.1:8280"
+# open -a "/Applications/Google Chrome.app" "http://127.0.0.1:8280"

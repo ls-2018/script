@@ -11,11 +11,7 @@ os.environ['https_proxy'] = 'http://127.0.0.1:7890'
 os.environ['http_proxy'] = 'http://127.0.0.1:7890'
 os.environ['all_proxy'] = 'http://127.0.0.1:7890'
 
-need_handle = [
-    6061, 6060, 6058, 6057,
-    6052, 6051, 6050, 6049,
-    6048, 6047,
-]
+need_handle = [6060, 6058, 6051, ]
 
 base_dir = '/Users/acejilam/Desktop'
 
@@ -23,7 +19,7 @@ os.makedirs(f"{base_dir}/{project}_test", exist_ok=True)
 os.makedirs(f"{base_dir}/{project}_test/change", exist_ok=True)
 
 os.system(f'''
-eval "$(print-proxy.py)"
+eval "$(print_proxy.py)"
 
 cd {base_dir}/{project}_test
 rm -rf {base_dir}/{project}_test/*
@@ -43,7 +39,7 @@ for item in json.loads(subprocess.getoutput(
     headRefName = item['headRefName']
 
     cmd = f'''
-eval "$(print-proxy.py)"
+eval "$(print_proxy.py)"
 source /Users/acejilam/script/customer_script.sh
 cd {base_dir}/{project}_test
 rm -rf {number}

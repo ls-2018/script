@@ -125,6 +125,8 @@ export GOFLAGS='-buildvcs=false'
 mkdir -p /Users/acejilam/Desktop/SyncZone
 export HISTFILE="/Users/acejilam/Desktop/SyncZone/zsh_history"
 
+export PYTHONPATH=/Users/acejilam/script/:$PYTHONPATH
+
 # zsh 通配符无匹配时报错
 # setopt +o nomatch
 

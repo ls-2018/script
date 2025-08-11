@@ -16,7 +16,7 @@ if [[ $(uname) == "Darwin" ]]; then
 	fi
 
 	alias vlan_proxy="export https_proxy=http://$(ipconfig getifaddr en0):7890 http_proxy=http://$(ipconfig getifaddr en0):7890 all_proxy=socks5://$(ipconfig getifaddr en0):7890"
-	print-proxy.py check
+	print_proxy.py check
 fi
 
 alias company_proxy='export http_proxy=http://hproxy.it.zetyun.cn:1080; export https_proxy=http://hproxy.it.zetyun.cn:1080;'

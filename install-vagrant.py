@@ -65,6 +65,6 @@ for t in threads:
 
 # 保存快照并重载
 os.chdir(vm_path)
-# subprocess.run(['vagrant', 'halt', provider], check=False)
-# subprocess.run(['vagrant', 'snapshot', 'save', 'init'], check=False)
-# subprocess.run(['vagrant', 'reload'], check=False)
+subprocess.run(['vagrant', 'halt'], check=False)
+subprocess.run(['vagrant', 'snapshot', 'save', 'init', "--force"], check=False)
+subprocess.run(['vagrant', 'reload'], check=False)
