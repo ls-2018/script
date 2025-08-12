@@ -23,10 +23,7 @@ ufw disable
 systemctl restart ssh
 echo -e "root\nroot" | (passwd root)
 touch ~/.hushlogin
-
-echo 'nameserver 114.114.114.114' >/etc/resolv.conf
-resolvectl dns eth0 114.114.114.114
-resolvectl dns eth1 114.114.114.114
+ 
 
 ARCH=$(arch | sed s/aarch64/arm64/ | sed s/x86_64/amd64/)
 

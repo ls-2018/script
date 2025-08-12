@@ -3,18 +3,6 @@ export DEBIAN_FRONTEND=noninteractive
 mkdir -p ~/.cargo/{target,registry}
 touch ~/.cargo/env
 
-echo 'nameserver 114.114.114.114' >/etc/resolv.conf
-dns_server="114.114.114.114"
-
-# 获取所有 network interfaces 的名字
-interfaces=$(resolvectl status | grep 'Link [0-9]*' | awk '{print $3}' | tr -d '()' | grep -v '^lo$')
-
-# 遍历并设置 DNS
-for iface in $interfaces; do
-	echo "Setting DNS for $iface..."
-	resolvectl dns "$iface" "$dns_server"
-done
-
 sudo apt install curl build-essential gcc make git pkg-config libssl-dev -y
 
 cat <<EOF >>"$HOME"/.cargo/env

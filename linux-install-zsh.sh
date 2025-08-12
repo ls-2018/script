@@ -17,7 +17,7 @@ apt install zsh fontconfig -y
 chsh -s $(which zsh)
 
 for i in {0..255}; do
-	REMOTE=https://gh-proxy.com/https://github.com/ohmyzsh/ohmyzsh.git bash -c /resources/sh/install-zsh.sh "" --unattended
+	REMOTE=https://gitee.com/ls-2018/ohmyzsh.git bash -c /resources/sh/install-zsh.sh "" --unattended
 	if [ $? == 0 ]; then
 		break
 	fi
