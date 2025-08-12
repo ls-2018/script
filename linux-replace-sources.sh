@@ -5,7 +5,7 @@ onlyUpdate=$1
 rm -rf /etc/apt/sources.list.d/gierens.list
 
 curl -sSL https://linuxmirrors.cn/main.sh | bash -s -- \
-	--source mirrors.aliyun.com \
+	--source mirrors.tencent.com \
 	--protocol https \
 	--use-intranet-source false \
 	--install-epel true \
