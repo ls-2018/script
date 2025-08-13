@@ -4,7 +4,7 @@ os.system('pip3 install toml')
 import subprocess
 import toml
 
-proxy = '*.ls.com,*.aliyun.com,*.zetyun.com,*.*.aliyuncs.com,*.aliyuncs.com'
+proxy = 'harbor.ls.com,*.aliyun.com,*.*.aliyuncs.com,*.aliyuncs.com,*.zetyun.com'
 with open('/Users/acejilam/Library/Group Containers/group.com.docker/settings-store.json', 'r', encoding='utf-8') as f:
     data = f.read()
     if proxy in data:

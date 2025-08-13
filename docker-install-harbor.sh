@@ -89,7 +89,6 @@ insecure = true
 ca=["/Users/acejilam/data/harbor/cert/harbor.crt"]
 EOF
 
-docker buildx rm mygo || true
-docker buildx create --name mygo --buildkitd-config /Users/acejilam/.config/buildkit/buildkitd.toml
+docker buildx inspect mygo |grep harbor.ls.com || docker buildx rm mygo && docker buildx create --name mygo --buildkitd-config /Users/acejilam/.config/buildkit/buildkitd.toml
 
 # wget -O ~/.docker/cli-plugins/docker-buildx https://github.com/docker/buildx/releases/download/v0.25.0/buildx-v0.25.0.darwin-arm64
