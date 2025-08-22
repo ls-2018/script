@@ -4,9 +4,15 @@ import os
 import subprocess
 import sys
 
-raw_image = sys.argv[1].strip(' /')
+raw_image = sys.argv[1].strip('/')
+
+if len(raw_image.split(':')) == 3:
+    raw_image = raw_image.split('@sha')[0]
 split_len = raw_image.count('/')
 me_domain = 'harbor.ls.com'
+
+os.environ['no_proxy'] = me_domain
+
 if split_len == 1:
     new_image = me_domain + '/' + raw_image
 else:
@@ -18,6 +24,7 @@ user = raw_image.split('/')[-2].strip()
 ps_data = subprocess.getoutput(
     f'curl -s -X GET -H "Content-Type: application/json" "https://{me_domain}/api/v2.0/projects?page=1&page_size=100&with_detail=true"'
 )
+
 users = set([item['name'] for item in json.loads(ps_data)])
 if user not in users:
     os.system(
@@ -25,4 +32,4 @@ if user not in users:
 
 os.system('skopeo login harbor.ls.com -u admin -p Harbor12345')
 print(raw_image)
-os.system(f'skopeo copy --override-os=linux --insecure-policy docker://{raw_image} docker://{new_image}')
+os.system(f'skopeo copy --all --dest-tls-verify=false docker://{raw_image} docker://{new_image}')

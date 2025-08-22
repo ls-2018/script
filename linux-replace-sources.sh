@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -x
+set -v
 touch ~/.hushlogin # 关闭登录提示
 onlyUpdate=$1
 rm -rf /etc/apt/sources.list.d/gierens.list
@@ -32,5 +32,5 @@ cat >/etc/systemd/resolved.conf <<EOF
 [Resolve]
 DNS=114.114.114.114
 EOF
-sudo systemctl restart systemd-resolved
+systemctl restart systemd-resolved
 resolvectl status

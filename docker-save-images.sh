@@ -1,7 +1,7 @@
 # | xargs -i docker save -o  $.tar.gz quay.io/kubernetes-ingress-controller/nginx-ingress-controller:master
 mkdir -p /Volumes/Tf/docker_images
 rm -rf /Volumes/Tf/docker_images/*
-for i in $(docker images | grep -v REPOSITORY | awk -F ' ' '{printf("%s&%s&%s\n",$1,$2,$3)}'); do
+for i in $(docker images | grep -v REPOSITORY | grep -v 'none' | awk -F ' ' '{printf("%s&%s&%s\n",$1,$2,$3)}'); do
 
 	image=$(echo "$i" | cut -f1 -d "&")
 	version=$(echo "$i" | cut -f2 -d "&")

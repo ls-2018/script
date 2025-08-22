@@ -117,9 +117,7 @@ git clone https://github.com/aya-rs/aya 3rd/aya
 git clone https://github.com/fluxcd/flagger 3rd/flagger
 git clone https://github.com/torvalds/linux.git -b v6.14 3rd/linux
 git clone https://github.com/ohmyzsh/ohmyzsh.git 3rd/ohmyzsh
-
 git clone -b v1.20.0 --depth=1 https://github.com/romkatv/powerlevel10k.git 3rd/powerlevel10k
-
 git clone https://github.com/zsh-users/zsh-autosuggestions.git 3rd/zsh-autosuggestions
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git 3rd/zsh-syntax-highlighting
 

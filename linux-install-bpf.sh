@@ -5,17 +5,17 @@ export DEBIAN_FRONTEND=noninteractive
 
 ARCH=$(arch | sed s/aarch64/arm64/ | sed s/x86_64/amd64/)
 if [ "amd64" = ${ARCH} ]; then
-	cp /resources/eunomia-bpf/amd64/ecli /usr/bin/ecli
-	cp /resources/eunomia-bpf/amd64/ecc /usr/bin/ecc
+	cp /Volumes/Tf/resources/eunomia-bpf/amd64/ecli /usr/bin/ecli
+	cp /Volumes/Tf/resources/eunomia-bpf/amd64/ecc /usr/bin/ecc
 
-	cat /resources/tar/amd64/retsnoop-v0.10.1-amd64.tar.gz | tar -zxvf - && chmod +x ./retsnoop && mv retsnoop /usr/bin/
-	cat /resources/tar/amd64/pwru-linux-amd64.tar.gz | tar -zxvf - && chmod +x ./pwru && mv pwru /usr/bin/
+	cat /Volumes/Tf/resources/tar/amd64/retsnoop-v0.10.1-amd64.tar.gz | tar -zxvf - && chmod +x ./retsnoop && mv retsnoop /usr/bin/
+	cat /Volumes/Tf/resources/tar/amd64/pwru-linux-amd64.tar.gz | tar -zxvf - && chmod +x ./pwru && mv pwru /usr/bin/
 else
-	cp /resources/eunomia-bpf/arm64/ecli /usr/bin/ecli
-	cp /resources/eunomia-bpf/arm64/ecc /usr/bin/ecc
+	cp /Volumes/Tf/resources/eunomia-bpf/arm64/ecli /usr/bin/ecli
+	cp /Volumes/Tf/resources/eunomia-bpf/arm64/ecc /usr/bin/ecc
 
-	cat /resources/tar/arm64/retsnoop-v0.10.1-arm64.tar.gz | tar -zxvf - && chmod +x ./retsnoop && mv retsnoop /usr/bin/
-	cat /resources/tar/arm64/pwru-linux-arm64.tar.gz | tar -zxvf - && chmod +x ./pwru && mv pwru /usr/bin/
+	cat /Volumes/Tf/resources/tar/arm64/retsnoop-v0.10.1-arm64.tar.gz | tar -zxvf - && chmod +x ./retsnoop && mv retsnoop /usr/bin/
+	cat /Volumes/Tf/resources/tar/arm64/pwru-linux-arm64.tar.gz | tar -zxvf - && chmod +x ./pwru && mv pwru /usr/bin/
 fi
 
 chmod +x /usr/bin/ec*
@@ -24,7 +24,7 @@ apt install wget -y
 
 cd ~
 
-cp /resources/others/llvm.sh .
+cp /Volumes/Tf/resources/others/llvm.sh .
 chmod +x llvm.sh
 
 LLVM_VERSION=$(cat llvm.sh | grep CURRENT_LLVM_STABLE= | cut -d= -f2)
@@ -101,7 +101,7 @@ apt-get install -y \
 apt install libbpf-dev -y
 # libbpf-dev 可以替换为:
 # cd ~
-# cp -rf /resources/3rd/libbpf libbpf
+# cp -rf /Volumes/Tf/resources/3rd/libbpf libbpf
 # cd libbpf/src && BUILD_STATIC_ONLY=y make install && cd - && rm -rf libbpf
 
 # 为多种架构编译和构建软件  studio 安装出错
@@ -112,7 +112,7 @@ sudo ln -s /usr/include/$(arch)-linux-gnu/asm /usr/include/asm
 
 # apt-get install -y bpftrace
 # cd ~
-# cp -rf /resources/3rd/bcc bcc
+# cp -rf /Volumes/Tf/resources/3rd/bcc bcc
 # cd bcc
 # git submodule update --init --recursive
 # mkdir build
@@ -131,7 +131,7 @@ apt-get install bpfcc-tools linux-headers-$(uname -r) -y
 
 # if [[ $(cat /etc/os-release | grep "VERSION_ID") == *"24.04"* ]]; then
 #     cd ~
-#     cp -rf /resources/3rd/bpftrace bpftrace
+#     cp -rf /Volumes/Tf/resources/3rd/bpftrace bpftrace
 #     cd bpftrace && git submodule update --init --recursive && cd -
 #     cp -R bpftrace bpftrace_scz
 #     mkdir bpftrace_scz/build
@@ -146,13 +146,13 @@ apt-get install -y bpftrace
 
 rm -rf /perf-tools && echo 1
 
-cp -rf /resources/3rd/perf-tools /perf-tools
+cp -rf /Volumes/Tf/resources/3rd/perf-tools /perf-tools
 
 echo 'export PATH=$PATH:/perf-tools/bin' | tee -a $HOME/.bashrc
 echo 'export PATH=$PATH:/perf-tools/bin' | tee -a $HOME/.zshrc
 
 cd ~
-cp /resources/others/libpcap-1.10.4.tar.gz .
+cp /Volumes/Tf/resources/others/libpcap-1.10.4.tar.gz .
 tar -zxvf libpcap-1.10.4.tar.gz
 cd libpcap-1.10.4
 ./configure --disable-rdma --disable-shared --disable-usb --disable-netmap --disable-bluetooth --disable-dbus --without-libnl

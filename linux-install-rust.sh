@@ -15,7 +15,7 @@ export PATH=~/.cargo/target/debug:\$PATH
 EOF
 
 . "$HOME"/.cargo/env
-cp /resources/sh/install-rust.sh install-rust.sh && chmod +x install-rust.sh
+cp /Volumes/Tf/resources/sh/install-rust.sh install-rust.sh && chmod +x install-rust.sh
 export RUSTUP_DIST_SERVER=https://mirrors.ustc.edu.cn/rust-static
 export RUSTUP_UPDATE_ROOT=https://mirrors.ustc.edu.cn/rust-static/rustup
 

@@ -69,7 +69,7 @@ Vagrant.configure("2") do |config|
       vm.vm.synced_folder "~/.ssh", "/host_ssh"
       vm.vm.synced_folder "~/.kube", "/host_kube"
       vm.vm.synced_folder "~/script", "/Users/acejilam/script"
-      vm.vm.synced_folder "/Volumes/Tf/resources", "/resources"
+      vm.vm.synced_folder "/Volumes/Tf/resources", "/Volumes/Tf/resources"
       vm.vm.synced_folder "/Volumes/Tf/docker_images", "/docker_images"
 
       vm.vm.synced_folder "~/.cargo/target", "/root/.cargo/target"
