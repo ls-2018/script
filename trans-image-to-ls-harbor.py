@@ -2,17 +2,23 @@
 import json
 import os
 import subprocess
-import sys
+import argparse
 
-raw_image = sys.argv[1].strip('/')
+parser = argparse.ArgumentParser()
+
+parser.add_argument("--source", default="asd", help="source image")
+parser.add_argument("--dst", default="", help="dest image")
+parser.add_argument("--arch", default="all", help="arch")
+
+args = parser.parse_args()
+
+raw_image = args.source.strip('/')
 
 if len(raw_image.split(':')) == 3:
     raw_image = raw_image.split('@sha')[0]
 
-new_image = ''
-if len(sys.argv) == 3:
-    new_image = sys.argv[2].strip()
-else:
+new_image = args.dst
+if new_image == "":
     new_image = raw_image
 
 split_len = len(new_image.split('/')) - 1
@@ -38,6 +44,11 @@ if user not in users:
         f"""curl -k -u "admin:Harbor12345" -X POST -H "Content-Type: application/json" "https://{me_domain}/api/v2.0/projects/" -d '{{"project_name": "{user}", "public": true}}'""")
 
 os.system('skopeo login harbor.ls.com -u admin -p Harbor12345')
-cmd = f'skopeo copy --all --dest-tls-verify=false docker://{raw_image} docker://{new_image}'
+
+if args.arch == 'all':
+    cmd = f'skopeo copy --all --dest-tls-verify=false docker://{raw_image} docker://{new_image}'
+else:
+    cmd = f'skopeo copy --override-arch {args.arch} --override-os linux --format v2s2 --dest-tls-verify=false docker://{raw_image} docker://{new_image}'
+
 print(cmd)
 os.system(cmd)
