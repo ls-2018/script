@@ -8,19 +8,26 @@ raw_image = sys.argv[1].strip('/')
 
 if len(raw_image.split(':')) == 3:
     raw_image = raw_image.split('@sha')[0]
-split_len = raw_image.count('/')
+
+new_image = ''
+if len(sys.argv) == 3:
+    new_image = sys.argv[2].strip()
+else:
+    new_image = raw_image
+
+split_len = len(new_image.split('/')) - 1
 me_domain = 'harbor.ls.com'
 
 os.environ['no_proxy'] = me_domain
 
 if split_len == 1:
-    new_image = me_domain + '/' + raw_image
-else:
-    ss = raw_image.split('/')
-    ss[0] = me_domain
-    new_image = '/'.join(ss)
+    new_image = me_domain + '/' + new_image
 
-user = raw_image.split('/')[-2].strip()
+ss = new_image.split('/')
+ss[0] = me_domain
+new_image = '/'.join(ss)
+
+user = new_image.split('/')[-2].strip()
 ps_data = subprocess.getoutput(
     f'curl -s -X GET -H "Content-Type: application/json" "https://{me_domain}/api/v2.0/projects?page=1&page_size=100&with_detail=true"'
 )
@@ -31,5 +38,6 @@ if user not in users:
         f"""curl -k -u "admin:Harbor12345" -X POST -H "Content-Type: application/json" "https://{me_domain}/api/v2.0/projects/" -d '{{"project_name": "{user}", "public": true}}'""")
 
 os.system('skopeo login harbor.ls.com -u admin -p Harbor12345')
-print(raw_image)
-os.system(f'skopeo copy --all --dest-tls-verify=false docker://{raw_image} docker://{new_image}')
+cmd = f'skopeo copy --all --dest-tls-verify=false docker://{raw_image} docker://{new_image}'
+print(cmd)
+os.system(cmd)
