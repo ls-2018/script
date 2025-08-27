@@ -7,8 +7,8 @@ import argparse
 parser = argparse.ArgumentParser()
 
 parser.add_argument("--source", default="asd", help="source image")
-parser.add_argument("--dst", default="", help="dest image")
-parser.add_argument("--arch", default="all", help="arch")
+parser.add_argument("--dest", default="", help="dest image")
+parser.add_argument("--arch", default="amd64", help="arch")
 
 args = parser.parse_args()
 
@@ -17,7 +17,7 @@ raw_image = args.source.strip('/')
 if len(raw_image.split(':')) == 3:
     raw_image = raw_image.split('@sha')[0]
 
-new_image = args.dst
+new_image = args.dest
 if new_image == "":
     new_image = raw_image
 
