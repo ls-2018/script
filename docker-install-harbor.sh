@@ -8,15 +8,14 @@ mkdir -p /Users/acejilam/data/harbor/{tgz,cert,data,logs}
 export version=v2.12.2
 cp /Volumes/Tf/resources/tar/arm64/harbor-offline-installer-aarch64-${version}.tgz /Users/acejilam/data/harbor/tgz/
 
-
-host_ip=`ipconfig getifaddr en0`
-if [ "$host_ip" = "" ];then
-  host_ip=`ipconfig getifaddr en1`
+host_ip=$(ipconfig getifaddr en0)
+if [ "$host_ip" = "" ]; then
+	host_ip=$(ipconfig getifaddr en1)
 fi
 echo $host_ip
-if [ "$host_ip" = "" ];then
-  echo "获取不到本机IP，请检查网络"
-  exit 1
+if [ "$host_ip" = "" ]; then
+	echo "获取不到本机IP，请检查网络"
+	exit 1
 fi
 
 cat >/tmp/openssl.cnf <<EOF
@@ -102,6 +101,9 @@ insecure = true
 ca=["/Users/acejilam/data/harbor/cert/harbor.crt"]
 EOF
 
-docker buildx inspect mygo | grep harbor.ls.com || { docker buildx rm mygo && docker buildx create --name mygo --buildkitd-config /Users/acejilam/.config/buildkit/buildkitd.toml; }
+docker buildx inspect mygo | grep harbor.ls.com || {
+	docker buildx rm mygo
+	docker buildx create --name mygo --buildkitd-config /Users/acejilam/.config/buildkit/buildkitd.toml
+}
 
 # wget -O ~/.docker/cli-plugins/docker-buildx https://github.com/docker/buildx/releases/download/v0.25.0/buildx-v0.25.0.darwin-arm64
