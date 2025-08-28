@@ -1,12 +1,23 @@
 #!/usr/bin/env zsh
 #rm -rf /Users/acejilam/data/harbor/{tgz,cert,logs}
-
+set -v
 # rm -rf /Users/acejilam/data/harbor
 # rm -rf /Users/acejilam/data/harbor/{tgz,cert,logs}
 mkdir -p /Users/acejilam/data/harbor/{tgz,cert,data,logs}
 
 export version=v2.12.2
 cp /Volumes/Tf/resources/tar/arm64/harbor-offline-installer-aarch64-${version}.tgz /Users/acejilam/data/harbor/tgz/
+
+
+host_ip=`ipconfig getifaddr en0`
+if [ "$host_ip" = "" ];then
+  host_ip=`ipconfig getifaddr en1`
+fi
+echo $host_ip
+if [ "$host_ip" = "" ];then
+  echo "获取不到本机IP，请检查网络"
+  exit 1
+fi
 
 cat >/tmp/openssl.cnf <<EOF
 [req]
@@ -30,6 +41,7 @@ subjectAltName = @alt_names
 [alt_names]
 DNS.1 = registry.cn-hangzhou.aliyuncs.com
 DNS.2 = harbor.ls.com
+IP.1  = $host_ip
 EOF
 
 openssl req -new -sha256 -nodes -out harbor.csr -newkey rsa:2048 -keyout harbor.key -config /tmp/openssl.cnf
