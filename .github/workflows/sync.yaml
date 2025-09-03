@@ -18,6 +18,7 @@ jobs:
           git show-ref # useful for debugging
           git branch --verbose
           # publish all
+          git push --force gitee
           git push --all --force gitee
           git push --tags --force gitee
         env:
