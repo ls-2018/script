@@ -9,7 +9,7 @@ jobs:
   push-to-mirror:
     runs-on: ubuntu-latest
     steps:
-
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - name: Push to Gitee
         run: |
           remote_repo="https://${GITEE_USERNAME}:${GITEE_PASSWORD}@gitee.com/ls-2018/script.git"
