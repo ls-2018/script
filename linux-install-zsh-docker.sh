@@ -1,7 +1,7 @@
 # 会在容器内执行
 
 wget -O ~/.p10k.zsh https://gitee.com/ls-2018/script/raw/main/.p10k.zsh
-apt install fonts-firacode fonts-powerline -y # 可选
+apt install fonts-firacode fonts-powerline git -y # 可选
 
 mkdir -p ~/.cache/gitstatus/
 ARCH=$(arch | sed s/aarch64/arm64/ | sed s/x86_64/amd64/)
