@@ -12,7 +12,12 @@ jobs:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - name: Push to Gitee
         run: |
+          set -xv
           remote_repo="https://${GITEE_USERNAME}:${GITEE_PASSWORD}@gitee.com/ls-2018/script.git"
+          ls 
+          pwd
+          git fetch --unshallow origin
+          git status
           git config --global --add safe.directory `pwd`
           git remote add gitee "${remote_repo}"
           git show-ref # useful for debugging
