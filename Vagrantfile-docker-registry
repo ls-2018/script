@@ -1,0 +1,50 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+IP="192.168.33.201"
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "bento/ubuntu-24.04"
+
+  config.vm.network "private_network", ip: IP
+#   config.vm.synced_folder ".", "/vagrant", disabled: true
+  config.vm.synced_folder "/Users/acejilam/data/registry", "/Users/acejilam/data/registry"
+
+    config.vm.provision "shell", inline: <<-SHELL
+        echo "install"
+        bash <(curl -sSL https://linuxmirrors.cn/main.sh) \
+          --source mirrors.tuna.tsinghua.edu.cn \
+          --protocol https \
+          --use-intranet-source false \
+          --install-epel true \
+          --backup true \
+          --upgrade-software false \
+          --clean-cache false \
+          --ignore-backup-tips
+
+        apt update -y
+        apt install docker.io net-tools -y
+    SHELL
+
+    config.vm.provision :shell, run: "always", inline: <<-SHELL
+
+        docker rm docker-registry-mirror -f || true
+        docker rm docker-registry-frontend -f || true
+
+        docker run -d -v /Users/acejilam/data/registry:/var/lib/registry \
+            -e REGISTRY_STORAGE_DELETE_ENABLED=true \
+            -e MIRROR_SOURCE=https://registry-1.docker.io \
+            -e MIRROR_SOURCE_INDEX=https://index.docker.io \
+            -p 5000:5000 --restart=always \
+            --name docker-registry-mirror docker.m.daocloud.io/library/registry:latest
+
+        docker run -p 80:80 --restart=always --name docker-registry-frontend \
+            --link docker-registry-mirror:docker-registry-mirror \
+            -e REGISTRY_URL="http://docker-registry-mirror:5000" \
+            -e DELETE_IMAGES="true" \
+            -e REGISTRY_TITLE="镜像缓存服务" \
+            -e CATALOG_ELEMENTS_LIMIT="1000" \
+            -d registry.cn-hangzhou.aliyuncs.com/acejilam/docker-registry-ui:1.5-static
+    SHELL
+
+end

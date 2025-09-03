@@ -11,16 +11,17 @@ for cd, dirs, files in os.walk(current_dir):
 
 for git in gits:
     print(git)
-    with open('/tmp/push.sh', 'w') as f:
+    print("✈️ ", git)
+    with open('/tmp/sts.sh', 'w') as f:
         f.write(f'''
 cd {git}
 git add .
-git commit -s -m "doc" || true 
-git push --force
 git status
 ''')
-    os.system(f"chmod +x /tmp/push.sh")
-    code, txt = subprocess.getstatusoutput(["/tmp/push.sh"])
+    os.system(f"chmod +x /tmp/sts.sh")
+    code, txt = subprocess.getstatusoutput(["/tmp/sts.sh"])
+    if 'Changes to be committed' in txt:
+        print("⚠️", git)
     print(txt)
     if code != 0:
         print(code, "⚠️")

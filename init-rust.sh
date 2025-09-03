@@ -1,8 +1,14 @@
 set -ex
 
-git config --global url."https://ghproxy.net/https://github.com".insteadOf "https://github.com"
-cd /resources/3rd/aya && time cargo install --path ./aya-tool/ && cd - || exit
-git config --global --unset url."https://ghproxy.net/https://github.com".insteadOf
+# git config --global url."https://ghproxy.net/https://github.com".insteadOf "https://github.com"
+cd /Volumes/Tf/resources/3rd/aya && time cargo install --path ./aya-tool/ && cd - || exit
+
+# 终端录屏工具
+cargo install --locked --git https://github.com/asciinema/asciinema
+# 转成svg
+cargo install --locked --git https://github.com/asciinema/agg
+
+# git config --global --unset url."https://ghproxy.net/https://github.com".insteadOf
 
 # https://github.com/taiki-e/cargo-llvm-cov?tab=readme-ov-file#installation
 time cargo +stable install cargo-llvm-cov --locked

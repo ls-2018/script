@@ -34,6 +34,7 @@ brew install zsh-completions
 brew update && brew install binutils
 # k8s log 工具
 brew install stern
+brew install kubecm
 # https://cmake.org/download/
 # sudo "/Applications/CMake.app/Contents/bin/cmake-gui" --install
 

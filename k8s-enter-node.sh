@@ -37,3 +37,5 @@ spec:
 
 kubectl -n kube-system wait --for=condition=Ready pod/node-shell --timeout=3000s
 kubectl -n kube-system exec -it node-shell -- bash
+
+kubectl -n kube-system delete pods node-shell

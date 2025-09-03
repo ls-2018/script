@@ -5,65 +5,37 @@
 
 current_hostname = `hostname`.strip
 
-if current_hostname == "Studio.local"
-  settings = {
-    "vm" => [
-      {
-        "box_name" => "bento/ubuntu-22.04",
-        "name" => "vm2004",
-        "hostname" => "vm2004",
-        "ip" => "192.168.31.11",
-        "memory" => 4096,
-        "cpus" => 4
-      },
-      {
-        "box_name" => "bento/ubuntu-22.04",
-        "name" => "vm2204",
-        "hostname" => "vm2204",
-        "ip" => "192.168.31.12",
-        "memory" => 4096,
-        "cpus" => 4
-      },
-      {
-        "box_name" => "bento/ubuntu-24.04",
-        "name" => "vm2404",
-        "hostname" => "vm2404",
-        "ip" => "192.168.31.13",
-        "memory" => 8192,
-        "cpus" => 8
-      }
-    ]
-  }
-else
-  settings = {
-    "vm" => [
-      {
-        "box_name" => "bento/ubuntu-22.04",
-        "name" => "vm2004",
-        "hostname" => "vm2004",
-        "ip" => "192.168.33.11",
-        "memory" => 4096,
-        "cpus" => 2
-      },
-      {
-        "box_name" => "bento/ubuntu-22.04",
-        "name" => "vm2204",
-        "hostname" => "vm2204",
-        "ip" => "192.168.33.12",
-        "memory" => 4096,
-        "cpus" => 2
-      },
-      {
-        "box_name" => "bento/ubuntu-24.04",
-        "name" => "vm2404",
-        "hostname" => "vm2404",
-        "ip" => "192.168.33.13",
-        "memory" => 4096,
-        "cpus" => 4
-      }
-    ]
-  }
-end
+settings = {
+  "vm" => [
+    {
+      "box_name" => "bento/ubuntu-22.04",
+      "name" => "vm2004",
+      "hostname" => "vm2004",
+      "ip" => "192.168.33.11",
+      "mac" => "02:50:00:00:00:01",
+      "memory" => 4096,
+      "cpus" => 2
+    },
+    {
+      "box_name" => "bento/ubuntu-22.04",
+      "name" => "vm2204",
+      "hostname" => "vm2204",
+      "ip" => "192.168.33.12",
+      "mac" => "02:50:00:00:00:02",
+      "memory" => 4096,
+      "cpus" => 2
+    },
+    {
+      "box_name" => "bento/ubuntu-24.04",
+      "name" => "vm2404",
+      "hostname" => "vm2404",
+      "ip" => "192.168.33.13",
+      "mac" => "02:50:00:00:00:03",
+      "memory" => 4096,
+      "cpus" => 4
+    }
+  ]
+}
 
 # 生成hosts内容并赋给变量
 hosts_content = []
@@ -90,17 +62,14 @@ Vagrant.configure("2") do |config|
       vm.vm.box_check_update = false
       # vm.vm.disk :disk, size: "100GB", primary: true
 
-      if current_hostname == "Studio.local"
-        vm.vm.network "public_network", ip: vm_config['ip'], hostname: true, bridge: "en1: Wi-Fi"
-      else
-        vm.vm.network "private_network", ip: vm_config['ip'], hostname: true
-      end
+      # 不让 Vagrant 自己分配 IP（我们自己用 netplan）
+      vm.vm.network "private_network", ip: vm_config["ip"], adapter: 1
 
       vm.vm.synced_folder ".", "/vagrant", disabled: true
       vm.vm.synced_folder "~/.ssh", "/host_ssh"
       vm.vm.synced_folder "~/.kube", "/host_kube"
       vm.vm.synced_folder "~/script", "/Users/acejilam/script"
-      vm.vm.synced_folder "/Volumes/Tf/resources", "/resources"
+      vm.vm.synced_folder "/Volumes/Tf/resources", "/Volumes/Tf/resources"
       vm.vm.synced_folder "/Volumes/Tf/docker_images", "/docker_images"
 
       vm.vm.synced_folder "~/.cargo/target", "/root/.cargo/target"
@@ -118,41 +87,43 @@ Vagrant.configure("2") do |config|
         vb.vmx["memsize"] = vm_config['memory']
         vb.vmx["numvcpus"] = vm_config['cpus']
         vb.vmx["cpuid.coresPerSocket"] = "2"
+        vb.vmx["ethernet0.pcislotnumber"] = "160"
+        vb.vmx["ethernet1.pcislotnumber"] = "224"
+        vb.allowlist_verified = true
+        # 固定 Adapter 1 的 MAC（很重要，否则 udev 匹配不上）
+        vb.vmx["ethernet1.addressType"] = "static"
+        vb.vmx["ethernet1.address"] = vm_config["mac"]
       end
 
-      vm.vm.provider :virtualbox do |vb|
-        vb.memory = vm_config['memory']
-        vb.cpus = vm_config['cpus']
-      end
-
-      vm.vm.provision "shell", env: {"HOSTS_CONTENT" => hosts_string}, inline: <<-SHELL
+      vm.vm.provision "shell", env: {"HOSTS_CONTENT" => hosts_string, "IP" => vm_config["ip"], "MAC" =>  vm_config["mac"]}, inline: <<-SHELL
         set -ex
-        echo "$HOSTS_CONTENT" >> /etc/hosts
+        echo "$HOSTS_CONTENT" w>> /etc/hosts
 
-        bash /Users/acejilam/script/linux-replace-sources.sh
+        bash /Users/acejilam/script/vagrant-fixip.sh "$IP" "$MAC"
+        bash /Users/acejilam/script/linux-replace-sources.sh 
         bash /Users/acejilam/script/linux-install-tools.sh
         bash /Users/acejilam/script/linux-resize-vagrant-disk.sh
         bash /Users/acejilam/script/linux-install-zsh.sh
         bash /Users/acejilam/script/linux-install-go.sh
         bash /Users/acejilam/script/linux-add-env.sh
 
-        if [[ $(hostname) == "vm2004" ]]; then
-          sudo apt-get install nfs-kernel-server rpcbind selinux-utils nfs-common -y
-          rm -rf /nfs
-          mkdir -p /nfs
-#           chown -R nobody:nobody /nfs
-          chown -R 65534:65534 /nfs
-          echo '/nfs   192.168.0.0/16(rw,async,no_root_squash,no_subtree_check)' > /etc/exports
-          exportfs -arv
-          showmount -e
-          sudo /etc/init.d/nfs-kernel-server start
-        fi
-        bash /Users/acejilam/script/linux-install-bpf.sh
-        if [[ $(hostname) == "vm2404" ]]; then
-          bash /Users/acejilam/script/linux-install-rust.sh
-          # bash /Users/acejilam/script/linux-install-k8s.sh
-          echo "over"
-        fi
+#         if [[ $(hostname) == "vm2004" ]]; then
+#           sudo apt-get install nfs-kernel-server rpcbind selinux-utils nfs-common -y
+#           rm -rf /nfs
+#           mkdir -p /nfs
+# #         chown -R nobody:nobody /nfs
+#           chown -R 65534:65534 /nfs
+#           echo '/nfs   192.168.0.0/16(rw,async,no_root_squash,no_subtree_check)' > /etc/exports
+#           exportfs -arv
+#           showmount -e
+#           sudo /etc/init.d/nfs-kernel-server start
+#         fi
+#         bash /Users/acejilam/script/linux-install-bpf.sh
+#         if [[ $(hostname) == "vm2404" ]]; then
+#           bash /Users/acejilam/script/linux-install-rust.sh
+#           # bash /Users/acejilam/script/linux-install-k8s.sh
+#           echo "over"
+#         fi
       SHELL
     end
   end

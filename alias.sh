@@ -16,7 +16,7 @@ if [[ $(uname) == "Darwin" ]]; then
 	fi
 
 	alias vlan_proxy="export https_proxy=http://$(ipconfig getifaddr en0):7890 http_proxy=http://$(ipconfig getifaddr en0):7890 all_proxy=socks5://$(ipconfig getifaddr en0):7890"
-	print-proxy.py check
+	print_proxy.py check
 fi
 
 alias company_proxy='export http_proxy=http://hproxy.it.zetyun.cn:1080; export https_proxy=http://hproxy.it.zetyun.cn:1080;'
@@ -85,3 +85,58 @@ fix_path_spaces() {
 # fix_path_spaces
 
 alias mk="minikube kubectl --"
+
+# delete_dir() {
+# 	set -x
+# 	find . -depth -type d -name "$1" -print -exec rm -rf {} \;
+# }
+
+delete_dir() { # 适用 zsh
+	local target="$1"
+	local dirs
+	dirs=$(find . -depth -type d -name "$target")
+
+	if [ -z "$dirs" ]; then
+		echo "未找到目录 $target"
+		return
+	fi
+
+	# 遍历每个目录
+	while IFS= read -r dir; do
+		while true; do
+			read -q "ans?是否删除目录 '$dir'? [y/N] "
+			echo
+			case "$ans" in
+			[yY])
+				rm -rf -- "$dir"
+				echo "已删除: $dir"
+				break
+				;;
+			[nN] | '')
+				echo "跳过: $dir"
+				break
+				;;
+			*)
+				echo "请输入 y 或 n"
+				;;
+			esac
+		done
+	done <<<"$dirs"
+}
+
+record() {
+	local asciinema_file
+	asciinema_file=$(date +%s)
+
+	# 开始录制，用户做完事情输入 exit 即可
+	asciinema rec "${asciinema_file}.cast"
+
+	# 录制结束后，自动转换并生成 gif
+	asciinema convert -f asciicast-v2 "${asciinema_file}.cast" "${asciinema_file}.cast2" --overwrite
+	agg --font-family 'MesloLGS NF' "${asciinema_file}.cast2" "${asciinema_file}.gif"
+
+	# 清理临时文件
+	rm -f "${asciinema_file}.cast" "${asciinema_file}.cast2"
+
+	echo "✅ 录制完成，已生成: ${asciinema_file}.gif"
+}

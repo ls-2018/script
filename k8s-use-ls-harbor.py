@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 import os
-os.system('pip3 install toml')
+os.system('pip3 install toml tomli_w')
 import subprocess
 import toml
+import tomli_w
 
-proxy = '*.ls.com,*.aliyun.com,*.zetyun.com,*.*.aliyuncs.com,*.aliyuncs.com'
+proxy = '*.tencent.com,harbor.ls.com,*.aliyun.com,*.*.aliyuncs.com,*.aliyuncs.com,*.zetyun.com,quay.io'
 with open('/Users/acejilam/Library/Group Containers/group.com.docker/settings-store.json', 'r', encoding='utf-8') as f:
     data = f.read()
     if proxy in data:
@@ -91,7 +92,8 @@ for n in ns:
     data['plugins']['io.containerd.grpc.v1.cri']['registry']['config_path'] = '/etc/containerd/certs.d'
 
     with open(f"/tmp/config.toml", "w", encoding='utf8') as f:
-        f.write(toml.dumps(data))
+        f.write(tomli_w.dumps(data, multiline_strings=True, indent=4))
+        # f.write(toml.dumps(data))
     system(f'docker cp /tmp/config.toml {n}:/etc/containerd/config.toml')
 
     system(f'docker exec {n} mkdir -p /etc/containerd/certs.d/{aliyun}')
@@ -106,9 +108,9 @@ for n in ns:
 
     system(f'docker cp /tmp/change-host.sh {n}:/root/change-host.sh')
 
-    system(f'docker cp /Users/acejilam/data/harbor/cert/harbor.crt {n}:/etc/containerd/certs.d/{aliyun}/harbor.crt')
-    system(f'docker cp /Users/acejilam/data/harbor/cert/harbor.crt {n}:/etc/containerd/certs.d/{ls}/harbor.crt')
-    system(f'docker cp /Users/acejilam/data/harbor/cert/harbor.crt {n}:/usr/local/share/ca-certificates/')
+    system(f'docker cp /Users/acejilam/data/harbor/cert/harbor.crt {n}:/etc/containerd/certs.d/{aliyun}/harbor.crt') # 不生效
+    system(f'docker cp /Users/acejilam/data/harbor/cert/harbor.crt {n}:/etc/containerd/certs.d/{ls}/harbor.crt')# 不生效
+    system(f'docker cp /Users/acejilam/data/harbor/cert/harbor.crt {n}:/usr/local/share/ca-certificates/')# 生效
 
     system(f'docker exec {n} bash update-ca-certificates')
     system(f'docker exec {n} bash /root/change-host.sh')

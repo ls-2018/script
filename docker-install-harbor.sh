@@ -1,12 +1,22 @@
 #!/usr/bin/env zsh
 #rm -rf /Users/acejilam/data/harbor/{tgz,cert,logs}
-
+set -v
 # rm -rf /Users/acejilam/data/harbor
 # rm -rf /Users/acejilam/data/harbor/{tgz,cert,logs}
 mkdir -p /Users/acejilam/data/harbor/{tgz,cert,data,logs}
 
 export version=v2.12.2
-cp /Users/acejilam/resources/tar/arm64/harbor-offline-installer-aarch64-${version}.tgz /Users/acejilam/data/harbor/tgz/
+cp /Volumes/Tf/resources/tar/arm64/harbor-offline-installer-aarch64-${version}.tgz /Users/acejilam/data/harbor/tgz/
+
+host_ip=$(ipconfig getifaddr en0)
+if [ "$host_ip" = "" ]; then
+	host_ip=$(ipconfig getifaddr en1)
+fi
+echo $host_ip
+if [ "$host_ip" = "" ]; then
+	echo "获取不到本机IP，请检查网络"
+	exit 1
+fi
 
 cat >/tmp/openssl.cnf <<EOF
 [req]
@@ -30,6 +40,7 @@ subjectAltName = @alt_names
 [alt_names]
 DNS.1 = registry.cn-hangzhou.aliyuncs.com
 DNS.2 = harbor.ls.com
+IP.1  = $host_ip
 EOF
 
 openssl req -new -sha256 -nodes -out harbor.csr -newkey rsa:2048 -keyout harbor.key -config /tmp/openssl.cnf
@@ -83,13 +94,16 @@ curl -k -u "admin:Harbor12345" -X POST -H "Content-Type: application/json" "http
 curl -k -u "admin:Harbor12345" -X POST -H "Content-Type: application/json" "https://harbor.ls.com/api/v2.0/projects/" -d '{"project_name": "ls-2018", "public": true}'
 curl -k -u "admin:Harbor12345" -X POST -H "Content-Type: application/json" "https://harbor.ls.com/api/v2.0/projects/" -d '{"project_name": "ls-mock", "public": true}'
 
+mkdir -p /Users/acejilam/.config/buildkit
 cat >/Users/acejilam/.config/buildkit/buildkitd.toml <<EOF
 [registry."harbor.ls.com"]
 insecure = true
 ca=["/Users/acejilam/data/harbor/cert/harbor.crt"]
 EOF
 
-docker buildx rm mygo || true
-docker buildx create --name mygo --buildkitd-config /Users/acejilam/.config/buildkit/buildkitd.toml
+docker buildx inspect mygo | grep harbor.ls.com || {
+	docker buildx rm mygo
+	docker buildx create --name mygo --buildkitd-config /Users/acejilam/.config/buildkit/buildkitd.toml
+}
 
 # wget -O ~/.docker/cli-plugins/docker-buildx https://github.com/docker/buildx/releases/download/v0.25.0/buildx-v0.25.0.darwin-arm64

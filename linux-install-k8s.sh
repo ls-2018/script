@@ -34,9 +34,9 @@ EOF
 export VERSION=5.0.1
 ARCH=$(arch | sed s/aarch64/arm64/ | sed s/x86_64/amd64/)
 
-cat /resources/tar/${ARCH}/v${VERSION}/sealos_${VERSION}_linux_${ARCH}.tar.gz | tar -zxvf - -C /usr/bin/
-cat /resources/tar/${ARCH}/cilium-linux-${ARCH}.tar.gz | tar -zxvf - -C /usr/bin/
-cat /resources/tar/${ARCH}/hubble-linux-${ARCH}.tar.gz | tar -zxvf - -C /usr/bin/
+cat /Volumes/Tf/resources/tar/${ARCH}/v${VERSION}/sealos_${VERSION}_linux_${ARCH}.tar.gz | tar -zxvf - -C /usr/bin/
+cat /Volumes/Tf/resources/tar/${ARCH}/cilium-linux-${ARCH}.tar.gz | tar -zxvf - -C /usr/bin/
+cat /Volumes/Tf/resources/tar/${ARCH}/hubble-linux-${ARCH}.tar.gz | tar -zxvf - -C /usr/bin/
 
 # sealos reset
 
@@ -61,7 +61,7 @@ if test -d "/docker_images/sealos"; then
 	ls /docker_images/sealos | xargs -I F sealos load -i /docker_images/sealos/F
 fi
 
-sealos run registry.cn-shanghai.aliyuncs.com/labring/kubernetes-docker:v1.30.0 \
+sealos run registry.cn-shanghai.aliyuncs.com/labring/kubernetes-docker:v1.30.3 \
 	registry.cn-shanghai.aliyuncs.com/labring/helm:v3.14.0 \
 	--nodes=${nodes_Str} \
 	--masters=$(parse_ip vm2404) \
@@ -99,7 +99,7 @@ if helm list -n kube-system | grep -q "tetrciliumagon"; then
 	helm uninstall cilium -n kube-system
 fi
 
-helm install cilium /resources/others/cilium-* \
+helm install cilium /Volumes/Tf/resources/others/cilium-* \
 	-n kube-system \
 	--set hubble.ui.enabled=true \
 	--set hubble.relay.enabled=true \
@@ -132,7 +132,7 @@ helm install cilium /resources/others/cilium-* \
 	--set authentication.mutual.spire.install.agent.image.useDigest=false \
 	--set authentication.mutual.spire.install.server.image.useDigest=false
 
-# helm install tetragon /resources/others/tetragon-* -n kube-system
+# helm install tetragon /Volumes/Tf/resources/others/tetragon-* -n kube-system
 # cilium hubble enable --relay --ui
 
 kubectl apply -f - <<EOF
