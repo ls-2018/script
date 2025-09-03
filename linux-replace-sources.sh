@@ -32,5 +32,10 @@ cat >/etc/systemd/resolved.conf <<EOF
 [Resolve]
 DNS=114.114.114.114
 EOF
-systemctl restart systemd-resolved
-resolvectl status
+
+if command -v systemctl &>/dev/null; then
+	systemctl restart systemd-resolved
+fi
+if command -v resolvectl &>/dev/null; then
+	resolvectl status
+fi

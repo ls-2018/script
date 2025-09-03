@@ -85,7 +85,7 @@ cilium install \
 	--set envoy.image.repository=registry.cn-hangzhou.aliyuncs.com/acejilam/cilium-envoy \
 	--set preflight.image.repository=registry.cn-hangzhou.aliyuncs.com/acejilam/cilium-ci \
 	--set operator.image.repository=registry.cn-hangzhou.aliyuncs.com/acejilam/operator \
-	--set preflight.envoy.image.repository=registry.cn-hangzhou.aliyuncs.com/acejilam/cilium-envoy 
+	--set preflight.envoy.image.repository=registry.cn-hangzhou.aliyuncs.com/acejilam/cilium-envoy
 
 helm install tetragon cilium/tetragon \
 	-n cilium-system \
@@ -122,7 +122,6 @@ spec:
      - index: 0
        type: "sock"
 EOF
-
 
 # 使用示例
 curl https://gh-proxy.com/https://raw.githubusercontent.com/cilium/cilium/1.18.1/examples/minikube/http-sw-app.yaml | gsed 's@quay.io/cilium@registry.cn-hangzhou.aliyuncs.com/acejilam@g' | kubectl apply -f -

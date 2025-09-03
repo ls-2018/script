@@ -35,6 +35,6 @@ go install github.com/google/gops@latest
 
 echo """
 export GOROOT=/usr/local/go$version
-export GOPATH=$HOME/.gopath 
+export GOPATH=$HOME/.gopath
 export PATH=$PATH:/usr/local/go$version/bin:$HOME/.gopath/bin
-""" >> ~/.bashrc
+"""
