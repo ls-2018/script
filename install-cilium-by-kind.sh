@@ -53,6 +53,7 @@ if [[ ${my_harbor} == "harbor" ]]; then
 	trans-image-to-ls-harbor.py --arch all --source registry.cn-hangzhou.aliyuncs.com/acejilam/hubble-export-stdout:v1.1.0
 	trans-image-to-ls-harbor.py --arch all --source registry.cn-hangzhou.aliyuncs.com/acejilam/tetragon:v1.5.0
 	trans-image-to-ls-harbor.py --arch all --source registry.cn-hangzhou.aliyuncs.com/acejilam/tetragon-operator:v1.5.0
+	trans-image-to-ls-harbor.py --arch all --source registry.cn-hangzhou.aliyuncs.com/acejilam/cilium_netperf:latest
 
 	k8s-use-ls-harbor.py
 fi
@@ -123,6 +124,68 @@ spec:
        type: "sock"
 EOF
 
+kubectl apply -f - <<EOF
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: bandwidth
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    # Limits egress bandwidth to 10Mbit/s.
+    kubernetes.io/egress-bandwidth: "10M"
+  labels:
+    app.kubernetes.io/name: bandwidth-server
+  name: bandwidth-server
+  namespace: bandwidth
+spec:
+  containers:
+  - name: netperf
+    image: registry.cn-hangzhou.aliyuncs.com/acejilam/cilium_netperf
+    ports:
+    - containerPort: 12865
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bandwidth-server
+  namespace: bandwidth
+spec:
+  selector:
+    app.kubernetes.io/name: netperf-server
+  ports:
+    - protocol: TCP
+      port: 12865
+      targetPort: 12865
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  # This Pod will act as client.
+  name: bandwidth-client
+  namespace: bandwidth
+spec:
+  affinity:
+    # Prevents the client from being scheduled to the
+    # same node as the server.
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+      - labelSelector:
+          matchExpressions:
+          - key: app.kubernetes.io/name
+            operator: In
+            values:
+            - bandwidth-server
+        topologyKey: kubernetes.io/hostname
+  containers:
+  - name: netperf
+    command:
+      - netperf -t TCP_MAERTS -H bandwidth-server
+    image: registry.cn-hangzhou.aliyuncs.com/acejilam/cilium_netperf
+EOF
 # 使用示例
 curl https://gh-proxy.com/https://raw.githubusercontent.com/cilium/cilium/1.18.1/examples/minikube/http-sw-app.yaml | gsed 's@quay.io/cilium@registry.cn-hangzhou.aliyuncs.com/acejilam@g' | kubectl apply -f -
 curl https://gh-proxy.com/https://raw.githubusercontent.com/cilium/cilium/1.18.1/examples/minikube/sw_l3_l4_policy.yaml | kubectl apply -f -

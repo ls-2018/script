@@ -34,10 +34,12 @@ ss[0] = me_domain
 new_image = '/'.join(ss)
 
 user = new_image.split('/')[-2].strip()
+
 ps_data = subprocess.getoutput(
     f'curl -s -X GET -H "Content-Type: application/json" "https://{me_domain}/api/v2.0/projects?page=1&page_size=100&with_detail=true"'
 )
-
+if isinstance(json.loads(ps_data), dict):
+    print(ps_data)
 users = set([item['name'] for item in json.loads(ps_data)])
 if user not in users:
     os.system(
