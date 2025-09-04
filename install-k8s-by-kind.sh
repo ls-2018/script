@@ -2,7 +2,10 @@
 # kubectl krew install who-can
 # kubectl who-can get secret cluster-admin-creds
 # kubectl krew install rakkess
-. $(cd "$(dirname "$0")"; pwd)/alias.sh
+. $(
+	cd "$(dirname "$0")"
+	pwd
+)/alias.sh
 
 name=${1-kind}
 version=${2-v1.28.0}

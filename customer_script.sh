@@ -120,7 +120,10 @@ export GOPRIVATE='gitlab.datacanvas.com/*,git@gitlab.datacanvas.com/*'
 export GONOSUMDB='gitlab.datacanvas.com,git@gitlab.datacanvas.com'
 export GOFLAGS='-buildvcs=false'
 
-. $(cd "$(dirname "$0")"; pwd)/alias.sh
+. $(
+	cd "$(dirname "$0")"
+	pwd
+)/alias.sh
 
 mkdir -p /Users/acejilam/Desktop/SyncZone
 export HISTFILE="/Users/acejilam/Desktop/SyncZone/zsh_history"
