@@ -15,7 +15,7 @@ ssh root@pxe "bash -i /Users/acejilam/script/linux-replace-sources.sh"
 ssh root@pxe "bash -i /Users/acejilam/script/linux-install-tools.sh"
 ssh root@pxe "bash -i /Users/acejilam/script/linux-install-zsh.sh"
 ssh root@pxe "bash -i /Users/acejilam/script/linux-install-go.sh"
-ssh root@pxe "bash -i /Users/acejilam/script/linux-add-env.sh"
+ssh root@pxe "bash -i /Users/acejilam/script/.linux-add-env.sh"
 ssh root@pxe "bash -i /Users/acejilam/script/linux-install-bpf.sh"
 ssh root@pxe "bash -i /Users/acejilam/script/linux-install-rust.sh"
 

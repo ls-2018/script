@@ -1,10 +1,12 @@
 rm -rf ~/.customer_script.sh
 rm -rf ~/.linux-env-bash.env
 rm -rf ~/.linux-env-zsh.env
+rm -rf ~/.alias.sh
 
-wget -O ~/.customer_script.sh https://gitee.com/ls-2018/script/raw/main/customer_script.sh
-wget -O ~/.linux-env-bash.env https://gitee.com/ls-2018/script/raw/main/linux-env-bash.env
-wget -O ~/.linux-env-zsh.env https://gitee.com/ls-2018/script/raw/main/linux-env-zsh.env
+wget -O ~/.alias.sh https://gitee.com/ls-2018/script/raw/main/.alias.sh
+wget -O ~/.customer_script.sh https://gitee.com/ls-2018/script/raw/main/.customer_script.sh
+wget -O ~/.linux-env-bash.env https://gitee.com/ls-2018/script/raw/main/.linux-env-bash.env
+wget -O ~/.linux-env-zsh.env https://gitee.com/ls-2018/script/raw/main/.linux-env-zsh.env
 
 echo 'source ~/.customer_script.sh' | tee -a ~/.bashrc
 echo 'source ~/.linux-env-bash.env' | tee -a ~/.bashrc

@@ -5,7 +5,7 @@
 . $(
 	cd "$(dirname "$0")"
 	pwd
-)/alias.sh
+)/.alias.sh
 
 name=${1-kind}
 version=${2-v1.28.0}

@@ -3,7 +3,7 @@ set -x
 . $(
 	cd "$(dirname "$0")"
 	pwd
-)/alias.sh
+)/.alias.sh
 change-name.py /Volumes/Tf/resources/yaml/metrics-server/ "registry.k8s.io/metrics-server" "registry.cn-hangzhou.aliyuncs.com/acejilam" text
 # change-name.py /Volumes/Tf/resources/yaml/metrics-server/ "args:" "args:\\n" text
 
