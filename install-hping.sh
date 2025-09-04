@@ -1,4 +1,4 @@
-. /Users/acejilam/script/alias.sh
+. $(cd "$(dirname "$0")"; pwd)/alias.sh
 
 brew uninstall hping
 brew install tcl-tk

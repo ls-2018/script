@@ -113,7 +113,6 @@ else
 	chmod +x /usr/bin/lsb_release
 fi
 
-
 curl -sSL https://linuxmirrors.cn/main.sh | bash -s -- \
 	--source mirrors.aliyun.com \
 	--protocol https \

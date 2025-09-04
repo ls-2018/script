@@ -1,6 +1,6 @@
 #! /usr/bin/env zsh
 set -x
-. /Users/acejilam/script/alias.sh
+. $(cd "$(dirname "$0")"; pwd)/alias.sh
 change-name.py /Volumes/Tf/resources/yaml/metrics-server/ "registry.k8s.io/metrics-server" "registry.cn-hangzhou.aliyuncs.com/acejilam" text
 # change-name.py /Volumes/Tf/resources/yaml/metrics-server/ "args:" "args:\\n" text
 

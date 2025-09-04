@@ -142,10 +142,10 @@ metadata:
   namespace: bandwidth
 spec:
   containers:
-  - name: netperf
-    image: registry.cn-hangzhou.aliyuncs.com/acejilam/cilium_netperf
-    ports:
-    - containerPort: 12865
+    - name: netperf
+      image: registry.cn-hangzhou.aliyuncs.com/acejilam/cilium_netperf
+      ports:
+        - containerPort: 12865
 ---
 apiVersion: v1
 kind: Service
@@ -154,7 +154,7 @@ metadata:
   namespace: bandwidth
 spec:
   selector:
-    app.kubernetes.io/name: netperf-server
+    app.kubernetes.io/name: bandwidth-server
   ports:
     - protocol: TCP
       port: 12865
@@ -173,19 +173,25 @@ spec:
     # same node as the server.
     podAntiAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
-      - labelSelector:
-          matchExpressions:
-          - key: app.kubernetes.io/name
-            operator: In
-            values:
-            - bandwidth-server
-        topologyKey: kubernetes.io/hostname
+        - labelSelector:
+            matchExpressions:
+              - key: app.kubernetes.io/name
+                operator: In
+                values:
+                  - bandwidth-server
+          topologyKey: kubernetes.io/hostname
   containers:
-  - name: netperf
-    command:
-      - netperf -t TCP_MAERTS -H bandwidth-server
-    image: registry.cn-hangzhou.aliyuncs.com/acejilam/cilium_netperf
+    - name: netperf
+      command:
+        - "/bin/bash"
+        - "-c"
+        - |
+          sleep 2
+          netperf -t TCP_MAERTS -H bandwidth-server -p 12865
+          sleep 1d
+      image: registry.cn-hangzhou.aliyuncs.com/acejilam/cilium_netperf
 EOF
+
 # 使用示例
 curl https://gh-proxy.com/https://raw.githubusercontent.com/cilium/cilium/1.18.1/examples/minikube/http-sw-app.yaml | gsed 's@quay.io/cilium@registry.cn-hangzhou.aliyuncs.com/acejilam@g' | kubectl apply -f -
 curl https://gh-proxy.com/https://raw.githubusercontent.com/cilium/cilium/1.18.1/examples/minikube/sw_l3_l4_policy.yaml | kubectl apply -f -
