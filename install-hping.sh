@@ -1,7 +1,4 @@
-. $(
-	cd "$(dirname "$0")"
-	pwd
-)/.alias.sh
+#! /usr/bin/env bash
 
 brew uninstall hping
 brew install tcl-tk

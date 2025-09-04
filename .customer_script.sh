@@ -120,15 +120,13 @@ export GOPRIVATE='gitlab.datacanvas.com/*,git@gitlab.datacanvas.com/*'
 export GONOSUMDB='gitlab.datacanvas.com,git@gitlab.datacanvas.com'
 export GOFLAGS='-buildvcs=false'
 
-. $(
-	cd "$(dirname "$0")"
-	pwd
-)/.alias.sh
+SCRIPT_DIR="$(cd -P "$(dirname "$0")" && pwd)"
+source "$SCRIPT_DIR/.alias.sh"
 
 mkdir -p /Users/acejilam/Desktop/SyncZone
 export HISTFILE="/Users/acejilam/Desktop/SyncZone/zsh_history"
 
-export PYTHONPATH=/Users/acejilam/script/:$PYTHONPATH
+export PYTHONPATH=$SCRIPT_DIR:$PYTHONPATH
 
 # zsh 通配符无匹配时报错
 # setopt +o nomatch

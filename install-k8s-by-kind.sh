@@ -1,11 +1,10 @@
-#! /usr/bin/env zsh
+#! /usr/bin/env bash
 # kubectl krew install who-can
 # kubectl who-can get secret cluster-admin-creds
 # kubectl krew install rakkess
-. $(
-	cd "$(dirname "$0")"
-	pwd
-)/.alias.sh
+
+SCRIPT_DIR="$(cd -P "$(dirname "$0")" && pwd)"
+source "$SCRIPT_DIR/.alias.sh"
 
 name=${1-kind}
 version=${2-v1.28.0}
