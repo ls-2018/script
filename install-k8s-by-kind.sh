@@ -3,7 +3,7 @@
 # kubectl who-can get secret cluster-admin-creds
 # kubectl krew install rakkess
 
-SCRIPT_DIR="$(cd -P "$(dirname "$0")" && pwd)"
+SCRIPT_DIR="$(cd -P "$(dirname "${BASH_SOURCE:-$0}")" && pwd)"
 source "$SCRIPT_DIR/.alias.sh"
 
 name=${1-kind}

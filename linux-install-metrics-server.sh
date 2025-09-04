@@ -1,6 +1,6 @@
 #! /usr/bin/env zsh
 set -x
-SCRIPT_DIR="$(cd -P "$(dirname "$0")" && pwd)"
+SCRIPT_DIR="$(cd -P "$(dirname "${BASH_SOURCE:-$0}")" && pwd)"
 source "$SCRIPT_DIR/.alias.sh"
 
 change-name.py /Volumes/Tf/resources/yaml/metrics-server/ "registry.k8s.io/metrics-server" "registry.cn-hangzhou.aliyuncs.com/acejilam" text

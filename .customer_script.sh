@@ -120,7 +120,7 @@ export GOPRIVATE='gitlab.datacanvas.com/*,git@gitlab.datacanvas.com/*'
 export GONOSUMDB='gitlab.datacanvas.com,git@gitlab.datacanvas.com'
 export GOFLAGS='-buildvcs=false'
 
-SCRIPT_DIR="$(cd -P "$(dirname "$0")" && pwd)"
+SCRIPT_DIR="$(cd -P "$(dirname "${BASH_SOURCE:-$0}")" && pwd)"
 source "$SCRIPT_DIR/.alias.sh"
 
 mkdir -p /Users/acejilam/Desktop/SyncZone
