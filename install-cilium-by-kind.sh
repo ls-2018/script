@@ -61,17 +61,28 @@ fi
 echo "export KUBECONFIG=~/.kube/cilium"
 
 kubectl create namespace cilium-system || true
+
+bandwidth="--set bandwidthManager.enabled=true --set bandwidthManager.bbr=true --set bandwidthManager.bbrHostNamespaceOnly=true"
+ipsec="--set encryption.enabled=true --set encryption.type=ipsec"
+# direct_route='--set routing-mode=native --set autoDirectNodeRoutes=true --set ipv4NativeRoutingCIDR=10.0.0.0/8'
+direct_route='--set routing-mode=native --set ipv4NativeRoutingCIDR=10.0.0.0/8'
+ebpf="--set bpf.masquerade=true	--set nodePort.enabled=true"
+kubeproxy_replacement="--set kubeProxyReplacement=true"
+
+kubectl create -n cilium-system secret generic cilium-ipsec-keys \
+	--from-literal=keys="3 rfc4543(gcm(aes)) $(echo $(dd if=/dev/urandom count=20 bs=1 2>/dev/null | xxd -p -c 64)) 128"
+
 cilium install \
 	--version=v1.18.1 \
 	--namespace=cilium-system \
-	--set bandwidthManager.enabled=true \
-	--set bandwidthManager.bbr=true \
-	--set bandwidthManager.bbrHostNamespaceOnly=true \
+	$direct_route \
+	$kubeproxy_replacement \
+	$ebpf \
+	$bandwidth \
+	$ipsec \
 	--set localRedirectPolicies.enabled=true \
-	--set bpf.masquerade=true \
-	--set nodePort.enabled=true \
 	--set image.pullPolicy=IfNotPresent \
-	--set cluster.name=c1 \
+	--set monitorAggregation=none \
 	--set debug.enabled=true \
 	--set debug.verbose="flow agent envoy daemon monitor kvstore ipam config datapath" \
 	--set monitor.enabled=true \
