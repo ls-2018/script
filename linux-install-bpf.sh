@@ -26,6 +26,7 @@ cd ~
 
 cp /Volumes/Tf/resources/others/llvm.sh .
 chmod +x llvm.sh
+cp -rf /Volumes/Tf/resources/others/llvm-snapshot.gpg.key /etc/apt/trusted.gpg.d/apt.llvm.org.asc
 
 LLVM_VERSION=$(cat llvm.sh | grep CURRENT_LLVM_STABLE= | cut -d= -f2)
 
@@ -33,7 +34,8 @@ LLVM_VERSION=$(cat llvm.sh | grep CURRENT_LLVM_STABLE= | cut -d= -f2)
 #     export LLVM_VERSION=19
 # fi
 
-./llvm.sh ${LLVM_VERSION} -m https://mirrors.bfsu.edu.cn/llvm-apt
+# ./llvm.sh ${LLVM_VERSION} -m https://mirrors.bfsu.edu.cn/llvm-apt
+./llvm.sh ${LLVM_VERSION} -m https://mirrors.tuna.tsinghua.edu.cn/llvm-apt/
 
 for file in $(ls /usr/bin | grep "\-${LLVM_VERSION}$"); do
 	base=$(echo $file | sed 's/-[0-9]*$//')
@@ -160,4 +162,4 @@ make
 sudo make install
 
 cd ~
-rm -rf ./*
+rm -rf ./libpcap-1.10.4 ./libpcap-1.10.4.tar.gz ./llvm.sh ./llvm-snapshot.gpg.key

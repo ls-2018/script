@@ -58,7 +58,10 @@ export HOMEBREW_BOTTLE_DOMAIN="https://mirrors.tuna.tsinghua.edu.cn/homebrew-bot
 export PATH="/usr/local/opt/mysql-client/bin:$PATH"
 export PATH="/usr/local/opt/make/libexec/gnubin:$PATH"
 export PATH="/usr/local/opt/openssl@3/bin:$PATH"
-export PATH="/usr/local/opt/llvm/bin:$PATH"
+export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
+# To use the bundled libc++ please add the following LDFLAGS:
+# export LDFLAGS="-L/opt/homebrew/opt/llvm/lib"
+# export CPPFLAGS="-I/opt/homebrew/opt/llvm/include"
 
 export PATH="/Library/Frameworks/Python.framework/Versions/3.12/bin:$PATH"
 
@@ -86,9 +89,7 @@ fi
 # export CPPFLAGS="-I/opt/homebrew/opt/ffmpeg@5/include"
 # export PKG_CONFIG_PATH="/opt/homebrew/opt/ffmpeg@5/lib/pkgconfig"
 
-# To use the bundled libc++ please add the following LDFLAGS:
-# export LDFLAGS="-L/usr/local/opt/llvm/lib"
-# export CPPFLAGS="-I/usr/local/opt/llvm/include"
+
 
 export K8S_DEBUG=1
 

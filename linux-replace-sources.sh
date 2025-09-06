@@ -4,7 +4,7 @@ touch ~/.hushlogin # 关闭登录提示
 onlyUpdate=$1
 rm -rf /etc/apt/sources.list.d/gierens.list
 
-curl -sSL https://linuxmirrors.cn/main.sh | bash -s -- \
+curl -sSL https://gitee.com/SuperManito/LinuxMirrors/raw/main/ChangeMirrors.sh | bash -s -- \
 	--source mirrors.aliyun.com \
 	--protocol https \
 	--use-intranet-source false \

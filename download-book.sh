@@ -12,15 +12,14 @@ git clone https://github.com/translatecn/kyanos.git -b cn ebpf/kyanos
 git clone https://github.com/Sysinternals/SysmonForLinux.git ebpf/ebpf.io/SysmonForLinux
 git clone https://github.com/mannkafai/bpf-inside.git ebpf/bpf-inside
 git clone https://github.com/zhangzihengya/oscomp-diagnose-tools.git ebpf/oscomp-diagnose-tools
-git clone https://github.com/cilium/hubble.git ebpf/ebpf.io/hubble
 git clone https://github.com/facebookincubator/katran.git ebpf/ebpf.io/katran
 git clone https://github.com/ymm135/go-nftables-demo.git ebpf/go-nftables-demo
 git clone https://github.com/davidcoles/vc5.git ebpf/ebpf.io/vc5
 git clone https://github.com/kmesh-net/kmesh.git ebpf/kmesh
+git clone https://github.com/zoidyzoidzoid/awesome-ebpf ebpf/awesome-ebpf
 git clone https://github.com/iovisor/kubectl-trace.git ebpf/ebpf.io/kubectl-trace
 git clone https://github.com/solo-io/bumblebee.git ebpf/ebpf.io/bumblebee
 git clone https://github.com/kong/blixt.git ebpf/ebpf.io/blixt
-git clone https://github.com/eunomia-bpf/bpf-developer-tutorial.git ebpf/bpf-developer-tutorial
 git clone https://github.com/coroot/coroot.git ebpf/ebpf.io/coroot
 git clone https://github.com/parca-dev/parca.git ebpf/ebpf.io/parca
 git clone https://github.com/netobserv/netobserv-ebpf-agent.git ebpf/ebpf.io/netobserv-ebpf-agent
@@ -32,12 +31,10 @@ git clone https://github.com/loxilb-io/loxilb.git ebpf/ebpf.io/loxilb
 git clone https://github.com/brendangregg/bpf-perf-tools-book.git ebpf/bpf-perf-tools-book
 git clone https://github.com/alibaba/kubeskoop.git ebpf/ebpf.io/kubeskoop
 git clone https://github.com/kubearmor/KubeArmor.git ebpf/ebpf.io/KubeArmor
-git clone https://github.com/cilium/tetragon.git ebpf/ebpf.io/tetragon
 git clone https://github.com/ls-2018/iptables-trace.git ebpf/iptables-trace
 git clone https://github.com/libbpf/libbpf-bootstrap.git ebpf/libbpf-bootstrap
 git clone https://github.com/weaveworks/scope ebpf/scope
 git clone https://github.com/Netflix/bpftop.git ebpf/ebpf.io/bpftop
-git clone https://github.com/cilium/cilium.git ebpf/ebpf.io/cilium
 git clone https://github.com/ntk148v/ntk148v.github.io.git ebpf/ntk148v.github.io
 git clone https://github.com/aquasecurity/tracee.git ebpf/ebpf.io/tracee
 git clone https://github.com/daeuniverse/dae.git ebpf/ebpf.io/dae
@@ -68,7 +65,6 @@ git clone https://github.com/istio/ztunnel.git ebpf/ztunnel
 git clone https://github.com/iovisor/bpftrace.git ebpf/ebpf.io/bpftrace
 git clone https://github.com/keyval-dev/odigos.git ebpf/ebpf.io/odigos
 git clone https://github.com/open-telemetry/opentelemetry-ebpf-profiler.git ebpf/ebpf.io/opentelemetry-ebpf-profiler
-git clone https://github.com/cilium/pwru.git ebpf/ebpf.io/pwru
 git clone https://github.com/chengyli/training.git ebpf/training
 git clone https://github.com/groundcover-com/caretta.git ebpf/ebpf.io/caretta
 git clone https://github.com/pixie-io/pixie.git ebpf/ebpf.io/pixie
@@ -115,9 +111,12 @@ git clone https://github.com/open-telemetry/opentelemetry-go-instrumentation ./t
 git clone https://github.com/open-telemetry/opentelemetry-network ./todo/opentelemetry-network
 
 download-user-all-repo.py Asphaltt users
+download-user-all-repo.py cilium orgs
 download-user-all-repo.py beepfd orgs
 download-user-all-repo.py kosmos-io orgs
 download-user-all-repo.py kubewharf orgs
+download-user-all-repo.py xdp-project orgs
+download-user-all-repo.py eunomia-bpf orgs
 
 update-git.py $base_dir
 

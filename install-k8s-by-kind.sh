@@ -63,8 +63,8 @@ string_contains() {
 
 # gsed -i "s@kind-@@g" ~/.kube/${name}
 
-echo "export KUBECONFIG=~/.kube/kind-${name}"
 {
+	echo "export KUBECONFIG=~/.kube/kind-${name}"
 	# cp ~/.kube/${name} ~/.kube/kind-${name}-node
 
 	# export CIP=`docker inspect koord-control-plane|jq '.[0].NetworkSettings.Networks.kind.IPAddress' | tr -d "\"'"`

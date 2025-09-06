@@ -74,6 +74,7 @@ download ./tar/arm64/istio-${VERSION}-osx-arm64.tar.gz https://github.com/istio/
 download ./tar/amd64/istio-${VERSION}-osx-amd64.tar.gz https://github.com/istio/istio/releases/download/${VERSION}/istio-${VERSION}-osx-amd64.tar.gz
 
 download ./others/llvm.sh https://mirrors.bfsu.edu.cn/llvm-apt/llvm.sh
+download ./others/llvm-snapshot.gpg.key https://apt.llvm.org/llvm-snapshot.gpg.key
 download ./others/libpcap-1.10.4.tar.gz https://www.tcpdump.org/release/libpcap-1.10.4.tar.gz
 
 download ./PowerDNS https://raw.githubusercontent.com/PowerDNS/pdns/rel/auth-4.2.x/modules/gmysqlbackend/schema.mysql.sql

@@ -7,6 +7,7 @@ kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
 networking:
   disableDefaultCNI: true
+  kubeProxyMode: "none"
   podSubnet: "10.10.0.0/16"					# default 10.244.0.0/16
   serviceSubnet: "10.11.0.0/16"				# default 10.96.0.0/12
 nodes:
@@ -64,10 +65,16 @@ kubectl create namespace cilium-system || true
 
 bandwidth="--set bandwidthManager.enabled=true --set bandwidthManager.bbr=true --set bandwidthManager.bbrHostNamespaceOnly=true"
 ipsec="--set encryption.enabled=true --set encryption.type=ipsec"
+wireguard="--set encryption.enabled=true --set encryption.type=wireguard"
 # direct_route='--set routing-mode=native --set autoDirectNodeRoutes=true --set ipv4NativeRoutingCIDR=10.0.0.0/8'
 direct_route='--set routing-mode=native --set ipv4NativeRoutingCIDR=10.0.0.0/8'
 ebpf="--set bpf.masquerade=true	--set nodePort.enabled=true"
-kubeproxy_replacement="--set kubeProxyReplacement=true"
+kubeproxy_replacement="--set kubeProxyReplacement=true"            # 不用安装 kubeproxy
+ipv4_big_tcp="--set ipv4.enabled=true --set enableIPv4BIGTCP=true" # not tunnal
+netkit="--set bpf.datapathMode=netkit"                             # netkit devices need kernel 6.7.0 or newer and CONFIG_NETKIT
+socket_lb="--set socketLB.enabled=true"
+dsr="--set installNoConntrackIptablesRules=true --set loadBalancer.mode=dsr"
+l7="--set ingressController.enabled=true --set ingressController.loadbalancerMode=dedicated" # --set loadBalancer.l7.backend=envoy
 
 kubectl create -n cilium-system secret generic cilium-ipsec-keys \
 	--from-literal=keys="3 rfc4543(gcm(aes)) $(echo $(dd if=/dev/urandom count=20 bs=1 2>/dev/null | xxd -p -c 64)) 128"
@@ -79,7 +86,8 @@ cilium install \
 	$kubeproxy_replacement \
 	$ebpf \
 	$bandwidth \
-	$ipsec \
+	$wireguard \
+	$l7 \
 	--set localRedirectPolicies.enabled=true \
 	--set image.pullPolicy=IfNotPresent \
 	--set monitorAggregation=none \

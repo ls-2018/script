@@ -107,23 +107,23 @@ Vagrant.configure("2") do |config|
         bash /Users/acejilam/script/linux-install-go.sh
         bash /Users/acejilam/script/linux-add-env.sh
 
-#         if [[ $(hostname) == "vm2004" ]]; then
-#           sudo apt-get install nfs-kernel-server rpcbind selinux-utils nfs-common -y
-#           rm -rf /nfs
-#           mkdir -p /nfs
-# #         chown -R nobody:nobody /nfs
-#           chown -R 65534:65534 /nfs
-#           echo '/nfs   192.168.0.0/16(rw,async,no_root_squash,no_subtree_check)' > /etc/exports
-#           exportfs -arv
-#           showmount -e
-#           sudo /etc/init.d/nfs-kernel-server start
-#         fi
-#         bash /Users/acejilam/script/linux-install-bpf.sh
-#         if [[ $(hostname) == "vm2404" ]]; then
-#           bash /Users/acejilam/script/linux-install-rust.sh
-#           # bash /Users/acejilam/script/linux-install-k8s.sh
-#           echo "over"
-#         fi
+        if [[ $(hostname) == "vm2004" ]]; then
+          sudo apt-get install nfs-kernel-server rpcbind selinux-utils nfs-common -y
+          rm -rf /nfs
+          mkdir -p /nfs
+#         chown -R nobody:nobody /nfs
+          chown -R 65534:65534 /nfs
+          echo '/nfs   192.168.0.0/16(rw,async,no_root_squash,no_subtree_check)' > /etc/exports
+          exportfs -arv
+          showmount -e
+          sudo /etc/init.d/nfs-kernel-server start
+        fi
+        bash /Users/acejilam/script/linux-install-bpf.sh
+        if [[ $(hostname) == "vm2404" ]]; then
+          # bash /Users/acejilam/script/linux-install-rust.sh
+          # bash /Users/acejilam/script/linux-install-k8s.sh
+          echo "over"
+        fi
       SHELL
     end
   end
