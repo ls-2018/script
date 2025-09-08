@@ -30,6 +30,7 @@ download() {
 	echo "$local_size" "$remote_size"
 	# 如果大小不同，则下载
 	if [[ "$local_size" -ne "$remote_size" ]]; then
+		ls -alh "$local_file"
 		curl -L --progress-bar -o "$local_file" "$url"
 	fi
 	set -x

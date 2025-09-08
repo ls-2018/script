@@ -1,20 +1,16 @@
 #!/usr/bin/env bash
-# 启动前就写好 udev 和 netplan
 fix_ip=${1-}
-mac=${2-}
-set -x
-# 用 awk
-get_ip_prefix_awk() {
-	echo "$1" | awk -F '.' '{print $1"."$2"."$3}'
-}
 
-sudo mkdir -p /etc/systemd/network
-cat <<EOF | sudo tee /etc/systemd/network/10-eth100.link
-[Match]
-MACAddress=${mac}
-[Link]
-Name=eth100
-EOF
+# 获取 eth0 的 MAC 地址
+MAC=$(cat /sys/class/net/eth1/address)
+
+# 创建 udev 规则永久改名
+RULE_FILE="/etc/udev/rules.d/70-persistent-net.rules"
+echo "SUBSYSTEM==\"net\", ACTION==\"add\", ATTR{address}==\"$MAC\", NAME=\"eth100\"" | sudo tee $RULE_FILE
+
+# 临时改名当前会话生效
+sudo ip link set dev eth1 name eth100
+ 
 
 sudo mkdir -p /etc/netplan
 cat <<EOF | sudo tee /etc/netplan/100-eth100.yaml
@@ -26,13 +22,8 @@ network:
       dhcp4: no
       addresses: [${fix_ip}/24]
 EOF
-
-chmod 644 /etc/netplan/100-eth100.yaml
-
 sudo netplan apply
 
 sleep 2
-
 ip a
-
 ip route

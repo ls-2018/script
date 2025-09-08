@@ -41,10 +41,10 @@ for filename in os.listdir(tmp_path):
 os.symlink(os.path.join(script_path, 'Vagrantfile'), os.path.join(vm_path, 'Vagrantfile'))
 os.symlink(os.path.join(script_path, 'Vagrantfile-single'), os.path.join(vm_path, 'Vagrantfile-single'))
 
-if platform.system() == 'Darwin':
-    provider = "--provider=vmware_desktop"
-else:
-    provider = "--provider=virtualbox"
+# if platform.system() == 'Darwin':
+#     provider = "--provider=vmware_desktop"
+# else:
+provider = "--provider=virtualbox"
 
 def start_vm(vm_name):
     print(['vagrant', 'up', vm_name, provider])
