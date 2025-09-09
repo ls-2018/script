@@ -41,14 +41,15 @@ with open(
 install_source = '''
 rm -rf /usr/local/go* || echo 1
 rm -rf ./go*  		  || echo 1
-rm -rf /etc/apt/sources.list.d/gierens.list
-sed -i "s@http://.*archive.ubuntu.com@http://mirrors.tuna.tsinghua.edu.cn@g" /etc/apt/sources.list
-sed -i "s@http://.*archive.ubuntu.com@http://mirrors.tuna.tsinghua.edu.cn@g" /etc/apt/sources.list.d/*
-sed -i "s@http://.*security.ubuntu.com@http://mirrors.tuna.tsinghua.edu.cn@g" /etc/apt/sources.list
-sed -i "s@http://.*security.ubuntu.com@http://mirrors.tuna.tsinghua.edu.cn@g" /etc/apt/sources.list.d/*
-sed -i "s@http://.*ports.ubuntu.com@http://mirrors.tuna.tsinghua.edu.cn@g" /etc/apt/sources.list
-sed -i "s@http://.*ports.ubuntu.com@http://mirrors.tuna.tsinghua.edu.cn@g" /etc/apt/sources.list.d/*
-apt update -y
+curl -sSL https://linuxmirrors.cn/main.sh | bash -s -- \
+    --source mirrors.tencent.com \
+    --protocol https \
+    --use-intranet-source false \
+    --install-epel true \
+    --backup true \
+    --upgrade-software false \
+    --clean-cache false \
+    --ignore-backup-tips
 '''
 
 install_kubectl = '''
