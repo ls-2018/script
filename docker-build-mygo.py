@@ -63,7 +63,7 @@ set -x
 apt update -y
 apt install wget git gcc curl locales -y
 apt install vim make cmake gdb -y
-apt install telnet dnsutils upx -y
+apt install telnet dnsutils upx iproute2 net-tools -y
 
 '''
 
