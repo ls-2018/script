@@ -62,22 +62,20 @@ Vagrant.configure("2") do |config|
       vm.vm.network "private_network", ip: vm_config["ip"]
 
       vm.vm.synced_folder ".", "/vagrant", disabled: true
-      vm.vm.synced_folder "~/.ssh", "/host_ssh"
-      vm.vm.synced_folder "~/.kube", "/host_kube"
-      vm.vm.synced_folder "~/script", "/Users/acejilam/script"
-      vm.vm.synced_folder "/Volumes/Tf/resources", "/Volumes/Tf/resources"
-      vm.vm.synced_folder "/Volumes/Tf/docker_images", "/docker_images"
-
-      vm.vm.synced_folder "~/.cargo/target", "/root/.cargo/target"
-      vm.vm.synced_folder "~/.cargo/registry", "/root/.cargo/registry"
-      vm.vm.synced_folder "~/.cargo/git", "/root/.cargo/git"
-      vm.vm.synced_folder "/Users/acejilam/Desktop/加速", "/data"
+      vm.vm.synced_folder "~/.ssh", "/host_ssh"                             
+      vm.vm.synced_folder "~/.kube", "/host_kube"                           
+      vm.vm.synced_folder "~/script", "/Users/acejilam/script"                
+      vm.vm.synced_folder "/Volumes/Tf/resources", "/Volumes/Tf/resources"       
+      vm.vm.synced_folder "/Volumes/Tf/docker_images", "/docker_images"     
+      vm.vm.synced_folder "~/.cargo/target", "/root/.cargo/target"          
+      vm.vm.synced_folder "~/.cargo/registry", "/root/.cargo/registry"      
+      vm.vm.synced_folder "~/.cargo/git", "/root/.cargo/git"                
 
       # brew tap hashicorp/tap
       # brew install hashicorp/tap/hashicorp-vagrant
       # vagrant plugin uninstall vagrant-vmware-fusion
       # vagrant plugin uninstall vagrant-vmware-desktop vagrant-disksize vagrant-sshfs
-
+  
       vm.vm.provision "shell", env: {"HOSTS_CONTENT" => hosts_string, "IP" => vm_config["ip"]}, inline: <<-SHELL
         # set -ex
         echo "$HOSTS_CONTENT" w>> /etc/hosts

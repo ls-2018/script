@@ -132,6 +132,14 @@ helm install tetragon cilium/tetragon \
 	--set tetragon.enableProcessCred=true \
 	--set tetragon.enableProcessNs=true \
 	--set tetragonOperator.enabled=true \
+	 --set tetragon.btf="/sys/kernel/btf/vmlinux"
+ --set tetragon.enableCiliumAPI=false
+ --set tetragon.exportAllowList=""
+ --set tetragon.exportDenyList=""
+ --set tetragon.exportFilename="tetragon.log"
+ --set tetragon.enableProcessCred=true
+ --set tetragon.enableProcessNs=true
+ --set tetragonOperator.enabled=true
 	--set export.stdout.image.repository=registry.cn-hangzhou.aliyuncs.com/acejilam/hubble-export-stdout \
 	--set tetragon.image.repository=registry.cn-hangzhou.aliyuncs.com/acejilam/tetragon \
 	--set tetragonOperator.image.repository=registry.cn-hangzhou.aliyuncs.com/acejilam/tetragon-operator

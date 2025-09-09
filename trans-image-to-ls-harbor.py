@@ -24,7 +24,7 @@ if new_image == "":
 split_len = len(new_image.split('/')) - 1
 me_domain = 'harbor.ls.com'
 
-os.environ['no_proxy'] = me_domain
+os.environ['no_proxy'] = f"{me_domain},localhost,registry.cn-hangzhou.aliyuncs.com"
 
 if split_len == 1:
     new_image = me_domain + '/' + new_image
