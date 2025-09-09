@@ -10,7 +10,6 @@ echo "SUBSYSTEM==\"net\", ACTION==\"add\", ATTR{address}==\"$MAC\", NAME=\"eth10
 
 # 临时改名当前会话生效
 sudo ip link set dev eth1 name eth100
- 
 
 sudo mkdir -p /etc/netplan
 cat <<EOF | sudo tee /etc/netplan/100-eth100.yaml
