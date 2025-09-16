@@ -56,12 +56,14 @@ for i, git in enumerate(git_set):
     # ).split('\n')[0].split(' ')[0]
 
     write_file_exec(f"""
+source ~/script/.customer_script.sh
 echo {git_path} 
 cd {git_path} 
 git add . 
 git reset --hard `git show-ref --head --hash=8 2`
 git pull
 git submodule update --init --recursive
+grs
 
 """)
     # os.system(

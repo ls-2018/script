@@ -46,7 +46,7 @@ echo $version
 download ./k8s/amd64/kubectl "https://cdn.dl.k8s.io/release/${version}/bin/linux/amd64/kubectl"
 download ./k8s/arm64/kubectl "https://cdn.dl.k8s.io/release/${version}/bin/linux/arm64/kubectl"
 
-download ./eunomia-bpf/amd64/ecli ${GITHUB_PROXY}hhttps://github.com/eunomia-bpf/eunomia-bpf/releases/download/v1.0.27/ecli
+download ./eunomia-bpf/amd64/ecli ${GITHUB_PROXY}https://github.com/eunomia-bpf/eunomia-bpf/releases/download/v1.0.27/ecli
 download ./eunomia-bpf/amd64/ecc ${GITHUB_PROXY}https://github.com/eunomia-bpf/eunomia-bpf/releases/download/v1.0.27/ecc-x86_64
 
 download ./eunomia-bpf/arm64/ecc ${GITHUB_PROXY}https://github.com/eunomia-bpf/eunomia-bpf/releases/download/v1.0.27/ecc-aarch64

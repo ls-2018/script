@@ -28,7 +28,7 @@ settings = {
       "name" => "vm2404",
       "hostname" => "vm2404",
       "ip" => "192.168.33.13",
-      "memory" => 4096,
+      "memory" => 6144,
       "cpus" => 4
     }
   ]
@@ -57,31 +57,37 @@ Vagrant.configure("2") do |config|
       vm.vm.box = vm_config['box_name']
       vm.vm.hostname = vm_config['hostname']
       vm.vm.box_check_update = false
-      vm.vm.disk :disk, size: "200GB", primary: true # virtualbox 
+      vm.vm.disk :disk, size: "200GB", primary: true # virtualbox
+
+      vm.vm.provider "virtualbox" do |vb|
+        vb.memory = vm_config["memory"]        # 内存大小 (MB)
+        vb.cpus =   vm_config["cpus"]          # CPU 数量
+      end
 
       vm.vm.network "private_network", ip: vm_config["ip"]
 
       vm.vm.synced_folder ".", "/vagrant", disabled: true
-      vm.vm.synced_folder "~/.ssh", "/host_ssh"                             
-      vm.vm.synced_folder "~/.kube", "/host_kube"                           
-      vm.vm.synced_folder "~/script", "/Users/acejilam/script"                
-      vm.vm.synced_folder "/Volumes/Tf/resources", "/Volumes/Tf/resources"       
-      vm.vm.synced_folder "/Volumes/Tf/docker_images", "/docker_images"     
-      vm.vm.synced_folder "~/.cargo/target", "/root/.cargo/target"          
-      vm.vm.synced_folder "~/.cargo/registry", "/root/.cargo/registry"      
-      vm.vm.synced_folder "~/.cargo/git", "/root/.cargo/git"                
+      vm.vm.synced_folder "~/.ssh", "/host_ssh"
+      vm.vm.synced_folder "~/.kube", "/host_kube"
+      vm.vm.synced_folder "~/script", "/Users/acejilam/script"
+      vm.vm.synced_folder "/Volumes/Tf/resources", "/Volumes/Tf/resources"
+      vm.vm.synced_folder "/Volumes/Tf/docker_images", "/docker_images"
+      vm.vm.synced_folder "/Volumes/Tf/docker-proxy", "/root/docker-proxy"
+      vm.vm.synced_folder "~/.cargo/target", "/root/.cargo/target"
+      vm.vm.synced_folder "~/.cargo/registry", "/root/.cargo/registry"
+      vm.vm.synced_folder "~/.cargo/git", "/root/.cargo/git"
 
       # brew tap hashicorp/tap
       # brew install hashicorp/tap/hashicorp-vagrant
       # vagrant plugin uninstall vagrant-vmware-fusion
       # vagrant plugin uninstall vagrant-vmware-desktop vagrant-disksize vagrant-sshfs
-  
+
       vm.vm.provision "shell", env: {"HOSTS_CONTENT" => hosts_string, "IP" => vm_config["ip"]}, inline: <<-SHELL
         # set -ex
         echo "$HOSTS_CONTENT" w>> /etc/hosts
 
         bash /Users/acejilam/script/vagrant-fixip.sh $IP
-        bash /Users/acejilam/script/linux-replace-sources.sh 
+        bash /Users/acejilam/script/linux-replace-sources.sh
         bash /Users/acejilam/script/linux-install-tools.sh
         bash /Users/acejilam/script/linux-resize-vagrant-disk.sh
         bash /Users/acejilam/script/linux-install-zsh.sh

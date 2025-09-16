@@ -36,7 +36,7 @@ export PY_PATH="/Library/Frameworks/Python.framework/Versions/Current"
 
 export PATH=$JMETER_HOME/bin:$MVN_HOME/bin:$ISTIO_HOME/bin:$PROTOC_HOME/bin:$GOPATH/bin:$SOFTWARE_HOME:${ACEHOME}/script:$myself:$ETCD_HOME:$PATH
 
-export PATH="$ACEHOME/.yarn/bin:$ACEHOME/.config/yarn/global/node_modules/.bin:$PATH"
+export PATH="$ACEHOME/.npm/node_modules/.bin:$ACEHOME/.yarn/bin:$ACEHOME/.config/yarn/global/node_modules/.bin:$PATH"
 export PATH="${KREW_ROOT:-$ACEHOME/.krew}/bin:$PATH"
 export PATH=$PATH:${ACEHOME}/.dapr/bin
 
@@ -45,7 +45,8 @@ test -e /opt/homebrew/bin/brew && {
 	export JAVA_HOME=$(brew --prefix openjdk)
 	export PATH=$JAVA_HOME/bin:$CARGO_HOME/bin:$PATH
 	export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
-
+	export CPATH="$(brew --prefix leveldb)/include"
+	export LIBRARY_PATH="$(brew --prefix leveldb)/lib"
 }
 
 export HOMEBREW_BREW_GIT_REMOTE="https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/brew.git"
@@ -55,6 +56,9 @@ export HOMEBREW_BOTTLE_DOMAIN="https://mirrors.tuna.tsinghua.edu.cn/homebrew-bot
 
 # brew install mysql-connector-c
 # 可解决 pip3 install mysqlclient
+
+
+
 export PATH="/usr/local/opt/mysql-client/bin:$PATH"
 export PATH="/usr/local/opt/make/libexec/gnubin:$PATH"
 export PATH="/usr/local/opt/openssl@3/bin:$PATH"
