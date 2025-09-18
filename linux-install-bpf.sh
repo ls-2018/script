@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -ex
+set -exv
 export DEBIAN_FRONTEND=noninteractive
 
 apt-get install -y build-essential dkms linux-headers-$(uname -r)

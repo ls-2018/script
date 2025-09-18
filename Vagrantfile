@@ -56,7 +56,7 @@ Vagrant.configure("2") do |config|
 
     # 可选：禁用 vbguest 提示过多日志
     if Vagrant.has_plugin?("vagrant-vbguest")
-      config.vbguest.auto_update = true   # 自动更新 Guest Additions
+      config.vbguest.auto_update = false   # 自动更新 Guest Additions
       config.vbguest.no_remote = false    # 允许下载 VBoxGuestAdditions.iso
     end
 
@@ -74,22 +74,22 @@ Vagrant.configure("2") do |config|
       vm.vm.network "private_network", ip: vm_config["ip"]
 
       vm.vm.synced_folder ".", "/vagrant", disabled: true
-      vm.vm.synced_folder "~/.ssh", "/host_ssh"                             
-      vm.vm.synced_folder "~/.kube", "/host_kube"                           
-      vm.vm.synced_folder "~/script", "/Users/acejilam/script"                
-      vm.vm.synced_folder "/Volumes/Tf/resources", "/Volumes/Tf/resources"       
-      vm.vm.synced_folder "/Volumes/Tf/docker_images", "/docker_images"     
-      vm.vm.synced_folder "/Volumes/Tf/docker-proxy", "/root/docker-proxy"     
-      vm.vm.synced_folder "~/.cargo/target", "/root/.cargo/target"          
-      vm.vm.synced_folder "~/.cargo/registry", "/root/.cargo/registry"      
-      vm.vm.synced_folder "~/.cargo/git", "/root/.cargo/git"                
+      vm.vm.synced_folder "~/.ssh", "/host_ssh"
+      vm.vm.synced_folder "~/.kube", "/host_kube"
+      vm.vm.synced_folder "~/script", "/Users/acejilam/script"
+      vm.vm.synced_folder "/Volumes/Tf/resources", "/Volumes/Tf/resources"
+      vm.vm.synced_folder "/Volumes/Tf/docker_images", "/docker_images"
+      vm.vm.synced_folder "/Volumes/Tf/docker-proxy", "/root/docker-proxy"
+      vm.vm.synced_folder "~/.cargo/target", "/root/.cargo/target"
+      vm.vm.synced_folder "~/.cargo/registry", "/root/.cargo/registry"
+      vm.vm.synced_folder "~/.cargo/git", "/root/.cargo/git"
 
       # brew tap hashicorp/tap
       # brew install hashicorp/tap/hashicorp-vagrant
       # vagrant plugin install vagrant-vmware-desktop vagrant-disksize vagrant-sshfs vagrant-vbguest
 
       vm.vm.provision "shell", env: {"HOSTS_CONTENT" => hosts_string, "IP" => vm_config["ip"]}, inline: <<-SHELL
-        # set -ex
+        set -v
         echo "$HOSTS_CONTENT" w>> /etc/hosts
 
         bash /Users/acejilam/script/vagrant-fixip.sh $IP
