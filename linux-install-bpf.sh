@@ -3,6 +3,8 @@
 set -ex
 export DEBIAN_FRONTEND=noninteractive
 
+apt-get install -y build-essential dkms linux-headers-$(uname -r)
+
 ARCH=$(arch | sed s/aarch64/arm64/ | sed s/x86_64/amd64/)
 if [ "amd64" = ${ARCH} ]; then
 	cp /Volumes/Tf/resources/eunomia-bpf/amd64/ecli /usr/bin/ecli
@@ -53,7 +55,6 @@ apt install pkg-config -y
 apt-get install -y \
 	moreutils \
 	curl \
-	build-essential \
 	git \
 	libssl-dev \
 	apt-transport-https \
@@ -65,7 +66,6 @@ apt-get install -y \
 	linux-tools-$(uname -r) \
 	linux-tools-generic \
 	python3-pip \
-	linux-headers-$(uname -r) \
 	zip \
 	bison \
 	cmake flex \
@@ -99,6 +99,8 @@ apt-get install -y \
 	bc \
 	rsync
 
+# ln -s /usr/lib/linux-tools-6.8.0-79/bpftool /usr/local/bin/bpftool
+
 # eBPF 程序和映射交互的低级接口。它提供了加载、验证和执行 eBPF 程序的功能。
 apt install libbpf-dev -y
 # libbpf-dev 可以替换为:
@@ -129,7 +131,7 @@ sudo ln -s /usr/include/$(arch)-linux-gnu/asm /usr/include/asm
 # sudo make install
 # popd
 
-apt-get install bpfcc-tools linux-headers-$(uname -r) -y
+apt-get install bpfcc-tools -y
 
 # if [[ $(cat /etc/os-release | grep "VERSION_ID") == *"24.04"* ]]; then
 #     cd ~

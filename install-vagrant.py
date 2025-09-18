@@ -52,7 +52,8 @@ def start_vm(vm_name):
     if result.returncode == 0:
         with open(f'/tmp/{vm_name}.success', 'w') as f:
             f.write('success')
-
+    else:
+        sys.exit(1)
 
 threads = []
 
@@ -65,6 +66,9 @@ for t in threads:
 
 # 保存快照并重载
 os.chdir(vm_path)
+print(['vagrant', 'halt'])
 subprocess.run(['vagrant', 'halt'], check=False)
+print(['vagrant', 'snapshot', 'save', 'init', "--force"])
 subprocess.run(['vagrant', 'snapshot', 'save', 'init', "--force"], check=False)
+print(['vagrant', 'reload'])
 subprocess.run(['vagrant', 'reload'], check=False)

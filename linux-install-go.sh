@@ -1,11 +1,13 @@
 #!/usr/bin/env bash
+set -v
 rm -rf /usr/local/go*
 rm -rf ./go*
 apt install wget vim gcc -y
 
 apt install musl musl-tools musl-dev -y
 
-version=$(curl -s https://golang.google.cn/dl/ | grep -oP 'go\K[0-9]+\.[0-9]+\.[0-9]+' | sort -V | uniq | tail -n 1)
+# version=$(curl -s https://golang.google.cn/dl/ | grep -oP 'go\K[0-9]+\.[0-9]+\.[0-9]+' | sort -V | uniq | tail -n 1)
+version=1.25.1
 mkdir /usr/local/go$version
 
 ARCH=$(arch | sed s/aarch64/arm64/ | sed s/x86_64/amd64/)
