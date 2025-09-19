@@ -54,10 +54,15 @@ hosts_string = hosts_content.join("\n")
 Vagrant.configure("2") do |config|
   settings['vm'].each do |vm_config|
 
-    # 可选：禁用 vbguest 提示过多日志
+    # 配置 vbguest 插件
     if Vagrant.has_plugin?("vagrant-vbguest")
-      config.vbguest.auto_update = false   # 自动更新 Guest Additions
-      config.vbguest.no_remote = false    # 允许下载 VBoxGuestAdditions.iso
+      config.vbguest.auto_update = false
+      config.vbguest.no_remote = false     # 允许下载 VBoxGuestAdditions.iso
+      config.vbguest.auto_reboot = true    # 自动重启以应用更新
+      config.vbguest.installer_options = {
+        run: "always",   # 每次 up/reload 都检查
+        allow_install: true
+      }
     end
 
     config.vm.define vm_config['name'] do |vm|
@@ -91,7 +96,6 @@ Vagrant.configure("2") do |config|
       vm.vm.provision "shell", env: {"HOSTS_CONTENT" => hosts_string, "IP" => vm_config["ip"]}, inline: <<-SHELL
         set -v
         echo "$HOSTS_CONTENT" w>> /etc/hosts
-
         bash /Users/acejilam/script/vagrant-fixip.sh $IP
         bash /Users/acejilam/script/linux-replace-sources.sh
         bash /Users/acejilam/script/linux-install-tools.sh
