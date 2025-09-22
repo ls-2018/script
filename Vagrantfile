@@ -123,6 +123,11 @@ Vagrant.configure("2") do |config|
 #           echo "over"
 #         fi
       SHELL
+      # 确保 vbguest
+      vm.vm.provision "shell",run: "always", inline: <<-SHELL
+        apt-get install -y build-essential dkms linux-headers-$(uname -r)
+      SHELL
+
     end
   end
 end
