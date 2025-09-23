@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -exv
+set -xv
 export DEBIAN_FRONTEND=noninteractive
 
 apt-get install -y build-essential dkms linux-headers-$(uname -r)
@@ -32,19 +32,22 @@ cp -rf /Volumes/Tf/resources/others/llvm-snapshot.gpg.key /etc/apt/trusted.gpg.d
 
 LLVM_VERSION=$(cat llvm.sh | grep CURRENT_LLVM_STABLE= | cut -d= -f2)
 
-# if [[ $(cat /etc/os-release | grep "VERSION_ID") == *"24.04"* ]]; then
-#     export LLVM_VERSION=19
-# fi
+if [[ $(cat /etc/os-release | grep "VERSION_ID") == *"24.04"* ]]; then
+    export LLVM_VERSION=19
+fi
+if [[ $(cat /etc/os-release | grep "VERSION_ID") == *"22.04"* ]]; then
+    export LLVM_VERSION=18
+fi
 
 # ./llvm.sh ${LLVM_VERSION} -m https://mirrors.bfsu.edu.cn/llvm-apt
-./llvm.sh ${LLVM_VERSION} -m https://mirrors.tuna.tsinghua.edu.cn/llvm-apt/
+# ./llvm.sh ${LLVM_VERSION} -m https://mirrors.tuna.tsinghua.edu.cn/llvm-apt/
+./llvm.sh ${LLVM_VERSION} 
 
 for file in $(ls /usr/bin | grep "\-${LLVM_VERSION}$"); do
 	base=$(echo $file | sed 's/-[0-9]*$//')
 	ln -sf "/usr/bin/$file" "/usr/bin/$base"
 done
 
-apt-get install -y
 
 # errno -l
 #apt install -y linux-tools-generic
