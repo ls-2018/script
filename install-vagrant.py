@@ -55,6 +55,7 @@ def start_vm(vm_name):
     else:
         sys.exit(1)
 
+
 threads = []
 
 for vm in vm_names:
@@ -70,5 +71,13 @@ print(['vagrant', 'halt'])
 subprocess.run(['vagrant', 'halt'], check=False)
 print(['vagrant', 'snapshot', 'save', 'init', "--force"])
 subprocess.run(['vagrant', 'snapshot', 'save', 'init', "--force"], check=False)
+print(['vagrant', 'reload'])
+subprocess.run(['vagrant', 'reload'], check=False)
+for vm in vm_names:
+    print(['ssh', f"root@{vm}", 'apt-get install -y build-essential dkms linux-headers-$(uname -r)'])
+    subprocess.run(
+        ['ssh', f"root@{vm}", 'apt-get install -y build-essential dkms linux-headers-$(uname -r)'],
+        check=False
+    )
 print(['vagrant', 'reload'])
 subprocess.run(['vagrant', 'reload'], check=False)
