@@ -3,6 +3,7 @@ docker rm mysql --force
 cd ~
 homePath=$(pwd)
 dataPath="$homePath/data/mysql"
+mkdir -p $dataPath
 cd -
 cat >$dataPath/my.cnf <<EOF
 [mysqld]

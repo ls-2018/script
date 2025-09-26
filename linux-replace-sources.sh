@@ -39,3 +39,6 @@ fi
 if command -v resolvectl &>/dev/null; then
 	resolvectl status
 fi
+
+# 禁止内核自动升级
+apt-mark hold linux-image-generic linux-headers-generic
