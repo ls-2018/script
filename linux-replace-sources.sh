@@ -42,3 +42,5 @@ fi
 
 # 禁止内核自动升级
 apt-mark hold linux-image-generic linux-headers-generic
+systemctl stop unattended-upgrades
+systemctl disable unattended-upgrades
