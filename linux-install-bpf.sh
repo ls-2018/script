@@ -101,8 +101,18 @@ apt-get install -y \
 	bc \
 	rsync
 
-# rm $(which bpftool)
-# ln -s /usr/lib/linux-tools-$(uname -r | sed 's/-generic//')/bpftool /usr/local/bin/bpftool
+rm $(which bpftool) || true
+rm /usr/local/bin/bpftool || true
+results=($(ls /usr/lib | grep -E '^linux-tools'))
+
+longest=""
+for _path in "${results[@]}"; do
+	if [ "${#_path}" -gt "${#longest}" ]; then
+		longest="$_path"
+	fi
+done
+ 
+ln -s /usr/lib/$longest/bpftool /usr/local/bin/bpftool
 
 # eBPF 程序和映射交互的低级接口。它提供了加载、验证和执行 eBPF 程序的功能。
 apt install libbpf-dev -y
