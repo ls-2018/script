@@ -98,3 +98,5 @@ cd /tmp && git clone https://github.com/lestrrat-go/jwx.git && cd jwx && make &&
 go install github.com/goreleaser/goreleaser/v2@latest
 
 go install github.com/davecheney/httpstat@latest
+
+go install github.com/karalabe/xgo@latest

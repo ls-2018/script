@@ -62,7 +62,7 @@ export HOMEBREW_BOTTLE_DOMAIN="https://mirrors.tuna.tsinghua.edu.cn/homebrew-bot
 export PATH="/usr/local/opt/mysql-client/bin:$PATH"
 export PATH="/usr/local/opt/make/libexec/gnubin:$PATH"
 export PATH="/usr/local/opt/openssl@3/bin:$PATH"
-export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
+export PATH="/opt/homebrew/opt/llvm/bin:$PATH:$HOME/.atuin/bin"
 # To use the bundled libc++ please add the following LDFLAGS:
 # export LDFLAGS="-L/opt/homebrew/opt/llvm/lib"
 # export CPPFLAGS="-I/opt/homebrew/opt/llvm/include"
@@ -129,7 +129,7 @@ SCRIPT_DIR="$(cd -P "$(dirname "${BASH_SOURCE:-$0}")" && pwd)"
 source "$SCRIPT_DIR/.alias.sh"
 
 mkdir -p /Users/acejilam/Desktop/SyncZone
-export HISTFILE="/Users/acejilam/Desktop/SyncZone/zsh_history"
+# export HISTFILE="/Users/acejilam/Desktop/SyncZone/zsh_history"
 
 export PYTHONPATH=$SCRIPT_DIR:$PYTHONPATH
 

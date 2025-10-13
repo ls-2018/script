@@ -1,44 +1,51 @@
 #!/usr/bin/env python3
-import os
+import platform
 import subprocess
+import os
+import shutil
 import sys
+import time
 import threading
 
+# 并发启动 VM 并生成 success 文件
 vm_names = sys.argv[1:]
 print(vm_names)
 
 # 配置路径
 vm_path = '/Users/acejilam/Desktop/vm'
 script_path = '/Users/acejilam/script'
+tmp_path = '/tmp'
 
-dc = ''
-for vm in vm_names:
-    vc = ' '.join(['vagrant destroy -f', vm])
-    dc += vc
-    dc += '\n'
+# 销毁现有 VM 并清理
+os.makedirs(vm_path, exist_ok=True)
+os.chdir(vm_path)
 
-rc = ''
-for vm in vm_names:
-    rc += f'ssh root@{vm} apt-get install -y build-essential dkms linux-headers-$(uname -r)'
-    rc = '\n'
-
-pre_cmd = f"""
-set -x
-mkdir -p {vm_path} 
-cd {vm_path}
 # 清理全局状态并杀掉可能残留的进程
-vagrant global-status --prune
-pkill -9 vmware-vmx
-pkill -9 vagrant
+subprocess.run(['vagrant', 'global-status', '--prune'], check=False)
+subprocess.run(['pkill', '-9', 'vmware-vmx'], check=False)
+subprocess.run(['pkill', '-9', 'vagrant'], check=False)
 
-{dc}
-ln -s {script_path}/Vagrantfile ./Vagrantfile
-"""
-os.system(pre_cmd)
+for vm in vm_names:
+    subprocess.run(['vagrant', 'destroy', '-f', vm], check=False)
+os.system(f"rm -rf {vm_path}/*")
 
+# 删除临时标记文件
+for filename in os.listdir(tmp_path):
+    if filename.startswith('vm'):
+        try:
+            os.remove(os.path.join(tmp_path, filename))
+        except Exception:
+            pass
+
+# 创建符号链接
+os.symlink(os.path.join(script_path, 'Vagrantfile'), os.path.join(vm_path, 'Vagrantfile'))
+os.symlink(os.path.join(script_path, 'Vagrantfile-single'), os.path.join(vm_path, 'Vagrantfile-single'))
+
+# if platform.system() == 'Darwin':
+#     provider = "--provider=vmware_desktop"
+# else:
 provider = "--provider=virtualbox"
 
-os.chdir(vm_path)
 def start_vm(vm_name):
     print(['vagrant', 'up', vm_name, provider])
     result = subprocess.run(['vagrant', 'up', vm_name, provider])
@@ -58,14 +65,19 @@ for vm in vm_names:
 for t in threads:
     t.join()
 
-post_cmd = f"""
-cd {vm_path}
-set -x
-vagrant reload
-sleep 5 
-{rc}
-vagrant halt
-vagrant snapshot save init --force
-vagrant reload
-"""
-os.system(post_cmd)
+# 保存快照并重载
+os.chdir(vm_path)
+print(['vagrant', 'halt'])
+subprocess.run(['vagrant', 'halt'], check=False)
+print(['vagrant', 'snapshot', 'save', 'init', "--force"])
+subprocess.run(['vagrant', 'snapshot', 'save', 'init', "--force"], check=False)
+print(['vagrant', 'reload'])
+subprocess.run(['vagrant', 'reload'], check=False)
+for vm in vm_names:
+    print(['ssh', f"root@{vm}", 'apt-get install -y build-essential dkms linux-headers-$(uname -r)'])
+    subprocess.run(
+        ['ssh', f"root@{vm}", 'apt-get install -y build-essential dkms linux-headers-$(uname -r)'],
+        check=False
+    )
+print(['vagrant', 'reload'])
+subprocess.run(['vagrant', 'reload'], check=False)

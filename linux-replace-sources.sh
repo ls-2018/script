@@ -4,8 +4,23 @@ touch ~/.hushlogin # 关闭登录提示
 onlyUpdate=$1
 rm -rf /etc/apt/sources.list.d/gierens.list
 
+# "阿里云@mirrors.aliyun.com"
+# "腾讯云@mirrors.tencent.com"
+# "华为云@mirrors.huaweicloud.com"
+# "网易@mirrors.163.com"
+# "火山引擎@mirrors.volces.com"
+# "清华大学@mirrors.tuna.tsinghua.edu.cn"
+# "北京大学@mirrors.pku.edu.cn"
+# "浙江大学@mirrors.zju.edu.cn"
+# "南京大学@mirrors.nju.edu.cn"
+# "兰州大学@mirror.lzu.edu.cn"
+# "上海交通大学@mirror.sjtu.edu.cn"
+# "重庆邮电大学@mirrors.cqupt.edu.cn"
+# "中国科学技术大学@mirrors.ustc.edu.cn"
+# "中国科学院软件研究所@mirror.iscas.ac.cn"
+
 curl -sSL https://gitee.com/SuperManito/LinuxMirrors/raw/main/ChangeMirrors.sh | bash -s -- \
-	--source mirrors.aliyun.com \
+	--source mirrors.ustc.edu.cn \
 	--protocol https \
 	--use-intranet-source false \
 	--install-epel true \

@@ -13,4 +13,4 @@ docker run -d \
 	-e INSTALL_BOOK_AND_ADVANCED_HTML_OPS=false \
 	-e LANGS=en_GB \
 	--name stirling-pdf \
-	registry.cn-hangzhou.aliyuncs.com/acejilam/s-pdf:0.26.1
+	registry.cn-hangzhou.aliyuncs.com/acejilam/s-pdf:1.3.2
