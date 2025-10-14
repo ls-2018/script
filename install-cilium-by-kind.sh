@@ -31,7 +31,7 @@ kind create cluster -n cilium --kubeconfig ~/.kube/cilium --config /tmp/kind.yam
 eval "$(print_proxy.py)"
 test -e /usr/local/bin/cilium || {
 	# CILIUM_CLI_VERSION=$(curl -s https://raw.githubusercontent.com/cilium/cilium-cli/main/stable.txt)
-	CILIUM_CLI_VERSION=v0.18.2
+	CILIUM_CLI_VERSION=v0.18.7
 	CLI_ARCH=amd64
 	if [ "$(uname -m)" = "arm64" ]; then CLI_ARCH=arm64; fi
 	curl -L --fail --remote-name-all https://github.com/cilium/cilium-cli/releases/download/${CILIUM_CLI_VERSION}/cilium-darwin-${CLI_ARCH}.tar.gz{,.sha256sum}
@@ -43,10 +43,10 @@ test -e /usr/local/bin/cilium || {
 helm repo add cilium https://helm.cilium.io/ --force-update
 
 if [[ ${my_harbor} == "harbor" ]]; then
-	trans-image-to-ls-harbor.py --arch all --source registry.cn-hangzhou.aliyuncs.com/acejilam/cilium-envoy:v1.34.4-1754895458-68cffdfa568b6b226d70a7ef81fc65dda3b890bf@sha256:247e908700012f7ef56f75908f8c965215c26a27762f296068645eb55450bda2
-	trans-image-to-ls-harbor.py --arch all --source registry.cn-hangzhou.aliyuncs.com/acejilam/cilium:v1.18.1@sha256:65ab17c052d8758b2ad157ce766285e04173722df59bdee1ea6d5fda7149f0e9
-	trans-image-to-ls-harbor.py --arch all --source registry.cn-hangzhou.aliyuncs.com/acejilam/operator-generic:v1.18.1@sha256:97f4553afa443465bdfbc1cc4927c93f16ac5d78e4dd2706736e7395382201bc
-	trans-image-to-ls-harbor.py --arch all --source registry.cn-hangzhou.aliyuncs.com/acejilam/hubble-relay:v1.18.1@sha256:7e2fd4877387c7e112689db7c2b153a4d5c77d125b8d50d472dbe81fc1b139b0
+	trans-image-to-ls-harbor.py --arch all --source registry.cn-hangzhou.aliyuncs.com/acejilam/cilium-envoy:v1.35.1-1756466197-aecbf661041fc680854fc765e54a283af11db731@sha256:4a7b4ea470b2f3027ac9115c5b392bf3ba91315fb258f27af318023f2d367578
+	trans-image-to-ls-harbor.py --arch all --source registry.cn-hangzhou.aliyuncs.com/acejilam/cilium:v1.19.0-pre.0@sha256:02d8349bea5a6a0c19dc9a8b58fef113c7b57e7480302c06f7f7d438f75982e6
+	trans-image-to-ls-harbor.py --arch all --source registry.cn-hangzhou.aliyuncs.com/acejilam/operator-generic:v1.19.0-pre.0@sha256:84c935be65c01c5298764def57a147ca130267c070ce970473a8f40b29c61c7e
+	trans-image-to-ls-harbor.py --arch all --source registry.cn-hangzhou.aliyuncs.com/acejilam/hubble-relay:v1.19.0-pre.0@sha256:584cfccd3f3a3f8e791767bace0e7563c2fc9f630b0a7986fa00f8debbd5d751
 	trans-image-to-ls-harbor.py --arch all --source registry.cn-hangzhou.aliyuncs.com/acejilam/hubble-ui-backend:v0.13.2@sha256:a034b7e98e6ea796ed26df8f4e71f83fc16465a19d166eff67a03b822c0bfa15
 	trans-image-to-ls-harbor.py --arch all --source registry.cn-hangzhou.aliyuncs.com/acejilam/hubble-ui:v0.13.2@sha256:9e37c1296b802830834cc87342a9182ccbb71ffebb711971e849221bd9d59392
 	trans-image-to-ls-harbor.py --arch all --source registry.cn-hangzhou.aliyuncs.com/acejilam/json-mock:v1.3.8@sha256:5aad04835eda9025fe4561ad31be77fd55309af8158ca8663a72f6abb78c2603
@@ -95,7 +95,7 @@ kubectl create -n cilium-system secret generic cilium-ipsec-keys \
 	--from-literal=keys="3 rfc4543(gcm(aes)) $(echo $(dd if=/dev/urandom count=20 bs=1 2>/dev/null | xxd -p -c 64)) 128"
 
 cilium install \
-	--version=v1.18.1 \
+	--version=v1.19.0-pre.0 \
 	--namespace=cilium-system \
 	$direct_route \
 	$kubeproxy_replacement \
