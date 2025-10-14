@@ -30,7 +30,8 @@ kind create cluster -n cilium --kubeconfig ~/.kube/cilium --config /tmp/kind.yam
 
 eval "$(print_proxy.py)"
 test -e /usr/local/bin/cilium || {
-	CILIUM_CLI_VERSION=$(curl -s https://raw.githubusercontent.com/cilium/cilium-cli/main/stable.txt)
+	# CILIUM_CLI_VERSION=$(curl -s https://raw.githubusercontent.com/cilium/cilium-cli/main/stable.txt)
+	CILIUM_CLI_VERSION=v0.18.2
 	CLI_ARCH=amd64
 	if [ "$(uname -m)" = "arm64" ]; then CLI_ARCH=arm64; fi
 	curl -L --fail --remote-name-all https://github.com/cilium/cilium-cli/releases/download/${CILIUM_CLI_VERSION}/cilium-darwin-${CLI_ARCH}.tar.gz{,.sha256sum}
@@ -132,15 +133,15 @@ helm install tetragon cilium/tetragon \
 	--set tetragon.enableProcessCred=true \
 	--set tetragon.enableProcessNs=true \
 	--set tetragonOperator.enabled=true \
-	--set tetragon.btf="/sys/kernel/btf/vmlinux"
---set tetragon.enableCiliumAPI=false
---set tetragon.exportAllowList=""
---set tetragon.exportDenyList=""
---set tetragon.exportFilename="tetragon.log"
---set tetragon.enableProcessCred=true
---set tetragon.enableProcessNs=true
---set tetragonOperator.enabled=true
---set export.stdout.image.repository=registry.cn-hangzhou.aliyuncs.com/acejilam/hubble-export-stdout \
+	--set tetragon.btf="/sys/kernel/btf/vmlinux" \
+	--set tetragon.enableCiliumAPI=false \
+	--set tetragon.exportAllowList="" \
+	--set tetragon.exportDenyList="" \
+	--set tetragon.exportFilename="tetragon.log" \
+	--set tetragon.enableProcessCred=true \
+	--set tetragon.enableProcessNs=true \
+	--set tetragonOperator.enabled=true \
+	--set export.stdout.image.repository=registry.cn-hangzhou.aliyuncs.com/acejilam/hubble-export-stdout \
 	--set tetragon.image.repository=registry.cn-hangzhou.aliyuncs.com/acejilam/tetragon \
 	--set tetragonOperator.image.repository=registry.cn-hangzhou.aliyuncs.com/acejilam/tetragon-operator
 

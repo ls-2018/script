@@ -111,7 +111,7 @@ for _path in "${results[@]}"; do
 		longest="$_path"
 	fi
 done
- 
+
 ln -s /usr/lib/$longest/bpftool /usr/local/bin/bpftool
 
 # eBPF 程序和映射交互的低级接口。它提供了加载、验证和执行 eBPF 程序的功能。
