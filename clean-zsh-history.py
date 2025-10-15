@@ -5,7 +5,7 @@ import chardet
 
 data = ''
 filename = 'zsh_history'
-base = '/Users/acejilam/Documents/SyncZone'
+base = '/Volumes/Tf/config'
 # base = '/Users/acejilam/script'
 
 if not os.path.exists(base):

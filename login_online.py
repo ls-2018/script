@@ -10,7 +10,7 @@ import pyotp
 
 def get_datacenter_config(center):
     print("-->", center)
-    with open("/Users/acejilam/Documents/SyncZone/aps/online-secret.json", 'r', encoding="utf-8") as f:
+    with open("/Volumes/Tf/aps/online-secret.json", 'r', encoding="utf-8") as f:
         data = json.load(f)
     return (
         data[center]["proxy"],

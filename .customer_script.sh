@@ -128,8 +128,8 @@ export GOFLAGS='-buildvcs=false'
 SCRIPT_DIR="$(cd -P "$(dirname "${BASH_SOURCE:-$0}")" && pwd)"
 source "$SCRIPT_DIR/.alias.sh"
 
-mkdir -p /Users/acejilam/Desktop/SyncZone
-# export HISTFILE="/Users/acejilam/Desktop/SyncZone/zsh_history"
+mkdir -p /Volumes/Tf/config
+export HISTFILE="/Volumes/Tf/config/zsh_history"
 
 export PYTHONPATH=$SCRIPT_DIR:$PYTHONPATH
 

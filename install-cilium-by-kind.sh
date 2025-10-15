@@ -69,6 +69,8 @@ ipsec="--set encryption.enabled=true --set encryption.type=ipsec"
 wireguard="--set encryption.enabled=true --set encryption.type=wireguard  --set encryption.nodeEncryption=true"
 # direct_route='--set routing-mode=native --set autoDirectNodeRoutes=true --set ipv4NativeRoutingCIDR=10.0.0.0/8'
 direct_route='--set routing-mode=native --set ipv4NativeRoutingCIDR=10.0.0.0/8' # Direct Routing Options
+# --set routingMode=tunnel --set tunnelProtocol=vxlan 
+
 ebpf="--set bpf.masquerade=true	--set nodePort.enabled=true".                   # eBPF Host Routing
 kubeproxy_replacement="--set kubeProxyReplacement=true"                         # 不用安装 kubeproxy
 
@@ -106,6 +108,7 @@ cilium install \
 	--set localRedirectPolicies.enabled=true \
 	--set image.pullPolicy=IfNotPresent \
 	--set monitorAggregation=none \
+	--set ipam.mode=kubernetes \
 	--set debug.enabled=true \
 	--set debug.verbose="flow agent envoy daemon monitor kvstore ipam config datapath" \
 	--set monitor.enabled=true \
@@ -119,8 +122,10 @@ cilium install \
 	--set image.repository=registry.cn-hangzhou.aliyuncs.com/acejilam/cilium \
 	--set envoy.image.repository=registry.cn-hangzhou.aliyuncs.com/acejilam/cilium-envoy \
 	--set preflight.image.repository=registry.cn-hangzhou.aliyuncs.com/acejilam/cilium-ci \
-	--set operator.image.repository=registry.cn-hangzhou.aliyuncs.com/acejilam/operator \
-	--set preflight.envoy.image.repository=registry.cn-hangzhou.aliyuncs.com/acejilam/cilium-envoy
+	--set preflight.envoy.image.repository=registry.cn-hangzhou.aliyuncs.com/acejilam/cilium-envoy \
+	--set operator.image.repository=registry.cn-hangzhou.aliyuncs.com/acejilam/operator
+# --dry-run-helm-values
+
 
 helm install tetragon cilium/tetragon \
 	-n cilium-system \

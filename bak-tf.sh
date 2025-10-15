@@ -1,0 +1,1 @@
+rsync -avzP --delete --exclude-from=/Volumes/Tf/config/exclude.txt /Volumes/Tf/ /Users/acejilam/Documents/TfBak
