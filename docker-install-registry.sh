@@ -1,14 +1,14 @@
-mkdir -p /Users/acejilam/data/registry
+mkdir -p /Volumes/Tf/data/registry
 
 delete=${1-}
 if [[ ${delete} == "delete" ]]; then
-	rm -rf /Users/acejilam/data/registry/*
+	rm -rf /Volumes/Tf/data/registry/*
 fi
 
 docker rm simple_registry -f
 docker rm simple_registry-ui -f
 
-docker run -d -v /Users/acejilam/data/registry:/var/lib/registry \
+docker run -d -v /Volumes/Tf/data/registry:/var/lib/registry \
 	-e REGISTRY_STORAGE_DELETE_ENABLED=true \
 	-p 5000:5000 --restart=always --name simple_registry registry.cn-hangzhou.aliyuncs.com/acejilam/registry:latest
 

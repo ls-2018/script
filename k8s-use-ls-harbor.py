@@ -108,9 +108,9 @@ for n in ns:
 
     system(f'docker cp /tmp/change-host.sh {n}:/root/change-host.sh')
 
-    system(f'docker cp /Users/acejilam/data/harbor/cert/harbor.crt {n}:/etc/containerd/certs.d/{aliyun}/harbor.crt') # 不生效
-    system(f'docker cp /Users/acejilam/data/harbor/cert/harbor.crt {n}:/etc/containerd/certs.d/{ls}/harbor.crt')# 不生效
-    system(f'docker cp /Users/acejilam/data/harbor/cert/harbor.crt {n}:/usr/local/share/ca-certificates/')# 生效
+    system(f'docker cp /Volumes/Tf/data/harbor/cert/harbor.crt {n}:/etc/containerd/certs.d/{aliyun}/harbor.crt') # 不生效
+    system(f'docker cp /Volumes/Tf/data/harbor/cert/harbor.crt {n}:/etc/containerd/certs.d/{ls}/harbor.crt')# 不生效
+    system(f'docker cp /Volumes/Tf/data/harbor/cert/harbor.crt {n}:/usr/local/share/ca-certificates/')# 生效
 
     system(f'docker exec {n} bash update-ca-certificates')
     system(f'docker exec {n} bash /root/change-host.sh')

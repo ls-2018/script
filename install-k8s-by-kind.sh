@@ -21,17 +21,17 @@ chmod +x ~/.gopath/bin/*
 kind delete cluster -n ${name}
 set -e
 
-mkdir -p /Users/acejilam/data/build_cache
-mkdir -p /Users/acejilam/data/plugins/bin
+mkdir -p /Volumes/Tf/data/build_cache
+mkdir -p /Volumes/Tf/data/plugins/bin
 
-if test -d "/Users/acejilam/data/kind"; then
-	rm -rf /Users/acejilam/data/kind/*
+if test -d "/Volumes/Tf/data/kind"; then
+	rm -rf /Volumes/Tf/data/kind/*
 fi
 
-mkdir -p /Users/acejilam/data/kind/logs
+mkdir -p /Volumes/Tf/data/kind/logs
 
-cd /Users/acejilam/data/plugins/bin
-test -e /Users/acejilam/data/plugins/bin/bridge || {
+cd /Volumes/Tf/data/plugins/bin
+test -e /Volumes/Tf/data/plugins/bin/bridge || {
 	company_proxy
 	git clone https://github.com/containernetworking/plugins.git -b v1.4.0
 	unset https_proxy && unset http_proxy && unset all_proxy

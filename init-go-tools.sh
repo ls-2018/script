@@ -100,3 +100,5 @@ go install github.com/goreleaser/goreleaser/v2@latest
 go install github.com/davecheney/httpstat@latest
 
 go install github.com/karalabe/xgo@latest
+
+go install github.com/lsutils/utils/k8s/cmd/...@latest

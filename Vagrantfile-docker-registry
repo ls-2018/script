@@ -8,7 +8,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.network "private_network", ip: IP
 #   config.vm.synced_folder ".", "/vagrant", disabled: true
-  config.vm.synced_folder "/Users/acejilam/data/registry", "/Users/acejilam/data/registry"
+  config.vm.synced_folder "/Volumes/Tf/data/registry", "/Volumes/Tf/data/registry"
 
     config.vm.provision "shell", inline: <<-SHELL
         echo "install"
@@ -31,7 +31,7 @@ Vagrant.configure("2") do |config|
         docker rm docker-registry-mirror -f || true
         docker rm docker-registry-frontend -f || true
 
-        docker run -d -v /Users/acejilam/data/registry:/var/lib/registry \
+        docker run -d -v /Volumes/Tf/data/registry:/var/lib/registry \
             -e REGISTRY_STORAGE_DELETE_ENABLED=true \
             -e MIRROR_SOURCE=https://registry-1.docker.io \
             -e MIRROR_SOURCE_INDEX=https://index.docker.io \

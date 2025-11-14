@@ -13,7 +13,7 @@ bookList = []
 # 历史记录存在位置
 historyDir = '/Users/acejilam/Library/Application Support/Google/Chrome/Profile 5/History'
 # 指定一个历史记录缓存位置 避免database is locked
-tempDir = '/Users/acejilam/data/Alfred/History'
+tempDir = '/Volumes/Tf/data/Alfred/History'
 historyList = []
 
 """

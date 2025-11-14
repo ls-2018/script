@@ -1,12 +1,12 @@
 #!/usr/bin/env zsh
-#rm -rf /Users/acejilam/data/harbor/{tgz,cert,logs}
+#rm -rf /Volumes/Tf/data/harbor/{tgz,cert,logs}
 set -v
-# rm -rf /Users/acejilam/data/harbor
-# rm -rf /Users/acejilam/data/harbor/{tgz,cert,logs}
-mkdir -p /Users/acejilam/data/harbor/{tgz,cert,data,logs}
+# rm -rf /Volumes/Tf/data/harbor
+# rm -rf /Volumes/Tf/data/harbor/{tgz,cert,logs}
+mkdir -p /Volumes/Tf/data/harbor/{tgz,cert,data,logs}
 
 export version=v2.12.2
-cp /Volumes/Tf/resources/tar/arm64/harbor-offline-installer-aarch64-${version}.tgz /Users/acejilam/data/harbor/tgz/
+cp /Volumes/Tf/resources/tar/arm64/harbor-offline-installer-aarch64-${version}.tgz /Volumes/Tf/data/harbor/tgz/
 
 host_ip=$(ipconfig getifaddr en0)
 if [ "$host_ip" = "" ]; then
@@ -46,15 +46,15 @@ EOF
 openssl req -new -sha256 -nodes -out harbor.csr -newkey rsa:2048 -keyout harbor.key -config /tmp/openssl.cnf
 openssl x509 -req -in harbor.csr -signkey harbor.key -out harbor.crt -days 365 -extfile /tmp/openssl.cnf -extensions req_ext
 
-mv harbor.csr /Users/acejilam/data/harbor/cert
-mv harbor.key /Users/acejilam/data/harbor/cert
-mv harbor.crt /Users/acejilam/data/harbor/cert
+mv harbor.csr /Volumes/Tf/data/harbor/cert
+mv harbor.key /Volumes/Tf/data/harbor/cert
+mv harbor.crt /Volumes/Tf/data/harbor/cert
 
 sudo security find-certificate -c 'registry.cn-hangzhou.aliyuncs.com'
-sudo security remove-trusted-cert -d /Users/acejilam/data/harbor/cert/harbor.crt
+sudo security remove-trusted-cert -d /Volumes/Tf/data/harbor/cert/harbor.crt
 sudo security delete-certificate -c 'registry.cn-hangzhou.aliyuncs.com'
-sudo security add-certificates /Users/acejilam/data/harbor/cert/harbor.crt
-sudo security add-trusted-cert -d /Users/acejilam/data/harbor/cert/harbor.crt
+sudo security add-certificates /Volumes/Tf/data/harbor/cert/harbor.crt
+sudo security add-trusted-cert -d /Volumes/Tf/data/harbor/cert/harbor.crt
 
 rm -rf ~/.docker/certs.d/registry.cn-hangzhou.aliyuncs.com
 rm -rf ~/.docker/certs.d/harbor.ls.com
@@ -62,21 +62,21 @@ rm -rf ~/.docker/certs.d/harbor.ls.com
 mkdir -p ~/.docker/certs.d/registry.cn-hangzhou.aliyuncs.com
 mkdir -p ~/.docker/certs.d/harbor.ls.com
 
-cp -rf /Users/acejilam/data/harbor/cert/harbor.crt ~/.docker/certs.d/registry.cn-hangzhou.aliyuncs.com/
-cp -rf /Users/acejilam/data/harbor/cert/harbor.crt ~/.docker/certs.d/harbor.ls.com/
+cp -rf /Volumes/Tf/data/harbor/cert/harbor.crt ~/.docker/certs.d/registry.cn-hangzhou.aliyuncs.com/
+cp -rf /Volumes/Tf/data/harbor/cert/harbor.crt ~/.docker/certs.d/harbor.ls.com/
 
-cd /Users/acejilam/data/harbor/tgz
+cd /Volumes/Tf/data/harbor/tgz
 tar -zxvf harbor-offline-installer-aarch64-${version}.tgz
 
-cp /Users/acejilam/data/harbor/tgz/harbor/harbor.yml.tmpl /Users/acejilam/data/harbor/tgz/harbor/harbor.yml
+cp /Volumes/Tf/data/harbor/tgz/harbor/harbor.yml.tmpl /Volumes/Tf/data/harbor/tgz/harbor/harbor.yml
 
-gsed -i 's@hostname: reg.mydomain.com@hostname: harbor.ls.com@g' /Users/acejilam/data/harbor/tgz/harbor/harbor.yml
-gsed -i 's@data_volume: /data@data_volume: /Users/acejilam/data/harbor/data@g' /Users/acejilam/data/harbor/tgz/harbor/harbor.yml
-gsed -i 's@location: /var/log/harbor@location: /Users/acejilam/data/harbor/logs@g' /Users/acejilam/data/harbor/tgz/harbor/harbor.yml
-gsed -i 's@certificate: /your/certificate/path@certificate:  /Users/acejilam/data/harbor/cert/harbor.crt@g' /Users/acejilam/data/harbor/tgz/harbor/harbor.yml
-gsed -i 's@private_key: /your/private/key/path@private_key:  /Users/acejilam/data/harbor/cert/harbor.key@g' /Users/acejilam/data/harbor/tgz/harbor/harbor.yml
+gsed -i 's@hostname: reg.mydomain.com@hostname: harbor.ls.com@g' /Volumes/Tf/data/harbor/tgz/harbor/harbor.yml
+gsed -i 's@data_volume: /data@data_volume: /Volumes/Tf/data/harbor/data@g' /Volumes/Tf/data/harbor/tgz/harbor/harbor.yml
+gsed -i 's@location: /var/log/harbor@location: /Volumes/Tf/data/harbor/logs@g' /Volumes/Tf/data/harbor/tgz/harbor/harbor.yml
+gsed -i 's@certificate: /your/certificate/path@certificate:  /Volumes/Tf/data/harbor/cert/harbor.crt@g' /Volumes/Tf/data/harbor/tgz/harbor/harbor.yml
+gsed -i 's@private_key: /your/private/key/path@private_key:  /Volumes/Tf/data/harbor/cert/harbor.key@g' /Volumes/Tf/data/harbor/tgz/harbor/harbor.yml
 
-cd /Users/acejilam/data/harbor/tgz/harbor && ./install.sh --with-trivy
+cd /Volumes/Tf/data/harbor/tgz/harbor && ./install.sh --with-trivy
 cd -
 
 # killall "Google Chrome"
@@ -98,7 +98,7 @@ mkdir -p /Users/acejilam/.config/buildkit
 cat >/Users/acejilam/.config/buildkit/buildkitd.toml <<EOF
 [registry."harbor.ls.com"]
 insecure = true
-ca=["/Users/acejilam/data/harbor/cert/harbor.crt"]
+ca=["/Volumes/Tf/data/harbor/cert/harbor.crt"]
 EOF
 
 docker buildx inspect mygo | grep harbor.ls.com || {

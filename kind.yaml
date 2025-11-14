@@ -39,16 +39,16 @@ nodes:
             readOnly: false
             pathType: DirectoryOrCreate
   extraMounts:
-    # - hostPath: /Users/acejilam/data/plugins/bin
+    # - hostPath: /Volumes/Tf/data/plugins/bin
     #   containerPath: /opt/cni/bin
-    # - hostPath: /Users/acejilam/data/nfs
+    # - hostPath: /Volumes/Tf/data/nfs
     #   containerPath: /nfs
-    # - hostPath: /Users/acejilam/data/trace
+    # - hostPath: /Volumes/Tf/data/trace
     #   containerPath: /trace
     - hostPath: /Users/acejilam/script/audit-policy.yaml
       containerPath: /etc/kubernetes/policies/audit-policy.yaml
       readOnly: true
-    - hostPath: /Users/acejilam/data/kind/logs
+    - hostPath: /Volumes/Tf/data/kind/logs
       containerPath: /var/log/kubernetes
       readOnly: false
 
@@ -59,13 +59,13 @@ nodes:
      nfs: true
      node: zone-a
   extraMounts:
-  #   - hostPath: /Users/acejilam/data/plugins/bin
+  #   - hostPath: /Volumes/Tf/data/plugins/bin
   #      containerPath: /opt/cni/bin
-  #    - hostPath: /Users/acejilam/data/build_cache
+  #    - hostPath: /Volumes/Tf/data/build_cache
   #      containerPath: /tmp/build_cache
-  #    - hostPath: /Users/acejilam/data/nfs
+  #    - hostPath: /Volumes/Tf/data/nfs
   #      containerPath: /nfs
-  #    - hostPath: /Users/acejilam/data/trace
+  #    - hostPath: /Volumes/Tf/data/trace
   #      containerPath: /trace
 - role: worker
   labels:
@@ -73,7 +73,7 @@ nodes:
      topology.kubernetes.io/zone: zone-a
      node: zone-b
   extraMounts:
-    # - hostPath: /Users/acejilam/data/plugins/bin
+    # - hostPath: /Volumes/Tf/data/plugins/bin
     #   containerPath: /opt/cni/bin
 # kubeadmConfigPatches:
 #   - |
