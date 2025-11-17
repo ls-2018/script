@@ -69,10 +69,10 @@ ipsec="--set encryption.enabled=true --set encryption.type=ipsec"
 wireguard="--set encryption.enabled=true --set encryption.type=wireguard  --set encryption.nodeEncryption=true"
 # direct_route='--set routing-mode=native --set autoDirectNodeRoutes=true --set ipv4NativeRoutingCIDR=10.0.0.0/8'
 direct_route='--set routing-mode=native --set ipv4NativeRoutingCIDR=10.0.0.0/8' # Direct Routing Options
-# --set routingMode=tunnel --set tunnelProtocol=vxlan 
+# --set routingMode=tunnel --set tunnelProtocol=vxlan
 
-ebpf="--set bpf.masquerade=true	--set nodePort.enabled=true".                   # eBPF Host Routing
-kubeproxy_replacement="--set kubeProxyReplacement=true"                         # 不用安装 kubeproxy
+ebpf="--set bpf.masquerade=true	--set nodePort.enabled=true". # eBPF Host Routing
+kubeproxy_replacement="--set kubeProxyReplacement=true"       # 不用安装 kubeproxy
 
 netkit="--set bpf.datapathMode=netkit" # netkit devices need kernel 6.7.0 or newer and CONFIG_NETKIT
 socket_lb="--set socketLB.enabled=true"
@@ -125,7 +125,6 @@ cilium install \
 	--set preflight.envoy.image.repository=registry.cn-hangzhou.aliyuncs.com/acejilam/cilium-envoy \
 	--set operator.image.repository=registry.cn-hangzhou.aliyuncs.com/acejilam/operator
 # --dry-run-helm-values
-
 
 helm install tetragon cilium/tetragon \
 	-n cilium-system \

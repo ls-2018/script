@@ -1,8 +1,9 @@
 set -e
 docker rm mysql --force
 cd ~
-homePath=$(pwd)
-dataPath="$homePath/data/mysql"
+
+dataPath="/Volumes/Tf/data/mysql"
+
 mkdir -p $dataPath
 cd -
 cat >$dataPath/my.cnf <<EOF
@@ -20,4 +21,14 @@ socket=/var/run/mysqld/mysqld.sock
 EOF
 
 # docker cp mysql:/etc/mysql/mysql.conf.d/mysqld.cnf  .
-docker run -p 3306:3306 --name mysql --restart=always -e MYSQL_ROOT_PASSWORD=root -v $dataPath/my.cnf:/etc/my.cnf -v $dataPath/data:/etc/mysql/data/ -v $dataPath/conf:/etc/mysql/mysql.conf.d/ -d registry.cn-hangzhou.aliyuncs.com/acejilam/mysql:8
+docker run \
+	-d \
+	-p 3306:3306 \
+	--name mysql \
+	--restart=always \
+	-e MYSQL_ROOT_PASSWORD=sk3RCBqtWxF2Tg4pawUv \
+	-e MYSQL_LOG_BIN=OFF \
+	-v $dataPath/my.cnf:/etc/my.cnf \
+	-v $dataPath/data:/etc/mysql/data/ \
+	-v $dataPath/conf:/etc/mysql/mysql.conf.d/ \
+	registry.cn-hangzhou.aliyuncs.com/acejilam/mysql:8
