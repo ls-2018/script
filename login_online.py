@@ -9,9 +9,11 @@ import pyotp
 
 
 def get_datacenter_config(center):
-    print("-->", center)
     with open("/Volumes/Tf/aps/online-secret.json", 'r', encoding="utf-8") as f:
         data = json.load(f)
+    for key in data.keys():
+        print("--->", key)
+
     return (
         data[center]["proxy"],
         data[center]["proxy"].split(":")[0],
