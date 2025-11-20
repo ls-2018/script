@@ -131,6 +131,8 @@ source "$SCRIPT_DIR/.alias.sh"
 if test -d "/Volumes/Tf"; then
 	mkdir -p /Volumes/Tf/config
 	export HISTFILE="/Volumes/Tf/config/zsh_history"
+else
+	export HISTFILE="/Users/acejilam/Documents/TfBak/config/zsh_history"
 fi
 
 export PYTHONPATH=$SCRIPT_DIR:$PYTHONPATH
