@@ -1,19 +1,9 @@
 #!/usr/bin/env bash
 
-r=$(git branch -r)
-
+set -x
 git branch -r | grep -v '\->' | while read remote; do
-	branch="-> ${remote}"
-	if [[ $res =~ $r ]]; then
-		echo 12
-	else
-		# x="${remote#origin/}"
-		# if [[ $x =~ $l ]]; then
-		#     echo "存在本地分支" $branch
-		# else
-		git branch --track "$remote" -f
-		# fi
-	fi
+	branchStr="${remote}"
+	git branch ${branchStr} --track "$remote" -f
 done
-git fetch --all
-git pull --all
+git fetch --all --tags --force
+git pull --all --tags --force

@@ -60,15 +60,16 @@ set -x
 cd {git_path} 
 git add . 
 git reset --hard `git show-ref --head --hash=8 2`
-git pull
+git fetch --all --tags --prune
+git pull --all
 git submodule update --init --recursive
 git add . 
 git reset --hard $((git show-ref --head --hash=8 2>/dev/null || echo 00000000) | head -n1) 
-git pull
+git fetch --all --tags --prune
+git pull --all
 
 """)
-    # os.system(
-    # f'cd {git_path} && git config pull.rebase false && git-pullall.sh')
+    # os.system(f'cd {git_path} && git config pull.rebase true && git-pullall.sh')
     print(f"剩余:{len(git_set) - i}")
 
 for git in git_set:

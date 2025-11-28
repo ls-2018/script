@@ -10,6 +10,8 @@ mkdir -p $exporterPath
 
 docker rm wechat-article-exporter -f
 docker rm wechat-mysql -f
+docker network rm wechat
+docker network create wechat
 
 cat >$dataPath/my.cnf <<EOF
 [mysqld]
@@ -30,6 +32,8 @@ docker run \
 	-d \
 	-p 13306:3306 \
 	--name wechat-mysql \
+	--label com.docker.compose.project=wechat \
+	--network wechat \
 	--restart=always \
 	-e MYSQL_ROOT_PASSWORD=sk3RCBqtWxF2Tg4pawUv \
 	-e MYSQL_LOG_BIN=OFF \
@@ -40,7 +44,11 @@ docker run \
 
 docker pull registry.cn-hangzhou.aliyuncs.com/ls-2018/wechat-article-exporter
 
-docker run --name wechat-article-exporter \
+docker run \
+	--name wechat-article-exporter \
+	--restart=always \
+	--label com.docker.compose.project=wechat \
+	--network wechat \
 	-d \
 	-e MYSQL_HOST=$(python3 -c'from print_proxy import *;print(get_ip())') \
 	-e MYSQL_PORT=13306 \
@@ -52,5 +60,8 @@ docker run --name wechat-article-exporter \
 	-v $exporterPath:/app/.data \
 	registry.cn-hangzhou.aliyuncs.com/ls-2018/wechat-article-exporter
 
+pkill -9 'Chromium'
 sleep 2
-open -a "/Applications/Google Chrome.app" "http://localhost:13000"
+open -a "/Applications/Chromium.app" "http://localhost:13000"
+
+cat /tmp/wechat.log | awk -F ' ' '{print $10}' | grep '.' | sort -nr | uniq -c

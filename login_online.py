@@ -68,7 +68,9 @@ def login_teleport(center):
             # 等待登录结果
             index = child.expect(['Logged in as', USER], timeout=30)
         if index == 0:
-            child.sendline(f'set KUBECONFIG={KUBECONFIG_PATH}')
+            child.sendline(f'export KUBECONFIG={KUBECONFIG_PATH}')
+            with open('/tmp/k8s_config.sh', 'w', encoding="utf-8") as f:
+                f.write(f"export KUBECONFIG={KUBECONFIG_PATH}")
             get_kube_access(CLUSTER_NAME)
         else:
             print("登录失败")
@@ -113,4 +115,3 @@ if __name__ == "__main__":
     print(args.center)
     print("开始登录 Teleport...")
     login_teleport(args.center)
-

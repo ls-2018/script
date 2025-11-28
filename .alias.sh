@@ -53,9 +53,11 @@ alias k8ps='kubectl get pods -o "custom-columns=NAME:.metadata.name,NAMESPACE:.m
 alias k8nc='kubectl get node -o custom-columns=NAME:.metadata.name,RESOURCE_LIMIT:.status.capacity'
 alias k8na='kubectl get node -o custom-columns=NAME:.metadata.name,RESOURCE_LIMIT:.status.allocatable'
 
-# alias vmip='curl -s --basic -u ls:Bg8q9DRnY2A0OLKw http://49.232.16.245/ip'
-
-# alias svm='ssh root@2j8g761566.wicp.vip -p 52575'
+k8login() {
+    cluster="$1"
+    login_online.py -c "$cluster" && source /tmp/k8s_config.sh
+}
+alias sk='source /tmp/k8s_config.sh'
 
 gtp() {
 	git add .
@@ -140,3 +142,4 @@ record() {
 
 	echo "✅ 录制完成，已生成: ${asciinema_file}.gif"
 }
+
