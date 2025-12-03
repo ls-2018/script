@@ -115,3 +115,9 @@ brew install chipmk/tap/docker-mac-net-connect
 		./"${KREW}" install krew
 	rm -rf ./krew-${OS}_${ARCH}
 )
+
+
+brew install helm
+brew install helmfile
+
+helm plugin install https://github.com/databus23/helm-diff

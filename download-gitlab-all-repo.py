@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import os
+import os,sys
 
 import requests
 
@@ -13,7 +13,7 @@ project_set = set()
 def pull_git_project():
     for index in range(100):
         url = "https://%s/api/v4/projects?private_token=%s&per_page=100&page=%d&order_by=name" % (
-            gitlab_address, gitlab_token, index
+            gitlab_address, sys.argv[1], index
         )
         res = requests.get(url).json()
         if len(res) == 0:

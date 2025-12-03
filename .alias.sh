@@ -48,10 +48,9 @@ alias ssh='trzsz --dragfile ssh'
 alias dive="docker run -ti --rm -v /var/run/docker.sock:/var/run/docker.sock registry.cn-hangzhou.aliyuncs.com/acejilam/dive"
 
 alias k=\'kubectl\'
-alias k8n='k get nodes'
-alias k8ps='kubectl get pods -o "custom-columns=NAME:.metadata.name,NAMESPACE:.metadata.namespace,NODE:.spec.nodeName,STATUS:.status.phase,RESOURCE_LIMIT:.spec.containers[*].resources.limits" -A '
-alias k8nc='kubectl get node -o custom-columns=NAME:.metadata.name,RESOURCE_LIMIT:.status.capacity'
-alias k8na='kubectl get node -o custom-columns=NAME:.metadata.name,RESOURCE_LIMIT:.status.allocatable'
+alias k8n='k get nodes' 
+alias k8ps='k8s-pod-state'
+alias k8ns='k8s-node-cap'
 
 k8login() {
     cluster="$1"

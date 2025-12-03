@@ -17,6 +17,7 @@ cat >$dataPath/my.cnf <<EOF
 [mysqld]
 host-cache-size=0
 skip-name-resolve
+binlog_expire_logs_seconds = 10
 datadir=/etc/mysql/data/
 socket=/var/run/mysqld/mysqld.sock
 secure-file-priv=/var/lib/mysql-files
@@ -64,4 +65,7 @@ pkill -9 'Chromium'
 sleep 2
 open -a "/Applications/Chromium.app" "http://localhost:13000"
 
-cat /tmp/wechat.log | awk -F ' ' '{print $10}' | grep '.' | sort -nr | uniq -c
+cat /tmp/wechat.log | awk -F ' ' '{print $10}' | grep '\.' | grep -v '\.\.' | sort -nr | uniq -c
+
+# SHOW BINARY LOGS;
+# PURGE BINARY LOGS BEFORE DATE_SUB(NOW(), INTERVAL 1 MINUTE);
