@@ -44,7 +44,7 @@ Vagrant.configure("2") do |config|
             -e DELETE_IMAGES="true" \
             -e REGISTRY_TITLE="镜像缓存服务" \
             -e CATALOG_ELEMENTS_LIMIT="1000" \
-            -d registry.cn-hangzhou.aliyuncs.com/acejilam/docker-registry-ui:1.5-static
+            -d `trans_image_name.py docker.io/joxit/docker-registry-ui:1.5-static`
     SHELL
 
 end

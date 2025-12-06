@@ -31,7 +31,7 @@ spec:
       dnsPolicy: ClusterFirstWithHostNet
       initContainers:
         - name: inspector-prepare
-          image: registry.cn-hangzhou.aliyuncs.com/acejilam/agent:v1.0.0
+          image: docker.io/kubeskoop/agent:v1.0.0
           volumeMounts:
             - name: btf-rawdata
               mountPath: /etc/net-exporter/btf
@@ -39,7 +39,7 @@ spec:
               name: boot
           command: [btfhack, discover, -p, /etc/net-exporter/btf/]
       containers:
-      - image: registry.cn-hangzhou.aliyuncs.com/acejilam/agent:v1.0.0
+      - image: docker.io/kubeskoop/agent:v1.0.0
         name: inspector
         ports:
         - name: http
@@ -282,7 +282,7 @@ spec:
     spec:
       containers:
         - name: prometheus
-          image: registry.cn-hangzhou.aliyuncs.com/acejilam/prometheus
+          image: docker.io/prom/prometheus
           args:
             - "--storage.tsdb.retention.time=12h"
             - "--config.file=/etc/prometheus/prometheus.yml"
@@ -380,7 +380,7 @@ spec:
     spec:
       containers:
       - name: grafana
-        image: registry.cn-hangzhou.aliyuncs.com/acejilam/grafana:latest
+        image: docker.io/grafana/grafana:latest
         ports:
           - name: grafana
             containerPort: 3000
@@ -407,7 +407,7 @@ spec:
             name: grafana-datasources
             readOnly: false
       - name: register-dashboard
-        image: registry.cn-hangzhou.aliyuncs.com/acejilam/controller:v1.0.0
+        image: docker.io/kubeskoop/controller:v1.0.0
         env:
           - name: GRAFANA_PASSWORD
             value: "kubeskoop"
@@ -454,7 +454,7 @@ spec:
     spec:
       containers:
       - name: grafana-loki
-        image: registry.cn-hangzhou.aliyuncs.com/acejilam/loki:2.7.0
+        image: docker.io/grafana/loki:2.7.0
         ports:
         - name: grafana-loki
           containerPort: 3100
@@ -632,7 +632,7 @@ spec:
     spec:
       containers:
       - name: controller
-        image: registry.cn-hangzhou.aliyuncs.com/acejilam/controller:v1.0.0
+        image: docker.io/kubeskoop/controller:v1.0.0
         command: ["/bin/controller"]
         volumeMounts:
           - name:  lib
@@ -680,7 +680,7 @@ spec:
     spec:
       containers:
       - name: controller
-        image: registry.cn-hangzhou.aliyuncs.com/acejilam/controller:v1.0.0
+        image: docker.io/kubeskoop/controller:v1.0.0
         command: ["/bin/webconsole"]
         env:
           - name: CONTROLLER_ENDPOINT

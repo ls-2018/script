@@ -31,4 +31,4 @@ docker run \
 	-v $dataPath/my.cnf:/etc/my.cnf \
 	-v $dataPath/data:/etc/mysql/data/ \
 	-v $dataPath/conf:/etc/mysql/mysql.conf.d/ \
-	registry.cn-hangzhou.aliyuncs.com/acejilam/mysql:8
+	$(trans_image_name.py docker.io/library/mysql:8)

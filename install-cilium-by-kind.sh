@@ -26,7 +26,7 @@ if [[ ${my_harbor} == "harbor" ]]; then
 fi
 
 export KUBECONFIG=~/.kube/cilium
-kind create cluster -n cilium --kubeconfig ~/.kube/cilium --config /tmp/kind.yaml --image registry.cn-hangzhou.aliyuncs.com/acejilam/node:v1.32.0
+kind create cluster -n cilium --kubeconfig ~/.kube/cilium --config /tmp/kind.yaml --image $(trans_image_name.py docker.io/cilium/node:v1.32.0)
 
 eval "$(print_proxy.py)"
 test -e /usr/local/bin/cilium || {
@@ -43,19 +43,19 @@ test -e /usr/local/bin/cilium || {
 helm repo add cilium https://helm.cilium.io/ --force-update
 
 if [[ ${my_harbor} == "harbor" ]]; then
-	trans-image-to-ls-harbor.py --arch all --source registry.cn-hangzhou.aliyuncs.com/acejilam/cilium-envoy:v1.35.1-1756466197-aecbf661041fc680854fc765e54a283af11db731@sha256:4a7b4ea470b2f3027ac9115c5b392bf3ba91315fb258f27af318023f2d367578
-	trans-image-to-ls-harbor.py --arch all --source registry.cn-hangzhou.aliyuncs.com/acejilam/cilium:v1.19.0-pre.0@sha256:02d8349bea5a6a0c19dc9a8b58fef113c7b57e7480302c06f7f7d438f75982e6
-	trans-image-to-ls-harbor.py --arch all --source registry.cn-hangzhou.aliyuncs.com/acejilam/operator-generic:v1.19.0-pre.0@sha256:84c935be65c01c5298764def57a147ca130267c070ce970473a8f40b29c61c7e
-	trans-image-to-ls-harbor.py --arch all --source registry.cn-hangzhou.aliyuncs.com/acejilam/hubble-relay:v1.19.0-pre.0@sha256:584cfccd3f3a3f8e791767bace0e7563c2fc9f630b0a7986fa00f8debbd5d751
-	trans-image-to-ls-harbor.py --arch all --source registry.cn-hangzhou.aliyuncs.com/acejilam/hubble-ui-backend:v0.13.2@sha256:a034b7e98e6ea796ed26df8f4e71f83fc16465a19d166eff67a03b822c0bfa15
-	trans-image-to-ls-harbor.py --arch all --source registry.cn-hangzhou.aliyuncs.com/acejilam/hubble-ui:v0.13.2@sha256:9e37c1296b802830834cc87342a9182ccbb71ffebb711971e849221bd9d59392
-	trans-image-to-ls-harbor.py --arch all --source registry.cn-hangzhou.aliyuncs.com/acejilam/json-mock:v1.3.8@sha256:5aad04835eda9025fe4561ad31be77fd55309af8158ca8663a72f6abb78c2603
-	trans-image-to-ls-harbor.py --arch all --source registry.cn-hangzhou.aliyuncs.com/acejilam/starwars@sha256:896dc536ec505778c03efedb73c3b7b83c8de11e74264c8c35291ff6d5fe8ada
-	trans-image-to-ls-harbor.py --arch all --source registry.cn-hangzhou.aliyuncs.com/acejilam/k8s-dns-node-cache:1.15.16
-	trans-image-to-ls-harbor.py --arch all --source registry.cn-hangzhou.aliyuncs.com/acejilam/hubble-export-stdout:v1.1.0
-	trans-image-to-ls-harbor.py --arch all --source registry.cn-hangzhou.aliyuncs.com/acejilam/tetragon:v1.5.0
-	trans-image-to-ls-harbor.py --arch all --source registry.cn-hangzhou.aliyuncs.com/acejilam/tetragon-operator:v1.5.0
-	trans-image-to-ls-harbor.py --arch all --source registry.cn-hangzhou.aliyuncs.com/acejilam/cilium_netperf:latest
+	trans-image-to-ls-harbor.py --arch all --source $(trans_image_name.py docker.io/cilium/cilium-envoy:v1.35.1-1756466197-aecbf661041fc680854fc765e54a283af11db731@sha256:4a7b4ea470b2f3027ac9115c5b392bf3ba91315fb258f27af318023f2d367578)
+	trans-image-to-ls-harbor.py --arch all --source $(trans_image_name.py docker.io/cilium/cilium:v1.19.0-pre.0@sha256:02d8349bea5a6a0c19dc9a8b58fef113c7b57e7480302c06f7f7d438f75982e6)
+	trans-image-to-ls-harbor.py --arch all --source $(trans_image_name.py docker.io/cilium/operator-generic:v1.19.0-pre.0@sha256:84c935be65c01c5298764def57a147ca130267c070ce970473a8f40b29c61c7e)
+	trans-image-to-ls-harbor.py --arch all --source $(trans_image_name.py docker.io/cilium/hubble-relay:v1.19.0-pre.0@sha256:584cfccd3f3a3f8e791767bace0e7563c2fc9f630b0a7986fa00f8debbd5d751)
+	trans-image-to-ls-harbor.py --arch all --source $(trans_image_name.py docker.io/cilium/hubble-ui-backend:v0.13.2@sha256:a034b7e98e6ea796ed26df8f4e71f83fc16465a19d166eff67a03b822c0bfa15)
+	trans-image-to-ls-harbor.py --arch all --source $(trans_image_name.py docker.io/cilium/hubble-ui:v0.13.2@sha256:9e37c1296b802830834cc87342a9182ccbb71ffebb711971e849221bd9d59392)
+	trans-image-to-ls-harbor.py --arch all --source $(trans_image_name.py docker.io/cilium/json-mock:v1.3.8@sha256:5aad04835eda9025fe4561ad31be77fd55309af8158ca8663a72f6abb78c2603)
+	trans-image-to-ls-harbor.py --arch all --source $(trans_image_name.py docker.io/cilium/starwars@sha256:896dc536ec505778c03efedb73c3b7b83c8de11e74264c8c35291ff6d5fe8ada)
+	trans-image-to-ls-harbor.py --arch all --source $(trans_image_name.py registry.k8s.io/dns/k8s-dns-node-cache:1.15.16)
+	trans-image-to-ls-harbor.py --arch all --source $(trans_image_name.py docker.io/cilium/hubble-export-stdout:v1.1.0)
+	trans-image-to-ls-harbor.py --arch all --source $(trans_image_name.py docker.io/cilium/tetragon:v1.5.0)
+	trans-image-to-ls-harbor.py --arch all --source $(trans_image_name.py docker.io/cilium/tetragon-operator:v1.5.0)
+	trans-image-to-ls-harbor.py --arch all --source $(trans_image_name.py docker.io/cilium/cilium_netperf:latest)
 
 	k8s-use-ls-harbor.py
 fi
@@ -114,16 +114,16 @@ cilium install \
 	--set monitor.enabled=true \
 	--set hubble.enabled=true \
 	--set hubble.relay.enabled=true \
-	--set hubble.relay.image.repository=registry.cn-hangzhou.aliyuncs.com/acejilam/hubble-relay \
+	--set hubble.relay.image.repository=$(trans_image_name.py docker.io/cilium/hubble-relay) \
 	--set hubble.metrics.enabled="{dns,drop,tcp,flow,port-distribution,icmp,http}" \
 	--set hubble.ui.enabled=true \
-	--set hubble.ui.frontend.image.repository=registry.cn-hangzhou.aliyuncs.com/acejilam/hubble-ui \
-	--set hubble.ui.backend.image.repository=registry.cn-hangzhou.aliyuncs.com/acejilam/hubble-ui-backend \
-	--set image.repository=registry.cn-hangzhou.aliyuncs.com/acejilam/cilium \
-	--set envoy.image.repository=registry.cn-hangzhou.aliyuncs.com/acejilam/cilium-envoy \
-	--set preflight.image.repository=registry.cn-hangzhou.aliyuncs.com/acejilam/cilium-ci \
-	--set preflight.envoy.image.repository=registry.cn-hangzhou.aliyuncs.com/acejilam/cilium-envoy \
-	--set operator.image.repository=registry.cn-hangzhou.aliyuncs.com/acejilam/operator
+	--set hubble.ui.frontend.image.repository=$(trans_image_name.py docker.io/cilium/hubble-ui) \
+	--set hubble.ui.backend.image.repository=$(trans_image_name.py docker.io/cilium/hubble-ui-backend) \
+	--set image.repository=$(trans_image_name.py docker.io/cilium/cilium) \
+	--set envoy.image.repository=$(trans_image_name.py docker.io/cilium/cilium-envoy) \
+	--set preflight.image.repository=$(trans_image_name.py docker.io/cilium/cilium-ci) \
+	--set preflight.envoy.image.repository=$(trans_image_name.py docker.io/cilium/cilium-envoy) \
+	--set operator.image.repository=$(trans_image_name.py docker.io/cilium/operator)
 # --dry-run-helm-values
 
 helm install tetragon cilium/tetragon \
@@ -137,9 +137,9 @@ helm install tetragon cilium/tetragon \
 	--set tetragon.enableProcessCred=true \
 	--set tetragon.enableProcessNs=true \
 	--set tetragonOperator.enabled=true \
-	--set export.stdout.image.repository=registry.cn-hangzhou.aliyuncs.com/acejilam/hubble-export-stdout \
-	--set tetragon.image.repository=registry.cn-hangzhou.aliyuncs.com/acejilam/tetragon \
-	--set tetragonOperator.image.repository=registry.cn-hangzhou.aliyuncs.com/acejilam/tetragon-operator
+	--set export.stdout.image.repository=$(trans_image_name.py docker.io/cilium/hubble-export-stdout) \
+	--set tetragon.image.repository=$(trans_image_name.py docker.io/cilium/tetragon) \
+	--set tetragonOperator.image.repository=$(trans_image_name.py docker.io/cilium/tetragon-operator)
 
 cilium status --wait -n cilium-system --wait-duration 10m
 
@@ -162,7 +162,8 @@ spec:
        type: "sock"
 EOF
 
-kubectl apply -f - <<EOF
+pref_img=$(trans_image_name.py docker.io/cilium/cilium_netperf)
+echo "
 apiVersion: v1
 kind: Namespace
 metadata:
@@ -173,7 +174,7 @@ kind: Pod
 metadata:
   annotations:
     # Limits egress bandwidth to 10Mbit/s.
-    kubernetes.io/egress-bandwidth: "10M"
+    kubernetes.io/egress-bandwidth: '10M'
   labels:
     app.kubernetes.io/name: bandwidth-server
   name: bandwidth-server
@@ -181,7 +182,7 @@ metadata:
 spec:
   containers:
     - name: netperf
-      image: registry.cn-hangzhou.aliyuncs.com/acejilam/cilium_netperf
+      image: ${pref_img}
       ports:
         - containerPort: 12865
 ---
@@ -221,17 +222,19 @@ spec:
   containers:
     - name: netperf
       command:
-        - "/bin/bash"
-        - "-c"
+        - '/bin/bash'
+        - '-c'
         - |
           sleep 2
           netperf -t TCP_MAERTS -H bandwidth-server -p 12865
           sleep 1d
-      image: registry.cn-hangzhou.aliyuncs.com/acejilam/cilium_netperf
-EOF
+      image: ${pref_img}
+" | kubectl apply -f -
 
 # 使用示例
-curl https://gh-proxy.com/https://raw.githubusercontent.com/cilium/cilium/1.18.1/examples/minikube/http-sw-app.yaml | gsed 's@quay.io/cilium@registry.cn-hangzhou.aliyuncs.com/acejilam@g' | kubectl apply -f -
+curl -O /tmp/http-sw-app.yaml https://gh-proxy.com/https://raw.githubusercontent.com/cilium/cilium/1.18.1/examples/minikube/http-sw-app.yaml
+trans_image_name.py /tmp/http-sw-app.yaml
+kubectl apply -f /tmp/http-sw-app.yaml
 curl https://gh-proxy.com/https://raw.githubusercontent.com/cilium/cilium/1.18.1/examples/minikube/sw_l3_l4_policy.yaml | kubectl apply -f -
 
 unset https_proxy && unset http_proxy && unset all_proxy

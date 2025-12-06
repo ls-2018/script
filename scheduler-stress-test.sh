@@ -49,32 +49,6 @@ status:
   phase: Running
 EOF
 
-# apiVersion: v1
-# kind: Pod
-# metadata:
-#   labels:
-#     app: fake-pod
-#   name: fake-pod-
-#   namespace: scheduler-stress-test
-# spec:
-#   affinity:
-#     nodeAffinity:
-#       requiredDuringSchedulingIgnoredDuringExecution:
-#         nodeSelectorTerms:
-#           - matchExpressions:
-#               - key: type
-#                 operator: In
-#                 values:
-#                   - kwok
-#   containers:
-#     - image: registry.cn-hangzhou.aliyuncs.com/acejilam/nginx
-#       imagePullPolicy: Always
-#       name: fake-container
-#   schedulerName: default-scheduler
-#   tolerations:
-#     - effect: NoSchedule
-#       operator: Exists
-
 # create nodes as you needed
 for i in {0..99}; do sed "s/{NODE_NAME}/kwok-node-$i/g" /tmp/node.yaml | kubectl apply -f -; done
 

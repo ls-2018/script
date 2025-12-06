@@ -3,8 +3,7 @@ set -x
 SCRIPT_DIR="$(cd -P "$(dirname "${BASH_SOURCE:-$0}")" && pwd)"
 source "$SCRIPT_DIR/.alias.sh"
 
-change-name.py /Volumes/Tf/resources/yaml/metrics-server/ "registry.k8s.io/metrics-server" "registry.cn-hangzhou.aliyuncs.com/acejilam" text
-# change-name.py /Volumes/Tf/resources/yaml/metrics-server/ "args:" "args:\\n" text
+trans_image_name.py /Volumes/Tf/resources/yaml/metrics-server
 
 if grep -q "kubelet-insecure-tls" /Volumes/Tf/resources/yaml/metrics-server/components.yaml; then
 	echo "kubelet-insecure-tls"

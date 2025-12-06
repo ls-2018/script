@@ -3,11 +3,9 @@
 rm -rf /tmp/metallb-frr.yaml
 cp /Volumes/Tf/resources/yaml/metallb/v0.14.9/metallb-frr.yaml /tmp/metallb-frr.yaml
 
-sed -i 's@quay.io/frrouting/frr@registry.cn-hangzhou.aliyuncs.com/acejilam/frr@g' /tmp/metallb-frr.yaml
-sed -i 's@quay.io/metallb/controller@registry.cn-hangzhou.aliyuncs.com/acejilam/metallb_controller@g' /tmp/metallb-frr.yaml
-sed -i 's@quay.io/metallb/speaker@registry.cn-hangzhou.aliyuncs.com/acejilam/metallb_speaker@g' /tmp/metallb-frr.yaml
+trans_image_name.py /tmp/metallb-frr.yaml
 
-kubectl apply -f - <<EOF
+echo "
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -16,7 +14,7 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: "nginx"
+      app: nginx
   template:
     metadata:
       labels:
@@ -24,10 +22,10 @@ spec:
     spec:
       containers:
         - name: nginx
-          image: registry.cn-hangzhou.aliyuncs.com/acejilam/nginx:1.14.2
+          image: $(trans_image_name.py docker.io/library/nginx:1.14.2)
         - name: dnsutils
-          image: registry.cn-hangzhou.aliyuncs.com/acejilam/dnsutils:1.3
-          command: ["/bin/sh", "-c", "ping 127.0.0.1"]
+          image: $(trans_image_name.py docker.io/mydlqclub/dnsutils:1.3)
+          command: ['/bin/sh', '-c', 'ping 127.0.0.1']
 ---
 apiVersion: v1
 kind: Service
@@ -44,7 +42,7 @@ spec:
   # type: NodePort
   type: LoadBalancer
 
-EOF
+" | kubectl apply -f -
 
 kubectl apply -f /tmp/metallb-frr.yaml -n metallb-system
 kubectl get configmap kube-proxy -n kube-system -o yaml |

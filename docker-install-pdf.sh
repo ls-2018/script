@@ -13,4 +13,4 @@ docker run -d \
 	-e INSTALL_BOOK_AND_ADVANCED_HTML_OPS=false \
 	-e LANGS=en_GB \
 	--name stirling-pdf \
-	registry.cn-hangzhou.aliyuncs.com/acejilam/s-pdf:1.3.2
+	$(trans_image_name.py docker.io/frooodle/s-pdf:1.3.2)

@@ -45,7 +45,7 @@ alias docker-clean-all='docker stop $(docker container ls -a -q) && docker syste
 
 alias ssh='trzsz --dragfile ssh'
 # alias dive="docker run -ti --rm -v /var/run/docker.sock:/var/run/docker.sock wagoodman/dive"
-alias dive="docker run -ti --rm -v /var/run/docker.sock:/var/run/docker.sock registry.cn-hangzhou.aliyuncs.com/acejilam/dive"
+alias dive="docker run -ti --rm -v /var/run/docker.sock:/var/run/docker.sock `trans_image_name.py docker.io/wagoodman/dive`"
 
 alias k=\'kubectl\'
 alias k8n='k get nodes' 

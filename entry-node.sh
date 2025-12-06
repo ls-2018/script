@@ -1,4 +1,7 @@
 #! /usr/bin/env zsh
+
+img=$(trans_image_name.py quay.io/centos/centos:7)
+
 cmd='[ "nsenter", "--target", "1", "--mount", "--uts", "--ipc", "--net", "--pid", "--","bash"]'
 overrides="$(
 	cat <<EOT
@@ -12,7 +15,7 @@ overrides="$(
         "securityContext": {
           "privileged": true
         },
-        "image": "registry.cn-hangzhou.aliyuncs.com/acejilam/centos:7",
+        "image": "$img",
         "name": "nsenter",
         "stdin": true,
         "stdinOnce": true,
@@ -33,4 +36,4 @@ EOT
 # pod="kube-nodeshell-$(env LC_ALL=C tr -dc a-z0-9 </dev/urandom | head -c 6)"
 pod="kube-nodeshell-ls"
 kubectl delete pod $pod --force
-kubectl run --image=registry.cn-hangzhou.aliyuncs.com/acejilam/centos:7 --restart=Never --rm --overrides="$overrides" -it $pod
+kubectl run --image=$img --restart=Never --rm --overrides="$overrides" -it $pod

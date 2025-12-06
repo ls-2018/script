@@ -6,6 +6,7 @@ fi
 
 kubectl -n kube-system delete pod node-shell --force
 
+node=$(trans_image_name.py quay.io/centos/centos:7)
 echo "apiVersion: v1
 kind: Pod
 metadata:
@@ -14,7 +15,7 @@ metadata:
 spec:
   containers:
     - name: shell
-      image: registry.cn-hangzhou.aliyuncs.com/acejilam/centos:7
+      image: ${node}
       command:
         - nsenter
       args:
@@ -36,6 +37,10 @@ spec:
 " | kubectl apply -f -
 
 kubectl -n kube-system wait --for=condition=Ready pod/node-shell --timeout=3000s
-kubectl -n kube-system exec -it node-shell -- bash -c "${@:2}"
+if [ $# -gt 1 ]; then
+	kubectl -n kube-system exec -it node-shell -- bash -c "${@:2}"
+else
+	kubectl -n kube-system exec -it node-shell -- bash
+fi
 
 kubectl -n kube-system delete pods node-shell

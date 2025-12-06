@@ -3,20 +3,14 @@ import os
 import shutil
 
 rs = [
-    ['docker.io/karmada', 'registry.cn-hangzhou.aliyuncs.com/acejilam'],
-    ['image: nginx', 'image: registry.cn-hangzhou.aliyuncs.com/acejilam/nginx'],
-    ['opensearchproject', 'registry.cn-hangzhou.aliyuncs.com/acejilam'],
-    ['kindest/node', 'registry.cn-hangzhou.aliyuncs.com/acejilam/node'],
-    ['image: registry.k8s.io', 'image: registry.cn-hangzhou.aliyuncs.com/acejilam'],
-    ['FROM alpine:', 'FROM registry.cn-hangzhou.aliyuncs.com/acejilam/alpine:'],
     ['/.kube"', '/.kube/"'],
     ['replicas: 2', 'replicas: 1'],
     ['ARG BINARY', "RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories\nARG BINARY"],
     [
         r'''wget --no-verbose https://github.com/kubernetes-sigs/metrics-server/releases/download/v0.6.3/components.yaml -O "${_tmp}/components.yaml"''',
         r'''wget --no-verbose https://github.com/kubernetes-sigs/metrics-server/releases/download/v0.6.3/components.yaml -O "${_tmp}/components.yaml"
-    gsed -i'' -e 's@registry.k8s.io/metrics-server@registry.cn-hangzhou.aliyuncs.com/acejilam@g' "${_tmp}/components.yaml"
-    ''',
+trans_image_name.py "${_tmp}/components.yaml"
+''',
     ]
 ]
 
@@ -50,6 +44,7 @@ for cd, _dirs, files in os.walk(os.path.join(KARMADA_PATH,"karmada")):
 
 os.system(rf'''
 cd {KARMADA_PATH}/karmada
+trans_image_name.py `pwd`
 ./hack/local-up-karmada.sh
 ./hack/deploy-karmada-opensearch.sh  ~/.kube/karmada.config karmada-host
 IP=$(kubectl --kubeconfig ~/.kube/karmada.config --context karmada-host -n karmada-system get svc karmada-opensearch -oyaml |yq '.spec.clusterIP')

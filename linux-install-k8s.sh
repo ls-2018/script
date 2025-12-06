@@ -105,19 +105,19 @@ helm install cilium /Volumes/Tf/resources/others/cilium-* \
 	--set hubble.relay.enabled=true \
 	--set hubble.ui.enabled=true \
 	--set hubble.ui.standalone.enabled=true \
-	--set image.repository=registry.cn-hangzhou.aliyuncs.com/acejilam/cilium-ci \
-	--set certgen.image.repository=registry.cn-hangzhou.aliyuncs.com/acejilam/certgen \
-	--set hubble.relay.image.repository=registry.cn-hangzhou.aliyuncs.com/acejilam/hubble-relay-ci \
-	--set hubble.ui.backend.image.repository=registry.cn-hangzhou.aliyuncs.com/acejilam/hubble-ui-backend \
-	--set hubble.ui.frontend.image.repository=registry.cn-hangzhou.aliyuncs.com/acejilam/hubble-ui \
-	--set envoy.image.repository=registry.cn-hangzhou.aliyuncs.com/acejilam/cilium-envoy \
-	--set operator.image.repository=registry.cn-hangzhou.aliyuncs.com/acejilam/operator \
-	--set nodeinit.image.repository=registry.cn-hangzhou.aliyuncs.com/acejilam/startup-script \
-	--set preflight.image.repository=registry.cn-hangzhou.aliyuncs.com/acejilam/cilium-ci \
-	--set apiserver.image.repository=registry.cn-hangzhou.aliyuncs.com/acejilam/clustermesh-apiserver-ci \
-	--set authentication.mutual.spire.install.initImage.repository=registry.cn-hangzhou.aliyuncs.com/acejilam/busybox \
-	--set authentication.mutual.spire.install.agent.image.repository=registry.cn-hangzhou.aliyuncs.com/acejilam/spire-agent \
-	--set authentication.mutual.spire.install.agent.image.repository=registry.cn-hangzhou.aliyuncs.com/acejilam/spire-server \
+	--set image.repository=$(trans_image_name.py docker.io/cilium/cilium-ci) \
+	--set certgen.image.repository=$(trans_image_name.py docker.io/cilium/certgen) \
+	--set hubble.relay.image.repository=$(trans_image_name.py docker.io/cilium/hubble-relay-ci) \
+	--set hubble.ui.backend.image.repository=$(trans_image_name.py docker.io/cilium/hubble-ui-backend) \
+	--set hubble.ui.frontend.image.repository=$(trans_image_name.py docker.io/cilium/hubble-ui) \
+	--set envoy.image.repository=$(trans_image_name.py docker.io/cilium/cilium-envoy) \
+	--set operator.image.repository=$(trans_image_name.py docker.io/cilium/operator) \
+	--set nodeinit.image.repository=$(trans_image_name.py docker.io/cilium/startup-script) \
+	--set preflight.image.repository=$(trans_image_name.py docker.io/cilium/cilium-ci) \
+	--set apiserver.image.repository=$(trans_image_name.py docker.io/cilium/clustermesh-apiserver) \
+	--set authentication.mutual.spire.install.initImage.repository=$(trans_image_name.py docker.io/library/busybox) \
+	--set authentication.mutual.spire.install.agent.image.repository=$(trans_image_name.py ghcr.io/spiffe/spire-agent) \
+	--set authentication.mutual.spire.install.agent.image.repository=$(trans_image_name.py ghcr.io/spiffe/spire-server) \
 	--set image.useDigest=false \
 	--set certgen.image.useDigest=false \
 	--set hubble.relay.image.useDigest=false \
@@ -154,7 +154,3 @@ spec:
 EOF
 echo '✅✅✅✅✅✅✅✅✅✅✅✅'
 cilium status
-
-# #skopeo copy --all --insecure-policy docker://quay.io/cilium/cilium-envoy:v1.31.5-1737535524-fe8efeb16a7d233bffd05af9ea53599340d3f18e docker://registry.cn-hangzhou.aliyuncs.com/acejilam/cilium-envoy:v1.31.5-1737535524-fe8efeb16a7d233bffd05af9ea53599340d3f18e
-# #skopeo copy --all --insecure-policy docker://quay.io/cilium/cilium-ci:v1.17.0 docker://registry.cn-hangzhou.aliyuncs.com/acejilam/cilium-ci:v1.17.0
-# #skopeo copy --all --insecure-policy docker://quay.io/cilium/hubble-relay-ci:v1.17 docker://registry.cn-hangzhou.aliyuncs.com/acejilam/hubble-relay-ci:v1.17.0

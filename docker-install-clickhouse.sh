@@ -12,4 +12,4 @@ docker run \
 	-e CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT=1 \
 	-e TZ=Asia/Shanghai \
 	-e CLICKHOUSE_PASSWORD=123456 \
-	-d registry.cn-hangzhou.aliyuncs.com/acejilam/clickhouse-server
+	-d $(trans_image_name.py docker.io/clickhouse/clickhouse-server)

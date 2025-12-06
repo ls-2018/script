@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 import os
-import shutil
 import platform
+import shutil
 import sys
 
 print("sys.argv", sys.argv)
-print(f"[download=False] [harbor=Flase]" )
+print(f"[download=False] [harbor=Flase]")
 
 deploy_mod = ''
 if 'ambient' in sys.argv:
@@ -14,7 +14,7 @@ download = False
 if 'download' in sys.argv:
     download = True
 harbor = 'registry.cn-hangzhou.aliyuncs.com'
- 
+
 example = ''
 if 'example' in sys.argv:
     example = '''
@@ -27,27 +27,9 @@ kubectl apply -f ./samples/bookinfo/gateway-api/bookinfo-gateway.yaml -n default
 
 '''
 
-
 rs = [
-    ['kiwigrid/k8s-sidecar', f'{harbor}/acejilam/k8s-sidecar'],
-    ['ghcr.io/prometheus-operator/', f'{harbor}/acejilam/'],
-    ['image: pilot', f'image: {harbor}/acejilam/pilot'],
-    ['prom/prometheus', f'{harbor}/acejilam/prometheus'],
-    ['hub: gcr.io/istio-testing', f'hub: {harbor}/acejilam'],
-    ['docker.io/istio/', f'{harbor}/acejilam/'],
-    ['quay.io/kiali/kiali', f'{harbor}/acejilam/kiali'],
-    ['docker.io/istio', f'{harbor}/acejilam'],
-    ['image: apache/', f'image: {harbor}/acejilam/'],
-    ['docker.io/jaegertracing', f'{harbor}/acejilam'],
-    ['docker.io/grafana', f'{harbor}/acejilam'],
-    ['docker.io/mccutchen', f'{harbor}/acejilam'],
-    ['image: hiroakis/', f'image: {harbor}/acejilam/'],
-    ['image: hiroakis/', f'image: {harbor}/acejilam/'],
-    ['image: curlimages/curl', f'image: {harbor}/acejilam/curl'],
-    ['image: busybox', f'image: {harbor}/acejilam/busybox'],
-    ['image: ghcr.io/spiffe/', f'image: {harbor}/acejilam/'],
-    ['image: install-cni',f"image: {harbor}/acejilam/install-cni"],
-    ['image: registry.k8s.io/sig-storage/', f'image: {harbor}/acejilam/'],
+    ['hub: gcr.io/istio-testing', f'hub: {harbor}/ls-acejilam'],
+    ['image: pilot', f'image: {harbor}/ls-acejilam/pilot'],
     ['''  volumeClaimTemplates:
     - apiVersion: v1
       kind: PersistentVolumeClaim
@@ -111,9 +93,11 @@ if download:
         os.system(
             f'''
             {proxy}
-            skopeo copy --all --insecure-policy docker://{image} docker://{harbor}/acejilam/{name}
+            skopeo copy --all --insecure-policy docker://{image} docker://{harbor}/ls-acejilam/{name}
             '''
         )
+
+os.system(f'trans_image_name.py {ISTIO_PATH}')
 
 for cd, _dirs, files in os.walk(ISTIO_PATH):
     for file in files:
@@ -126,6 +110,7 @@ for cd, _dirs, files in os.walk(ISTIO_PATH):
                     data = data.replace(item[0], item[1])
             with open(path, 'w', encoding='utf8') as f:
                 f.write(data)
+
 for cd, _dirs, files in os.walk(ISTIO_PATH):
     for file in files:
         path = os.path.join(cd, file)
@@ -133,7 +118,7 @@ for cd, _dirs, files in os.walk(ISTIO_PATH):
             skip = True
             with open(path, 'r', encoding='utf8') as f:
                 data = f.read()
-                if 'install.istio.io/v1alpha1' in data and f'hub: {harbor}/acejilam' not in data:
+                if 'install.istio.io/v1alpha1' in data and f'hub: {harbor}/ls-acejilam' not in data:
                     skip = False
             if not skip:
                 with open(path, 'w', encoding='utf8') as f:
@@ -146,7 +131,7 @@ for cd, _dirs, files in os.walk(ISTIO_PATH):
                         if 'spec:' in line and install:
                             spec = True
                         if spec and install:
-                            f.write(f'  hub: {harbor}/acejilam\n')
+                            f.write(f'  hub: {harbor}/ls-acejilam\n')
                             install = False
                             spec = False
 
@@ -280,7 +265,11 @@ EOF
 
 ''')
 
-os.system("""
+from trans_image_name import trans_image
+
+build_image = trans_image('docker.io/library/buildpack-deps:24.04')
+
+os.system(f"""
 kubectl delete deployment istio-test --force 
 kubectl apply -f - <<EOF
 apiVersion: apps/v1
@@ -302,7 +291,7 @@ spec:
     spec:
       containers:
       - name: details
-        image: registry.cn-hangzhou.aliyuncs.com/acejilam/buildpack-deps:24.04
+        image: {build_image}
         command:
           - "/bin/bash"
           - "-c"
@@ -317,7 +306,7 @@ spec:
       restartPolicy: Always
 EOF
 
-# kubectl wait --for=jsonpath='{.status.phase}'=Running pod/istio-test
+# kubectl wait --for=jsonpath='{{.status.phase}}'=Running pod/istio-test
 
 """)
 

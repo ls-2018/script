@@ -1,4 +1,4 @@
-# FROM registry.cn-hangzhou.aliyuncs.com/acejilam/golang:1.20 as go
+# FROM registry.cn-hangzhou.aliyuncs.com/ls-2018/mygo:v1.25.1 as go
 # RUN go env -w GOPROXY=https://goproxy.cn,direct && go env -w GO111MODULE=on
 # WORKDIR /demo
 # RUN go mod init demo && go install github.com/br0xen/boltbrowser@latest
@@ -26,7 +26,7 @@ docker network create --subnet 172.19.0.0/16 etcd
 
 docker network inspect etcd
 
-docker run -d --name etcd0 --network etcd --ip 172.19.1.10 -P registry.cn-hangzhou.aliyuncs.com/acejilam/etcd:3.5.2 etcd \
+docker run -d --name etcd0 --network etcd --ip 172.19.1.10 -P $(trans_image_name.py registry.k8s.io/etcd:3.5.2) etcd \
 	-name etcd0 \
 	-advertise-client-urls http://172.19.1.10:2379,http://172.19.1.10:4001 \
 	-listen-client-urls http://0.0.0.0:2379,http://0.0.0.0:4001 \
@@ -37,7 +37,7 @@ docker run -d --name etcd0 --network etcd --ip 172.19.1.10 -P registry.cn-hangzh
 	-initial-cluster etcd0=http://172.19.1.10:2380,etcd1=http://172.19.1.11:2380,etcd2=http://172.19.1.12:2380 \
 	-initial-cluster-state new
 
-docker run -d --name etcd1 --network etcd --ip 172.19.1.11 registry.cn-hangzhou.aliyuncs.com/acejilam/etcd:3.5.2 etcd \
+docker run -d --name etcd1 --network etcd --ip 172.19.1.11 $(trans_image_name.py registry.k8s.io/etcd:3.5.2) etcd \
 	-name etcd1 \
 	-advertise-client-urls http://172.19.1.11:2379,http://172.19.1.11:4001 \
 	-listen-client-urls http://0.0.0.0:2379,http://0.0.0.0:4001 \
@@ -48,7 +48,7 @@ docker run -d --name etcd1 --network etcd --ip 172.19.1.11 registry.cn-hangzhou.
 	-initial-cluster etcd0=http://172.19.1.10:2380,etcd1=http://172.19.1.11:2380,etcd2=http://172.19.1.12:2380 \
 	-initial-cluster-state new
 
-docker run -d --name etcd2 --network etcd --ip 172.19.1.12 registry.cn-hangzhou.aliyuncs.com/acejilam/etcd:3.5.2 etcd \
+docker run -d --name etcd2 --network etcd --ip 172.19.1.12 $(trans_image_name.py registry.k8s.io/etcd:3.5.2) etcd \
 	-name etcd2 \
 	-advertise-client-urls http://172.19.1.12:2379,http://172.19.1.12:4001 \
 	-listen-client-urls http://0.0.0.0:2379,http://0.0.0.0:4001 \

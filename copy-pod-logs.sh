@@ -12,6 +12,8 @@ if [[ $nodeName == "" ]]; then
 	exit
 fi
 
+img=$(trans_image_name.py quay.io/centos/centos:7)
+
 cmd='[ "nsenter", "--target", "1", "--mount", "--uts", "--ipc", "--net", "--pid", "--","bash"]'
 overrides="$(
 	cat <<EOT
@@ -26,7 +28,7 @@ overrides="$(
         "securityContext": {
           "privileged": true
         },
-        "image": "registry.cn-hangzhou.aliyuncs.com/acejilam/centos:7",
+        "image": "$img",
         "name": "nsenter",
         "stdin": true,
         "stdinOnce": true,
@@ -48,7 +50,7 @@ EOT
 pod="kube-nodeshell-ls"
 kubectl delete pod $pod --force
 
-kubectl run --image=registry.cn-hangzhou.aliyuncs.com/acejilam/centos:7 --restart=Never --overrides="$overrides" $pod
+kubectl run --image=$img --restart=Never --overrides="$overrides" $pod
 
 kubectl wait --for=condition=Ready pod/$pod
 

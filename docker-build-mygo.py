@@ -3,7 +3,10 @@ import os
 import shutil
 import subprocess
 import sys
+
 import requests
+
+from trans_image_name import trans_image
 
 build_path = '/tmp/build-mygo'
 
@@ -68,8 +71,9 @@ apt install telnet dnsutils upx iproute2 net-tools -y
 
 '''
 
-dockerfile = '''
-FROM registry.cn-hangzhou.aliyuncs.com/acejilam/ubuntu:24.04
+img = trans_image('docker.io/library/ubuntu:24.04')
+dockerfile = f'''
+FROM {img}
 COPY localtime /etc/localtime
 WORKDIR /build
 # ENV LANG=en_US.UTF-8
@@ -82,10 +86,10 @@ ENV DEBIAN_FRONTEND=noninteractive
 ENV CGO_ENABLED="0"
 ENV GO111MODULE=on
 ENV GOPROXY=https://goproxy.cn,direct
-ENV GOROOT=/usr/local/go${VERSION}
+ENV GOROOT=/usr/local/go${{VERSION}}
 ENV GOPATH=/root/.gopath
-ENV GOBIN=/usr/local/go${VERSION}/bin
-ENV PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/go${VERSION}/bin
+ENV GOBIN=/usr/local/go${{VERSION}}/bin
+ENV PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/go${{VERSION}}/bin
 
 COPY . .
 
@@ -120,11 +124,10 @@ shutil.copyfile(
     os.path.join(build_path, 'localtime')
 )
 
-
-really_version= version
+really_version = version
 if really_version == 'latest':
     res = requests.get("https://golang.google.cn/dl/?mode=json")
-    really_version= res.json()[0]['version'].strip('go')
+    really_version = res.json()[0]['version'].strip('go')
 
 for k, v in dict(globals()).items():
     if k.startswith('install_'):
