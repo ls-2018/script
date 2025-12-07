@@ -5,7 +5,7 @@
 
 SCRIPT_DIR="$(cd -P "$(dirname "${BASH_SOURCE:-$0}")" && pwd)"
 source "$SCRIPT_DIR/.alias.sh"
-set -x
+
 name=${1-kind}
 version=${2-v1.28.0}
 my_harbor=${3-}
@@ -39,7 +39,7 @@ test -e /Volumes/Tf/data/plugins/bin/bridge || {
 	bash ./build_linux.sh
 	mv ./bin/* ../
 }
-node_img=`trans_image_name.py docker.io/kindest/node:${version}`
+node_img=$(trans_image_name.py docker.io/kindest/node:${version})
 kind create cluster --config ~/script/kind.yaml -n ${name} --kubeconfig ~/.kube/kind-${name} --image ${node_img}
 kubectl cluster-info --context kind-${name} --kubeconfig ~/.kube/kind-${name}
 

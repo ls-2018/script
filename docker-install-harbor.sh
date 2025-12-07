@@ -75,6 +75,7 @@ gsed -i 's@data_volume: /data@data_volume: /Volumes/Tf/data/harbor/data@g' /Volu
 gsed -i 's@location: /var/log/harbor@location: /Volumes/Tf/data/harbor/logs@g' /Volumes/Tf/data/harbor/tgz/harbor/harbor.yml
 gsed -i 's@certificate: /your/certificate/path@certificate:  /Volumes/Tf/data/harbor/cert/harbor.crt@g' /Volumes/Tf/data/harbor/tgz/harbor/harbor.yml
 gsed -i 's@private_key: /your/private/key/path@private_key:  /Volumes/Tf/data/harbor/cert/harbor.key@g' /Volumes/Tf/data/harbor/tgz/harbor/harbor.yml
+gsed -i 's@${prepare_base_dir}@/Volumes/Tf/data/harbor@g' /Volumes/Tf/data/harbor/tgz/harbor/prepare
 
 cd /Volumes/Tf/data/harbor/tgz/harbor && ./install.sh --with-trivy
 cd -
@@ -86,11 +87,18 @@ cd -
 # open -a "/Applications/Google Chrome.app" "https://harbor.ls.com"
 open -a "/Applications/Safari.app" "https://harbor.ls.com"
 
-sleep 5
-
-docker login -u admin harbor.ls.com -p Harbor12345
+while true; do
+    docker login -u admin harbor.ls.com -p Harbor12345
+    if [ $? -eq 0 ]; then
+        echo "Login successful!"
+        break
+    fi
+    echo "Login failed, retrying..."
+    sleep 1
+done
 
 curl -k -u "admin:Harbor12345" -X POST -H "Content-Type: application/json" "https://harbor.ls.com/api/v2.0/projects/" -d '{"project_name": "acejilam", "public": true}'
+curl -k -u "admin:Harbor12345" -X POST -H "Content-Type: application/json" "https://harbor.ls.com/api/v2.0/projects/" -d '{"project_name": "ls-acejilam", "public": true}'
 curl -k -u "admin:Harbor12345" -X POST -H "Content-Type: application/json" "https://harbor.ls.com/api/v2.0/projects/" -d '{"project_name": "ls-2018", "public": true}'
 curl -k -u "admin:Harbor12345" -X POST -H "Content-Type: application/json" "https://harbor.ls.com/api/v2.0/projects/" -d '{"project_name": "ls-mock", "public": true}'
 

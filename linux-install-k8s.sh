@@ -110,7 +110,7 @@ helm install cilium /Volumes/Tf/resources/others/cilium-* \
 	--set hubble.relay.image.repository=$(trans_image_name.py docker.io/cilium/hubble-relay-ci) \
 	--set hubble.ui.backend.image.repository=$(trans_image_name.py docker.io/cilium/hubble-ui-backend) \
 	--set hubble.ui.frontend.image.repository=$(trans_image_name.py docker.io/cilium/hubble-ui) \
-	--set envoy.image.repository=$(trans_image_name.py docker.io/cilium/cilium-envoy) \
+	--set envoy.image.repository=$(trans_image_name.py quay.io/cilium/cilium-envoy) \
 	--set operator.image.repository=$(trans_image_name.py docker.io/cilium/operator) \
 	--set nodeinit.image.repository=$(trans_image_name.py docker.io/cilium/startup-script) \
 	--set preflight.image.repository=$(trans_image_name.py docker.io/cilium/cilium-ci) \

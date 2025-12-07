@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
+import argparse
 import json
 import os
 import subprocess
-import argparse
+
+from trans_image_name import trans_image
 
 parser = argparse.ArgumentParser()
 
@@ -19,19 +21,11 @@ if len(raw_image.split(':')) == 3:
 
 new_image = args.dest
 if new_image == "":
-    new_image = raw_image
+    new_image = trans_image(raw_image)
 
-split_len = len(new_image.split('/')) - 1
 me_domain = 'harbor.ls.com'
-
+new_image = new_image.replace('registry.cn-hangzhou.aliyuncs.com', me_domain)
 os.environ['no_proxy'] = f"{me_domain},localhost,registry.cn-hangzhou.aliyuncs.com"
-
-if split_len == 1:
-    new_image = me_domain + '/' + new_image
-
-ss = new_image.split('/')
-ss[0] = me_domain
-new_image = '/'.join(ss)
 
 user = new_image.split('/')[-2].strip()
 

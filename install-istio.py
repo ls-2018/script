@@ -4,8 +4,10 @@ import platform
 import shutil
 import sys
 
+from trans_image_name import trans_image
+
 print("sys.argv", sys.argv)
-print(f"[download=False] [harbor=Flase]")
+print(f"[download=False]")
 
 deploy_mod = ''
 if 'ambient' in sys.argv:
@@ -28,6 +30,8 @@ kubectl apply -f ./samples/bookinfo/gateway-api/bookinfo-gateway.yaml -n default
 '''
 
 rs = [
+
+    ['hub: docker.io/istio', f'hub: {harbor}/ls-acejilam'],
     ['hub: gcr.io/istio-testing', f'hub: {harbor}/ls-acejilam'],
     ['image: pilot', f'image: {harbor}/ls-acejilam/pilot'],
     ['''  volumeClaimTemplates:
@@ -64,6 +68,10 @@ os.system(rf'''
 cd {ISTIO_PATH}
 cp /Volumes/Tf/resources/tar/{arch}/istio-{version}-osx-{arch}.tar.gz .
 tar zxf istio-{version}-osx-{arch}.tar.gz
+cd istio-{version}
+git init 
+git add .
+git commit -s -m '-' 
 # git clone https://github.com/kubernetes-sigs/gateway-api.git -b v1.2.0
 ''')
 
@@ -80,21 +88,21 @@ for cd, _dirs, files in os.walk(ISTIO_PATH):
                     if 'image: docker.io' in line:
                         image = line.split(' ')[1].strip()
                         image_version.add(image)
+
 if download:
     image_set = set()
     for image in image_version:
-        image_set.add(image.split(':')[0])
+        image_set.add(image)
     for item in image_set:
-        print(f"          - '{item}'")
+        print(f"- '{item}'")
 
     for i, image in enumerate(sorted(list(image_set))):
-        name = image.split('/')[2]
         print(f"{i}/{len(image_set)}", image)
-        os.system(
-            f'''
-            {proxy}
-            skopeo copy --all --insecure-policy docker://{image} docker://{harbor}/ls-acejilam/{name}
-            '''
+        os.system(  # 手动往  阿里云 同步一下数据
+            f'''set -v 
+{proxy}
+skopeo copy --all --insecure-policy docker://{image} docker://{trans_image(image)}
+'''
         )
 
 os.system(f'trans_image_name.py {ISTIO_PATH}')
@@ -154,9 +162,10 @@ with open(
 
 mod = ''
 mod_after = ''
+
 if deploy_mod == "ambient":
     mod = f'''
-istioctl install --set profile=ambient -y --set hub={harbor}/acejilam
+istioctl install --set profile=ambient -y --set hub={harbor}/ls-acejilam
 # istioctl install -f manifests/profiles/ambient.yaml -y
 kubectl label namespace default istio.io/dataplane-mode=ambient
 '''
@@ -176,7 +185,7 @@ istioctl install -f samples/bookinfo/demo-profile-no-gateways.yaml -y \
 kubectl label namespace default istio-injection=enabled
 '''
 
-os.system(rf'''
+cmd = f'''
 cd {ISTIO_PATH}/istio-{version}
 
 {mod}
@@ -198,9 +207,9 @@ kubectl rollout status deployment/kiali -n istio-system
 kubectl get gateway
 
 {mod_after}
-
-
-''')
+'''
+print(cmd)
+os.system(cmd)
 
 os.system(rf'''kubectl apply -f - <<EOF
 apiVersion: security.istio.io/v1
@@ -264,8 +273,6 @@ spec:
 EOF
 
 ''')
-
-from trans_image_name import trans_image
 
 build_image = trans_image('docker.io/library/buildpack-deps:24.04')
 
