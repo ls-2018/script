@@ -51,6 +51,17 @@ alias k=\'kubectl\'
 alias k8n='k get nodes' 
 alias k8ps='k8s-pod-state'
 alias k8ns='k8s-node-cap'
+alias k8pi='kubectl get pods -A -o jsonpath="{range .items[*]}{range .spec.containers[*]}{.image}{\"\n\"}{end}{end}" | sort | uniq'
+alias k8pir='kubectl get pods -A -o jsonpath="{range .items[*]}{range .spec.containers[*]}{.image}{\"\n\"}{end}{end}" | sort | uniq | trans_image_name_reverse.py'
+
+k8pidiff(){
+	k8pi> /tmp/k8pi.txt
+	cat /tmp/k8pi.txt  | trans_image_name_reverse.py > /tmp/k8pir.txt
+	git --no-pager diff /tmp/k8pi.txt /tmp/k8pir.txt
+}
+
+
+
 
 k8login() {
     cluster="$1"

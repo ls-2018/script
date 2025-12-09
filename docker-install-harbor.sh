@@ -88,13 +88,13 @@ cd -
 open -a "/Applications/Safari.app" "https://harbor.ls.com"
 
 while true; do
-    docker login -u admin harbor.ls.com -p Harbor12345
-    if [ $? -eq 0 ]; then
-        echo "Login successful!"
-        break
-    fi
-    echo "Login failed, retrying..."
-    sleep 1
+	docker login -u admin harbor.ls.com -p Harbor12345
+	if [ $? -eq 0 ]; then
+		echo "Login successful!"
+		break
+	fi
+	echo "Login failed, retrying..."
+	sleep 1
 done
 
 curl -k -u "admin:Harbor12345" -X POST -H "Content-Type: application/json" "https://harbor.ls.com/api/v2.0/projects/" -d '{"project_name": "acejilam", "public": true}'
