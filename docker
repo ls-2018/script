@@ -5,7 +5,10 @@ import sys
 
 from trans_image_name import trans_image
 
-docker_bin = '/opt/homebrew/bin/docker'
+docker_bin = ''
+for item in ['/opt/homebrew/bin/docker','/usr/local/bin/docker']:
+    if os.path.exists(item):
+        docker_bin = item
 
 cmds = [docker_bin]
 

@@ -1,12 +1,12 @@
 kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
 # containerdConfigPatches:
-# - | 
+# - |
 #   [plugins."io.containerd.grpc.v1.cri".registry.mirrors."registry.cn-hangzhou.aliyuncs.com"]
 #     endpoint = ["http://registry.cn-hangzhou.aliyuncs.com:443"]
 #   [plugins."io.containerd.grpc.v1.cri".registry.configs."registry.cn-hangzhou.aliyuncs.com".tls]
 #     insecure_skip_verify = true
-  
+
 # networking:
 #   disableDefaultCNI: true
 # featureGates:
@@ -17,7 +17,7 @@ nodes:
     - containerPort: 31256
       hostPort: 31256
       protocol: TCP
-  kubeadmConfigPatches: 
+  kubeadmConfigPatches:
   - |
     kind: ClusterConfiguration
     apiServer:
