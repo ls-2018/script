@@ -148,13 +148,16 @@ export PYTHONPATH=$SCRIPT_DIR:$PYTHONPATH
 export LANG="en_US.UTF-8"
 export LC_ALL="en_US.UTF-8"
 
-skopeo_copy() {
+export skopeo_copy() {
 	source_image=$1
 	dest_image=$2
+	echo $source_image  '    ➡️ ➡️ ➡️ ➡️    '  $dest_image
+	set -x
 	skopeo copy --all --insecure-policy docker://$source_image docker://${dest_image} "${@:3}"
+	set +x
 }
 
-parse_cert() {
+export parse_cert() {
 	cert=$1
 	echo $cert | base64 -d >/tmp/cert.txt
 	openssl x509 -noout -text -in /tmp/cert.txt

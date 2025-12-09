@@ -54,7 +54,7 @@ alias k8ns='k8s-node-cap'
 alias k8pi='kubectl get pods -A -o jsonpath="{range .items[*]}{range .spec.containers[*]}{.image}{\"\n\"}{end}{end}" | sort | uniq'
 alias k8pir='kubectl get pods -A -o jsonpath="{range .items[*]}{range .spec.containers[*]}{.image}{\"\n\"}{end}{end}" | sort | uniq | trans_image_name_reverse.py'
 
-k8pidiff(){
+export k8pidiff(){
 	k8pi> /tmp/k8pi.txt
 	cat /tmp/k8pi.txt  | trans_image_name_reverse.py > /tmp/k8pir.txt
 	git --no-pager diff /tmp/k8pi.txt /tmp/k8pir.txt
@@ -63,13 +63,13 @@ k8pidiff(){
 
 
 
-k8login() {
+export k8login() {
     cluster="$1"
     login_online.py -c "$cluster" && source /tmp/k8s_config.sh
 }
 alias sk='source /tmp/k8s_config.sh'
 
-gtp() {
+export gtp() {
 	git add .
 	git commit -s -m "$1"
 	git push --force
@@ -78,7 +78,7 @@ gtp() {
 	git push --tags --force
 }
 
-fix_path_spaces() {
+export fix_path_spaces() {
 	local fixed_path=""
 	local IFS=':' # 分隔 PATH 变量
 	for entry in $PATH; do
@@ -103,7 +103,7 @@ alias mk="minikube kubectl --"
 # 	find . -depth -type d -name "$1" -print -exec rm -rf {} \;
 # }
 
-delete_dir() { # 适用 zsh
+export delete_dir() { # 适用 zsh
 	local target="$1"
 	local dirs
 	dirs=$(find . -depth -type d -name "$target")
@@ -136,7 +136,7 @@ delete_dir() { # 适用 zsh
 	done <<<"$dirs"
 }
 
-record() {
+export record() {
 	local asciinema_file
 	asciinema_file=$(date +%s)
 
