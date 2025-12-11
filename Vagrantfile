@@ -82,6 +82,7 @@ Vagrant.configure("2") do |config|
       vm.vm.synced_folder "~/.ssh", "/host_ssh"
       vm.vm.synced_folder "~/.kube", "/host_kube"
       vm.vm.synced_folder "~/script", "/Users/acejilam/script"
+      vm.vm.synced_folder "~/k8s", "/Users/acejilam/k8s"
       vm.vm.synced_folder "/Volumes/Tf/resources", "/Volumes/Tf/resources"
       vm.vm.synced_folder "/Volumes/Tf/docker_images", "/docker_images"
       vm.vm.synced_folder "/Volumes/Tf/docker-proxy", "/root/docker-proxy"
@@ -103,7 +104,7 @@ Vagrant.configure("2") do |config|
         bash /Users/acejilam/script/linux-install-zsh.sh
         bash /Users/acejilam/script/linux-install-go.sh
         bash /Users/acejilam/script/linux-add-env.sh
-        bash /Users/acejilam/script/linux-install-bpf.sh
+        # bash /Users/acejilam/script/linux-install-bpf.sh
         # bash /Users/acejilam/script/linux-install-rust.sh
 
 #         if [[ $(hostname) == "vm2004" ]]; then

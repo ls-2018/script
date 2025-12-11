@@ -6,13 +6,12 @@ apt install wget vim gcc -y
 
 apt install musl musl-tools musl-dev -y
 
-# version=$(curl -s https://golang.google.cn/dl/ | grep -oP 'go\K[0-9]+\.[0-9]+\.[0-9]+' | sort -V | uniq | tail -n 1)
-version=1.25.1
+version=$(curl -s https://studygolang.com/dl/ | grep -oP 'go\K[0-9]+\.[0-9]+\.[0-9]+' | sort -V | uniq | tail -n 1)
 mkdir /usr/local/go$version
 
 ARCH=$(arch | sed s/aarch64/arm64/ | sed s/x86_64/amd64/)
 
-wget --no-verbose https://golang.google.cn/dl/go$version.linux-$ARCH.tar.gz
+wget --no-verbose https://studygolang.com/dl/golang/go$version.linux-$ARCH.tar.gz
 tar -xf go$version.linux-$ARCH.tar.gz -C /usr/local/go$version --strip-components 1
 rm -rf go$version.linux-$ARCH.tar.gz
 mkdir -p ~/.gopath/{bin,src,pkg}

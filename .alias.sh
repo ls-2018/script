@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 if [[ $(uname) == "Darwin" ]]; then
+	alias docker='docker.py'
 	alias git=git.py
 	alias readelf=greadelf
 	alias objdump=gobjdump
@@ -48,13 +49,13 @@ alias ssh='trzsz --dragfile ssh'
 alias dive="docker run -ti --rm -v /var/run/docker.sock:/var/run/docker.sock `trans_image_name.py docker.io/wagoodman/dive`"
 
 alias k=\'kubectl\'
-alias k8n='k get nodes' 
+alias k8n='k get nodes'
 alias k8ps='k8s-pod-state'
 alias k8ns='k8s-node-cap'
 alias k8pi='kubectl get pods -A -o jsonpath="{range .items[*]}{range .spec.containers[*]}{.image}{\"\n\"}{end}{end}" | sort | uniq'
 alias k8pir='kubectl get pods -A -o jsonpath="{range .items[*]}{range .spec.containers[*]}{.image}{\"\n\"}{end}{end}" | sort | uniq | trans_image_name_reverse.py'
 
-export k8pidiff(){
+ k8pidiff(){
 	k8pi> /tmp/k8pi.txt
 	cat /tmp/k8pi.txt  | trans_image_name_reverse.py > /tmp/k8pir.txt
 	git --no-pager diff /tmp/k8pi.txt /tmp/k8pir.txt
@@ -63,13 +64,13 @@ export k8pidiff(){
 
 
 
-export k8login() {
+ k8login() {
     cluster="$1"
     login_online.py -c "$cluster" && source /tmp/k8s_config.sh
 }
 alias sk='source /tmp/k8s_config.sh'
 
-export gtp() {
+ gtp() {
 	git add .
 	git commit -s -m "$1"
 	git push --force
@@ -78,7 +79,7 @@ export gtp() {
 	git push --tags --force
 }
 
-export fix_path_spaces() {
+ fix_path_spaces() {
 	local fixed_path=""
 	local IFS=':' # 分隔 PATH 变量
 	for entry in $PATH; do
@@ -103,7 +104,7 @@ alias mk="minikube kubectl --"
 # 	find . -depth -type d -name "$1" -print -exec rm -rf {} \;
 # }
 
-export delete_dir() { # 适用 zsh
+ delete_dir() { # 适用 zsh
 	local target="$1"
 	local dirs
 	dirs=$(find . -depth -type d -name "$target")
@@ -136,7 +137,7 @@ export delete_dir() { # 适用 zsh
 	done <<<"$dirs"
 }
 
-export record() {
+ record() {
 	local asciinema_file
 	asciinema_file=$(date +%s)
 

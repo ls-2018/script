@@ -61,7 +61,7 @@ registry = "https://code.aliyun.com/rustcc/crates.io-index.git"
 git-fetch-with-cli=true
 
 [build]
-#target-dir = "$HOME/.cargo/target"
+target-dir = "$HOME/.cargo/target"
 
 EOF
 
