@@ -9,7 +9,10 @@ kubectl delete deployment --all -n $ns --force
 kubectl delete daemonset --all -n $ns --force
 kubectl delete statefulset --all -n $ns --force
 kubectl delete persistentvolumeclaim --all -n $ns --force
-kubectl api-resources --namespaced=true | awk '{print $1}' | xargs -I F kubectl delete F --all -n $ns --force
+kubectl api-resources --namespaced=true -o name |
+	grep -v 'events\|events.k8s.io' |
+	xargs -I{} -P 10 kubectl delete {} --all -n $ns --ignore-not-found
+
 kubectl delete ns $ns --force --timeout=2s || echo timeout
 kubectl get namespace $ns -o json >/tmp/terminate.json
 

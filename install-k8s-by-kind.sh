@@ -1,4 +1,5 @@
-#! /usr/bin/env bash
+#! /usr/bin/env zsh
+
 # kubectl krew install who-can
 # kubectl who-can get secret cluster-admin-creds
 # kubectl krew install rakkess

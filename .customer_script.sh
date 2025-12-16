@@ -57,8 +57,6 @@ export HOMEBREW_BOTTLE_DOMAIN="https://mirrors.tuna.tsinghua.edu.cn/homebrew-bot
 # brew install mysql-connector-c
 # 可解决 pip3 install mysqlclient
 
-
-
 export PATH="/usr/local/opt/mysql-client/bin:$PATH"
 export PATH="/usr/local/opt/make/libexec/gnubin:$PATH"
 export PATH="/usr/local/opt/openssl@3/bin:$PATH"
@@ -93,12 +91,7 @@ fi
 # export CPPFLAGS="-I/opt/homebrew/opt/ffmpeg@5/include"
 # export PKG_CONFIG_PATH="/opt/homebrew/opt/ffmpeg@5/lib/pkgconfig"
 
-
-
 export K8S_DEBUG=1
-
-# https://github.com/stern/stern
-# source <(stern --completion=zsh)
 
 export GIT_EDITOR=code\ --wait
 # git config --global core.editor code
@@ -126,7 +119,7 @@ export GONOSUMDB='gitlab.datacanvas.com,git@gitlab.datacanvas.com'
 export GOFLAGS='-buildvcs=false'
 
 SCRIPT_DIR="$(cd -P "$(dirname "${BASH_SOURCE:-$0}")" && pwd)"
-source "$SCRIPT_DIR/.alias.sh"
+. "$SCRIPT_DIR/.alias.sh"
 
 if test -d "/Volumes/Tf"; then
 	mkdir -p /Volumes/Tf/config
@@ -148,16 +141,18 @@ export PYTHONPATH=$SCRIPT_DIR:$PYTHONPATH
 export LANG="en_US.UTF-8"
 export LC_ALL="en_US.UTF-8"
 
-export skopeo_copy() {
+skopeo_copy() {
 	source_image=$1
 	dest_image=$2
-	echo $source_image  '    ➡️ ➡️ ➡️ ➡️    '  $dest_image
+	echo $source_image '    ➡️ ➡️ ➡️ ➡️    ' $dest_image
 	set -x
 	skopeo copy --all --insecure-policy docker://$source_image docker://${dest_image} "${@:3}"
 	set +x
 }
 
-export parse_cert() {
+alias sc='skopeo_copy.py'
+
+parse_cert() {
 	cert=$1
 	echo $cert | base64 -d >/tmp/cert.txt
 	openssl x509 -noout -text -in /tmp/cert.txt
