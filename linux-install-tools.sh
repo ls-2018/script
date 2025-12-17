@@ -13,7 +13,7 @@ mv ~/.ssh/$(hostname).pub ~/.ssh/id_ed25519.pub
 
 sed -i "s/#UseDNS yes/UseDNS no/g" /etc/ssh/sshd_config
 sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
-sed -i 's/#   StrictHostKeyChecking yes/    StrictHostKeyChecking no/g' /etc/ssh/ssh_config
+sed -i 's/#   StrictHostKeyChecking ask/    StrictHostKeyChecking no/g' /etc/ssh/ssh_config
 
 # ssh-add -D
 systemctl restart ssh
@@ -21,6 +21,7 @@ ufw disable
 systemctl restart ssh
 echo -e "root\nroot" | (passwd root)
 touch ~/.hushlogin
+ls -al ~/.hushlogin
 
 ARCH=$(arch | sed s/aarch64/arm64/ | sed s/x86_64/amd64/)
 

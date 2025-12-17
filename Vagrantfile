@@ -58,11 +58,11 @@ Vagrant.configure("2") do |config|
     if Vagrant.has_plugin?("vagrant-vbguest")
       config.vbguest.auto_update = false
       config.vbguest.no_remote = false     # 允许下载 VBoxGuestAdditions.iso
-      config.vbguest.auto_reboot = true    # 自动重启以应用更新
-      config.vbguest.installer_options = {
-        run: "always",   # 每次 up/reload 都检查
-        allow_install: true
-      }
+      config.vbguest.auto_reboot = false    # 自动重启以应用更新
+#       config.vbguest.installer_options = {
+#         run: "always",   # 每次 up/reload 都检查
+#         allow_install: true
+#       }
     end
 
     config.vm.define vm_config['name'] do |vm|
@@ -82,9 +82,7 @@ Vagrant.configure("2") do |config|
       vm.vm.synced_folder "~/.ssh", "/host_ssh"
       vm.vm.synced_folder "~/script", "/Users/acejilam/script"
       vm.vm.synced_folder "~/k8s", "/Users/acejilam/k8s"
-      vm.vm.synced_folder "/Volumes/Tf/resources", "/Volumes/Tf/resources"
-      vm.vm.synced_folder "/Volumes/Tf/docker_images", "/docker_images"
-      vm.vm.synced_folder "/Volumes/Tf/docker-proxy", "/root/docker-proxy"
+      vm.vm.synced_folder "/Volumes/Tf/", "/Volumes/Tf/"
       vm.vm.synced_folder "~/.cargo/target", "/root/.cargo/target"
       vm.vm.synced_folder "~/.cargo/registry", "/root/.cargo/registry"
       vm.vm.synced_folder "~/.cargo/git", "/root/.cargo/git"
@@ -95,7 +93,7 @@ Vagrant.configure("2") do |config|
 
       vm.vm.provision "shell", env: {"HOSTS_CONTENT" => hosts_string, "IP" => vm_config["ip"]}, inline: <<-SHELL
         set -v
-        echo "$HOSTS_CONTENT" w>> /etc/hosts
+        echo "$HOSTS_CONTENT" >> /etc/hosts
         set -ex
         bash /Users/acejilam/script/vagrant-fixip.sh $IP
         bash /Users/acejilam/script/linux-replace-sources.sh
@@ -105,7 +103,7 @@ Vagrant.configure("2") do |config|
         bash /Users/acejilam/script/linux-install-go.sh
         bash /Users/acejilam/script/linux-add-env.sh
         # bash /Users/acejilam/script/linux-install-bpf.sh
-        # bash /Users/acejilam/script/linux-install-rust.sh
+        bash /Users/acejilam/script/linux-install-rust.sh
 
 #         if [[ $(hostname) == "vm2004" ]]; then
 #           sudo apt-get install nfs-kernel-server rpcbind selinux-utils nfs-common -y
@@ -124,9 +122,6 @@ Vagrant.configure("2") do |config|
 #           # bash /Users/acejilam/script/linux-install-k8s.sh
 #           echo "over"
 #         fi
-      SHELL
-      # SSHFS 自动安装客户端，不需要额外配置
-      vm.vm.provision "shell",run: "always", inline: <<-SHELL
       SHELL
     end
   end
