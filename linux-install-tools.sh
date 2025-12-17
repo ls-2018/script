@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 mkdir -p ~/.ssh
 
-set -x
+set -ex
 
 cat /host_ssh/id_ed25519.pub >>~/.ssh/authorized_keys
 ls /Volumes/Tf/resources/ssh | grep pub | xargs -I {} cat /Volumes/Tf/resources/ssh/{} | tee -a ~/.ssh/authorized_keys
@@ -12,13 +12,11 @@ chmod 600 ~/.ssh/id_ed25519
 mv ~/.ssh/$(hostname).pub ~/.ssh/id_ed25519.pub
 
 sed -i "s/#UseDNS yes/UseDNS no/g" /etc/ssh/sshd_config
-# sudo sed -i 's/^#* *\\(PermitRootLogin\\)\\(.*\\)$/\\1 yes/' /etc/ssh/sshd_config
-# sudo sed -i 's/^#* *\\(PasswordAuthentication\\)\\(.*\\)$/\\1 yes/' /etc/ssh/sshd_config
-sed -i 's/^#* *\(PermitRootLogin\)\(.*\)$/\1 yes/' /etc/ssh/sshd_config
-sed -i 's/^#* *\(PasswordAuthentication\)\(.*\)$/\1 yes/' /etc/ssh/sshd_config
-# 跳过 yes 选择
-sed -i 's/^#* *\(StrictHostKeyChecking\)\(.*\)$/\1 no/' /etc/ssh/ssh_config
+sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+sed -i 's/#   StrictHostKeyChecking yes/    StrictHostKeyChecking no/g' /etc/ssh/ssh_config
 
+# ssh-add -D
+systemctl restart ssh
 ufw disable
 systemctl restart ssh
 echo -e "root\nroot" | (passwd root)

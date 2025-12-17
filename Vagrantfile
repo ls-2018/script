@@ -96,6 +96,7 @@ Vagrant.configure("2") do |config|
       vm.vm.provision "shell", env: {"HOSTS_CONTENT" => hosts_string, "IP" => vm_config["ip"]}, inline: <<-SHELL
         set -v
         echo "$HOSTS_CONTENT" w>> /etc/hosts
+        set -ex
         bash /Users/acejilam/script/vagrant-fixip.sh $IP
         bash /Users/acejilam/script/linux-replace-sources.sh
         bash /Users/acejilam/script/linux-install-tools.sh
@@ -126,7 +127,6 @@ Vagrant.configure("2") do |config|
       SHELL
       # SSHFS 自动安装客户端，不需要额外配置
       vm.vm.provision "shell",run: "always", inline: <<-SHELL
-        echo "Using SSHFS for shared folders"
       SHELL
     end
   end

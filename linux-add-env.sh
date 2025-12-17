@@ -1,3 +1,4 @@
+set -ex
 rm -rf ~/.customer_script.sh
 rm -rf ~/.linux-env-bash.env
 rm -rf ~/.linux-env-zsh.env

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -x
+set -ex
 echo "查看当前的 LVM 配置..."
 
 export DEVPATH=$(lvdisplay | grep 'LV Path' | awk -F ' ' '{print $3}')

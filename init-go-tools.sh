@@ -73,7 +73,9 @@ go install github.com/mfridman/tparse@28967170dce4f9f13de77ec857f7aed4c4294a5f #
 
 # tools
 go install github.com/trzsz/trzsz-go/cmd/...@latest
-
+go install github.com/trzsz/trzsz-go/cmd/trz@latest
+go install github.com/trzsz/trzsz-go/cmd/tsz@latest
+go install github.com/trzsz/trzsz-go/cmd/trzsz@latest
 # cert
 go install github.com/cloudflare/cfssl/cmd/...@latest
 

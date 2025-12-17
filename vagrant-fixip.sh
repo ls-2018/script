@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -ex
 fix_ip=${1-}
 
 # 获取 eth0 的 MAC 地址

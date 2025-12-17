@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -v
+set -ex
 touch ~/.hushlogin # 关闭登录提示
 onlyUpdate=$1
 rm -rf /etc/apt/sources.list.d/gierens.list
@@ -20,25 +20,25 @@ rm -rf /etc/apt/sources.list.d/gierens.list
 # "中国科学院软件研究所@mirror.iscas.ac.cn"
 
 curl -sSL https://gitee.com/SuperManito/LinuxMirrors/raw/main/ChangeMirrors.sh | bash -s -- \
-	--source mirrors.ustc.edu.cn \
-	--protocol https \
-	--use-intranet-source false \
-	--install-epel true \
-	--backup true \
-	--upgrade-software false \
-	--clean-cache false \
-	--ignore-backup-tips
+  --source mirrors.ustc.edu.cn \
+  --protocol https \
+  --use-intranet-source false \
+  --install-epel true \
+  --backup true \
+  --upgrade-software false \
+  --clean-cache false \
+  --ignore-backup-tips
 
 if command -v apt-get &>/dev/null; then
-	localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
-	apt-get update && echo "🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥"
-	if [[ $onlyUpdate == "update" ]]; then
-		apt install apt-transport-https ca-certificates -y
-		apt install curl git make cmake htop bridge-utils net-tools inetutils-ping -y
+  localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
+  apt-get update && echo "🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥🐥"
+  if [[ $onlyUpdate == "update" ]]; then
+    apt install apt-transport-https ca-certificates -y
+    apt install curl git make cmake htop bridge-utils net-tools inetutils-ping -y
 
-		systemctl stop unattended-upgrades.service
-		systemctl disable unattended-upgrades.service
-	fi
+    systemctl stop unattended-upgrades.service
+    systemctl disable unattended-upgrades.service
+  fi
 fi
 
 echo "success"
@@ -49,13 +49,13 @@ DNS=114.114.114.114
 EOF
 
 if command -v systemctl &>/dev/null; then
-	systemctl restart systemd-resolved
+  systemctl restart systemd-resolved
 fi
 if command -v resolvectl &>/dev/null; then
-	resolvectl status
+  resolvectl status
 fi
 
 # 禁止内核自动升级
 apt-mark hold linux-image-generic linux-headers-generic
-systemctl stop unattended-upgrades
-systemctl disable unattended-upgrades
+systemctl stop unattended-upgrades || true
+systemctl disable unattended-upgrades || true
