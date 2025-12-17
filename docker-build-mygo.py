@@ -3,10 +3,22 @@ import os
 import shutil
 import subprocess
 import sys
-
+import importlib.util
 import requests
 
-from .trans_image_name import trans_image
+def import_from_path(path: str, module_name: str = None):
+    if module_name is None:
+        module_name = f"module_{abs(hash(path))}"
+
+    spec = importlib.util.spec_from_file_location(module_name, path)
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[module_name] = module
+    spec.loader.exec_module(module)
+    return module
+
+m=import_from_path(os.path.join(os.path.dirname(os.path.abspath(__file__)),"trans_image_name.py"))
+
+ 
 
 build_path = '/tmp/build-mygo'
 
@@ -71,7 +83,7 @@ apt install telnet dnsutils upx iproute2 net-tools -y
 
 '''
 
-img = trans_image('docker.io/library/ubuntu:24.04')
+img = m.trans_image('docker.io/library/ubuntu:24.04')
 dockerfile = f'''
 FROM {img}
 COPY localtime /etc/localtime
