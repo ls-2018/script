@@ -18,7 +18,7 @@ EOF
 
 cp /Volumes/Tf/resources/sh/install-rust.sh install-rust.sh && chmod +x install-rust.sh
 
-./install-rust.sh -y -v
+./install-rust.sh -y
 
 cat <<EOF >"$HOME"/.cargo/config.toml
 [source.crates-io]
