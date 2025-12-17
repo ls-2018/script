@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 ACEHOME="/Users/acejilam"
+SCRIPT_DIR="$(cd -P "$(dirname "${BASH_SOURCE:-$0}")" && pwd)"
 
 # setopt no_nomatch
 export GOPATH=${ACEHOME}/.gopath
@@ -73,6 +74,7 @@ export PATH="/Library/Frameworks/Python.framework/Versions/3.12/bin:$PATH"
 
 ARCH=$(arch | sed s/aarch64/arm64/ | sed s/x86_64/amd64/)
 if [[ $(uname) == "Darwin" ]]; then
+	. "$SCRIPT_DIR/.alias.sh"
 	test -e ${ACEHOME}/.gopath/bin/kubectl || {
 		curl -LO "https://files.m.daocloud.io/dl.k8s.io/release/$(curl -L -s https://files.m.daocloud.io/dl.k8s.io/release/stable.txt)/bin/$(uname | tr '[:upper:]' '[:lower:]')/${ARCH}/kubectl"
 		chmod +x kubectl
@@ -117,9 +119,6 @@ export GONOPROXY='gitlab.datacanvas.com/*,git@gitlab.datacanvas.com/*'
 export GOPRIVATE='gitlab.datacanvas.com/*,git@gitlab.datacanvas.com/*'
 export GONOSUMDB='gitlab.datacanvas.com,git@gitlab.datacanvas.com'
 export GOFLAGS='-buildvcs=false'
-
-SCRIPT_DIR="$(cd -P "$(dirname "${BASH_SOURCE:-$0}")" && pwd)"
-. "$SCRIPT_DIR/.alias.sh"
 
 if test -d "/Volumes/Tf"; then
 	mkdir -p /Volumes/Tf/config

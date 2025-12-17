@@ -14,9 +14,6 @@ else
 	echo 'source ~/.customer_script.sh' | tee -a ~/.bashrc
 	echo 'source ~/.linux-env-bash.env' | tee -a ~/.bashrc
 
-	echo 'source ~/.customer_script.sh' | tee -a /etc/profile
-	echo 'source ~/.linux-env-bash.env' | tee -a /etc/profile
-
 	echo 'source ~/.customer_script.sh' | tee -a ~/.zshrc
 	echo 'source ~/.linux-env-zsh.env' | tee -a ~/.zshrc
 

@@ -51,12 +51,10 @@ alias dive="docker run -ti --rm -v /var/run/docker.sock:/var/run/docker.sock $(t
 # Only run Zsh completion commands if we're in Zsh and compdef is available
 if [ -n "$ZSH_VERSION" ] && type compdef >/dev/null 2>&1; then
 	# https://github.com/stern/stern
-	source <(stern --completion=zsh)
-
-	source <(kubectl completion zsh)
+	command -v stern >/dev/null 2>&1  && source <(stern --completion=zsh)
+	command -v kubectl >/dev/null 2>&1  && source <(kubectl completion zsh)
 	compdef kubecolor=kubectl
 	export KUBECOLOR_PRESET="protanopia-dark"
-
 fi
 
 alias k=\'kubecolor\'
