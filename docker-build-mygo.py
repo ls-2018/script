@@ -6,7 +6,7 @@ import sys
 
 import requests
 
-from trans_image_name import trans_image
+from .trans_image_name import trans_image
 
 build_path = '/tmp/build-mygo'
 
