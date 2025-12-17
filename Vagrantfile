@@ -80,7 +80,6 @@ Vagrant.configure("2") do |config|
 
       vm.vm.synced_folder ".", "/vagrant", disabled: true
       vm.vm.synced_folder "~/.ssh", "/host_ssh"
-      vm.vm.synced_folder "~/.kube", "/host_kube"
       vm.vm.synced_folder "~/script", "/Users/acejilam/script"
       vm.vm.synced_folder "~/k8s", "/Users/acejilam/k8s"
       vm.vm.synced_folder "/Volumes/Tf/resources", "/Volumes/Tf/resources"
@@ -125,11 +124,10 @@ Vagrant.configure("2") do |config|
 #           echo "over"
 #         fi
       SHELL
-      # 确保 vbguest
+      # SSHFS 自动安装客户端，不需要额外配置
       vm.vm.provision "shell",run: "always", inline: <<-SHELL
-        apt-get install -y build-essential dkms linux-headers-$(uname -r)
+        echo "Using SSHFS for shared folders"
       SHELL
-
     end
   end
 end

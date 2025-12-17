@@ -65,19 +65,19 @@ for vm in vm_names:
 for t in threads:
     t.join()
 
-# 保存快照并重载
-os.chdir(vm_path)
-print(['vagrant', 'halt'])
-subprocess.run(['vagrant', 'halt'], check=False)
-print(['vagrant', 'snapshot', 'save', 'init', "--force"])
-subprocess.run(['vagrant', 'snapshot', 'save', 'init', "--force"], check=False)
-print(['vagrant', 'reload'])
-subprocess.run(['vagrant', 'reload'], check=False)
-for vm in vm_names:
-    print(['ssh', f"root@{vm}", 'apt-get install -y build-essential dkms linux-headers-$(uname -r)'])
-    subprocess.run(
-        ['ssh', f"root@{vm}", 'apt-get install -y build-essential dkms linux-headers-$(uname -r)'],
-        check=False
-    )
-print(['vagrant', 'reload'])
-subprocess.run(['vagrant', 'reload'], check=False)
+# # 保存快照并重载
+# os.chdir(vm_path)
+# print(['vagrant', 'halt'])
+# subprocess.run(['vagrant', 'halt'], check=False)
+# print(['vagrant', 'snapshot', 'save', 'init', "--force"])
+# subprocess.run(['vagrant', 'snapshot', 'save', 'init', "--force"], check=False)
+# print(['vagrant', 'reload'])
+# subprocess.run(['vagrant', 'reload'], check=False)
+# for vm in vm_names:
+#     print(['ssh', f"root@{vm}", 'apt-get install -y build-essential dkms linux-headers-$(uname -r)'])
+#     subprocess.run(
+#         ['ssh', f"root@{vm}", 'apt-get install -y build-essential dkms linux-headers-$(uname -r)'],
+#         check=False
+#     )
+# print(['vagrant', 'reload'])
+# subprocess.run(['vagrant', 'reload'], check=False)

@@ -2,7 +2,7 @@ cat <<COMMENT >/dev/null
 apt install openssh-server net-tools vim htop -y
 sed -i 's@/root@/Users/acejilam@g' /etc/passwd
 
-mkdir -p /Users/acejilam/script /Users/acejilam/resources /resources /host_ssh /host_kube /Users/acejilam/.kube /Users/acejilam/.docker_images
+mkdir -p /Users/acejilam/script /Users/acejilam/resources /resources /host_ssh /Users/acejilam/.kube /Users/acejilam/.docker_images
 chmod 700 /Users/acejilam
 chown root:root /Users/acejilam
 COMMENT
