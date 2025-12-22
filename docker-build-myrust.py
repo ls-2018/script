@@ -62,7 +62,6 @@ WORKDIR /build
 ENV TZ=Asia/Shanghai
 
 ENV DEBIAN_FRONTEND=noninteractive
-PATH=":$PATH"
 ENV CGO_ENABLED="0"
 ENV GO111MODULE=on
 ENV PATH=/root/.cargo/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
@@ -99,6 +98,8 @@ shutil.copyfile(
     os.path.join(os.path.dirname(os.path.abspath(__file__)), 'localtime'),
     os.path.join(build_path, 'localtime')
 )
+with open(f'{build_path}/Dockerfile', 'w') as f:
+    f.write(dockerfile)
 
 with open(f'{build_path}/.dockerignore', 'w') as f:
     f.write('Dockerfile\n')
