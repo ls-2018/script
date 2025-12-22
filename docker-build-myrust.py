@@ -13,12 +13,19 @@ with open(
 ) as f:
     install_rust = f.read()
 
-with open(
-        os.path.join(os.path.dirname(os.path.abspath(__file__)), "init-rust.sh"),
-        'r',
-        encoding='utf8'
-) as f:
-    install_rust_bin = f.read()
+
+install_rust_bin = '''
+rustup override set stable
+rustup toolchain uninstall nightly
+rustup toolchain install nightly
+
+git clone https://github.com/aya-rs/aya aya
+cd aya && time cargo install --path ./aya-tool/ && cd - || exit
+rm -rf aya
+cargo install cargo-expand
+cargo install cargo-generate
+cargo install bindgen-cli
+'''
 
 with open(
         os.path.join(os.path.dirname(os.path.abspath(__file__)), "linux-install-zsh-docker.sh"),
@@ -71,6 +78,7 @@ RUN bash install_system_bin.sh
 RUN bash install_kubectl.sh
 RUN bash install_zsh.sh
 RUN bash install_rust.sh
+RUN bash install_llvm.sh
 RUN bash install_rust_bin.sh && rm -rf /root/.cargo/{{git,registry}}
 WORKDIR /
 RUN rm -rf /build
@@ -78,6 +86,8 @@ CMD ["zsh"]
 
 '''
 
+
+ 
 print('docker buildx create --use --name myrust')
 try:
     shutil.rmtree(build_path, ignore_errors=True)
