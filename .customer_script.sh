@@ -3,6 +3,11 @@
 ACEHOME="/Users/acejilam"
 SCRIPT_DIR="$(cd -P "$(dirname "${BASH_SOURCE:-$0}")" && pwd)"
 
+DOCKER_SCRIPT="$SCRIPT_DIR/docker.py"
+test -e $DOCKER_SCRIPT && {
+	alias docker=$DOCKER_SCRIPT
+}
+
 # setopt no_nomatch
 export GOPATH=${ACEHOME}/.gopath
 export SDKROOT=/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk

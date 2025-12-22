@@ -1,11 +1,13 @@
 #!/usr/bin/env bash
 
 if [[ $(uname) == "Darwin" ]]; then
-	alias docker='docker.py'
 	alias git=git.py
 	alias readelf=greadelf
 	alias objdump=gobjdump
 	# alias ping=gping
+
+	alias docker='docker.py'
+
 	alias sed=gsed
 	alias find=gfind
 	test -e ~/.k8sconfig || {

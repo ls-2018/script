@@ -16,9 +16,7 @@ EOF
 
 . "$HOME"/.cargo/env
 
-cp /Volumes/Tf/resources/sh/install-rust.sh install-rust.sh && chmod +x install-rust.sh
-
-./install-rust.sh -y
+wget https://mirrors.aliyun.com/repo/rust/rustup-init.sh && chmod +x rustup-init.sh && bash ./rustup-init.sh -y
 
 cat <<EOF >"$HOME"/.cargo/config.toml
 [source.crates-io]
@@ -60,7 +58,7 @@ registry = "https://code.aliyun.com/rustcc/crates.io-index.git"
 git-fetch-with-cli=true
 
 [build]
-target-dir = "$HOME/.cargo/target"
+#target-dir = "$HOME/.cargo/target"
 
 EOF
 

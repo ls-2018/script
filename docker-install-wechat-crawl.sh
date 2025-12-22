@@ -1,3 +1,7 @@
+#! /usr/bin/env zsh
+SCRIPT_DIR="$(cd -P "$(dirname "${BASH_SOURCE:-$0}")" && pwd)"
+source "$SCRIPT_DIR/.alias.sh"
+
 dataDir="/Users/acejilam/Documents/wechat"
 
 # dataDir="/Volumes/Tf/data/wechat"
