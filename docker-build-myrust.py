@@ -87,7 +87,8 @@ try:
     os.mkdir(build_path)
 except:
     pass
-repo = sys.argv[2].strip('')
+
+repo = sys.argv[1].strip('')
 
 shutil.copyfile(
     os.path.join(os.path.dirname(os.path.abspath(__file__)), '.p10k.zsh'),
