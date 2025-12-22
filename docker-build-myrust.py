@@ -82,6 +82,7 @@ RUN rm -rf /build
 CMD ["zsh"]
 
 FROM base AS build 
+COPY --from=build /tmp/build-myrust/init_rust.sh .
 RUN bash init_rust.sh
 
 FROM base 
