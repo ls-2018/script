@@ -12,15 +12,13 @@ with open(
         encoding='utf8'
 ) as f:
     install_rust = f.read()
+
 with open(
         os.path.join(os.path.dirname(os.path.abspath(__file__)), "init-rust.sh"),
         'r',
         encoding='utf8'
 ) as f:
-    init_rust = f.read()
-
-install_rust_bin = '''
-'''
+    install_rust_bin = f.read()
 
 with open(
         os.path.join(os.path.dirname(os.path.abspath(__file__)), "linux-install-zsh-docker.sh"),
@@ -73,8 +71,7 @@ RUN bash install_system_bin.sh
 RUN bash install_kubectl.sh
 RUN bash install_zsh.sh
 RUN bash install_rust.sh
-RUN bash install_rust_bin.sh
-RUN bash init_rust.sh && rm -rf /root/.cargo/{{git,registry}}
+RUN bash install_rust_bin.sh && rm -rf /root/.cargo/{{git,registry}}
 WORKDIR /
 RUN rm -rf /build
 CMD ["zsh"]
