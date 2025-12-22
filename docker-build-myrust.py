@@ -78,7 +78,6 @@ RUN bash install_system_bin.sh
 RUN bash install_kubectl.sh
 RUN bash install_zsh.sh
 RUN bash install_rust.sh
-RUN bash install_llvm.sh
 RUN bash install_rust_bin.sh && rm -rf /root/.cargo/{{git,registry}}
 WORKDIR /
 RUN rm -rf /build
