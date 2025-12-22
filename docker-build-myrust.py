@@ -62,9 +62,6 @@ dockerfile = f'''
 FROM docker.io/library/ubuntu:24.04 AS base
 COPY localtime /etc/localtime
 WORKDIR /build
-# ENV LANG=en_US.UTF-8
-# ENV LANGUAGE=en_US:en
-# ENV LC_ALL=en_US.UTF-8
 ENV TZ=Asia/Shanghai
 ENV DEBIAN_FRONTEND=noninteractive
 ENV CGO_ENABLED="0"
@@ -77,18 +74,10 @@ RUN bash install_kubectl.sh
 RUN bash install_zsh.sh
 RUN bash install_rust.sh
 RUN bash install_rust_bin.sh
+RUN bash init_rust.sh && rm -rf /root/.cargo/{{git,registry}}
 WORKDIR /
 RUN rm -rf /build
 CMD ["zsh"]
-
-FROM base AS build 
-COPY --from=build /tmp/build-myrust/init_rust.sh .
-RUN bash init_rust.sh
-
-FROM base 
-COPY --from=build /root/.cargo/bin/* /root/.cargo/bin/
-
-
 
 '''
 
