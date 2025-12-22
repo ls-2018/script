@@ -12,6 +12,12 @@ with open(
         encoding='utf8'
 ) as f:
     install_rust = f.read()
+with open(
+        os.path.join(os.path.dirname(os.path.abspath(__file__)), "init-rust.sh"),
+        'r',
+        encoding='utf8'
+) as f:
+    init_rust = f.read()
 
 install_rust_bin = '''
 '''
@@ -53,31 +59,36 @@ apt install telnet dnsutils upx iproute2 net-tools -y
 '''
 
 dockerfile = f'''
-FROM docker.io/library/ubuntu:24.04
+FROM docker.io/library/ubuntu:24.04 AS base
 COPY localtime /etc/localtime
 WORKDIR /build
 # ENV LANG=en_US.UTF-8
 # ENV LANGUAGE=en_US:en
 # ENV LC_ALL=en_US.UTF-8
 ENV TZ=Asia/Shanghai
-
 ENV DEBIAN_FRONTEND=noninteractive
 ENV CGO_ENABLED="0"
 ENV GO111MODULE=on
 ENV PATH=/root/.cargo/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-
 COPY . .
-
 RUN bash install_source.sh
 RUN bash install_system_bin.sh
 RUN bash install_kubectl.sh
 RUN bash install_zsh.sh
 RUN bash install_rust.sh
 RUN bash install_rust_bin.sh
-
 WORKDIR /
 RUN rm -rf /build
 CMD ["zsh"]
+
+FROM base AS build 
+RUN bash init_rust.sh
+
+FROM base 
+COPY --from=build /root/.cargo/bin/* /root/.cargo/bin/
+
+
+
 '''
 
 print('docker buildx create --use --name myrust')
@@ -98,8 +109,14 @@ shutil.copyfile(
     os.path.join(os.path.dirname(os.path.abspath(__file__)), 'localtime'),
     os.path.join(build_path, 'localtime')
 )
-with open(f'{build_path}/Dockerfile', 'w') as f:
-    f.write(dockerfile)
+
+for k, v in dict(globals()).items():
+    if k.startswith('install_'):
+        with open(f'{build_path}/{k}.sh', 'w') as f:
+            f.write(v)
+    if k == "dockerfile":
+        with open(f'{build_path}/Dockerfile', 'w') as f:
+            f.write(v)
 
 with open(f'{build_path}/.dockerignore', 'w') as f:
     f.write('Dockerfile\n')
