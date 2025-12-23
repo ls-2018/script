@@ -46,7 +46,7 @@ alias unproxy='unset https_proxy && unset http_proxy && unset all_proxy'
 alias docker-clean-unused='docker system prune --all --force --volumes'
 alias docker-clean-all='docker stop $(docker container ls -a -q) && docker system prune --all --force --volumes'
 
-# alias ssh='trzsz --dragfile ssh'
+alias ssh='trzsz --dragfile ssh'
 # alias dive="docker run -ti --rm -v /var/run/docker.sock:/var/run/docker.sock wagoodman/dive"
 alias dive="docker run -ti --rm -v /var/run/docker.sock:/var/run/docker.sock $(trans_image_name.py docker.io/wagoodman/dive)"
 

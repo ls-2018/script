@@ -28,7 +28,7 @@ metadata:
   name: ${ROLE_NAME}
   namespace: ${NAMESPACE}
 rules:
-- apiGroups: ["","kubeflow.org","scheduling.volcano.sh","batch.volcano.sh","rbac.authorization.k8s.io"]
+- apiGroups: ["*"]
   resources: ["*"]
   verbs: ["get", "list", "watch"]
 EOF
