@@ -6,15 +6,14 @@ rustup toolchain install nightly
 
 # git config --global url."https://ghproxy.net/https://github.com".insteadOf "https://github.com"
 if test -d "/Volumes/Tf/resources/3rd/aya"; then
-  cp /Volumes/Tf/resources/3rd/aya ./aya
-  cd aya && time cargo install --path ./aya-tool/ && cd - || exit
-  rm -rf aya
+	cp /Volumes/Tf/resources/3rd/aya ./aya
+	cd aya && time cargo install --path ./aya-tool/ && cd - || exit
+	rm -rf aya
 else
-  git clone https://github.com/aya-rs/aya aya
-  cd aya && time cargo install --path ./aya-tool/ && cd - || exit
-  rm -rf aya
+	git clone https://github.com/aya-rs/aya aya
+	cd aya && time cargo install --path ./aya-tool/ && cd - || exit
+	rm -rf aya
 fi
-
 
 # 终端录屏工具
 cargo install --locked --git https://github.com/asciinema/asciinema

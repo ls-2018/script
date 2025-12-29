@@ -149,9 +149,13 @@ skopeo_copy() {
 	source_image=$1
 	dest_image=$2
 	echo $source_image '    ➡️ ➡️ ➡️ ➡️    ' $dest_image
+	rm /tmp/skopeo_copy_success
 	set -x
 	skopeo copy --all --insecure-policy docker://$source_image docker://${dest_image} "${@:3}"
 	set +x
+	if [ $? -eq 0 ]; then
+		touch /tmp/skopeo_copy_success
+	fi
 }
 
 alias sc='skopeo_copy.py'
