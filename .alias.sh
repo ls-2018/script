@@ -64,11 +64,14 @@ alias k8n='k get nodes'
 alias k8ps='k8s-pod-state'
 alias k8ns='k8s-node-cap'
 k8pi() {
+	set -x 
 	namespace="$1"
 	k get pods -n "${namespace}" -o jsonpath="{range .items[*]}{range .spec.containers[*]}{.image}{\"\n\"}{end}{end}" | sort | uniq
 }
 k8pir() {
+	set -x
 	namespace="$1"
+	
 	k get pods -n "${namespace}" -o jsonpath="{range .items[*]}{range .spec.containers[*]}{.image}{\"\n\"}{end}{end}" | sort | uniq | trans_image_name_reverse.py
 }
 
