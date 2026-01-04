@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import copy
 import os
 import shlex
 import sys
@@ -15,10 +16,15 @@ if len(sys.argv) == 1:
     os.system(docker_bin)
     sys.exit(0)
 
+cmds_bak = copy.deepcopy(sys.argv)
+cmds_bak[0] = docker_bin
+if sys.argv[1] in ['run', 'pull', 'rmi', 'rm', 'tag', 'save']:
+    print("➡️ ➡️ ➡️ ➡️", cmds_bak, flush=True)
+    os.system(" ".join(shlex.quote(x) for x in cmds_bak))
+    sys.exit(0)
+
 for item in sys.argv[1:]:
     cmds.append(trans_image(item))
-if sys.argv[1] in ['run', 'pull', 'rmi', 'rm']:
-    print("➡️ ➡️ ➡️ ➡️", cmds, flush=True)
 os.system(" ".join(shlex.quote(x) for x in cmds))
 
 
