@@ -73,3 +73,6 @@ export PATH="$HOME/.cargo/bin:$PATH"
 apt install pkg-config libssl-dev -y
 
 # bash /Users/acejilam/script/init-rust.sh
+
+cargo install sccache 
+sccache --zero-stats && cargo clean
