@@ -25,7 +25,7 @@ go version
 go env
 
 wget https://github.com/tinygo-org/tinygo/releases/download/v0.40.1/tinygo_0.40.1_${ARCH}.deb
-sudo dpkg -i tinygo_0.40.1_${ARCH}.deb
+dpkg -i tinygo_0.40.1_${ARCH}.deb
 rm -rf tinygo_0.40.1_${ARCH}.deb
 
 '''
@@ -46,6 +46,7 @@ with open(
 install_source = '''
 rm -rf /usr/local/go* || echo 1
 rm -rf ./go*  		  || echo 1
+apt update && apt install curl -y
 curl -sSL https://linuxmirrors.cn/main.sh | bash -s -- \
     --source mirrors.tencent.com \
     --protocol https \
