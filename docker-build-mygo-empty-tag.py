@@ -17,6 +17,9 @@ for tag in tags.split('\n'):
     os.system(f'cd {basedir} && git tag -d {tag}')
 
 os.system(f'cd {basedir} && git add . && git commit -s -m "tags" ')
-os.system(f'cd {basedir} && git push') 
+os.system(f'cd {basedir} && git push')
+
+os.system('delete-github-action.sh cancel ls-2018 script')
+os.system('delete-github-action.sh delete ls-2018 script')
 
 os.system(f'cd {basedir} && git tag tags && git push origin --tags --force')
