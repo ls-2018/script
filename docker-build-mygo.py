@@ -144,7 +144,7 @@ with open(f'{build_path}/.dockerignore', 'w') as f:
 
 print('Start build image...')
 with open(f'{build_path}/Dockerfile', 'r', encoding='utf8') as f:
-    print(f.read())
+    print(f.read(), flush=True)
 
 if version == 'latest':
     tag_version = 'latest'
