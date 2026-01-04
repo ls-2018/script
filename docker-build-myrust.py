@@ -13,7 +13,6 @@ with open(
 ) as f:
     install_rust = f.read()
 
-
 install_rust_bin = '''
 rustup override set stable
 rustup toolchain uninstall nightly
@@ -85,8 +84,6 @@ CMD ["zsh"]
 
 '''
 
-
- 
 print('docker buildx create --use --name myrust')
 try:
     shutil.rmtree(build_path, ignore_errors=True)
@@ -133,8 +130,13 @@ docker buildx build \
 --pull -t {repo}/myrust:{tag_version} --push .
 '''
 
-print(build_script)
+print('Start build image...')
+with open(f'{build_path}/Dockerfile', 'r', encoding='utf8') as f:
+    print(f.read(), flush=True)
+
+print(build_script, flush=True)
 result = subprocess.run(build_script, shell=True)
 if result.returncode != 0:
     sys.exit(result.returncode)
+
 print(f'{repo}/myrust:{tag_version}')

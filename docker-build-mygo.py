@@ -142,10 +142,6 @@ for k, v in dict(globals()).items():
 with open(f'{build_path}/.dockerignore', 'w') as f:
     f.write('Dockerfile\n')
 
-print('Start build image...')
-with open(f'{build_path}/Dockerfile', 'r', encoding='utf8') as f:
-    print(f.read(), flush=True)
-
 if version == 'latest':
     tag_version = 'latest'
 else:
@@ -160,8 +156,13 @@ docker buildx build \
 --pull -t {repo}/mygo:{tag_version} --push .
 '''
 
-print(build_script)
+print('Start build image...')
+with open(f'{build_path}/Dockerfile', 'r', encoding='utf8') as f:
+    print(f.read(), flush=True)
+
+print(build_script, flush=True)
 result = subprocess.run(build_script, shell=True)
 if result.returncode != 0:
     sys.exit(result.returncode)
+
 print(f'{repo}/mygo:v{version}')
