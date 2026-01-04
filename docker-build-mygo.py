@@ -3,6 +3,7 @@ import os
 import shutil
 import subprocess
 import sys
+
 import requests
 
 build_path = '/tmp/build-mygo'
@@ -139,6 +140,10 @@ for k, v in dict(globals()).items():
 
 with open(f'{build_path}/.dockerignore', 'w') as f:
     f.write('Dockerfile\n')
+
+print('Start build image...')
+with open(f'Dockerfile', 'r', encoding='utf8') as f:
+    print(f.read())
 
 if version == 'latest':
     tag_version = 'latest'
