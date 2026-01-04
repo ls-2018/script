@@ -60,7 +60,7 @@ git-fetch-with-cli=true
 [build]
 #target-dir = "$HOME/.cargo/target"
 #export RUSTC_WRAPPER="sccache"
-rustc-wrapper = "sccache"
+#rustc-wrapper = "sccache"
 
 EOF
 
