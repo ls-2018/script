@@ -19,4 +19,4 @@ for tag in tags.split('\n'):
 os.system(f'cd {basedir} && git add . && git commit -s -m "tags" ')
 os.system(f'cd {basedir} && git push') 
 
-os.system(f'cd {basedir} && git tag -d tags && git push origin --tags --force')
+os.system(f'cd {basedir} && git tag tags && git push origin --tags --force')
