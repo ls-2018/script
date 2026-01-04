@@ -2,9 +2,9 @@ kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
 # containerdConfigPatches:
 # - |
-#   [plugins."io.containerd.grpc.v1.cri".registry.mirrors."registry.cn-hangzhou.aliyuncs.com"]
-#     endpoint = ["http://registry.cn-hangzhou.aliyuncs.com:443"]
-#   [plugins."io.containerd.grpc.v1.cri".registry.configs."registry.cn-hangzhou.aliyuncs.com".tls]
+#   [plugins."io.containerd.grpc.v1.cri".registry.mirrors."ccr.ccs.tencentyun.com"]
+#     endpoint = ["http://ccr.ccs.tencentyun.com:443"]
+#   [plugins."io.containerd.grpc.v1.cri".registry.configs."ccr.ccs.tencentyun.com".tls]
 #     insecure_skip_verify = true
 
 # networking:

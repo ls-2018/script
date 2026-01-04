@@ -21,7 +21,7 @@ for i in range(5):
         ip = subprocess.getoutput(f'ipconfig getifaddr en{i}')
 print(ip)
 
-aliyun = 'registry.cn-hangzhou.aliyuncs.com'
+aliyun = 'ccr.ccs.tencentyun.com'
 ls = 'harbor.ls.com'
 
 res = ''

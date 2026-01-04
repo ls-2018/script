@@ -21,10 +21,10 @@ jobs:
         with:
           username: ${{ secrets.REGISTERY_USERNAME }}
           password: ${{ secrets.REGISTERY_PASSWORD }}
-          registry: registry.cn-hangzhou.aliyuncs.com
+          registry: ccr.ccs.tencentyun.com
 
       - name: Build the Docker image
         run: |
           docker buildx create --use --platform=linux/amd64,linux/arm64,linux/ppc64le --name multi-platform-builder
           docker buildx ls
-          python3 docker-build-myrust.py registry.cn-hangzhou.aliyuncs.com/ls-2018
+          python3 docker-build-myrust.py ccr.ccs.tencentyun.com/ls-2018

@@ -47,7 +47,7 @@ docker run \
 	-v $dataPath/conf:/etc/mysql/mysql.conf.d/ \
 	$(trans_image_name.py docker.io/library/mysql:8)
 
-docker pull registry.cn-hangzhou.aliyuncs.com/ls-2018/wechat-article-exporter
+docker pull ccr.ccs.tencentyun.com/ls-2018/wechat-article-exporter
 
 docker run \
 	--name wechat-article-exporter \
@@ -63,7 +63,7 @@ docker run \
 	-e MYSQL_DATABASE=wechat_article_exporter \
 	-p 13000:3000 \
 	-v $exporterPath:/app/.data \
-	registry.cn-hangzhou.aliyuncs.com/ls-2018/wechat-article-exporter
+	ccr.ccs.tencentyun.com/ls-2018/wechat-article-exporter
 
 pkill -9 'Chromium'
 sleep 2

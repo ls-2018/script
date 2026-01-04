@@ -26,7 +26,7 @@ if new_image == "":
     new_image = me_domain+'/'+args.source
 
 user = new_image.split('/')[1].strip()
-os.environ['no_proxy'] = f"{me_domain},localhost,registry.cn-hangzhou.aliyuncs.com"
+os.environ['no_proxy'] = f"{me_domain},localhost,ccr.ccs.tencentyun.com"
 
 ps_data = subprocess.getoutput(
     f'curl -s -X GET -H "Content-Type: application/json" "https://{me_domain}/api/v2.0/projects?page=1&page_size=100&with_detail=true"'

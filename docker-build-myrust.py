@@ -95,7 +95,7 @@ except:
     pass
 
 # repo = sys.argv[1].strip('')
-repo = 'registry.cn-hangzhou.aliyuncs.com/ls-2018'
+repo = 'ccr.ccs.tencentyun.com/ls-2018'
 
 shutil.copyfile(
     os.path.join(os.path.dirname(os.path.abspath(__file__)), '.p10k.zsh'),

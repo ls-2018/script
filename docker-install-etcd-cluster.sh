@@ -1,4 +1,4 @@
-# FROM registry.cn-hangzhou.aliyuncs.com/ls-2018/mygo:v1.25.1 as go
+# FROM ccr.ccs.tencentyun.com/ls-2018/mygo:v1.25.1 as go
 # RUN go env -w GOPROXY=https://goproxy.cn,direct && go env -w GO111MODULE=on
 # WORKDIR /demo
 # RUN go mod init demo && go install github.com/br0xen/boltbrowser@latest

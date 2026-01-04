@@ -15,7 +15,7 @@ if 'ambient' in sys.argv:
 download = False
 if 'download' in sys.argv:
     download = True
-harbor = 'registry.cn-hangzhou.aliyuncs.com'
+harbor = 'ccr.ccs.tencentyun.com'
 
 example = ''
 if 'example' in sys.argv:

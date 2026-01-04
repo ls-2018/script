@@ -20,7 +20,7 @@ nodes:
 containerdConfigPatches:
 - |-
   [plugins."io.containerd.grpc.v1.cri".registry.mirrors."docker.io"]
-    endpoint = ["registry.aliyuncs.com/google_containers","https://registry.cn-hangzhou.aliyuncs.com","https://docker.mirrors.ustc.edu.cn","https://registry.docker-cn.com","http://hub-mirror.c.163.com"]
+    endpoint = ["registry.aliyuncs.com/google_containers","https://ccr.ccs.tencentyun.com","https://docker.mirrors.ustc.edu.cn","https://registry.docker-cn.com","http://hub-mirror.c.163.com"]
 EOF
 
 kind create cluster --config /tmp/kind.yaml --image kindest/node:v1.26.2 --name dev
