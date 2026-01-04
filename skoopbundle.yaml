@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: liushuo
+  name: kubeskoop
 ---
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: kubeskoop-exporter
-  namespace: liushuo
+  namespace: kubeskoop
   labels:
     app: kubeskoop-exporter
 spec:
@@ -31,7 +31,7 @@ spec:
       dnsPolicy: ClusterFirstWithHostNet
       initContainers:
         - name: inspector-prepare
-          image: docker.io/kubeskoop/agent:v1.0.0
+          image: dockerproxy.zetyun.cn/docker.io/kubeskoop/agent:v1.0.1
           volumeMounts:
             - name: btf-rawdata
               mountPath: /etc/net-exporter/btf
@@ -39,7 +39,7 @@ spec:
               name: boot
           command: [btfhack, discover, -p, /etc/net-exporter/btf/]
       containers:
-      - image: docker.io/kubeskoop/agent:v1.0.0
+      - image: dockerproxy.zetyun.cn/docker.io/kubeskoop/agent:v1.0.1
         name: inspector
         ports:
         - name: http
@@ -166,7 +166,7 @@ data:
 kind: ConfigMap
 metadata:
   name: kubeskoop-config
-  namespace: liushuo
+  namespace: kubeskoop
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -200,7 +200,7 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: default
-  namespace: liushuo
+  namespace: kubeskoop
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -208,7 +208,7 @@ metadata:
   name: prometheus-server-conf
   labels:
     name: prometheus-server-conf
-  namespace: liushuo
+  namespace: kubeskoop
 data:
   prometheus.rules: |-
     groups:
@@ -267,7 +267,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: prometheus-deployment
-  namespace: liushuo
+  namespace: kubeskoop
   labels:
     app: prometheus-server
 spec:
@@ -282,7 +282,7 @@ spec:
     spec:
       containers:
         - name: prometheus
-          image: docker.io/prom/prometheus
+          image: dockerproxy.zetyun.cn/docker.io/prom/prometheus
           args:
             - "--storage.tsdb.retention.time=12h"
             - "--config.file=/etc/prometheus/prometheus.yml"
@@ -315,7 +315,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: prometheus-service
-  namespace: liushuo
+  namespace: kubeskoop
   annotations:
       prometheus.io/scrape: 'true'
       prometheus.io/port:   '9090'
@@ -331,7 +331,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: loki-service
-  namespace: liushuo
+  namespace: kubeskoop
 spec:
   selector:
     app: grafana-loki
@@ -344,7 +344,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: grafana-datasources
-  namespace: liushuo
+  namespace: kubeskoop
 data:
   prometheus.yaml: |-
     {
@@ -366,7 +366,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: grafana
-  namespace: liushuo
+  namespace: kubeskoop
 spec:
   replicas: 1
   selector:
@@ -380,7 +380,7 @@ spec:
     spec:
       containers:
       - name: grafana
-        image: docker.io/grafana/grafana:latest
+        image: dockerproxy.zetyun.cn/docker.io/grafana/grafana:latest
         ports:
           - name: grafana
             containerPort: 3000
@@ -407,7 +407,7 @@ spec:
             name: grafana-datasources
             readOnly: false
       - name: register-dashboard
-        image: docker.io/kubeskoop/controller:v1.0.0
+        image: dockerproxy.zetyun.cn/docker.io/kubeskoop/controller:v1.0.1
         env:
           - name: GRAFANA_PASSWORD
             value: "kubeskoop"
@@ -424,7 +424,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: grafana
-  namespace: liushuo
+  namespace: kubeskoop
   annotations:
       prometheus.io/scrape: 'true'
       prometheus.io/port:   '3000'
@@ -440,7 +440,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: grafana-loki
-  namespace: liushuo
+  namespace: kubeskoop
 spec:
   replicas: 1
   selector:
@@ -454,7 +454,7 @@ spec:
     spec:
       containers:
       - name: grafana-loki
-        image: docker.io/grafana/loki:2.7.0
+        image: dockerproxy.zetyun.cn/docker.io/grafana/loki:2.7.0
         ports:
         - name: grafana-loki
           containerPort: 3100
@@ -483,7 +483,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: grafana-loki-config
-  namespace: liushuo
+  namespace: kubeskoop
 data:
   loki-config.yaml: |-
     auth_enabled: false
@@ -561,13 +561,13 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: default
-  namespace: liushuo
+  namespace: kubeskoop
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   name: controller
-  namespace: liushuo
+  namespace: kubeskoop
 rules:
 - apiGroups: [""]
   resources: ["configmaps"]
@@ -585,7 +585,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: controller
-  namespace: liushuo
+  namespace: kubeskoop
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
@@ -593,7 +593,7 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: default
-  namespace: liushuo
+  namespace: kubeskoop
 ---
 apiVersion: v1
 data:
@@ -608,17 +608,17 @@ data:
         type: sqlite3
       loki: http://loki-service:3100
       diagnose: {}
-      namespace: liushuo
+      namespace: kubeskoop
 kind: ConfigMap
 metadata:
   name: kubeskoop-controller-config
-  namespace: liushuo
+  namespace: kubeskoop
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: controller
-  namespace: liushuo
+  namespace: kubeskoop
 spec:
   replicas: 1
   selector:
@@ -632,7 +632,7 @@ spec:
     spec:
       containers:
       - name: controller
-        image: docker.io/kubeskoop/controller:v1.0.0
+        image: dockerproxy.zetyun.cn/docker.io/kubeskoop/controller:v1.0.1
         command: ["/bin/controller"]
         volumeMounts:
           - name:  lib
@@ -650,7 +650,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: controller
-  namespace: liushuo
+  namespace: kubeskoop
 spec:
   selector:
     app: controller
@@ -666,7 +666,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: webconsole
-  namespace: liushuo
+  namespace: kubeskoop
 spec:
   replicas: 1
   selector:
@@ -680,7 +680,7 @@ spec:
     spec:
       containers:
       - name: controller
-        image: docker.io/kubeskoop/controller:v1.0.0
+        image: dockerproxy.zetyun.cn/docker.io/kubeskoop/controller:v1.0.1
         command: ["/bin/webconsole"]
         env:
           - name: CONTROLLER_ENDPOINT
@@ -706,7 +706,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: webconsole
-  namespace: liushuo
+  namespace: kubeskoop
 spec:
   selector:
     app: webconsole

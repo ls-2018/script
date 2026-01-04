@@ -14,7 +14,6 @@ export SDKROOT=/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk
 
 mkdir -p $GOPATH/{bin,pkg,src}
 mkdir -p ${ACEHOME}/.cargo/{target,registry,git}
-# export RUSTC_WRAPPER=sccache
 
 # Mac
 # CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build main.go

@@ -59,18 +59,17 @@ git-fetch-with-cli=true
 
 [build]
 #target-dir = "$HOME/.cargo/target"
+#export RUSTC_WRAPPER="sccache"
+rustc-wrapper = "sccache"
 
 EOF
 
+# export RUSTC_WRAPPER="sccache"
+# sccache --zero-stats && cargo clean && cargo build
+
 export PATH="$HOME/.cargo/bin:$PATH"
 
-# unset RUSTC_WRAPPER
-
-#共享缓存
-# time cargo install sccache
-
 # linux 有用
-
 apt install pkg-config libssl-dev -y
 
 # bash /Users/acejilam/script/init-rust.sh
