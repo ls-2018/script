@@ -75,4 +75,6 @@ apt install pkg-config libssl-dev -y
 # bash /Users/acejilam/script/init-rust.sh
 
 cargo install sccache 
-sccache --zero-stats && cargo clean
+sccache --zero-stats
+
+cargo install cargo-expand
