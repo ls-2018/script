@@ -45,9 +45,8 @@ with open(
     install_zsh = f.read()
 
 install_source = '''
-set -ex
-rm -rf /usr/local/go* || echo 1
-rm -rf ./go*  		  || echo 1
+apt clean
+dpkg -i *.deb
 bash change_mirror.sh \
     --source mirrors.tencent.com \
     --protocol https \
@@ -55,10 +54,8 @@ bash change_mirror.sh \
     --install-epel true \
     --backup true \
     --upgrade-software false \
-    --clean-cache false \
+    --clean-cache true \
     --ignore-backup-tips
-apt clean
-apt update
 '''
 
 install_kubectl = '''
@@ -70,15 +67,17 @@ mv kubectl /usr/local/bin/kubectl
 '''
 
 install_system_bin = '''
-set -ex
-apt update -y
-apt install wget git gcc curl locales -y
-apt install vim make cmake gdb -y
-apt install telnet dnsutils upx iproute2 net-tools -y
-
+set -x
+apt install -y \
+	wget git gcc curl locales \
+	vim make cmake gdb \
+	telnet dnsutils upx iproute2 net-tools
 '''
 
 dockerfile = f'''
+FROM docker.io/library/ubuntu:24.04 AS ca
+RUN apt update -y && apt-get install --download-only ca-certificates -y
+
 FROM alpine/curl:8.17.0 AS curl
 WORKDIR /root
 RUN curl -o change_mirror.sh https://linuxmirrors.cn/main.sh
@@ -104,6 +103,7 @@ ENV PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local
 COPY . .
 
 COPY --from=curl /root/change_mirror.sh .
+COPY --from=ca /var/cache/apt/archives/*.deb .
 RUN bash install_source.sh
 RUN bash install_system_bin.sh
 RUN bash install_kubectl.sh
