@@ -48,7 +48,7 @@ curl -sSL https://linuxmirrors.cn/main.sh | bash -s -- \
 
 install_kubectl = '''
 ARCH=$(arch | sed s/aarch64/arm64/ | sed s/x86_64/amd64/)
-curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/$(uname | tr '[:upper:]' '[:lower:]')/${ARCH}/kubectl"
+wget "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/$(uname | tr '[:upper:]' '[:lower:]')/${ARCH}/kubectl"
 chmod +x kubectl
 mv kubectl /usr/local/bin/kubectl
 '''
