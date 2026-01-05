@@ -15,7 +15,7 @@ mkdir /usr/local/go${VERSION}
 
 ARCH=$(arch | sed s/aarch64/arm64/ | sed s/x86_64/amd64/)
 
-wget https://golang.google.cn/dl/go${VERSION}.linux-${ARCH}.tar.gz
+wget -q -nv https://golang.google.cn/dl/go${VERSION}.linux-${ARCH}.tar.gz
 tar -xvf go${VERSION}.linux-${ARCH}.tar.gz -C /usr/local/go${VERSION} --strip-components 1
 rm -rf go${VERSION}.linux-${ARCH}.tar.gz
 mkdir -p /root/.gopath/{bin,src,pkg}
@@ -24,7 +24,7 @@ chmod -R 777 /usr/local/go${VERSION}
 go version
 go env
 
-wget https://github.com/tinygo-org/tinygo/releases/download/v0.40.1/tinygo_0.40.1_${ARCH}.deb
+wget -q -nv https://github.com/tinygo-org/tinygo/releases/download/v0.40.1/tinygo_0.40.1_${ARCH}.deb
 dpkg -i tinygo_0.40.1_${ARCH}.deb
 rm -rf tinygo_0.40.1_${ARCH}.deb
 
@@ -63,7 +63,7 @@ curl -sSL https://linuxmirrors.cn/main.sh | bash -s -- \
 install_kubectl = '''
 set -ex
 ARCH=$(arch | sed s/aarch64/arm64/ | sed s/x86_64/amd64/)
-wget "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/$(uname | tr '[:upper:]' '[:lower:]')/${ARCH}/kubectl"
+wget -q -nv "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/$(uname | tr '[:upper:]' '[:lower:]')/${ARCH}/kubectl"
 chmod +x kubectl
 mv kubectl /usr/local/bin/kubectl
 '''
