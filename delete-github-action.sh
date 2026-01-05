@@ -4,7 +4,7 @@ echo "[cancel|delete] lsutils sync"
 export ACTION=${1-a}
 export OWNER=${2-lsutils}
 export REPOSITORY=${3-sync}
-export ALL=${4-noall}
+export ALL=${4-0}
 
 if [[ $ACTION == "cancel" ]]; then
 	if [[ $ALL -eq "all" ]]; then

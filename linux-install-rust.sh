@@ -74,7 +74,103 @@ apt install pkg-config libssl-dev -y
 
 # bash /Users/acejilam/script/init-rust.sh
 
-cargo install sccache 
-sccache --zero-stats
+install_sccache() {
+	set -ex
+	apt install jq -y
+	# 获取最新版本号
+	tag=$(curl -fsSL https://api.github.com/repos/mozilla/sccache/releases/latest | jq -r '.tag_name')
 
-cargo install cargo-expand
+	# 确定系统架构和操作系统
+	os=$(uname -s | tr '[:upper:]' '[:lower:]')
+	arch=$(uname -m)
+
+	# 确定下载包名称
+	tar_name=""
+	if [ "$os" = "darwin" ] && [ "$arch" = "x86_64" ]; then
+		tar_name="sccache-${tag}-x86_64-apple-darwin.tar.gz"
+	elif [ "$os" = "darwin" ] && [ "$arch" = "arm64" ]; then
+		tar_name="sccache-${tag}-aarch64-apple-darwin.tar.gz"
+	elif [ "$os" = "linux" ] && [ "$arch" = "aarch64" ]; then
+		tar_name="sccache-${tag}-aarch64-unknown-linux-musl.tar.gz"
+	elif [ "$os" = "linux" ] && [ "$arch" = "x86_64" ]; then
+		tar_name="sccache-${tag}-x86_64-unknown-linux-musl.tar.gz"
+	fi
+
+	# 检查是否支持当前系统
+	if [ -z "$tar_name" ]; then
+		echo "不支持的操作系统或架构: $os $arch"
+		return 1
+	fi
+
+	# 下载并安装 sccache
+	temp_dir=$(mktemp -d)
+	wget -O "${temp_dir}/${tar_name}" "https://github.com/mozilla/sccache/releases/download/${tag}/${tar_name}"
+	tar -xzf "${temp_dir}/${tar_name}" -C "${temp_dir}"
+	extracted_dir=$(ls -1 "${temp_dir}" | grep -v tar | grep sccache-)
+	if [ -f "${temp_dir}/${extracted_dir}/sccache" ]; then
+		chmod +x "${temp_dir}/${extracted_dir}/sccache"
+		mv "${temp_dir}/${extracted_dir}/sccache" "$HOME/.cargo/bin/"
+		echo "sccache 安装成功，版本: ${tag}"
+	else
+		echo "sccache 安装失败"
+		rm -rf "${temp_dir}"
+		return 1
+	fi
+
+	# 清理临时文件
+	rm -rf "${temp_dir}"
+}
+
+install_sccache
+
+install_generate() {
+	set -ex
+	apt install jq -y
+	# 获取最新版本号
+	tag=$(curl -fsSL https://api.github.com/repos/cargo-generate/cargo-generate/releases/latest | jq -r '.tag_name')
+
+	# 确定系统架构和操作系统
+	os=$(uname -s | tr '[:upper:]' '[:lower:]')
+	arch=$(uname -m)
+
+	# 确定下载包名称
+	tar_name=""
+	if [ "$os" = "darwin" ] && [ "$arch" = "x86_64" ]; then
+		tar_name="cargo-generate-${tag}-x86_64-apple-darwin.tar.gz"
+	elif [ "$os" = "darwin" ] && [ "$arch" = "arm64" ]; then
+		tar_name="cargo-generate-${tag}-aarch64-apple-darwin.tar.gz"
+	elif [ "$os" = "linux" ] && [ "$arch" = "aarch64" ]; then
+		tar_name="cargo-generate-${tag}-aarch64-unknown-linux-musl.tar.gz"
+	elif [ "$os" = "linux" ] && [ "$arch" = "x86_64" ]; then
+		tar_name="cargo-generate-${tag}-x86_64-unknown-linux-gnu.tar.gz"
+	fi
+
+	# 检查是否支持当前系统
+	if [ -z "$tar_name" ]; then
+		echo "不支持的操作系统或架构: $os $arch"
+		return 1
+	fi
+
+	# 下载并安装 cargo-generate
+	temp_dir=$(mktemp -d)
+	wget -O "${temp_dir}/${tar_name}" "https://github.com/cargo-generate/cargo-generate/releases/download/${tag}/${tar_name}"
+	tar -xzf "${temp_dir}/${tar_name}" -C "${temp_dir}"
+	extracted_dir=$(ls -1 "${temp_dir}" | grep -v tar | grep cargo-generate-)
+	if [ -f "${temp_dir}/${extracted_dir}/cargo-generate" ]; then
+		chmod +x "${temp_dir}/${extracted_dir}/cargo-generate"
+		mv "${temp_dir}/${extracted_dir}/cargo-generate" "$HOME/.cargo/bin/"
+		echo "cargo-generate 安装成功，版本: ${tag}"
+	else
+		echo "cargo-generate 安装失败"
+		rm -rf "${temp_dir}"
+		return 1
+	fi
+
+	# 清理临时文件
+	rm -rf "${temp_dir}"
+}
+
+install_generate
+
+time sccache --zero-stats
+time cargo install cargo-expand

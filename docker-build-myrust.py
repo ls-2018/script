@@ -18,11 +18,8 @@ rustup override set stable
 rustup toolchain uninstall nightly
 rustup toolchain install nightly
 
-git clone https://github.com/aya-rs/aya aya
-cd aya && time cargo install --path ./aya-tool/ && cd - || exit
-rm -rf aya
-cargo install cargo-generate
-cargo install bindgen-cli
+
+
 '''
 
 with open(
