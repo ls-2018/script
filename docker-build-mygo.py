@@ -44,6 +44,7 @@ with open(
     install_zsh = f.read()
 
 install_source = '''
+set -ex
 rm -rf /usr/local/go* || echo 1
 rm -rf ./go*  		  || echo 1
 apt update && apt install curl -y
@@ -59,6 +60,7 @@ curl -sSL https://linuxmirrors.cn/main.sh | bash -s -- \
 '''
 
 install_kubectl = '''
+set -ex
 ARCH=$(arch | sed s/aarch64/arm64/ | sed s/x86_64/amd64/)
 curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/$(uname | tr '[:upper:]' '[:lower:]')/${ARCH}/kubectl"
 chmod +x kubectl
@@ -66,7 +68,7 @@ mv kubectl /usr/local/bin/kubectl
 '''
 
 install_system_bin = '''
-set -x
+set -ex
 apt update -y
 apt install wget git gcc curl locales -y
 apt install vim make cmake gdb -y
