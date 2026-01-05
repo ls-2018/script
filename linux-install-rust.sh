@@ -3,7 +3,7 @@ export DEBIAN_FRONTEND=noninteractive
 mkdir -p ~/.cargo/{target,registry}
 touch ~/.cargo/env
 
-apt install curl build-essential gcc make git pkg-config libssl-dev -y
+apt install curl build-essential gcc make git pkg-config libssl-dev jq -y
 
 cat <<EOF >>"$HOME"/.cargo/env
 # 临时设置环境变量以替换默认更新源和分发服务器
@@ -87,7 +87,6 @@ fail() {
 }
 
 install_sccache() {
-	apt install jq -y
 	# 获取最新版本号
 	tag=$(curl -fsSL https://api.github.com/repos/mozilla/sccache/releases/latest | jq -r '.tag_name')
 
@@ -135,7 +134,6 @@ install_sccache() {
 install_sccache
 
 install_generate() {
-	apt install jq -y
 	# 获取最新版本号
 	tag=$(curl -fsSL https://api.github.com/repos/cargo-generate/cargo-generate/releases/latest | jq -r '.tag_name')
 
