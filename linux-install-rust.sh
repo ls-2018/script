@@ -74,8 +74,19 @@ apt install pkg-config libssl-dev -y
 
 # bash /Users/acejilam/script/init-rust.sh
 
+ok() {
+	echo -e "\033[32m✅ ${*//x/\\033[31mx\\033[32m}\033[0m"
+}
+
+warn() {
+	echo -e "\033[33m⚠️  ${*//x/\\033[31mx\\033[33m}\033[0m" >&2
+}
+
+fail() {
+	echo -e "\033[31m❌ ${*//x/\\033[31mx}\033[0m" >&2
+}
+
 install_sccache() {
-	set -ex
 	apt install jq -y
 	# 获取最新版本号
 	tag=$(curl -fsSL https://api.github.com/repos/mozilla/sccache/releases/latest | jq -r '.tag_name')
@@ -98,7 +109,7 @@ install_sccache() {
 
 	# 检查是否支持当前系统
 	if [ -z "$tar_name" ]; then
-		echo "不支持的操作系统或架构: $os $arch"
+		fail "不支持的操作系统或架构: $os $arch"
 		return 1
 	fi
 
@@ -110,9 +121,9 @@ install_sccache() {
 	if [ -f "${temp_dir}/${extracted_dir}/sccache" ]; then
 		chmod +x "${temp_dir}/${extracted_dir}/sccache"
 		mv "${temp_dir}/${extracted_dir}/sccache" "$HOME/.cargo/bin/"
-		echo "sccache 安装成功，版本: ${tag}"
+		ok "sccache 安装成功，版本: ${tag}"
 	else
-		echo "sccache 安装失败"
+		fail "sccache 安装失败"
 		rm -rf "${temp_dir}"
 		return 1
 	fi
@@ -124,7 +135,6 @@ install_sccache() {
 install_sccache
 
 install_generate() {
-	set -ex
 	apt install jq -y
 	# 获取最新版本号
 	tag=$(curl -fsSL https://api.github.com/repos/cargo-generate/cargo-generate/releases/latest | jq -r '.tag_name')
@@ -147,7 +157,7 @@ install_generate() {
 
 	# 检查是否支持当前系统
 	if [ -z "$tar_name" ]; then
-		echo "不支持的操作系统或架构: $os $arch"
+		fail "不支持的操作系统或架构: $os $arch"
 		return 1
 	fi
 
@@ -155,13 +165,12 @@ install_generate() {
 	temp_dir=$(mktemp -d)
 	wget -O "${temp_dir}/${tar_name}" "https://github.com/cargo-generate/cargo-generate/releases/download/${tag}/${tar_name}"
 	tar -xzf "${temp_dir}/${tar_name}" -C "${temp_dir}"
-	extracted_dir=$(ls -1 "${temp_dir}" | grep -v tar | grep cargo-generate-)
-	if [ -f "${temp_dir}/${extracted_dir}/cargo-generate" ]; then
-		chmod +x "${temp_dir}/${extracted_dir}/cargo-generate"
-		mv "${temp_dir}/${extracted_dir}/cargo-generate" "$HOME/.cargo/bin/"
-		echo "cargo-generate 安装成功，版本: ${tag}"
+	if [ -f "${temp_dir}/cargo-generate" ]; then
+		chmod +x "${temp_dir}/cargo-generate"
+		mv "${temp_dir}/cargo-generate" "$HOME/.cargo/bin/"
+		ok "cargo-generate 安装成功，版本: ${tag}"
 	else
-		echo "cargo-generate 安装失败"
+		fail "cargo-generate 安装失败"
 		rm -rf "${temp_dir}"
 		return 1
 	fi
