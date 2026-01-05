@@ -48,8 +48,7 @@ install_source = '''
 set -ex
 rm -rf /usr/local/go* || echo 1
 rm -rf ./go*  		  || echo 1
-apt update && apt install curl -y
-curl -sSL https://linuxmirrors.cn/main.sh | bash -s -- \
+bash change_mirror.sh \
     --source mirrors.tencent.com \
     --protocol https \
     --use-intranet-source false \
@@ -58,6 +57,8 @@ curl -sSL https://linuxmirrors.cn/main.sh | bash -s -- \
     --upgrade-software false \
     --clean-cache false \
     --ignore-backup-tips
+apt clean
+apt update
 '''
 
 install_kubectl = '''
@@ -78,6 +79,10 @@ apt install telnet dnsutils upx iproute2 net-tools -y
 '''
 
 dockerfile = f'''
+FROM alpine/curl:8.17.0 AS curl
+WORKDIR /root
+RUN curl -o change_mirror.sh https://linuxmirrors.cn/main.sh
+
 FROM docker.io/library/ubuntu:24.04
 COPY localtime /etc/localtime
 WORKDIR /build
@@ -98,6 +103,7 @@ ENV PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local
 
 COPY . .
 
+COPY --from=curl /root/change_mirror.sh .
 RUN bash install_source.sh
 RUN bash install_system_bin.sh
 RUN bash install_kubectl.sh

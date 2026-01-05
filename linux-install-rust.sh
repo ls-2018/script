@@ -59,9 +59,7 @@ git-fetch-with-cli=true
 
 [build]
 #target-dir = "$HOME/.cargo/target"
-#export RUSTC_WRAPPER="sccache"
 #rustc-wrapper = "sccache"
-
 EOF
 
 # export RUSTC_WRAPPER="sccache"
@@ -182,21 +180,16 @@ install_generate
 install_expand() {
 	git clone https://github.com/dtolnay/cargo-expand.git
 	cd cargo-expand
-	export RUSTC_WRAPPER="sccache"
 	echo '
   [build]
   rustc-wrapper = "sccache"
   ' >>Cargo.toml
-
-	export RUSTC_WRAPPER="sccache"
-	cargo install --path .
-	unset RUSTC_WRAPPER
-
+	RUSTC_WRAPPER="sccache" cargo install --path .
 	cd -
 	rm -rf cargo-expand
 }
 
 install_expand
-
 sccache --zero-stats && cargo clean
-rm -rf ~/.cargo/{{git,registry}}
+
+rm -rf /root/.cargo/{git,registry,target}
