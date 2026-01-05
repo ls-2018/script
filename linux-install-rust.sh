@@ -200,6 +200,5 @@ install_expand() {
 
 install_expand
 
-time sccache --zero-stats
-
+sccache --zero-stats && cargo clean
 rm -rf ~/.cargo/{{git,registry}}
