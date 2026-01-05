@@ -23,8 +23,8 @@ jobs:
       - uses: actions/cache@v4
         with:
           path: |
-            ~/.cargo/registry
-            ~/.cargo/git
+            ~/.cargo
+            ~/.cargo
             target
           key: cargo-${{ runner.os }}-${{ hashFiles('**/Cargo.lock') }}
       - name: Login to Docker Hub
