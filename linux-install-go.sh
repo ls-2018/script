@@ -33,6 +33,7 @@ go install github.com/trzsz/trzsz-go/cmd/tsz@latest
 go install github.com/trzsz/trzsz-go/cmd/trzsz@latest
 go install github.com/go-delve/delve/cmd/dlv@latest
 go install github.com/google/gops@latest
+go clean -cache
 
 echo """
 export GOROOT=/usr/local/go$version

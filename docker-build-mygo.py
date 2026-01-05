@@ -34,6 +34,7 @@ install_go_bin = '''
 go install github.com/trzsz/trzsz-go/cmd/...@latest
 go install github.com/go-delve/delve/cmd/dlv@latest
 go install github.com/rakyll/hey@latest
+go clean -cache
 '''
 
 with open(

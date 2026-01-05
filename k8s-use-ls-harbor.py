@@ -5,7 +5,7 @@ import subprocess
 import toml
 import tomli_w
 
-proxy = '*.tencent.com,harbor.ls.com,*.aliyun.com,*.*.aliyuncs.com,*.aliyuncs.com,*.zetyun.com,quay.io'
+proxy = '*.tencent.com,*.*.tencentyun.com,harbor.ls.com,*.aliyun.com,*.*.aliyuncs.com,*.aliyuncs.com,*.zetyun.com,quay.io'
 with open('/Users/acejilam/Library/Group Containers/group.com.docker/settings-store.json', 'r', encoding='utf-8') as f:
     data = f.read()
     if proxy in data:

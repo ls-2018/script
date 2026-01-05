@@ -108,3 +108,5 @@ go install github.com/lsutils/utils/k8s/cmd/...@latest
 go install github.com/kubecolor/kubecolor@latest
 
 go install github.com/stern/stern@latest
+
+go clean -cache
