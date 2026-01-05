@@ -195,6 +195,7 @@ install_expand() {
 	unset RUSTC_WRAPPER
 
 	cd -
+	rm -rf cargo-expand
 }
 
 install_expand
