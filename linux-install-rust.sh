@@ -3,7 +3,7 @@ export DEBIAN_FRONTEND=noninteractive
 mkdir -p ~/.cargo/{target,registry}
 touch ~/.cargo/env
 
-sudo apt install curl build-essential gcc make git pkg-config libssl-dev -y
+apt install curl build-essential gcc make git pkg-config libssl-dev -y
 
 cat <<EOF >>"$HOME"/.cargo/env
 # 临时设置环境变量以替换默认更新源和分发服务器
@@ -16,7 +16,7 @@ EOF
 
 . "$HOME"/.cargo/env
 
-wget https://mirrors.aliyun.com/repo/rust/rustup-init.sh && chmod +x rustup-init.sh && bash ./rustup-init.sh -y
+wget -q -nv https://mirrors.aliyun.com/repo/rust/rustup-init.sh && chmod +x rustup-init.sh && bash ./rustup-init.sh -y
 
 cat <<EOF >"$HOME"/.cargo/config.toml
 [source.crates-io]
@@ -115,7 +115,7 @@ install_sccache() {
 
 	# 下载并安装 sccache
 	temp_dir=$(mktemp -d)
-	wget -O "${temp_dir}/${tar_name}" "https://github.com/mozilla/sccache/releases/download/${tag}/${tar_name}"
+	wget -q -nv -O "${temp_dir}/${tar_name}" "https://github.com/mozilla/sccache/releases/download/${tag}/${tar_name}"
 	tar -xzf "${temp_dir}/${tar_name}" -C "${temp_dir}"
 	extracted_dir=$(ls -1 "${temp_dir}" | grep -v tar | grep sccache-)
 	if [ -f "${temp_dir}/${extracted_dir}/sccache" ]; then
@@ -163,7 +163,7 @@ install_generate() {
 
 	# 下载并安装 cargo-generate
 	temp_dir=$(mktemp -d)
-	wget -O "${temp_dir}/${tar_name}" "https://github.com/cargo-generate/cargo-generate/releases/download/${tag}/${tar_name}"
+	wget -q -nv -O "${temp_dir}/${tar_name}" "https://github.com/cargo-generate/cargo-generate/releases/download/${tag}/${tar_name}"
 	tar -xzf "${temp_dir}/${tar_name}" -C "${temp_dir}"
 	if [ -f "${temp_dir}/cargo-generate" ]; then
 		chmod +x "${temp_dir}/cargo-generate"
@@ -181,5 +181,24 @@ install_generate() {
 
 install_generate
 
+install_expand() {
+	git clone https://github.com/dtolnay/cargo-expand.git
+	cd cargo-expand
+	export RUSTC_WRAPPER="sccache"
+	echo '
+  [build]
+  rustc-wrapper = "sccache"
+  ' >>Cargo.toml
+
+	export RUSTC_WRAPPER="sccache"
+	cargo install --path .
+	unset RUSTC_WRAPPER
+
+	cd -
+}
+
+install_expand
+
 time sccache --zero-stats
-time cargo install cargo-expand
+
+rm -rf ~/.cargo/{{git,registry}}

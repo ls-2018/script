@@ -31,8 +31,6 @@ time cargo install cargo-binstall
 # https://github.com/nextest-rs/nextest
 time cargo install cargo-nextest
 
-time cargo install cargo-generate
-
 time cargo install bindgen-cli
 
 # rustup override set nightly
