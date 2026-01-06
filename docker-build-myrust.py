@@ -81,8 +81,7 @@ RUN bash install_source.sh
 RUN bash install_system_bin.sh
 RUN bash install_kubectl.sh
 RUN bash install_zsh.sh
-RUN bash install_rust.sh
-RUN bash install_rust_bin.sh && rm -rf /root/.cargo/{{git,registry,target}}
+RUN bash install_rust.sh && bash install_rust_bin.sh && rm -rf /root/.cargo/{{git,registry,target}}
 WORKDIR /
 RUN rm -rf /build
 CMD ["zsh"]
@@ -97,8 +96,7 @@ except:
     pass
 
 
-# repo = sys.argv[1].strip('')
-repo = 'ccr.ccs.tencentyun.com/ls-2018'
+repo = sys.argv[1].strip('')
 
 shutil.copyfile(
     os.path.join(os.path.dirname(os.path.abspath(__file__)), '.p10k.zsh'),

@@ -1,5 +1,6 @@
+cd /Volumes/Tf/
 bak() {
-	rsync -avzP --progress --delete --exclude-from=/Volumes/Tf/config/exclude.txt /Volumes/Tf/ /Users/acejilam/Documents/TfBak
+	rsync -avzP --progress --delete --delete-excluded --filter=':- .gitignore' --exclude-from=/Volumes/Tf/config/exclude.txt /Volumes/Tf/ /Users/acejilam/Documents/TfBak
 	# --iconv=gbk,utf-8//TRANSLIT
 
 	mkdir -p /Volumes/Tf/data/wechat

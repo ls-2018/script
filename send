@@ -7,16 +7,17 @@ cmd=""
 # 检查远端是否存在 .git 目录
 if ssh "${user}@${host}" "[ -d '${path}/.git' ]"; then
 	if [ -e ".gitignore" ]; then
-		cmd="/usr/bin/rsync -avzP --delete --exclude=.git --exclude-from=.gitignore . ${user}@${host}:${path}"
+		cmd="/usr/bin/rsync -avzP --delete --delete-excluded --filter=':- .gitignore' . ${user}@${host}:${path}"
 	else
-		cmd="/usr/bin/rsync -avzP --delete --exclude=.git . ${user}@${host}:${path}"
+		cmd="/usr/bin/rsync -avzP --delete --delete-excluded . ${user}@${host}:${path}"
 	fi
 else
 	if [ -e ".gitignore" ]; then
-		cmd="/usr/bin/rsync -avzP --delete --exclude-from=.gitignore . ${user}@${host}:${path}"
+		cmd="/usr/bin/rsync -avzP --delete --delete-excluded --filter=':- .gitignore' . ${user}@${host}:${path}"
 	else
-		cmd="/usr/bin/rsync -avzP --delete . ${user}@${host}:${path}"
+		cmd="/usr/bin/rsync -avzP --delete --delete-excluded . ${user}@${host}:${path}"
 	fi
 fi
 set -x
 eval "${cmd}"
+ 

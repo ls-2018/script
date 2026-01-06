@@ -23,10 +23,10 @@ git clone https://gh-proxy.com/https://github.com/zsh-users/zsh-syntax-highlight
 
 mkdir -p ~/.local/share/fonts
 cd ~/.local/share/fonts
-wget -O "MesloLGS NF Regular.ttf" "https://gh-proxy.com/https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Regular.ttf"
-wget -O "MesloLGS NF Bold.ttf" "https://gh-proxy.com/https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold.ttf"
-wget -O "MesloLGS NF Italic.ttf" "https://gh-proxy.com/https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Italic.ttf"
-wget -O "MesloLGS NF Bold Italic.ttf" "https://gh-proxy.com/https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold%20Italic.ttf"
+wget -q -nv -O "MesloLGS NF Regular.ttf" "https://gh-proxy.com/https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Regular.ttf"
+wget -q -nv -O "MesloLGS NF Bold.ttf" "https://gh-proxy.com/https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold.ttf"
+wget -q -nv -O "MesloLGS NF Italic.ttf" "https://gh-proxy.com/https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Italic.ttf"
+wget -q -nv -O "MesloLGS NF Bold Italic.ttf" "https://gh-proxy.com/https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold%20Italic.ttf"
 fc-cache -fv
 cd -
 
