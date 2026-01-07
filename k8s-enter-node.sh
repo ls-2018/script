@@ -3,14 +3,15 @@ NODENAME=$1
 if [[ $NODENAME == "" ]]; then
 	exit 0
 fi
-
-kubectl -n kube-system delete pod node-shell --force
+podname=liushuo-node-shell-dev
+kubectl -n kube-system delete pod ${podname} --force
 
 node=$(trans_image_name.py quay.io/centos/centos:7)
+
 echo "apiVersion: v1
 kind: Pod
 metadata:
-  name: node-shell
+  name: ${podname}
   namespace: kube-system
 spec:
   containers:
@@ -36,11 +37,11 @@ spec:
   hostIPC: true
 " | kubectl apply -f -
 
-kubectl -n kube-system wait --for=condition=Ready pod/node-shell --timeout=3000s
+kubectl -n kube-system wait --for=condition=Ready pod/${podname} --timeout=3000s
 if [ $# -gt 1 ]; then
-	kubectl -n kube-system exec -it node-shell -- bash -c "${@:2}"
+	kubectl -n kube-system exec -it ${podname} -- bash -c "${@:2}"
 else
-	kubectl -n kube-system exec -it node-shell -- bash
+	kubectl -n kube-system exec -it ${podname} -- bash
 fi
 
-kubectl -n kube-system delete pods node-shell
+kubectl -n kube-system delete pods ${podname}

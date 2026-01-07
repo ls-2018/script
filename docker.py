@@ -7,9 +7,10 @@ import sys
 from trans_image_name import trans_image
 
 docker_bin = ''
-for item in ['/opt/homebrew/bin/docker', '/usr/local/bin/docker', '/usr/bin/docker', '/usr/local/bin/docker']:
+for item in ['/opt/homebrew/bin/docker', '/usr/local/bin/docker', '/usr/bin/docker']:
     if os.path.exists(item):
         docker_bin = item
+        break
 
 cmds = [docker_bin]
 if len(sys.argv) == 1:
