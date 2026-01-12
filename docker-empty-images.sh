@@ -2,7 +2,7 @@
 docker builder prune -a -f
 
 docker images -f dangling=true -q | xargs docker rmi --force
-docker volume ls -qf dangling=true | docker volume rm
+docker volume ls -q -f dangling=true | xargs docker volume rm
 # Remove dangling images
 docker image prune --force
 #docker system prune --volumes
