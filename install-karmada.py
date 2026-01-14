@@ -9,7 +9,7 @@ rs = [
     [
         r'''wget --no-verbose https://github.com/kubernetes-sigs/metrics-server/releases/download/v0.6.3/components.yaml -O "${_tmp}/components.yaml"''',
         r'''wget --no-verbose https://github.com/kubernetes-sigs/metrics-server/releases/download/v0.6.3/components.yaml -O "${_tmp}/components.yaml"
-trans_image_name.py "${_tmp}/components.yaml"
+trans-image-name "${_tmp}/components.yaml"
 ''',
     ]
 ]
@@ -44,7 +44,7 @@ for cd, _dirs, files in os.walk(os.path.join(KARMADA_PATH,"karmada")):
 
 os.system(rf'''
 cd {KARMADA_PATH}/karmada
-trans_image_name.py `pwd`
+trans-image-name `pwd`
 ./hack/local-up-karmada.sh
 ./hack/deploy-karmada-opensearch.sh  ~/.kube/karmada.config karmada-host
 IP=$(kubectl --kubeconfig ~/.kube/karmada.config --context karmada-host -n karmada-system get svc karmada-opensearch -oyaml |yq '.spec.clusterIP')

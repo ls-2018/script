@@ -3,5 +3,5 @@ cd ~
 homePath=$(pwd)
 dataPath="$homePath/data/redis"
 cd -
-#docker run -itd --name myRedis -p 26379:6379 --restart=always -v /data/redis:/data `trans_image_name.py docker.io/library/redis:7.0` --requirepass "123456"
-docker run -itd --name myRedis -p 6379:6379 --restart=always -v $dataPath:/data $(trans_image_name.py docker.io/library/redis:7.0)
+#docker run -itd --name myRedis -p 26379:6379 --restart=always -v /data/redis:/data `trans-image-name docker.io/library/redis:7.0` --requirepass "123456"
+docker run -itd --name myRedis -p 6379:6379 --restart=always -v $dataPath:/data $(trans-image-name docker.io/library/redis:7.0)

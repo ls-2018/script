@@ -2,7 +2,7 @@
 
 import json
 
-from trans_image_name import trans_image
+from trans_image import trans_image
 
 len_c = '/Users/acejilam/Library/Application Support/Lens/lens-cluster-store.json'
 with open(len_c, 'r', encoding='utf8') as f:

@@ -6,8 +6,8 @@ git clone https://github.com/coreos/kube-prometheus.git -b v0.15.0
 unset https_proxy && unset http_proxy && unset all_proxy
 cd kube-prometheus/
 git checkout v0.15.0
-trans_image_name.py dir $(pwd)/manifests/setup
-trans_image_name.py dir $(pwd)/manifests
+trans-image-name $(pwd)/manifests/setup
+trans-image-name $(pwd)/manifests
 
 # kubectl delete -f manifests/setup --ignore-not-found=true # 安装 prometheus-operator
 # kubectl delete -f manifests/ --ignore-not-found=true || true # 安装 promethes metric adapter

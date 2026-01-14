@@ -12,6 +12,6 @@ docker run -d --name jaeger \
 	-p 14268:14268 \
 	-p 14269:14269 \
 	-p 9411:9411 \
-	$(trans_image_name.py docker.io/jaegertracing/all-in-one)
+	$(trans-image-name docker.io/jaegertracing/all-in-one)
 
 open -a "/Applications/Google Chrome.app" "http://127.0.0.1:16686/search"

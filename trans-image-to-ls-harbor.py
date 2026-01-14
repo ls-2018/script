@@ -4,7 +4,7 @@ import json
 import os
 import subprocess
 
-from trans_image_name import trans_image
+from trans_image import trans_image
 
 parser = argparse.ArgumentParser()
 

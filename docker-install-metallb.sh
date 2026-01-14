@@ -3,7 +3,7 @@
 rm -rf /tmp/metallb-frr.yaml
 cp /Volumes/Tf/resources/yaml/metallb/v0.14.9/metallb-frr.yaml /tmp/metallb-frr.yaml
 
-trans_image_name.py /tmp/metallb-frr.yaml
+trans-image-name /tmp/metallb-frr.yaml
 
 echo "
 apiVersion: apps/v1
@@ -22,9 +22,9 @@ spec:
     spec:
       containers:
         - name: nginx
-          image: $(trans_image_name.py docker.io/library/nginx:1.14.2)
+          image: $(trans-image-name docker.io/library/nginx:1.14.2)
         - name: dnsutils
-          image: $(trans_image_name.py docker.io/mydlqclub/dnsutils:1.3)
+          image: $(trans-image-name docker.io/mydlqclub/dnsutils:1.3)
           command: ['/bin/sh', '-c', 'ping 127.0.0.1']
 ---
 apiVersion: v1

@@ -4,7 +4,7 @@ import os
 import shlex
 import sys
 
-from trans_image_name import trans_image
+from trans_image import trans_image
 
 docker_bin = ''
 for item in ['/opt/homebrew/bin/docker', '/usr/local/bin/docker', '/usr/bin/docker']:

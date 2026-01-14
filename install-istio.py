@@ -4,7 +4,7 @@ import platform
 import shutil
 import sys
 
-from trans_image_name import trans_image
+from trans_image import trans_image
 
 print("sys.argv", sys.argv)
 print(f"[download=False]")
@@ -105,7 +105,7 @@ skopeo copy --all --insecure-policy docker://{image} docker://{trans_image(image
 '''
         )
 
-os.system(f'trans_image_name.py {ISTIO_PATH}')
+os.system(f'trans-image-name {ISTIO_PATH}')
 
 for cd, _dirs, files in os.walk(ISTIO_PATH):
     for file in files:

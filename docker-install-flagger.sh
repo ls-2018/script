@@ -6,10 +6,10 @@ kubectl apply -f /Volumes/Tf/resources/3rd/flagger/charts/flagger/crds/crd.yaml
 # 	--set crd.create=false \
 # 	--set meshProvider=istio \
 # 	--set metricsServer=http://prometheus:9090 \
-# 	--set image.repository=`trans_image_name.py ghcr.io/fluxcd/flagger`
+# 	--set image.repository=`trans-image-name ghcr.io/fluxcd/flagger`
 
 # ghcr.io/fluxcd
-trans_image_name.py /Volumes/Tf/resources/3rd/flagger
+trans-image-name /Volumes/Tf/resources/3rd/flagger
 change-name.py /Volumes/Tf/resources/3rd/flagger "IfNotPresent" "Always" text
 change-name.py /Volumes/Tf/resources/3rd/flagger/kustomize/podinfo/ "level=info" "level=debug" text
 

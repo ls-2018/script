@@ -119,9 +119,9 @@ export VAGRANT_DEFAULT_PROVIDER=vmware_fusion
 
 export PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION=python
 
-export GONOPROXY='gitlab.datacanvas.com/*,git@gitlab.datacanvas.com/*'
-export GOPRIVATE='gitlab.datacanvas.com/*,git@gitlab.datacanvas.com/*'
-export GONOSUMDB='gitlab.datacanvas.com,git@gitlab.datacanvas.com'
+export GONOPROXY='gitee.com,gitlab.datacanvas.com/*,git@gitlab.datacanvas.com/*'
+export GOPRIVATE='gitee.com,gitlab.datacanvas.com/*,git@gitlab.datacanvas.com/*'
+export GONOSUMDB='gitee.com,gitlab.datacanvas.com,git@gitlab.datacanvas.com'
 export GOFLAGS='-buildvcs=false'
 
 if test -d "/Volumes/Tf"; then

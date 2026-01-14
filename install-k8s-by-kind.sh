@@ -71,8 +71,10 @@ test -e /Volumes/Tf/data/plugins/bin/bridge || {
 	bash ./build_linux.sh
 	mv ./bin/* ../
 }
-node_img=$(trans_image_name.py docker.io/kindest/node:${version})
-kind create cluster --config /tmp/gen-kind.yaml -n ${name} --kubeconfig ~/.kube/kind-${name} --image ${node_img}
+
+node_img=$(trans-image-name docker.io/kindest/node:${version})
+kind create cluster --config ~/script/kind.yaml -n ${name} --kubeconfig ~/.kube/kind-${name} --image ${node_img}
+
 kubectl cluster-info --context kind-${name} --kubeconfig ~/.kube/kind-${name}
 
 string_contains() {
@@ -84,6 +86,16 @@ string_contains() {
 		return 1
 	fi
 }
+
+# rm /tmp/kube-flannel.yml
+# cp /Volumes/Tf/resources/yaml/flannel/v0.26.5/kube-flannel.yml /tmp/kube-flannel.yml
+# trans-image-name /tmp/kube-flannel.yml
+
+# kubectl --kubeconfig ~/.kube/${name} apply -f /tmp/kube-flannel.yml
+
+# 使用示例
+
+# gsed -i "s@kind-@@g" ~/.kube/${name}
 
 {
 	echo "export KUBECONFIG=~/.kube/kind-${name}"

@@ -11,5 +11,5 @@ docker run -d \
 	-p 5080:5080 -p 5081:5081 \
 	-e ZO_ROOT_USER_EMAIL="root@example.com" \
 	-e ZO_ROOT_USER_PASSWORD="Complexpass#123" \
-	$(trans_image_name.py public.ecr.aws/zinclabs/openobserve)
+	$(trans-image-name public.ecr.aws/zinclabs/openobserve)
 open -a '/Applications/Google Chrome.app' http://127.0.0.1:5080

@@ -26,7 +26,7 @@ if [[ ${my_harbor} == "harbor" ]]; then
 fi
 
 export KUBECONFIG=~/.kube/cilium
-kind create cluster -n cilium --kubeconfig ~/.kube/cilium --config /tmp/kind.yaml --image $(trans_image_name.py docker.io/cilium/node:v1.32.0)
+kind create cluster -n cilium --kubeconfig ~/.kube/cilium --config /tmp/kind.yaml --image $(trans-image-name docker.io/cilium/node:v1.32.0)
 
 eval "$(print_proxy.py)"
 test -e /usr/local/bin/cilium || {
@@ -114,16 +114,16 @@ cilium install \
 	--set monitor.enabled=true \
 	--set hubble.enabled=true \
 	--set hubble.relay.enabled=true \
-	--set hubble.relay.image.repository=$(trans_image_name.py docker.io/cilium/hubble-relay) \
+	--set hubble.relay.image.repository=$(trans-image-name docker.io/cilium/hubble-relay) \
 	--set hubble.metrics.enabled="{dns,drop,tcp,flow,port-distribution,icmp,http}" \
 	--set hubble.ui.enabled=true \
-	--set hubble.ui.frontend.image.repository=$(trans_image_name.py docker.io/cilium/hubble-ui) \
-	--set hubble.ui.backend.image.repository=$(trans_image_name.py docker.io/cilium/hubble-ui-backend) \
-	--set image.repository=$(trans_image_name.py docker.io/cilium/cilium) \
-	--set envoy.image.repository=$(trans_image_name.py docker.io/cilium/cilium-envoy) \
-	--set preflight.image.repository=$(trans_image_name.py docker.io/cilium/cilium-ci) \
-	--set preflight.envoy.image.repository=$(trans_image_name.py docker.io/cilium/cilium-envoy) \
-	--set operator.image.repository=$(trans_image_name.py docker.io/cilium/operator)
+	--set hubble.ui.frontend.image.repository=$(trans-image-name docker.io/cilium/hubble-ui) \
+	--set hubble.ui.backend.image.repository=$(trans-image-name docker.io/cilium/hubble-ui-backend) \
+	--set image.repository=$(trans-image-name docker.io/cilium/cilium) \
+	--set envoy.image.repository=$(trans-image-name docker.io/cilium/cilium-envoy) \
+	--set preflight.image.repository=$(trans-image-name docker.io/cilium/cilium-ci) \
+	--set preflight.envoy.image.repository=$(trans-image-name docker.io/cilium/cilium-envoy) \
+	--set operator.image.repository=$(trans-image-name docker.io/cilium/operator)
 # --dry-run-helm-values
 
 helm install tetragon cilium/tetragon \
@@ -137,9 +137,9 @@ helm install tetragon cilium/tetragon \
 	--set tetragon.enableProcessCred=true \
 	--set tetragon.enableProcessNs=true \
 	--set tetragonOperator.enabled=true \
-	--set export.stdout.image.repository=$(trans_image_name.py docker.io/cilium/hubble-export-stdout) \
-	--set tetragon.image.repository=$(trans_image_name.py docker.io/cilium/tetragon) \
-	--set tetragonOperator.image.repository=$(trans_image_name.py docker.io/cilium/tetragon-operator)
+	--set export.stdout.image.repository=$(trans-image-name docker.io/cilium/hubble-export-stdout) \
+	--set tetragon.image.repository=$(trans-image-name docker.io/cilium/tetragon) \
+	--set tetragonOperator.image.repository=$(trans-image-name docker.io/cilium/tetragon-operator)
 
 cilium status --wait -n cilium-system --wait-duration 10m
 
@@ -162,7 +162,7 @@ spec:
        type: "sock"
 EOF
 
-pref_img=$(trans_image_name.py docker.io/cilium/cilium_netperf)
+pref_img=$(trans-image-name docker.io/cilium/cilium_netperf)
 echo "
 apiVersion: v1
 kind: Namespace
@@ -233,7 +233,7 @@ spec:
 
 # 使用示例
 curl -O /tmp/http-sw-app.yaml https://gh-proxy.com/https://raw.githubusercontent.com/cilium/cilium/1.18.1/examples/minikube/http-sw-app.yaml
-trans_image_name.py /tmp/http-sw-app.yaml
+trans-image-name /tmp/http-sw-app.yaml
 kubectl apply -f /tmp/http-sw-app.yaml
 curl https://gh-proxy.com/https://raw.githubusercontent.com/cilium/cilium/1.18.1/examples/minikube/sw_l3_l4_policy.yaml | kubectl apply -f -
 

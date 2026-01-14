@@ -1,1 +1,0 @@
-/Users/acejilam/k8s/sync/trans_image_name_reverse.py

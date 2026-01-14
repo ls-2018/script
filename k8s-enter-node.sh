@@ -6,7 +6,7 @@ fi
 podname=liushuo-node-shell-dev
 kubectl -n kube-system delete pod ${podname} --force
 
-node=$(trans_image_name.py quay.io/centos/centos:7)
+node=$(trans-image-name quay.io/centos/centos:7)
 
 echo "apiVersion: v1
 kind: Pod

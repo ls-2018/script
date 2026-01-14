@@ -1,6 +1,6 @@
 #! /usr/bin/env zsh
 
-img=$(trans_image_name.py quay.io/centos/centos:7)
+img=$(trans-image-name quay.io/centos/centos:7)
 
 cmd='[ "nsenter", "--target", "1", "--mount", "--uts", "--ipc", "--net", "--pid", "--","bash"]'
 overrides="$(
