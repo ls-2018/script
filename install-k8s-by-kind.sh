@@ -7,10 +7,37 @@
 SCRIPT_DIR="$(cd -P "$(dirname "${BASH_SOURCE:-$0}")" && pwd)"
 source "$SCRIPT_DIR/.alias.sh"
 
-name=${1-kind}
-version=${2-v1.28.0}
-my_harbor=${3-}
-nodes=${4-3}
+# 解析命令行参数
+name="koord"
+version="v1.34.2"
+my_harbor=""
+nodes=3
+
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        --name)
+            name="$2"
+            shift; shift
+            ;;
+        --version)
+            version="$2"
+            shift; shift
+            ;;
+        --harbor)
+            my_harbor="harbor"
+            shift
+            ;;
+        --nodes)
+            nodes="$2"
+            shift; shift
+            ;;
+        *)
+            echo "未知参数: $1"
+            echo "用法: $0 [--name <cluster-name>] [--version <k8s-version>] [--harbor] [--nodes <node-count>]"
+            exit 1
+            ;;
+    esac
+done
 
 gen-kind-yaml.py $nodes
 
