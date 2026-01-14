@@ -21,7 +21,7 @@ Vagrant.configure("2") do |config|
       end
       vm.vm.provision "shell", inline: <<-SHELL
         set -x
-        bash /Users/acejilaskopeo_copy.pym/script/linux-install-tools.sh
+        bash /Users/acejilam/script/linux-install-tools.sh
         bash /Users/acejilam/script/linux-replace-sources.sh
         bash /Users/acejilam/script/linux-resize-vagrant-disk.sh
         . /Users/acejilam/script/.linux-add-env.sh

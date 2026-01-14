@@ -157,7 +157,7 @@ skopeo_copy() {
 	fi
 }
 
-alias sc='skopeo_copy.py'
+alias sc='skopeo_copy_script.py'
 
 parse_cert() {
 	cert=$1
