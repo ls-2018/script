@@ -10,6 +10,10 @@ source "$SCRIPT_DIR/.alias.sh"
 name=${1-kind}
 version=${2-v1.28.0}
 my_harbor=${3-}
+nodes=${4-3}
+
+gen-kind-yaml.py $nodes
+
 # if [[ $name == "" ]]; then
 # 	echo "Usage: $0 <name> <version>"
 # 	exit 1
@@ -41,7 +45,7 @@ test -e /Volumes/Tf/data/plugins/bin/bridge || {
 	mv ./bin/* ../
 }
 node_img=$(trans_image_name.py docker.io/kindest/node:${version})
-kind create cluster --config ~/script/kind.yaml -n ${name} --kubeconfig ~/.kube/kind-${name} --image ${node_img}
+kind create cluster --config /tmp/gen-kind.yaml -n ${name} --kubeconfig ~/.kube/kind-${name} --image ${node_img}
 kubectl cluster-info --context kind-${name} --kubeconfig ~/.kube/kind-${name}
 
 string_contains() {
@@ -54,25 +58,8 @@ string_contains() {
 	fi
 }
 
-# rm /tmp/kube-flannel.yml
-# cp /Volumes/Tf/resources/yaml/flannel/v0.26.5/kube-flannel.yml /tmp/kube-flannel.yml
-# trans_image_name.py /tmp/kube-flannel.yml
-
-# kubectl --kubeconfig ~/.kube/${name} apply -f /tmp/kube-flannel.yml
-
-# 使用示例
-
-# gsed -i "s@kind-@@g" ~/.kube/${name}
-
 {
 	echo "export KUBECONFIG=~/.kube/kind-${name}"
-	# cp ~/.kube/${name} ~/.kube/kind-${name}-node
-
-	# export CIP=`docker inspect koord-control-plane|jq '.[0].NetworkSettings.Networks.kind.IPAddress' | tr -d "\"'"`
-	#yq -i '.clusters[0].cluster.server = "https://" + env(CIP) + ":6443"' ~/.kube/${name}-node
-
-	# export CIP="${name}-control-plane"
-	# yq -i '.clusters[0].cluster.server = "https://" + env(CIP) + ":6443"' ~/.kube/${name}-node
 }
 rm -rf ./nerdctl
 mkdir ./nerdctl

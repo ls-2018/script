@@ -3,9 +3,9 @@ import json
 import os
 import shutil
 import subprocess
+import sys
 
-# image = sys.argv[1].strip()
-image = 'sha256:3c407a1378d108155a6233dce6ce158c68e35194bf925b2f19841d18b8fc70ec'
+image = sys.argv[1].strip()
 info = subprocess.getoutput(f'docker inspect {image}')
 
 _id = json.loads(info)[0]['Id'][7:]
@@ -31,7 +31,8 @@ with open(os.path.join(base_dir, config), 'r', encoding='utf8') as f:
     history = []
     for layer in _history:
         if not layer.get('empty_layer', False):
-            history.append(layer['created_by'])
+            if 'created_by' in layer:
+                history.append(layer['created_by'])
 
 for item in zip(layers, history):
     print(f'unzip {item[0]} ...')
@@ -47,10 +48,12 @@ for item in os.listdir(os.path.join(base_dir, 'blobs/sha256')):
     file = os.path.join(base_dir, 'blobs/sha256', item)
     if os.path.isfile(file):
         os.system(f'chmod 666 {file}')
-        with open(file, 'r', encoding='utf8') as f:
-            data = json.loads(f.read())
-        with open(file, 'w', encoding='utf8') as f:
-            f.write(json.dumps(data, ensure_ascii=False, indent=4))
-        os.system(f'mv {file} {file}.json')
-
+        try:
+            with open(file, 'r', encoding='utf8') as f:
+                data = json.loads(f.read())
+            with open(file, 'w', encoding='utf8') as f:
+                f.write(json.dumps(data, ensure_ascii=False, indent=4))
+            os.system(f'mv {file} {file}.json')
+        except:
+            pass
 os.system(f'pycharm {base_dir}')
