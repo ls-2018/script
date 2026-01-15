@@ -12,19 +12,21 @@ for item in ['/opt/homebrew/bin/docker', '/usr/local/bin/docker', '/usr/bin/dock
         docker_bin = item
         break
 
+argv = sys.argv
+
 cmds = [docker_bin]
-if len(sys.argv) == 1:
+if len(argv) == 1:
     os.system(docker_bin)
     sys.exit(0)
 
-cmds_bak = copy.deepcopy(sys.argv)
+cmds_bak = copy.deepcopy(argv)
 cmds_bak[0] = docker_bin
-if sys.argv[1] in ['run', 'pull', 'rmi', 'rm', 'tag', 'save']:
+if argv[1] in ['run', 'pull', 'rmi', 'rm', 'tag', 'save', "ps"]:
     print("➡️ ➡️ ➡️ ➡️", cmds_bak, flush=True)
     os.system(" ".join(shlex.quote(x) for x in cmds_bak))
     sys.exit(0)
 
-for item in sys.argv[1:]:
+for item in argv[1:]:
     cmds.append(trans_image(item))
 os.system(" ".join(shlex.quote(x) for x in cmds))
 

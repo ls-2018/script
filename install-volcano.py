@@ -18,8 +18,8 @@ wget -q -nv https://raw.githubusercontent.com/volcano-sh/descheduler/refs/heads/
 """)
 
 os.system('bash /tmp/volcano.sh')
-os.system('trans_image_name.py /tmp/volcano')
-os.system('kubectl apply -f /tmp/volcano')
+os.system('trans-image-name /tmp/volcano')
+os.system('kubectl apply -f /tmp/volcano --server-side')
 
 # docker.io/volcanosh/vc-controller-manager:latest
 # docker.io/volcanosh/vc-scheduler:latest

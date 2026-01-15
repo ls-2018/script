@@ -14,29 +14,32 @@ my_harbor=""
 nodes=3
 
 while [[ $# -gt 0 ]]; do
-    case $1 in
-        --name)
-            name="$2"
-            shift; shift
-            ;;
-        --version)
-            version="$2"
-            shift; shift
-            ;;
-        --harbor)
-            my_harbor="harbor"
-            shift
-            ;;
-        --nodes)
-            nodes="$2"
-            shift; shift
-            ;;
-        *)
-            echo "未知参数: $1"
-            echo "用法: $0 [--name <cluster-name>] [--version <k8s-version>] [--harbor] [--nodes <node-count>]"
-            exit 1
-            ;;
-    esac
+	case $1 in
+	--name)
+		name="$2"
+		shift
+		shift
+		;;
+	--version)
+		version="$2"
+		shift
+		shift
+		;;
+	--harbor)
+		my_harbor="harbor"
+		shift
+		;;
+	--nodes)
+		nodes="$2"
+		shift
+		shift
+		;;
+	*)
+		echo "未知参数: $1"
+		echo "用法: $0 [--name <cluster-name>] [--version <k8s-version>] [--harbor] [--nodes <node-count>]"
+		exit 1
+		;;
+	esac
 done
 
 gen-kind-yaml.py $nodes
@@ -73,7 +76,7 @@ test -e /Volumes/Tf/data/plugins/bin/bridge || {
 }
 
 node_img=$(trans-image-name docker.io/kindest/node:${version})
-kind create cluster --config ~/script/kind.yaml -n ${name} --kubeconfig ~/.kube/kind-${name} --image ${node_img}
+kind create cluster --config /tmp/gen-kind.yaml -n ${name} --kubeconfig ~/.kube/kind-${name} --image ${node_img}
 
 kubectl cluster-info --context kind-${name} --kubeconfig ~/.kube/kind-${name}
 

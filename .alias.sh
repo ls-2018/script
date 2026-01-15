@@ -62,16 +62,30 @@ alias k=\'kubecolor\'
 alias k8n='k get nodes'
 alias k8ps='k8s-pod-state'
 alias k8ns='k8s-node-cap'
-k8pi() {
-	set -x
-	namespace="$1"
-	k get pods -n "${namespace}" -o jsonpath="{range .items[*]}{range .spec.containers[*]}{.image}{\"\n\"}{end}{end}" | sort | uniq
-}
-k8pir() {
-	set -x
-	namespace="$1"
 
-	k get pods -n "${namespace}" -o jsonpath="{range .items[*]}{range .spec.containers[*]}{.image}{\"\n\"}{end}{end}" | sort | uniq | trans-image-name-reverse
+alias sf='find . -name "*.sh" -print0 | xargs -0 shfmt -w '
+
+k8pi() {
+	namespace="$1"
+	nflag=""
+	if [[ $namespace != "" ]]; then
+		nflag="-n $namespace"
+	else
+		nflag="-A"
+	fi
+	k get pods $nflag -o jsonpath="{range .items[*]}{range .spec.containers[*]}{.image}{\"\n\"}{end}{end}" | sort | uniq
+}
+
+k8pir() {
+	namespace="$1"
+	nflag=""
+	if [[ $namespace != "" ]]; then
+		nflag="-n $namespace"
+	else
+		nflag="-A"
+	fi
+
+	k get pods $nflag -o jsonpath="{range .items[*]}{range .spec.containers[*]}{.image}{\"\n\"}{end}{end}" | sort | uniq | trans-image-name-reverse
 }
 
 k8pidiff() {
@@ -79,6 +93,8 @@ k8pidiff() {
 	cat /tmp/k8pi.txt | trans-image-name-reverse >/tmp/k8pir.txt
 	git --no-pager diff /tmp/k8pi.txt /tmp/k8pir.txt
 }
+alias tin='trans-image-name'
+alias tinr='trans-image-name-reverse'
 
 k8login() {
 	cluster="$1"
