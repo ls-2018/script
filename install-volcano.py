@@ -19,7 +19,11 @@ wget -q -nv https://raw.githubusercontent.com/volcano-sh/descheduler/refs/heads/
 
 os.system('bash /tmp/volcano.sh')
 os.system('trans-image-name /tmp/volcano')
-os.system('kubectl apply -f /tmp/volcano --server-side')
+os.system('kubectl apply --server-side -f /tmp/volcano/volcano-development.yaml')
+os.system('kubectl apply --server-side -f /tmp/volcano/volcano-agent-development.yaml')
+os.system('kubectl apply --server-side -f /tmp/volcano/volcano-agent-scheduler-development.yaml')
+os.system('kubectl apply --server-side -f /tmp/volcano/volcano-monitoring.yaml')
+os.system('kubectl apply --server-side -f /tmp/volcano/volcano-descheduler-development.yaml')
 
 # docker.io/volcanosh/vc-controller-manager:latest
 # docker.io/volcanosh/vc-scheduler:latest
