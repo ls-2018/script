@@ -11,7 +11,7 @@ exporterPath=$dataDir/wechat-article-exporter
 
 mkdir -p $dataPath
 mkdir -p $exporterPath
-
+set -x 
 docker rm wechat-article-exporter -f
 docker rm wechat-mysql -f
 docker network rm wechat
@@ -49,7 +49,7 @@ docker run \
 
 docker pull ccr.ccs.tencentyun.com/ls-2018/wechat-article-exporter
 
-docker run \
+\docker run \
 	--name wechat-article-exporter \
 	--restart=always \
 	--label com.docker.compose.project=wechat \
