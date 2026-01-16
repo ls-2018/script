@@ -33,7 +33,7 @@ socket=/var/run/mysqld/mysqld.sock
 !includedir /etc/mysql/conf.d/
 EOF
 
-docker run \
+\docker run \
 	-d \
 	-p 13306:3306 \
 	--name wechat-mysql \
