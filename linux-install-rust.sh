@@ -84,42 +84,19 @@ fail() {
 	printf "\033[31m❌ %s\033[0m\n" "$*"
 }
 
-GithubSpeed="files.m.daocloud.io/"
+# 确定系统架构和操作系统
+os=$(uname -s | tr '[:upper:]' '[:lower:]')
+arch=$(uname -m)
+base="https://gitee.com/ls-2018/script/raw/main/binary"
 
 install_sccache() {
-	# 获取最新版本号
-	tag=$(curl -fsSL https://api.github.com/repos/mozilla/sccache/releases/latest | jq -r '.tag_name')
-
-	# 确定系统架构和操作系统
-	os=$(uname -s | tr '[:upper:]' '[:lower:]')
-	arch=$(uname -m)
-
-	# 确定下载包名称
-	tar_name=""
-	if [ "$os" = "darwin" ] && [ "$arch" = "x86_64" ]; then
-		tar_name="sccache-${tag}-x86_64-apple-darwin.tar.gz"
-	elif [ "$os" = "darwin" ] && [ "$arch" = "arm64" ]; then
-		tar_name="sccache-${tag}-aarch64-apple-darwin.tar.gz"
-	elif [ "$os" = "linux" ] && [ "$arch" = "aarch64" ]; then
-		tar_name="sccache-${tag}-aarch64-unknown-linux-musl.tar.gz"
-	elif [ "$os" = "linux" ] && [ "$arch" = "x86_64" ]; then
-		tar_name="sccache-${tag}-x86_64-unknown-linux-musl.tar.gz"
-	fi
-
-	# 检查是否支持当前系统
-	if [ -z "$tar_name" ]; then
-		fail "不支持的操作系统或架构: $os $arch"
-		return 1
-	fi
-
 	# 下载并安装 sccache
 	temp_dir=$(mktemp -d)
-	wget -q -nv -O "${temp_dir}/${tar_name}" "https://${GithubSpeed}github.com/mozilla/sccache/releases/download/${tag}/${tar_name}"
-	tar -xzf "${temp_dir}/${tar_name}" -C "${temp_dir}"
-	extracted_dir=$(ls -1 "${temp_dir}" | grep -v tar | grep sccache-)
-	if [ -f "${temp_dir}/${extracted_dir}/sccache" ]; then
-		chmod +x "${temp_dir}/${extracted_dir}/sccache"
-		mv "${temp_dir}/${extracted_dir}/sccache" "$HOME/.cargo/bin/"
+	cd $temp_dir
+	wget -q -nv $base/sccache-$arch
+	if [ -f "${temp_dir}/sccache-$arch" ]; then
+		chmod +x "${temp_dir}/sccache-$arch"
+		mv "${temp_dir}/sccache-$arch" "$HOME/.cargo/bin/sccache"
 		ok "sccache 安装成功,版本: ${tag}"
 	else
 		fail "sccache 安装失败"
@@ -134,38 +111,13 @@ install_sccache() {
 install_sccache
 
 install_generate() {
-	# 获取最新版本号
-	tag=$(curl -fsSL https://api.github.com/repos/cargo-generate/cargo-generate/releases/latest | jq -r '.tag_name')
-
-	# 确定系统架构和操作系统
-	os=$(uname -s | tr '[:upper:]' '[:lower:]')
-	arch=$(uname -m)
-
-	# 确定下载包名称
-	tar_name=""
-	if [ "$os" = "darwin" ] && [ "$arch" = "x86_64" ]; then
-		tar_name="cargo-generate-${tag}-x86_64-apple-darwin.tar.gz"
-	elif [ "$os" = "darwin" ] && [ "$arch" = "arm64" ]; then
-		tar_name="cargo-generate-${tag}-aarch64-apple-darwin.tar.gz"
-	elif [ "$os" = "linux" ] && [ "$arch" = "aarch64" ]; then
-		tar_name="cargo-generate-${tag}-aarch64-unknown-linux-musl.tar.gz"
-	elif [ "$os" = "linux" ] && [ "$arch" = "x86_64" ]; then
-		tar_name="cargo-generate-${tag}-x86_64-unknown-linux-gnu.tar.gz"
-	fi
-
-	# 检查是否支持当前系统
-	if [ -z "$tar_name" ]; then
-		fail "不支持的操作系统或架构: $os $arch"
-		return 1
-	fi
-
-	# 下载并安装 cargo-generate
+	# 下载并安装 generate
 	temp_dir=$(mktemp -d)
-	wget -q -nv -O "${temp_dir}/${tar_name}" "https://github.com/cargo-generate/cargo-generate/releases/download/${tag}/${tar_name}"
-	tar -xzf "${temp_dir}/${tar_name}" -C "${temp_dir}"
-	if [ -f "${temp_dir}/cargo-generate" ]; then
-		chmod +x "${temp_dir}/cargo-generate"
-		mv "${temp_dir}/cargo-generate" "$HOME/.cargo/bin/"
+	cd $temp_dir
+	wget -q -nv $base/cargo-generate-$arch
+	if [ -f "${temp_dir}/cargo-generate-$arch" ]; then
+		chmod +x "${temp_dir}/cargo-generate-$arch"
+		mv "${temp_dir}/cargo-generate-$arch" "$HOME/.cargo/bin/cargo-generate"
 		ok "cargo-generate 安装成功,版本: ${tag}"
 	else
 		fail "cargo-generate 安装失败"
@@ -180,35 +132,15 @@ install_generate() {
 install_generate
 
 install_expand() {
-	# 确定系统架构
-	arch=$(uname -m)
-
-	# 确定下载包名称
-	tar_name=""
-	if [ "$arch" = "amd64" ]; then
-		tar_name="cargo-expand-x86_64"
-	elif [ "$arch" = "arm64" ]; then
-		tar_name="cargo-expand-aarch64"
-	elif [ "$arch" = "aarch64" ]; then
-		tar_name="cargo-expand-aarch64"
-	fi
-
-	# 检查是否支持当前系统
-	if [ -z "$tar_name" ]; then
-		fail "不支持的操作系统或架构: $arch"
-		return 1
-	fi
-
-	# 下载并安装 cargo-expand
 	temp_dir=$(mktemp -d)
-	wget -q -nv -O ${temp_dir}/cargo-expand https://gitee.com/ls-2018/script/raw/main/binary/${tar_name}
-	if [ -f "cargo-expand" ]; then
-		chmod +x ${temp_dir}/cargo-expand
-		mv ${temp_dir}/cargo-expand "$HOME/.cargo/bin/"
-		ok "cargo-expand 安装成功"
+	cd $temp_dir
+	wget -q -nv $base/cargo-expand-$arch
+	if [ -f "${temp_dir}/cargo-expand-$arch" ]; then
+		chmod +x "${temp_dir}/cargo-expand-$arch"
+		mv "${temp_dir}/cargo-expand-$arch" "$HOME/.cargo/bin/cargo-expand"
+		ok "cargo-expand 安装成功,版本: ${tag}"
 	else
 		fail "cargo-expand 安装失败"
-		# 清理临时文件
 		rm -rf "${temp_dir}"
 		return 1
 	fi
