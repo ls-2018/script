@@ -178,35 +178,41 @@ install_generate() {
 install_generate
 
 install_expand() {
- 	# 确定系统架构
- 	arch=$(uname -m)
+	# 确定系统架构
+	arch=$(uname -m)
 
- 	# 确定下载包名称
- 	tar_name=""
- 	if [ "$arch" = "amd64" ]; then
- 		tar_name="cargo-expand-x86_64"
-  elif [ "$arch" = "arm64" ]; then
- 	  tar_name="cargo-expand-aarch64"
-  elif [ "$arch" = "aarch64" ]; then
- 	  tar_name="cargo-expand-aarch64"
- 	fi
+	# 确定下载包名称
+	tar_name=""
+	if [ "$arch" = "amd64" ]; then
+		tar_name="cargo-expand-x86_64"
+	elif [ "$arch" = "arm64" ]; then
+		tar_name="cargo-expand-aarch64"
+	elif [ "$arch" = "aarch64" ]; then
+		tar_name="cargo-expand-aarch64"
+	fi
 
- 	# 检查是否支持当前系统
- 	if [ -z "$tar_name" ]; then
- 		fail "不支持的操作系统或架构: $arch"
- 		return 1
- 	fi
+	# 检查是否支持当前系统
+	if [ -z "$tar_name" ]; then
+		fail "不支持的操作系统或架构: $arch"
+		return 1
+	fi
 
- 	# 下载并安装 cargo-expand
- 	wget -q -nv -O cargo-expand "https://raw.githubusercontent.com/ls-2018/script/refs/heads/main/${tag_name}"
- 	if [ -f "cargo-expand" ]; then
- 		chmod +x cargo-expand
- 		mv cargo-expand "$HOME/.cargo/bin/"
- 		ok "cargo-expand 安装成功，版本: ${tag}"
- 	else
- 		fail "cargo-expand 安装失败"
- 		return 1
- 	fi
+	# 下载并安装 cargo-expand
+	temp_dir=$(mktemp -d)
+	wget -q -nv -O ${temp_dir}/cargo-expand "https://raw.githubusercontent.com/ls-2018/script/refs/heads/main/${tag_name}"
+	if [ -f "cargo-expand" ]; then
+		chmod +x ${temp_dir}/cargo-expand
+		mv ${temp_dir}/cargo-expand "$HOME/.cargo/bin/"
+		ok "cargo-expand 安装成功，版本: ${tag}"
+	else
+		fail "cargo-expand 安装失败"
+		# 清理临时文件
+		rm -rf "${temp_dir}"
+		return 1
+	fi
+
+	# 清理临时文件
+	rm -rf "${temp_dir}"
 }
 
 install_expand
