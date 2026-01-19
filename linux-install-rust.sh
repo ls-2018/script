@@ -84,70 +84,45 @@ fail() {
 	printf "\033[31m❌ %s\033[0m\n" "$*"
 }
 
+download() {
+	local url="$2"
+	local local_file="$1"
+	mkdir -p $(dirname $local_file)
+
+	# 获取本地文件大小（若文件不存在,则大小为 0）
+	# local local_size=$(stat -c "%s" "$local_file" 2>/dev/null || echo 0)    linux
+	local local_size=$(stat -f "%z" "$local_file" 2>/dev/null || echo 0)
+	# 获取远程文件大小
+	local remote_size=$(curl -sIL "$url" | tr 'A-Z' 'a-z' | awk '/content-length/ {print $2}' | sed -n '$p' | tr -d '\r')
+	echo "$local_size" "$remote_size"
+	# 如果大小不同,则下载
+	if [[ "$local_size" -ne "$remote_size" ]]; then
+		ls -alh "$local_file"
+		curl -L --progress-bar -o "$local_file" "$url"
+	fi
+}
+
 # 确定系统架构和操作系统
 os=$(uname -s | tr '[:upper:]' '[:lower:]')
 arch=$(uname -m)
 base="https://gitee.com/ls-2018/script/raw/main/binary"
 
-install_sccache() {
+init() {
 	# 下载并安装 sccache
 	temp_dir=$(mktemp -d)
 	cd $temp_dir
-	wget -q -nv $base/sccache-$arch
-	if [ -f "${temp_dir}/sccache-$arch" ]; then
-		chmod +x "${temp_dir}/sccache-$arch"
-		mv "${temp_dir}/sccache-$arch" "$HOME/.cargo/bin/sccache"
-		ok "sccache 安装成功,版本: ${tag}"
-	else
-		fail "sccache 安装失败"
-		rm -rf "${temp_dir}"
-		return 1
-	fi
+	git clone https://gitee.com/ls-2018/script.git
+	chmod +x script/binary/*
+	mv "script/binary/sccache-$arch" "$HOME/.cargo/bin/sccache"
+	ok "sccache 安装成功,版本: ${tag}"
 
-	# 清理临时文件
-	rm -rf "${temp_dir}"
+	mv "script/binary/cargo-generate-$arch" "$HOME/.cargo/bin/cargo-generate"
+	ok "cargo-generate 安装成功,版本: ${tag}"
+
+	mv "script/binary/cargo-expand-$arch" "$HOME/.cargo/bin/cargo-expand"
+	ok "cargo-expand 安装成功,版本: ${tag}"
 }
 
-install_sccache
+init
 
-install_generate() {
-	# 下载并安装 generate
-	temp_dir=$(mktemp -d)
-	cd $temp_dir
-	wget -q -nv $base/cargo-generate-$arch
-	if [ -f "${temp_dir}/cargo-generate-$arch" ]; then
-		chmod +x "${temp_dir}/cargo-generate-$arch"
-		mv "${temp_dir}/cargo-generate-$arch" "$HOME/.cargo/bin/cargo-generate"
-		ok "cargo-generate 安装成功,版本: ${tag}"
-	else
-		fail "cargo-generate 安装失败"
-		rm -rf "${temp_dir}"
-		return 1
-	fi
-
-	# 清理临时文件
-	rm -rf "${temp_dir}"
-}
-
-install_generate
-
-install_expand() {
-	temp_dir=$(mktemp -d)
-	cd $temp_dir
-	wget -q -nv $base/cargo-expand-$arch
-	if [ -f "${temp_dir}/cargo-expand-$arch" ]; then
-		chmod +x "${temp_dir}/cargo-expand-$arch"
-		mv "${temp_dir}/cargo-expand-$arch" "$HOME/.cargo/bin/cargo-expand"
-		ok "cargo-expand 安装成功,版本: ${tag}"
-	else
-		fail "cargo-expand 安装失败"
-		rm -rf "${temp_dir}"
-		return 1
-	fi
-
-	# 清理临时文件
-	rm -rf "${temp_dir}"
-}
-
-install_expand
 sccache --zero-stats
