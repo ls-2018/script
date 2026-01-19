@@ -54,7 +54,7 @@ for i in {0..99}; do sed "s/{NODE_NAME}/kwok-node-$i/g" /tmp/node.yaml | kubectl
 
 go install github.com/k-cloud-labs/scheduler-stress-test@latest
 
-# 创建 1000 个 pod，使用 1000 的并发级别（namespace: scheduler-stress-test）
+# 创建 1000 个 pod,使用 1000 的并发级别（namespace: scheduler-stress-test）
 scheduler-stress-test create --kubeconfig=${KUBECONFIG} --count 1000 --concurrency 1000 --pod-template=$1
 
 # 等待结果

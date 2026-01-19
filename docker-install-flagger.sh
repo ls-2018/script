@@ -24,4 +24,4 @@ kubectl apply -k /Volumes/Tf/resources/3rd/flagger/kustomize/tester
 
 # kubectl -n test set image deployment/podinfo podinfod=ghcr.io/stefanprodan/podinfo:6.0.1
 
-# kubectl -n test exec -it flagger-loadtester-x，x-xx watch curl http://podinfo-canary:9898/status/500
+# kubectl -n test exec -it flagger-loadtester-x,x-xx watch curl http://podinfo-canary:9898/status/500

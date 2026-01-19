@@ -42,7 +42,7 @@ go install github.com/axw/gocov/gocov@latest
 go install github.com/matm/gocov-html/cmd/gocov-html@latest
 go install github.com/AlekSi/gocov-xml@latest
 
-# diff-cover[3]，生成行增量覆盖率
+# diff-cover[3],生成行增量覆盖率
 #yum -y install gcc automake autoconf libtool make zlib zlib-devel openssl openssl-devel
 #wget --no-verbose https://www.python.org/ftp/python/3.8.1/Python-3.8.1.tgz
 #tar -zxvf Python-3.8.1.tgz && cd Python-3.8.1 && ./configure && make && make install

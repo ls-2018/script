@@ -48,16 +48,16 @@ time cargo install wasm-pack
 # rustup target add wasm32-wasi
 
 # 清理由 Cargo 生成的未使用的构建文件。与cargo clean不同
-# cargo-sweep旨在保留那些在不同版本间不会发生变化的文件，从而提高构建效率。
+# cargo-sweep旨在保留那些在不同版本间不会发生变化的文件,从而提高构建效率。
 cargo install cargo-sweep
 
-# 会扫描 Rust 项目的Cargo.lock文件，检查已知的漏洞和依赖的安全问题。
+# 会扫描 Rust 项目的Cargo.lock文件,检查已知的漏洞和依赖的安全问题。
 cargo install cargo-audit
 
 # 找出并移除那些吃灰的依赖
 cargo install cargo-udeps
 
-# 会按照字母顺序对dependencies、dev-dependencies等进行排序，并将排序结果写回Cargo.toml中。
+# 会按照字母顺序对dependencies、dev-dependencies等进行排序,并将排序结果写回Cargo.toml中。
 cargo install cargo-sort
 
 # 查看哪些 crate 有新版本

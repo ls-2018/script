@@ -8,7 +8,7 @@ cp /Volumes/Tf/resources/PowerDNS/schema.mysql.sql .
 yum -y install mariadb mariadb-server
 systemctl enable mariadb
 systemctl start mariadb
-# 创建数据库pdns，
+# 创建数据库pdns,
 $()
 cat <<\EOF >/tmp/tmp.sql
 create database pdns;

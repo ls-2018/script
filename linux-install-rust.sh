@@ -73,16 +73,18 @@ apt install pkg-config libssl-dev -y
 # bash /Users/acejilam/script/init-rust.sh
 
 ok() {
-	echo -e "\033[32m✅ ${*//x/\\033[31mx\\033[32m}\033[0m"
+	printf "\033[32m✅ %s\033[0m\n" "$*"
 }
 
 warn() {
-	echo -e "\033[33m⚠️  ${*//x/\\033[31mx\\033[33m}\033[0m" >&2
+	printf "\033[33m⚠️ %s\033[0m\n" "$*"
 }
 
 fail() {
-	echo -e "\033[31m❌ ${*//x/\\033[31mx}\033[0m" >&2
+	printf "\033[31m❌ %s\033[0m\n" "$*"
 }
+
+GithubSpeed="files.m.daocloud.io/"
 
 install_sccache() {
 	# 获取最新版本号
@@ -112,13 +114,13 @@ install_sccache() {
 
 	# 下载并安装 sccache
 	temp_dir=$(mktemp -d)
-	wget -q -nv -O "${temp_dir}/${tar_name}" "https://github.com/mozilla/sccache/releases/download/${tag}/${tar_name}"
+	wget -q -nv -O "${temp_dir}/${tar_name}" "https://${GithubSpeed}github.com/mozilla/sccache/releases/download/${tag}/${tar_name}"
 	tar -xzf "${temp_dir}/${tar_name}" -C "${temp_dir}"
 	extracted_dir=$(ls -1 "${temp_dir}" | grep -v tar | grep sccache-)
 	if [ -f "${temp_dir}/${extracted_dir}/sccache" ]; then
 		chmod +x "${temp_dir}/${extracted_dir}/sccache"
 		mv "${temp_dir}/${extracted_dir}/sccache" "$HOME/.cargo/bin/"
-		ok "sccache 安装成功，版本: ${tag}"
+		ok "sccache 安装成功,版本: ${tag}"
 	else
 		fail "sccache 安装失败"
 		rm -rf "${temp_dir}"
@@ -164,7 +166,7 @@ install_generate() {
 	if [ -f "${temp_dir}/cargo-generate" ]; then
 		chmod +x "${temp_dir}/cargo-generate"
 		mv "${temp_dir}/cargo-generate" "$HOME/.cargo/bin/"
-		ok "cargo-generate 安装成功，版本: ${tag}"
+		ok "cargo-generate 安装成功,版本: ${tag}"
 	else
 		fail "cargo-generate 安装失败"
 		rm -rf "${temp_dir}"
@@ -199,11 +201,11 @@ install_expand() {
 
 	# 下载并安装 cargo-expand
 	temp_dir=$(mktemp -d)
-	wget -q -nv -O ${temp_dir}/cargo-expand "https://raw.githubusercontent.com/ls-2018/script/refs/heads/main/binary/${tag_name}"
+	wget -q -nv -O ${temp_dir}/cargo-expand https://gitee.com/ls-2018/script/raw/main/binary/${tar_name}
 	if [ -f "cargo-expand" ]; then
 		chmod +x ${temp_dir}/cargo-expand
 		mv ${temp_dir}/cargo-expand "$HOME/.cargo/bin/"
-		ok "cargo-expand 安装成功，版本: ${tag}"
+		ok "cargo-expand 安装成功"
 	else
 		fail "cargo-expand 安装失败"
 		# 清理临时文件
@@ -216,6 +218,4 @@ install_expand() {
 }
 
 install_expand
-sccache --zero-stats && cargo clean
-
-rm -rf /root/.cargo/{git,registry,target}
+sccache --zero-stats

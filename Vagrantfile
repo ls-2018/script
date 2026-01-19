@@ -103,7 +103,7 @@ Vagrant.configure("2") do |config|
         bash /Users/acejilam/script/linux-install-go.sh
         bash /Users/acejilam/script/linux-add-env.sh
         # bash /Users/acejilam/script/linux-install-bpf.sh
-        # bash /Users/acejilam/script/linux-install-rust.sh
+        bash /Users/acejilam/script/linux-install-rust.sh
 
 #         if [[ $(hostname) == "vm2004" ]]; then
 #           sudo apt-get install nfs-kernel-server rpcbind selinux-utils nfs-common -y

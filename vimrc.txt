@@ -53,7 +53,7 @@ set winaltkeys=no
 " 设定默认解码
 set fenc=utf-8
 set fencs=utf-8,usc-bom,euc-jp,gb18030,gbk,gb2312,cp936
-" 不要使用 vi 的键盘模式，而是 vim 自己的
+" 不要使用 vi 的键盘模式,而是 vim 自己的
 set nocompatible
 " history 文件中需要记录的行数
 set history=100
@@ -68,7 +68,7 @@ set paste
 " 不要备份文件（根据自己需要取舍）
 set backup
 set backupdir=~/.vimbak
-" 不要生成 swap 文件，当 buffer 被丢弃的时候隐藏它
+" 不要生成 swap 文件,当 buffer 被丢弃的时候隐藏它
 setlocal noswapfile
 set bufhidden=hide
 " 字符间插入的像素行数目
@@ -78,7 +78,7 @@ set wildmenu
 " 在状态行上显示光标所在位置的行号和列号
 set ruler
 set rulerformat=%20(%2*%<%f%=\ %m%r\ %3l\ %c\ %p%%%)
-" 命令行（在状态行下）的高度，默认为 1，这里是 2
+" 命令行（在状态行下）的高度,默认为 1,这里是 2
 set cmdheight=2
 " 使回格键（backspace）正常处理 indent, eol, start 等
 set backspace=2
@@ -88,13 +88,13 @@ set whichwrap+=<,>,h,l
 set mouse=a
 set selection=exclusive
 set selectmode=mouse,key
-" 通过使用: commands 命令，告诉我们文件的哪一行被改变过
+" 通过使用: commands 命令,告诉我们文件的哪一行被改变过
 set report=0
 
 " 不让 vim 发出讨厌的滴滴声
 set noerrorbells
 
-" 在被分割的窗口间显示空白，便于阅读
+" 在被分割的窗口间显示空白,便于阅读
 set fillchars=vert:\ ,stl:\ ,stlnc:\
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -108,7 +108,7 @@ set matchtime=5
 set ignorecase
 " highligth the search word
 set hlsearch
-" 在搜索时，输入的词句的逐字符高亮（类似 firefox 的搜索）
+" 在搜索时,输入的词句的逐字符高亮（类似 firefox 的搜索）
 set incsearch
 " 输入:set list 命令是应该显示些啥？
 set listchars=tab:\|\ ,trail:.,extends:>,precedes:<,eol:$
@@ -119,14 +119,14 @@ set novisualbell
 " 我的状态行显示的内容（包括文件类型和解码）
 set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [POS=%l,%v][%p%%]\ %{strftime(\"%d/%m/%y\ -\ %H:%M\")}
 " 总是显示状态行
-set laststatus=2 "前更新进度，部分文章篇
+set laststatus=2 "前更新进度,部分文章篇
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Text
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 自动格式化
 set formatoptions=tcrqn
-" 继承前一行的缩进方式，特别适用于多行注释
+" 继承前一行的缩进方式,特别适用于多行注释
 set noautoindent
 " 为 C 程序提供自动缩进
 set nosmartindent

@@ -22,13 +22,13 @@ download() {
 	local local_file="$1"
 	mkdir -p $(dirname $local_file)
 
-	# 获取本地文件大小（若文件不存在，则大小为 0）
+	# 获取本地文件大小（若文件不存在,则大小为 0）
 	# local local_size=$(stat -c "%s" "$local_file" 2>/dev/null || echo 0)    linux
 	local local_size=$(stat -f "%z" "$local_file" 2>/dev/null || echo 0)
 	# 获取远程文件大小
 	local remote_size=$(curl -sIL "$url" | tr 'A-Z' 'a-z' | awk '/content-length/ {print $2}' | sed -n '$p' | tr -d '\r')
 	echo "$local_size" "$remote_size"
-	# 如果大小不同，则下载
+	# 如果大小不同,则下载
 	if [[ "$local_size" -ne "$remote_size" ]]; then
 		ls -alh "$local_file"
 		curl -L --progress-bar -o "$local_file" "$url"

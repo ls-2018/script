@@ -115,7 +115,7 @@ fix_path_spaces() {
 	local fixed_path=""
 	local IFS=':' # 分隔 PATH 变量
 	for entry in $PATH; do
-		# 如果路径中含空格，则转义空格
+		# 如果路径中含空格,则转义空格
 		entry_fixed=$(echo "$entry" | sed 's/ /\\ /g')
 		if [ -z "$fixed_path" ]; then
 			fixed_path="$entry_fixed"
@@ -171,15 +171,15 @@ record() {
 	local asciinema_file
 	asciinema_file=$(date +%s)
 
-	# 开始录制，用户做完事情输入 exit 即可
+	# 开始录制,用户做完事情输入 exit 即可
 	asciinema rec "${asciinema_file}.cast"
 
-	# 录制结束后，自动转换并生成 gif
+	# 录制结束后,自动转换并生成 gif
 	asciinema convert -f asciicast-v2 "${asciinema_file}.cast" "${asciinema_file}.cast2" --overwrite
 	agg --font-family 'MesloLGS NF' "${asciinema_file}.cast2" "${asciinema_file}.gif"
 
 	# 清理临时文件
 	rm -f "${asciinema_file}.cast" "${asciinema_file}.cast2"
 
-	echo "✅ 录制完成，已生成: ${asciinema_file}.gif"
+	echo "✅ 录制完成,已生成: ${asciinema_file}.gif"
 }

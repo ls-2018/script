@@ -48,7 +48,7 @@ compile_linux() {
 	grep CONFIG_DEBUG_INFO .config
 
 	# 生成调试符号并编译内核
-	# vmlinux: 一个包含调试符号的未压缩内核映像，GDB 调试时会用到它,在当前目录linux-6.10.6
+	# vmlinux: 一个包含调试符号的未压缩内核映像,GDB 调试时会用到它,在当前目录linux-6.10.6
 	# bzImage: 编译后的镜像 bzImage, 路径： linux-6.10.6/arch/x86/boot/bzImage
 	make -j$(nproc) vmlinux
 	make -j$(nproc) ${image}
