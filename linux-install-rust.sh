@@ -121,6 +121,9 @@ init() {
 
 	mv "script/binary/cargo-expand-$os-$arch" "$HOME/.cargo/bin/cargo-expand"
 	ok "cargo-expand 安装成功,版本: ${tag}"
+
+	rm -rf $temp_dir
+	cd -
 }
 
 init
