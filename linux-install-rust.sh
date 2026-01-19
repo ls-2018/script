@@ -178,15 +178,35 @@ install_generate() {
 install_generate
 
 install_expand() {
-	git clone https://github.com/dtolnay/cargo-expand.git
-	cd cargo-expand
-	echo '
-  [build]
-  rustc-wrapper = "sccache"
-  ' >>Cargo.toml
-	RUSTC_WRAPPER="sccache" cargo install --path .
-	cd -
-	rm -rf cargo-expand
+ 	# 确定系统架构
+ 	arch=$(uname -m)
+
+ 	# 确定下载包名称
+ 	tar_name=""
+ 	if [ "$arch" = "amd64" ]; then
+ 		tar_name="cargo-expand-x86_64"
+  elif [ "$arch" = "arm64" ]; then
+ 	  tar_name="cargo-expand-aarch64"
+  elif [ "$arch" = "aarch64" ]; then
+ 	  tar_name="cargo-expand-aarch64"
+ 	fi
+
+ 	# 检查是否支持当前系统
+ 	if [ -z "$tar_name" ]; then
+ 		fail "不支持的操作系统或架构: $arch"
+ 		return 1
+ 	fi
+
+ 	# 下载并安装 cargo-expand
+ 	wget -q -nv -O cargo-expand "https://raw.githubusercontent.com/ls-2018/script/refs/heads/main/${tag_name}"
+ 	if [ -f "cargo-expand" ]; then
+ 		chmod +x cargo-expand
+ 		mv cargo-expand "$HOME/.cargo/bin/"
+ 		ok "cargo-expand 安装成功，版本: ${tag}"
+ 	else
+ 		fail "cargo-expand 安装失败"
+ 		return 1
+ 	fi
 }
 
 install_expand

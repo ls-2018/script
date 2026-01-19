@@ -11,7 +11,7 @@ exporterPath=$dataDir/wechat-article-exporter
 
 mkdir -p $dataPath
 mkdir -p $exporterPath
-set -x 
+set -x
 docker rm wechat-article-exporter -f
 docker rm wechat-mysql -f
 docker network rm wechat
@@ -64,7 +64,7 @@ docker pull ccr.ccs.tencentyun.com/ls-2018/wechat-article-exporter
 	-p 13000:3000 \
 	-v $exporterPath:/app/.data \
 	ccr.ccs.tencentyun.com/ls-2018/wechat-article-exporter
-set +x 
+set +x
 pkill -9 'Chromium'
 sleep 2
 open -a "/Applications/Chromium.app" "http://localhost:13000"
