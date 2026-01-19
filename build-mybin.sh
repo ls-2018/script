@@ -2,33 +2,33 @@
 expand() {
   mkdir -p /tmp/cargo-expand/
   echo '''
-  # syntax=docker/dockerfile:1.7
-  FROM ccr.ccs.tencentyun.com/ls-2018/myrust AS builder
+# syntax=docker/dockerfile:1.7
+FROM ccr.ccs.tencentyun.com/ls-2018/myrust AS builder
 
-  ARG TARGETARCH
+ARG TARGETARCH
 
-  RUN if [ "$TARGETARCH" = "amd64" ]; then \
-          rustup target add x86_64-unknown-linux-musl ; \
-      elif [ "$TARGETARCH" = "arm64" ]; then \
-          rustup target add aarch64-unknown-linux-musl ; \
-      fi
+RUN if [ "$TARGETARCH" = "amd64" ]; then \
+        rustup target add x86_64-unknown-linux-musl ; \
+    elif [ "$TARGETARCH" = "arm64" ]; then \
+        rustup target add aarch64-unknown-linux-musl ; \
+    fi
 
-  # 克隆代码
-  RUN git clone https://github.com/dtolnay/cargo-expand.git
-  WORKDIR /cargo-expand
+# 克隆代码
+RUN git clone https://github.com/dtolnay/cargo-expand.git
+WORKDIR /cargo-expand
 
-  # 构建
-  RUN if [ "$TARGETARCH" = "amd64" ]; then \
-          cargo build --release --target x86_64-unknown-linux-musl ; \
-      elif [ "$TARGETARCH" = "arm64" ]; then \
-          cargo build --release --target aarch64-unknown-linux-musl ; \
-      fi
+# 构建
+RUN if [ "$TARGETARCH" = "amd64" ]; then \
+        cargo build --release --target x86_64-unknown-linux-musl ; \
+    elif [ "$TARGETARCH" = "arm64" ]; then \
+        cargo build --release --target aarch64-unknown-linux-musl ; \
+    fi
 
-  # 导出阶段
-  FROM scratch AS export
-  ARG TARGETARCH
-  COPY --from=builder /cargo-expand/target/*/release/cargo-expand /cargo-expand
-  ''' >/tmp/cargo-expand/Dockerfile
+# 导出阶段
+FROM scratch AS export
+ARG TARGETARCH
+COPY --from=builder /cargo-expand/target/*/release/cargo-expand /cargo-expand
+''' >/tmp/cargo-expand/Dockerfile
 
   cd /tmp/cargo-expand
   docker buildx build --platform linux/amd64,linux/arm64 --output type=local,dest=./out .
@@ -50,33 +50,33 @@ expand() {
 generate() {
   mkdir -p /tmp/cargo-generate/
   echo '''
-  # syntax=docker/dockerfile:1.7
-  FROM ccr.ccs.tencentyun.com/ls-2018/myrust AS builder
+# syntax=docker/dockerfile:1.7
+FROM ccr.ccs.tencentyun.com/ls-2018/myrust AS builder
 
-  ARG TARGETARCH
+ARG TARGETARCH
 
-  RUN if [ "$TARGETARCH" = "amd64" ]; then \
-          rustup target add x86_64-unknown-linux-musl ; \
-      elif [ "$TARGETARCH" = "arm64" ]; then \
-          rustup target add aarch64-unknown-linux-musl ; \
-      fi
+RUN if [ "$TARGETARCH" = "amd64" ]; then \
+        rustup target add x86_64-unknown-linux-musl ; \
+    elif [ "$TARGETARCH" = "arm64" ]; then \
+        rustup target add aarch64-unknown-linux-musl ; \
+    fi
 
-  # 克隆代码
-  RUN git clone https://github.com/cargo-generate/cargo-generate.git
-  WORKDIR /cargo-generate
+# 克隆代码
+RUN git clone https://github.com/cargo-generate/cargo-generate.git
+WORKDIR /cargo-generate
 
-  # 构建
-  RUN if [ "$TARGETARCH" = "amd64" ]; then \
-          cargo build --release --target x86_64-unknown-linux-musl ; \
-      elif [ "$TARGETARCH" = "arm64" ]; then \
-          cargo build --release --target aarch64-unknown-linux-musl ; \
-      fi
+# 构建
+RUN if [ "$TARGETARCH" = "amd64" ]; then \
+        cargo build --release --target x86_64-unknown-linux-musl ; \
+    elif [ "$TARGETARCH" = "arm64" ]; then \
+        cargo build --release --target aarch64-unknown-linux-musl ; \
+    fi
 
-  # 导出阶段
-  FROM scratch AS export
-  ARG TARGETARCH
-  COPY --from=builder /cargo-generate/target/*/release/cargo-generate /cargo-generate
-  ''' >/tmp/cargo-generate/Dockerfile
+# 导出阶段
+FROM scratch AS export
+ARG TARGETARCH
+COPY --from=builder /cargo-generate/target/*/release/cargo-generate /cargo-generate
+''' >/tmp/cargo-generate/Dockerfile
 
   cd /tmp/cargo-generate
   docker buildx build --platform linux/amd64,linux/arm64 --output type=local,dest=./out .
