@@ -34,14 +34,14 @@ COPY --from=builder /cargo-expand/target/*/release/cargo-expand /cargo-expand
 	docker buildx build --platform linux/amd64,linux/arm64 --output type=local,dest=./out .
 
 	mkdir -p /Users/acejilam/script/binary
-	cp -rf /tmp/cargo-expand/out/linux_amd64/cargo-expand /Users/acejilam/script/binary/cargo-expand-x86_64
-	cp -rf /tmp/cargo-expand/out/linux_arm64/cargo-expand /Users/acejilam/script/binary/cargo-expand-aarch64
+	cp -rf /tmp/cargo-expand/out/linux_amd64/cargo-expand /Users/acejilam/script/binary/cargo-expand-linux-x86_64
+	cp -rf /tmp/cargo-expand/out/linux_arm64/cargo-expand /Users/acejilam/script/binary/cargo-expand-linux-aarch64
 
 	md5sum /tmp/cargo-expand/out/linux_amd64/cargo-expand
-	md5sum /Users/acejilam/script/binary/cargo-expand-x86_64
+	md5sum /Users/acejilam/script/binary/cargo-expand-linux-x86_64
 
 	md5sum /tmp/cargo-expand/out/linux_arm64/cargo-expand
-	md5sum /Users/acejilam/script/binary/cargo-expand-aarch64
+	md5sum /Users/acejilam/script/binary/cargo-expand-linux-aarch64
 
 }
 
@@ -85,14 +85,14 @@ COPY --from=builder /cargo-generate/target/*/release/cargo-generate /cargo-gener
 	docker buildx build --platform linux/amd64,linux/arm64 --output type=local,dest=./out .
 
 	mkdir -p /Users/acejilam/script/binary
-	cp -rf /tmp/cargo-generate/out/linux_amd64/cargo-generate /Users/acejilam/script/binary/cargo-generate-x86_64
-	cp -rf /tmp/cargo-generate/out/linux_arm64/cargo-generate /Users/acejilam/script/binary/cargo-generate-aarch64
+	cp -rf /tmp/cargo-generate/out/linux_amd64/cargo-generate /Users/acejilam/script/binary/cargo-generate-linux-x86_64
+	cp -rf /tmp/cargo-generate/out/linux_arm64/cargo-generate /Users/acejilam/script/binary/cargo-generate-linux-aarch64
 
 	md5sum /tmp/cargo-generate/out/linux_amd64/cargo-generate
-	md5sum /Users/acejilam/script/binary/cargo-generate-x86_64
+	md5sum /Users/acejilam/script/binary/cargo-generate-linux-x86_64
 
 	md5sum /tmp/cargo-generate/out/linux_arm64/cargo-generate
-	md5sum /Users/acejilam/script/binary/cargo-generate-aarch64
+	md5sum /Users/acejilam/script/binary/cargo-generate-linux-aarch64
 
 }
 
@@ -103,10 +103,10 @@ sccahe() {
 	eval "$(print_proxy.py)"
 	wget -q -nv https://github.com/mozilla/sccache/releases/download/v0.13.0/sccache-v0.13.0-aarch64-unknown-linux-musl.tar.gz
 	tar -zxf sccache-v0.13.0-aarch64-unknown-linux-musl.tar.gz
-	mv sccache-v0.13.0-aarch64-unknown-linux-musl/sccache /Users/acejilam/script/binary/sccache-aarch64
+	mv sccache-v0.13.0-aarch64-unknown-linux-musl/sccache /Users/acejilam/script/binary/sccache-linux-aarch64
 	wget -q -nv https://github.com/mozilla/sccache/releases/download/v0.13.0/sccache-v0.13.0-x86_64-unknown-linux-musl.tar.gz
 	tar -zxf sccache-v0.13.0-x86_64-unknown-linux-musl.tar.gz
-	mv sccache-v0.13.0-x86_64-unknown-linux-musl/sccache /Users/acejilam/script/binary/sccache-x86_64
+	mv sccache-v0.13.0-x86_64-unknown-linux-musl/sccache /Users/acejilam/script/binary/sccache-linux-x86_64
 	cd -
 	rm -rf ${temp_dir}
 }
