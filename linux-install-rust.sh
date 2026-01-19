@@ -199,7 +199,7 @@ install_expand() {
 
 	# 下载并安装 cargo-expand
 	temp_dir=$(mktemp -d)
-	wget -q -nv -O ${temp_dir}/cargo-expand "https://raw.githubusercontent.com/ls-2018/script/refs/heads/main/${tag_name}"
+	wget -q -nv -O ${temp_dir}/cargo-expand "https://raw.githubusercontent.com/ls-2018/script/refs/heads/main/binary/${tag_name}"
 	if [ -f "cargo-expand" ]; then
 		chmod +x ${temp_dir}/cargo-expand
 		mv ${temp_dir}/cargo-expand "$HOME/.cargo/bin/"
