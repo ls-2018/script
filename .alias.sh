@@ -47,7 +47,10 @@ alias docker-clean-unused='docker system prune --all --force --volumes'
 alias docker-clean-all='docker stop $(docker container ls -a -q) && docker system prune --all --force --volumes'
 
 alias ssh='trzsz --dragfile ssh'
-alias dive="docker run -ti --rm -v /var/run/docker.sock:/var/run/docker.sock $(SkipUpgradeCheck=false trans-image-name docker.io/wagoodman/dive)"
+
+dive() {
+	docker run -ti --rm -v /var/run/docker.sock:/var/run/docker.sock $(trans-image-name docker.io/wagoodman/dive)
+}
 
 # Only run Zsh completion commands if we're in Zsh and compdef is available
 if [ -n "$ZSH_VERSION" ] && type compdef >/dev/null 2>&1; then

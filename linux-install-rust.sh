@@ -114,13 +114,13 @@ init() {
 	git clone https://gitee.com/ls-2018/script.git
 	chmod +x script/binary/*
 	mv "script/binary/sccache-$os-$arch" "$HOME/.cargo/bin/sccache"
-	ok "sccache 安装成功,版本: ${tag}"
+	ok "sccache 安装成功"
 
 	mv "script/binary/cargo-generate-$os-$arch" "$HOME/.cargo/bin/cargo-generate"
-	ok "cargo-generate 安装成功,版本: ${tag}"
+	ok "cargo-generate 安装成功"
 
 	mv "script/binary/cargo-expand-$os-$arch" "$HOME/.cargo/bin/cargo-expand"
-	ok "cargo-expand 安装成功,版本: ${tag}"
+	ok "cargo-expand 安装成功"
 
 	rm -rf $temp_dir
 	cd -
