@@ -98,12 +98,8 @@ k8pidiff() {
 }
 alias tin='trans-image-name'
 alias tinr='trans-image-name-reverse'
-
-k8login() {
-	cluster="$1"
-	login_online.py -c "$cluster" && source /tmp/k8s_config.sh
-}
-alias sk='source /tmp/k8s_config.sh'
+alias k8login=login_online.py
+ 
 
 gtp() {
 	git add .
