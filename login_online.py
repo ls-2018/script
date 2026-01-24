@@ -10,6 +10,7 @@ import pyotp
 
 cluster_set = defaultdict(list)
 home = os.path.expanduser("~")
+os.system(f'rm -rf {home}/.kube/online*')
 
 
 class Login:
@@ -21,6 +22,7 @@ class Login:
         self.user = user
         self.password = password
         self.otp = otp
+        os.system('echo "" > /tmp/{center}.log')
         self.f = open(f'/tmp/{center}.log', 'ab+')
         self.f.truncate(0)
 
