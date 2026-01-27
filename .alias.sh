@@ -10,16 +10,17 @@ if [[ $(uname) == "Darwin" ]]; then
 
 	alias sed=gsed
 	alias find=gfind
-	test -e ~/.k8sconfig || {
-		echo '/Users/acejilam/.kube/kind-koord' >~/.k8sconfig
-	}
+	# test -e ~/.k8sconfig || {
+	# 	echo '/Users/acejilam/.kube/kind-koord' >~/.k8sconfig
+	# }
 
-	if [ -z "$KUBECONFIG" ]; then
-		export KUBECONFIG=$(cat ~/.k8sconfig)
-	fi
+	# if [ -z "$KUBECONFIG" ]; then
+	# 	export KUBECONFIG=$(cat ~/.k8sconfig)
+	# fi
 
 	alias vlan_proxy="export https_proxy=http://$(ipconfig getifaddr en0):7890 http_proxy=http://$(ipconfig getifaddr en0):7890 all_proxy=socks5://$(ipconfig getifaddr en0):7890"
 	print_proxy.py check
+	alias ks="kubecm s"
 fi
 
 alias company_proxy='export http_proxy=http://hproxy.it.zetyun.cn:1080; export https_proxy=http://hproxy.it.zetyun.cn:1080;'
@@ -99,7 +100,6 @@ k8pidiff() {
 alias tin='trans-image-name'
 alias tinr='trans-image-name-reverse'
 alias k8login=login_online.py
- 
 
 gtp() {
 	git add .

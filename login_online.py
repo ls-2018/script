@@ -11,6 +11,7 @@ import pyotp
 cluster_set = defaultdict(list)
 home = os.path.expanduser("~")
 os.system(f'rm -rf {home}/.kube/online*')
+os.system(f'pkill -9 Lens')
 
 
 class Login:
