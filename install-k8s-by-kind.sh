@@ -1,11 +1,11 @@
-#! /usr/bin/env zsh
+#!/usr/bin/env zsh
 
 # kubectl krew install who-can
 # kubectl who-can get secret cluster-admin-creds
 # kubectl krew install rakkess
 
 SCRIPT_DIR="$(cd -P "$(dirname "${BASH_SOURCE:-$0}")" && pwd)"
-source "$SCRIPT_DIR/.alias.sh"
+source "$SCRIPT_DIR/.customer_script.sh"
 
 # 解析命令行参数
 name="koord"
@@ -118,8 +118,8 @@ if [[ ${my_harbor} == "harbor" ]]; then
 		echo "skip"
 		# docker-compose -f $(docker-compose ls --format json | jq -r '.[] | select(.Name == "harbor") | .ConfigFiles') restart
 	else
-		docker-install-harbor.sh
+		$SCRIPT_DIR/docker-install-harbor.sh
 	fi
 
-	k8s-use-ls-harbor.py
+	$SCRIPT_DIR/k8s-use-ls-harbor.py
 fi

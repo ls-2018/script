@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import os
+
 os.system('pip3 install toml tomli_w')
 import subprocess
 import toml
@@ -72,9 +73,21 @@ skip_verify = true
 ''')
 
 with open("/tmp/change-host.sh", 'w', encoding='utf8') as f:
-    f.write(f'''echo -e "{ip} {aliyun}" >> /etc/hosts''')
-    f.write("\n")
-    f.write(f'''echo -e "{ip} {ls}" >> /etc/hosts''')
+    f.write(f'''
+echo -e "{ip} {aliyun}" >> /etc/hosts
+echo -e "{ip} {ls}" >> /etc/hosts
+bash <(curl -sSL https://linuxmirrors.cn/main.sh) \
+  --source mirrors.tuna.tsinghua.edu.cn \
+  --protocol https \
+  --use-intranet-source false \
+  --install-epel true \
+  --backup true \
+  --upgrade-software false \
+  --clean-cache false \
+  --ignore-backup-tips
+
+apt update -y
+    ''')
 
 
 def system(_cmd):
@@ -108,9 +121,9 @@ for n in ns:
 
     system(f'docker cp /tmp/change-host.sh {n}:/root/change-host.sh')
 
-    system(f'docker cp /Volumes/Tf/data/harbor/cert/harbor.crt {n}:/etc/containerd/certs.d/{aliyun}/harbor.crt') # 不生效
-    system(f'docker cp /Volumes/Tf/data/harbor/cert/harbor.crt {n}:/etc/containerd/certs.d/{ls}/harbor.crt')# 不生效
-    system(f'docker cp /Volumes/Tf/data/harbor/cert/harbor.crt {n}:/usr/local/share/ca-certificates/')# 生效
+    system(f'docker cp /Volumes/Tf/data/harbor/cert/harbor.crt {n}:/etc/containerd/certs.d/{aliyun}/harbor.crt')  # 不生效
+    system(f'docker cp /Volumes/Tf/data/harbor/cert/harbor.crt {n}:/etc/containerd/certs.d/{ls}/harbor.crt')  # 不生效
+    system(f'docker cp /Volumes/Tf/data/harbor/cert/harbor.crt {n}:/usr/local/share/ca-certificates/')  # 生效
 
     system(f'docker exec {n} bash update-ca-certificates')
     system(f'docker exec {n} bash /root/change-host.sh')

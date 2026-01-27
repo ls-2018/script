@@ -1,5 +1,5 @@
 docker rm nacos --force
-docker run --restart=always --env MODE=standalone --name nacos -d -p 8848:8848 nacos/nacos-server
+docker run --restart=always --env MODE=standalone --name nacos -d -p 8848:8848 `trans-image-name docker.io/nacos/nacos-server:v3.1.1`
 
 echo "
 usage
