@@ -30,10 +30,9 @@ kubectl apply -f ./samples/bookinfo/gateway-api/bookinfo-gateway.yaml -n default
 '''
 
 rs = [
-
-    ['hub: docker.io/istio', f'hub: {harbor}/acejialm'],
-    ['hub: gcr.io/istio-testing', f'hub: {harbor}/acejialm'],
-    ['image: pilot', f'image: {harbor}/acejialm/pilot'],
+    ['hub: docker.io/istio', f'hub: {harbor}/fixed'],
+    ['hub: gcr.io/istio-testing', f'hub: {harbor}/fixed'],
+    ['image: pilot', f'image: {harbor}/fixed/pilot'],
     ['''  volumeClaimTemplates:
     - apiVersion: v1
       kind: PersistentVolumeClaim
@@ -115,6 +114,8 @@ for cd, _dirs, files in os.walk(ISTIO_PATH):
             with open(path, 'r', encoding='utf8') as f:
                 data = f.read()
                 for item in rs:
+                    if item[0] in data:
+                        print(1)
                     data = data.replace(item[0], item[1])
             with open(path, 'w', encoding='utf8') as f:
                 f.write(data)
@@ -126,7 +127,7 @@ for cd, _dirs, files in os.walk(ISTIO_PATH):
             skip = True
             with open(path, 'r', encoding='utf8') as f:
                 data = f.read()
-                if 'install.istio.io/v1alpha1' in data and f'hub: {harbor}/acejialm' not in data:
+                if 'install.istio.io/v1alpha1' in data and f'hub: {harbor}/fixed' not in data:
                     skip = False
             if not skip:
                 with open(path, 'w', encoding='utf8') as f:
@@ -139,7 +140,7 @@ for cd, _dirs, files in os.walk(ISTIO_PATH):
                         if 'spec:' in line and install:
                             spec = True
                         if spec and install:
-                            f.write(f'  hub: {harbor}/acejialm\n')
+                            f.write(f'  hub: {harbor}/fixed\n')
                             install = False
                             spec = False
 
@@ -165,7 +166,7 @@ mod_after = ''
 
 if deploy_mod == "ambient":
     mod = f'''
-istioctl install --set profile=ambient -y --set hub={harbor}/acejialm
+istioctl install --set profile=ambient -y --set hub={harbor}/fixed
 # istioctl install -f manifests/profiles/ambient.yaml -y
 kubectl label namespace default istio.io/dataplane-mode=ambient
 '''
