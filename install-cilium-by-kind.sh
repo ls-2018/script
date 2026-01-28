@@ -178,7 +178,7 @@ spec:
        type: "sock"
 EOF
 
-pref_img=$(trans-image-name quay.io/cilium/netperf)
+pref_img=$(trans-image-name quay.io/cilium/netperf:v1.0)
 echo "
 apiVersion: v1
 kind: Namespace

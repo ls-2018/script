@@ -11,7 +11,7 @@ docker run -d -v ~/.ollama:/root/.ollama \
 	-p 11434:11434 \
 	--name ollama \
 	--network ollama-network \
-	$(trans-image-name ollama/ollama)
+	$(trans-image-name docker.io/ollama/ollama:0.15.2)
 
 
 docker run -d -p 3100:8080 -v open-webui:/app/backend/data \

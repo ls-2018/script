@@ -50,7 +50,7 @@ alias docker-clean-all='docker stop $(docker container ls -a -q) && docker syste
 alias ssh='trzsz --dragfile ssh'
 
 dive() {
-	docker run -ti --rm -v /var/run/docker.sock:/var/run/docker.sock $(trans-image-name docker.io/wagoodman/dive)
+	docker run -ti --rm -v /var/run/docker.sock:/var/run/docker.sock $(trans-image-name docker.io/wagoodman/dive:v0.13.1)
 }
 
 # Only run Zsh completion commands if we're in Zsh and compdef is available
