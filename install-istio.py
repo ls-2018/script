@@ -100,11 +100,9 @@ if download:
         os.system(  # 手动往  阿里云 同步一下数据
             f'''set -v
 {proxy}
-skopeo copy --all --insecure-policy docker://{image} docker://{trans_image(image)}
+skopeo_copy_script.py {image}
 '''
         )
-
-os.system(f'trans-image-name {ISTIO_PATH}')
 
 for cd, _dirs, files in os.walk(ISTIO_PATH):
     for file in files:
@@ -163,6 +161,9 @@ with open(
 
 mod = ''
 mod_after = ''
+
+os.system(f'trans-image-name {ISTIO_PATH}')
+os.system(f'trans-image-name {ISTIO_PATH}')
 
 if deploy_mod == "ambient":
     mod = f'''
