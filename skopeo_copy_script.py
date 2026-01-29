@@ -1,1 +1,1 @@
-/Users/acejilam/k8s/sync/skopeo_copy_script.py
+/Users/acejilam/k8s/utils/sync/skopeo_copy_script.py

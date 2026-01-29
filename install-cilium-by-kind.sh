@@ -1,4 +1,5 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env bash 
+# 不能改
 SCRIPT_DIR="$(cd -P "$(dirname "${BASH_SOURCE:-$0}")" && pwd)"
 source "$SCRIPT_DIR/.customer_script.sh"
 
@@ -28,9 +29,13 @@ if [[ ${my_harbor} == "harbor" ]]; then
 fi
 
 export KUBECONFIG=~/.kube/cilium
-kind create cluster -n cilium --kubeconfig ~/.kube/cilium --config /tmp/kind.yaml --image $(trans-image-name docker.io/kindest/node:v1.32.0)
+kind create cluster -n cilium --kubeconfig ~/.kube/cilium --config /tmp/kind.yaml --image `trans-image-name docker.io/kindest/node:v1.32.0`
 
 eval "$(print_proxy.py)"
+
+wget -q -nv -O /tmp/http-sw-app.yaml https://raw.githubusercontent.com/cilium/cilium/1.18.1/examples/minikube/http-sw-app.yaml
+wget -q -nv -O /tmp/sw_l3_l4_policy.yaml https://raw.githubusercontent.com/cilium/cilium/1.18.1/examples/minikube/sw_l3_l4_policy.yaml
+
 test -e /usr/local/bin/cilium || {
 	# CILIUM_CLI_VERSION=$(curl -s https://raw.githubusercontent.com/cilium/cilium-cli/main/stable.txt)
 	CILIUM_CLI_VERSION=v0.18.7
@@ -43,6 +48,7 @@ test -e /usr/local/bin/cilium || {
 }
 
 helm repo add cilium https://helm.cilium.io/ --force-update
+
 IFS='|' read hubble_relay_repo hubble_relay_tag <<<$(split_repo_tag $(trans-image-name quay.io/cilium/hubble-relay:v1.19.0-pre.0))
 IFS='|' read hubble_ui_repo hubble_ui_tag <<<$(split_repo_tag $(trans-image-name quay.io/cilium/hubble-ui:v0.13.2))
 IFS='|' read hubble_ui_backend_repo hubble_ui_backend_tag <<<$(split_repo_tag $(trans-image-name quay.io/cilium/hubble-ui-backend:v0.13.2))
@@ -103,16 +109,19 @@ host_firewall="--set hostFirewall.enabled=true --set devices='{eth0,eth1}'"
 kubectl create -n cilium-system secret generic cilium-ipsec-keys \
 	--from-literal=keys="3 rfc4543(gcm(aes)) $(echo $(dd if=/dev/urandom count=20 bs=1 2>/dev/null | xxd -p -c 64)) 128"
 
-set -x
+git clone -b v1.19.0-pre.0 https://github.com/cilium/cilium.git /tmp/cilium
+rm /tmp/cilium/install/kubernetes/cilium/templates/validate.yaml || true 
+
 cilium install \
 	--version=v1.19.0-pre.0 \
 	--namespace=cilium-system \
-	${direct_route} \
-	${ebpf} \
-	${kubeproxy_replacement} \
-	${bandwidth} \
-	${wireguard} \
-	${ingressController} \
+	--chart-directory=/tmp/cilium/install/kubernetes/cilium \
+	$direct_route \
+	$ebpf \
+	$kubeproxy_replacement \
+	$bandwidth \
+	$wireguard \
+	$ingressController \
 	--set localRedirectPolicies.enabled=true \
 	--set image.pullPolicy=IfNotPresent \
 	--set monitorAggregation=none \
@@ -136,23 +145,12 @@ cilium install \
 	--set envoy.image.tag=${cilium_envoy_tag} \
 	--set preflight.envoy.image.repository=${cilium_envoy_repo} \
 	--set preflight.envoy.image.tag=${cilium_envoy_tag}
-#	--set operator.image.repository=$(trans-image-name quay.io/cilium/operator)
-#	--set preflight.image.repository=$(trans-image-name quay.io/cilium/cilium-ci) \
-# --dry-run-helm-values
-exit 0
 
 version='v1.5.0'
-tetragon=$(trans-image-name quay.io/cilium/tetragon:v1.5.0)
-tetragon_repo="${tetragon%%:*}"
-tetragon_tag="${tetragon##*:}"
 
-tetragon_operator=$(trans-image-name quay.io/cilium/tetragon-operator:v1.5.0)
-tetragon_operator_repo="${tetragon%%:*}"
-tetragon_operator_tag="${tetragon##*:}"
-
-hubble_export=$(trans-image-name quay.io/cilium/hubble-export-stdout:v1.1.0)
-hubble_repo="${hubble_export%%:*}"
-hubble_tag="${hubble_export##*:}"
+IFS='|' read tetragon_repo tetragon_tag <<<$(split_repo_tag $(trans-image-name quay.io/cilium/tetragon:v1.5.0))
+IFS='|' read tetragon_operator_repo tetragon_operator_tag <<<$(split_repo_tag $(trans-image-name quay.io/cilium/tetragon-operator:v1.5.0))
+IFS='|' read hubble_repo hubble_tag <<<$(split_repo_tag $(trans-image-name quay.io/cilium/hubble-export-stdout:v1.1.0))
 
 helm install tetragon cilium/tetragon \
 	-n cilium-system \
@@ -164,11 +162,11 @@ helm install tetragon cilium/tetragon \
 	--set tetragon.exportFilename="tetragon.log" \
 	--set tetragon.enableProcessCred=true \
 	--set tetragon.enableProcessNs=true \
-	--set tetragonOperator.enabled=true \
 	--set tetragon.image.repository=${tetragon_repo} \
 	--set tetragon.image.tag=${tetragon_tag} \
 	--set export.stdout.image.repository=${hubble_repo} \
 	--set export.stdout.image.tag=${hubble_tag} \
+	--set tetragonOperator.enabled=true \
 	--set tetragonOperator.image.repository=${tetragon_operator_repo} \
 	--set tetragonOperator.image.tag=${tetragon_operator_tag}
 
@@ -263,10 +261,11 @@ spec:
 " | kubectl apply -f -
 
 # 使用示例
-curl -O /tmp/http-sw-app.yaml https://gh-proxy.com/https://raw.githubusercontent.com/cilium/cilium/1.18.1/examples/minikube/http-sw-app.yaml
+
 trans-image-name /tmp/http-sw-app.yaml
 kubectl apply -f /tmp/http-sw-app.yaml
-curl https://gh-proxy.com/https://raw.githubusercontent.com/cilium/cilium/1.18.1/examples/minikube/sw_l3_l4_policy.yaml | kubectl apply -f -
+kubectl apply -f /tmp/sw_l3_l4_policy.yaml
+ 
 
 unset https_proxy && unset http_proxy && unset all_proxy
 

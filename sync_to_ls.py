@@ -1,1 +1,0 @@
-/Users/acejilam/k8s/sync/sync_to_ls.py

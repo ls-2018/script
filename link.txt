@@ -1,0 +1,4 @@
+ln -s ~/k8s/utils/sync/skopeo_copy_script.py
+ln -s ~/k8s/utils/sync/trans_image.py
+ln -s ~/k8s/utils/sync/sync_to_ls.com.py
+ln -s ~/k8s/utils/sync/skopeo_copy.py
