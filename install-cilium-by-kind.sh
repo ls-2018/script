@@ -1,7 +1,6 @@
+#!/usr/bin/env zsh
 SCRIPT_DIR="$(cd -P "$(dirname "${BASH_SOURCE:-$0}")" && pwd)"
 source "$SCRIPT_DIR/.customer_script.sh"
-
-set -x
 
 my_harbor=${1-}
 
@@ -44,13 +43,11 @@ test -e /usr/local/bin/cilium || {
 }
 
 helm repo add cilium https://helm.cilium.io/ --force-update
-
 IFS='|' read hubble_relay_repo hubble_relay_tag <<<$(split_repo_tag $(trans-image-name quay.io/cilium/hubble-relay:v1.19.0-pre.0))
 IFS='|' read hubble_ui_repo hubble_ui_tag <<<$(split_repo_tag $(trans-image-name quay.io/cilium/hubble-ui:v0.13.2))
 IFS='|' read hubble_ui_backend_repo hubble_ui_backend_tag <<<$(split_repo_tag $(trans-image-name quay.io/cilium/hubble-ui-backend:v0.13.2))
 IFS='|' read cilium_repo cilium_tag <<<$(split_repo_tag $(trans-image-name quay.io/cilium/cilium:v1.19.0-pre.0))
 IFS='|' read cilium_envoy_repo cilium_envoy_tag <<<$(split_repo_tag $(trans-image-name quay.io/cilium/cilium-envoy:v1.35.1-1756466197-aecbf661041fc680854fc765e54a283af11db731))
-#IFS='|' read cilium_envoy_repo cilium_envoy_tag <<<$(split_repo_tag $(trans-image-name quay.io/cilium/cilium-ci))
 
 if [[ ${my_harbor} == "harbor" ]]; then
 	trans-image-to-ls-harbor.py --arch all --source quay.io/cilium/cilium-envoy:v1.35.1-1756466197-aecbf661041fc680854fc765e54a283af11db731
@@ -81,8 +78,8 @@ wireguard="--set encryption.enabled=true --set encryption.type=wireguard  --set 
 direct_route='--set routing-mode=native --set ipv4NativeRoutingCIDR=10.0.0.0/8' # Direct Routing Options
 # --set routingMode=tunnel --set tunnelProtocol=vxlan
 
-ebpf="--set bpf.masquerade=true	--set nodePort.enabled=true"  # eBPF Host Routing
-kubeproxy_replacement="--set kubeProxyReplacement=true"       # 不用安装 kubeproxy
+ebpf="--set bpf.masquerade=true	--set nodePort.enabled=true" # eBPF Host Routing
+kubeproxy_replacement="--set kubeProxyReplacement=true"      # 不用安装 kubeproxy
 
 netkit="--set bpf.datapathMode=netkit" # netkit devices need kernel 6.7.0 or newer and CONFIG_NETKIT
 socket_lb="--set socketLB.enabled=true"
@@ -106,15 +103,16 @@ host_firewall="--set hostFirewall.enabled=true --set devices='{eth0,eth1}'"
 kubectl create -n cilium-system secret generic cilium-ipsec-keys \
 	--from-literal=keys="3 rfc4543(gcm(aes)) $(echo $(dd if=/dev/urandom count=20 bs=1 2>/dev/null | xxd -p -c 64)) 128"
 
+set -x
 cilium install \
 	--version=v1.19.0-pre.0 \
 	--namespace=cilium-system \
-	$direct_route \
-	$kubeproxy_replacement \
-	$ebpf \
-	$bandwidth \
-	$wireguard \
-	$ingressController \
+	${direct_route} \
+	${ebpf} \
+	${kubeproxy_replacement} \
+	${bandwidth} \
+	${wireguard} \
+	${ingressController} \
 	--set localRedirectPolicies.enabled=true \
 	--set image.pullPolicy=IfNotPresent \
 	--set monitorAggregation=none \
@@ -142,6 +140,7 @@ cilium install \
 #	--set preflight.image.repository=$(trans-image-name quay.io/cilium/cilium-ci) \
 # --dry-run-helm-values
 exit 0
+
 version='v1.5.0'
 tetragon=$(trans-image-name quay.io/cilium/tetragon:v1.5.0)
 tetragon_repo="${tetragon%%:*}"
