@@ -4,7 +4,7 @@ source "$SCRIPT_DIR/.customer_script.sh"
 kubectl apply -f /Volumes/Tf/resources/3rd/flagger/charts/flagger/crds/crd.yaml
 
 # flagger/flagger
-IFS='|' read repo tag <<<$(split_repo_tag $(trans-image-name ghcr.io/fluxcd/flagger:1.40.0))
+IFS='|' read repo tag <<<"$(split_tin_repo_tag ghcr.io/fluxcd/flagger:1.40.0)"
 echo $repo $tag
 
 # helm upgrade -i flagger /Volumes/Tf/resources/others/flagger-1.40.0.tgz \

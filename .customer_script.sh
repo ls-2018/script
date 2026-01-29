@@ -169,14 +169,13 @@ parse_cert() {
 	openssl x509 -noout -text -in /tmp/cert.txt
 }
 
-split_repo_tag() {
-	# IFS='|' read img tag <<< "$(parse_image "$image")"
-	local full="$1"
+split_tin_repo_tag() {
+    local full=$(trans-image-name "$1")
 
-	# 没有 tag 的情况，默认 latest
-	if [[ "$full" == *:* ]]; then
-		echo "${full%:*}|${full##*:}"
-	else
-		echo "$full|latest"
-	fi
+    # 没有 tag 的情况，默认 latest
+    if [[ "$full" == *:* ]]; then
+        echo "${full%:*}|${full##*:}"
+    else
+        echo "$full|latest"
+    fi
 }

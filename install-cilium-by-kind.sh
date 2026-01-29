@@ -1,4 +1,4 @@
-#!/usr/bin/env bash 
+#!/usr/bin/env bash
 # 不能改
 SCRIPT_DIR="$(cd -P "$(dirname "${BASH_SOURCE:-$0}")" && pwd)"
 source "$SCRIPT_DIR/.customer_script.sh"
@@ -49,11 +49,11 @@ test -e /usr/local/bin/cilium || {
 
 helm repo add cilium https://helm.cilium.io/ --force-update
 
-IFS='|' read hubble_relay_repo hubble_relay_tag <<<$(split_repo_tag $(trans-image-name quay.io/cilium/hubble-relay:v1.19.0-pre.0))
-IFS='|' read hubble_ui_repo hubble_ui_tag <<<$(split_repo_tag $(trans-image-name quay.io/cilium/hubble-ui:v0.13.2))
-IFS='|' read hubble_ui_backend_repo hubble_ui_backend_tag <<<$(split_repo_tag $(trans-image-name quay.io/cilium/hubble-ui-backend:v0.13.2))
-IFS='|' read cilium_repo cilium_tag <<<$(split_repo_tag $(trans-image-name quay.io/cilium/cilium:v1.19.0-pre.0))
-IFS='|' read cilium_envoy_repo cilium_envoy_tag <<<$(split_repo_tag $(trans-image-name quay.io/cilium/cilium-envoy:v1.35.1-1756466197-aecbf661041fc680854fc765e54a283af11db731))
+IFS='|' read hubble_relay_repo hubble_relay_tag <<<"$(split_tin_repo_tag quay.io/cilium/hubble-relay:v1.19.0-pre.0)"
+IFS='|' read hubble_ui_repo hubble_ui_tag <<<"$(split_tin_repo_tag quay.io/cilium/hubble-ui:v0.13.2)"
+IFS='|' read hubble_ui_backend_repo hubble_ui_backend_tag <<<"$(split_tin_repo_tag quay.io/cilium/hubble-ui-backend:v0.13.2)"
+IFS='|' read cilium_repo cilium_tag <<<"$(split_tin_repo_tag quay.io/cilium/cilium:v1.19.0-pre.0)"
+IFS='|' read cilium_envoy_repo cilium_envoy_tag <<<"$(split_tin_repo_tag quay.io/cilium/cilium-envoy:v1.35.1-1756466197-aecbf661041fc680854fc765e54a283af11db731)"
 
 if [[ ${my_harbor} == "harbor" ]]; then
 	trans-image-to-ls-harbor.py --arch all --source quay.io/cilium/cilium-envoy:v1.35.1-1756466197-aecbf661041fc680854fc765e54a283af11db731
@@ -110,7 +110,7 @@ kubectl create -n cilium-system secret generic cilium-ipsec-keys \
 	--from-literal=keys="3 rfc4543(gcm(aes)) $(echo $(dd if=/dev/urandom count=20 bs=1 2>/dev/null | xxd -p -c 64)) 128"
 
 git clone -b v1.19.0-pre.0 https://github.com/cilium/cilium.git /tmp/cilium
-rm /tmp/cilium/install/kubernetes/cilium/templates/validate.yaml || true 
+rm /tmp/cilium/install/kubernetes/cilium/templates/validate.yaml || true
 
 cilium install \
 	--version=v1.19.0-pre.0 \
@@ -148,9 +148,9 @@ cilium install \
 
 version='v1.5.0'
 
-IFS='|' read tetragon_repo tetragon_tag <<<$(split_repo_tag $(trans-image-name quay.io/cilium/tetragon:v1.5.0))
-IFS='|' read tetragon_operator_repo tetragon_operator_tag <<<$(split_repo_tag $(trans-image-name quay.io/cilium/tetragon-operator:v1.5.0))
-IFS='|' read hubble_repo hubble_tag <<<$(split_repo_tag $(trans-image-name quay.io/cilium/hubble-export-stdout:v1.1.0))
+IFS='|' read tetragon_repo tetragon_tag <<<"$(split_tin_repo_tag quay.io/cilium/tetragon:v1.5.0)"
+IFS='|' read tetragon_operator_repo tetragon_operator_tag <<<"$(split_tin_repo_tag quay.io/cilium/tetragon-operator:v1.5.0)"
+IFS='|' read hubble_repo hubble_tag <<<"$(split_tin_repo_tag quay.io/cilium/hubble-export-stdout:v1.1.0)"
 
 helm install tetragon cilium/tetragon \
 	-n cilium-system \
@@ -265,7 +265,6 @@ spec:
 trans-image-name /tmp/http-sw-app.yaml
 kubectl apply -f /tmp/http-sw-app.yaml
 kubectl apply -f /tmp/sw_l3_l4_policy.yaml
- 
 
 unset https_proxy && unset http_proxy && unset all_proxy
 
