@@ -131,6 +131,10 @@ else
 	export HISTFILE="/Users/acejilam/Documents/TfBak/config/zsh_history"
 fi
 
+if test -f "/Volumes/Tf/config/secret.sh"; then
+	source /Volumes/Tf/config/secret.sh
+fi
+
 export PYTHONPATH=$SCRIPT_DIR:$PYTHONPATH
 
 # zsh 通配符无匹配时报错
@@ -163,4 +167,16 @@ parse_cert() {
 	cert=$1
 	echo $cert | base64 -d >/tmp/cert.txt
 	openssl x509 -noout -text -in /tmp/cert.txt
+}
+
+split_repo_tag() {
+	# IFS='|' read img tag <<< "$(parse_image "$image")"
+	local full="$1"
+
+	# 没有 tag 的情况，默认 latest
+	if [[ "$full" == *:* ]]; then
+		echo "${full%:*}|${full##*:}"
+	else
+		echo "$full|latest"
+	fi
 }

@@ -10,7 +10,7 @@ docker rm simple_registry-ui -f
 
 docker run -d -v /Volumes/Tf/data/registry:/var/lib/registry \
 	-e REGISTRY_STORAGE_DELETE_ENABLED=true \
-	-p 5000:5000 --restart=always --name simple_registry $(trans-image-name docker.io/library/registry)
+	-p 5000:5000 --restart=always --name simple_registry $(trans-image-name docker.io/library/registry:3)
 
 docker run -p 8280:80 --restart=always --name simple_registry-ui \
 	--link simple_registry:simple_registry \

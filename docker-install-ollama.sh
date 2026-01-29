@@ -13,7 +13,6 @@ docker run -d -v ~/.ollama:/root/.ollama \
 	--network ollama-network \
 	$(trans-image-name docker.io/ollama/ollama:0.15.2)
 
-
 docker run -d -p 3100:8080 -v open-webui:/app/backend/data \
 	-e OLLAMA_BASE_URL=http://ollama:11434 \
 	--name open-webui \

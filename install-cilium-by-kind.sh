@@ -1,3 +1,6 @@
+SCRIPT_DIR="$(cd -P "$(dirname "${BASH_SOURCE:-$0}")" && pwd)"
+source "$SCRIPT_DIR/.customer_script.sh"
+
 set -x
 
 my_harbor=${1-}
@@ -42,6 +45,13 @@ test -e /usr/local/bin/cilium || {
 
 helm repo add cilium https://helm.cilium.io/ --force-update
 
+IFS='|' read hubble_relay_repo hubble_relay_tag <<<$(split_repo_tag $(trans-image-name quay.io/cilium/hubble-relay:v1.19.0-pre.0))
+IFS='|' read hubble_ui_repo hubble_ui_tag <<<$(split_repo_tag $(trans-image-name quay.io/cilium/hubble-ui:v0.13.2))
+IFS='|' read hubble_ui_backend_repo hubble_ui_backend_tag <<<$(split_repo_tag $(trans-image-name quay.io/cilium/hubble-ui-backend:v0.13.2))
+IFS='|' read cilium_repo cilium_tag <<<$(split_repo_tag $(trans-image-name quay.io/cilium/cilium:v1.19.0-pre.0))
+IFS='|' read cilium_envoy_repo cilium_envoy_tag <<<$(split_repo_tag $(trans-image-name quay.io/cilium/cilium-envoy:v1.35.1-1756466197-aecbf661041fc680854fc765e54a283af11db731))
+#IFS='|' read cilium_envoy_repo cilium_envoy_tag <<<$(split_repo_tag $(trans-image-name quay.io/cilium/cilium-ci))
+
 if [[ ${my_harbor} == "harbor" ]]; then
 	trans-image-to-ls-harbor.py --arch all --source quay.io/cilium/cilium-envoy:v1.35.1-1756466197-aecbf661041fc680854fc765e54a283af11db731
 	trans-image-to-ls-harbor.py --arch all --source quay.io/cilium/cilium:v1.19.0-pre.0
@@ -71,7 +81,7 @@ wireguard="--set encryption.enabled=true --set encryption.type=wireguard  --set 
 direct_route='--set routing-mode=native --set ipv4NativeRoutingCIDR=10.0.0.0/8' # Direct Routing Options
 # --set routingMode=tunnel --set tunnelProtocol=vxlan
 
-ebpf="--set bpf.masquerade=true	--set nodePort.enabled=true". # eBPF Host Routing
+ebpf="--set bpf.masquerade=true	--set nodePort.enabled=true"  # eBPF Host Routing
 kubeproxy_replacement="--set kubeProxyReplacement=true"       # 不用安装 kubeproxy
 
 netkit="--set bpf.datapathMode=netkit" # netkit devices need kernel 6.7.0 or newer and CONFIG_NETKIT
@@ -114,28 +124,34 @@ cilium install \
 	--set monitor.enabled=true \
 	--set hubble.enabled=true \
 	--set hubble.relay.enabled=true \
-	--set hubble.relay.image.repository=$(trans-image-name quay.io/cilium/hubble-relay) \
+	--set hubble.relay.image.repository=${hubble_relay_repo} \
+	--set hubble.relay.image.tag=${hubble_relay_tag} \
 	--set hubble.metrics.enabled="{dns,drop,tcp,flow,port-distribution,icmp,http}" \
 	--set hubble.ui.enabled=true \
-	--set hubble.ui.frontend.image.repository=$(trans-image-name quay.io/cilium/hubble-ui) \
-	--set hubble.ui.backend.image.repository=$(trans-image-name quay.io/cilium/hubble-ui-backend) \
-	--set image.repository=$(trans-image-name quay.io/cilium/cilium) \
-	--set envoy.image.repository=$(trans-image-name quay.io/cilium/cilium-envoy) \
-	--set preflight.image.repository=$(trans-image-name quay.io/cilium/cilium-ci) \
-	--set preflight.envoy.image.repository=$(trans-image-name quay.io/cilium/cilium-envoy) \
-	--set operator.image.repository=$(trans-image-name quay.io/cilium/operator)
+	--set hubble.ui.frontend.image.repository=${hubble_ui_repo} \
+	--set hubble.ui.frontend.image.tag=$hubble_ui_tag \
+	--set hubble.ui.backend.image.repository=${hubble_ui_backend_repo} \
+	--set hubble.ui.backend.image.tag=${hubble_ui_backend_tag} \
+	--set image.repository=${cilium_repo} \
+	--set image.tag=${cilium_tag} \
+	--set envoy.image.repository=${cilium_envoy_repo} \
+	--set envoy.image.tag=${cilium_envoy_tag} \
+	--set preflight.envoy.image.repository=${cilium_envoy_repo} \
+	--set preflight.envoy.image.tag=${cilium_envoy_tag}
+#	--set operator.image.repository=$(trans-image-name quay.io/cilium/operator)
+#	--set preflight.image.repository=$(trans-image-name quay.io/cilium/cilium-ci) \
 # --dry-run-helm-values
-
+exit 0
 version='v1.5.0'
-tetragon=`trans-image-name quay.io/cilium/tetragon:v1.5.0`
+tetragon=$(trans-image-name quay.io/cilium/tetragon:v1.5.0)
 tetragon_repo="${tetragon%%:*}"
 tetragon_tag="${tetragon##*:}"
 
-tetragon_operator=`trans-image-name quay.io/cilium/tetragon-operator:v1.5.0`
+tetragon_operator=$(trans-image-name quay.io/cilium/tetragon-operator:v1.5.0)
 tetragon_operator_repo="${tetragon%%:*}"
 tetragon_operator_tag="${tetragon##*:}"
 
-hubble_export=`trans-image-name quay.io/cilium/hubble-export-stdout:v1.1.0`
+hubble_export=$(trans-image-name quay.io/cilium/hubble-export-stdout:v1.1.0)
 hubble_repo="${hubble_export%%:*}"
 hubble_tag="${hubble_export##*:}"
 
@@ -150,12 +166,12 @@ helm install tetragon cilium/tetragon \
 	--set tetragon.enableProcessCred=true \
 	--set tetragon.enableProcessNs=true \
 	--set tetragonOperator.enabled=true \
-  --set tetragon.image.repository=${tetragon_repo} \
-  --set tetragon.image.tag=${tetragon_tag} \
-  --set export.stdout.image.repository=${hubble_repo} \
-  --set export.stdout.image.tag=${hubble_tag} \
-  --set tetragonOperator.image.repository=${tetragon_operator_repo} \
-  --set tetragonOperator.image.tag=${tetragon_operator_tag}
+	--set tetragon.image.repository=${tetragon_repo} \
+	--set tetragon.image.tag=${tetragon_tag} \
+	--set export.stdout.image.repository=${hubble_repo} \
+	--set export.stdout.image.tag=${hubble_tag} \
+	--set tetragonOperator.image.repository=${tetragon_operator_repo} \
+	--set tetragonOperator.image.tag=${tetragon_operator_tag}
 
 cilium status --wait -n cilium-system --wait-duration 10m
 

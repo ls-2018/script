@@ -1,12 +1,19 @@
+SCRIPT_DIR="$(cd -P "$(dirname "${BASH_SOURCE:-$0}")" && pwd)"
+source "$SCRIPT_DIR/.customer_script.sh"
+
 kubectl apply -f /Volumes/Tf/resources/3rd/flagger/charts/flagger/crds/crd.yaml
 
 # flagger/flagger
+IFS='|' read repo tag <<<$(split_repo_tag $(trans-image-name ghcr.io/fluxcd/flagger:1.40.0))
+echo $repo $tag
+
 # helm upgrade -i flagger /Volumes/Tf/resources/others/flagger-1.40.0.tgz \
 # 	--namespace=istio-system \
 # 	--set crd.create=false \
 # 	--set meshProvider=istio \
 # 	--set metricsServer=http://prometheus:9090 \
-# 	--set image.repository=`trans-image-name ghcr.io/fluxcd/flagger`
+# 	--set image.repository=$repo \
+# 	--set image.tag=$tag
 
 # ghcr.io/fluxcd
 trans-image-name /Volumes/Tf/resources/3rd/flagger
