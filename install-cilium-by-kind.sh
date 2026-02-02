@@ -29,7 +29,7 @@ if [[ ${my_harbor} == "harbor" ]]; then
 fi
 
 export KUBECONFIG=~/.kube/cilium
-kind create cluster -n cilium --kubeconfig ~/.kube/cilium --config /tmp/kind.yaml --image `trans-image-name docker.io/kindest/node:v1.32.0`
+kind create cluster -n cilium --kubeconfig ~/.kube/cilium --config /tmp/kind.yaml --image $(trans-image-name docker.io/kindest/node:v1.32.0)
 
 eval "$(print_proxy.py)"
 

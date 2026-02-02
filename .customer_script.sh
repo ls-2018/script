@@ -170,12 +170,12 @@ parse_cert() {
 }
 
 split_tin_repo_tag() {
-    local full=$(trans-image-name "$1")
+	local full=$(trans-image-name "$1")
 
-    # 没有 tag 的情况，默认 latest
-    if [[ "$full" == *:* ]]; then
-        echo "${full%:*}|${full##*:}"
-    else
-        echo "$full|latest"
-    fi
+	# 没有 tag 的情况，默认 latest
+	if [[ "$full" == *:* ]]; then
+		echo "${full%:*}|${full##*:}"
+	else
+		echo "$full|latest"
+	fi
 }
