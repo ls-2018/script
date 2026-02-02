@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 #rm -rf /Volumes/Tf/data/harbor/{tgz,cert,logs}
-set -v
+set -vx
 rm -rf /Volumes/Tf/data/harbor
 # rm -rf /Volumes/Tf/data/harbor/{tgz,cert,logs}
 mkdir -p /Volumes/Tf/data/harbor/{tgz,cert,data,logs}
@@ -94,7 +94,7 @@ while true; do
         break
     fi
     echo "Login failed, retrying..."
-    sleep 1
+    sleep 3
 done
 
 curl -k -u "admin:Harbor12345" -X POST -H "Content-Type: application/json" "https://harbor.ls.com/api/v2.0/projects/" -d '{"project_name": "acejilam", "public": true}'
