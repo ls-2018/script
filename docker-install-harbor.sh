@@ -8,10 +8,7 @@ mkdir -p /Volumes/Tf/data/harbor/{tgz,cert,data,logs}
 export version=v2.12.2
 cp /Volumes/Tf/resources/tar/arm64/harbor-offline-installer-aarch64-${version}.tgz /Volumes/Tf/data/harbor/tgz/
 
-host_ip=$(ipconfig getifaddr en0)
-if [ "$host_ip" = "" ]; then
-	host_ip=$(ipconfig getifaddr en1)
-fi
+host_ip=$(python3 -c'from print_proxy import *;print(get_ip())')
 echo $host_ip
 if [ "$host_ip" = "" ]; then
 	echo "获取不到本机IP，请检查网络"
@@ -79,7 +76,8 @@ gsed -i 's@${prepare_base_dir}@/Volumes/Tf/data/harbor@g' /Volumes/Tf/data/harbo
 
 cd /Volumes/Tf/data/harbor/tgz/harbor && ./install.sh --with-trivy
 docker-compose down
-docker-compose up -d 
+docker-compose down
+docker-compose up -d
 cd -
 
 # killall "Google Chrome"
