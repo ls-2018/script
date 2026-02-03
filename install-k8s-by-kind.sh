@@ -123,3 +123,6 @@ if [[ ${my_harbor} == "harbor" ]]; then
 
 	$SCRIPT_DIR/k8s-use-ls-harbor.py
 fi
+ip=$(python3 -c'from print_proxy import *;print(get_ip())')
+
+gsed -i "s@127.0.0.1@${ip}@g" ~/.kube/kind-${name}

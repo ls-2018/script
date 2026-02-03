@@ -1,12 +1,23 @@
 #!/usr/bin/env zsh
 #rm -rf /Volumes/Tf/data/harbor/{tgz,cert,logs}
 set -vx
-rm -rf /Volumes/Tf/data/harbor
-# rm -rf /Volumes/Tf/data/harbor/{tgz,cert,logs}
+rm -rf /Volumes/Tf/data/harbor/{data,cert,logs}
 mkdir -p /Volumes/Tf/data/harbor/{tgz,cert,data,logs}
 
 export version=v2.12.2
-cp /Volumes/Tf/resources/tar/arm64/harbor-offline-installer-aarch64-${version}.tgz /Volumes/Tf/data/harbor/tgz/
+src_file="/Volumes/Tf/resources/tar/arm64/harbor-offline-installer-aarch64-${version}.tgz"
+dst_file="/Volumes/Tf/data/harbor/tgz/harbor-offline-installer-aarch64-${version}.tgz"
+if [ -f "$dst_file" ]; then
+    src_md5=$(md5 -q "$src_file")
+    dst_md5=$(md5 -q "$dst_file")
+    if [ "$src_md5" = "$dst_md5" ]; then
+        echo "MD5相同，跳过复制"
+    else
+        cp "$src_file" "$dst_file"
+    fi
+else
+    cp "$src_file" "$dst_file"
+fi
 
 host_ip=$(python3 -c'from print_proxy import *;print(get_ip())')
 echo $host_ip
