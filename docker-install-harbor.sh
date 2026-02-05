@@ -1,4 +1,5 @@
 #!/usr/bin/env zsh
+<<<<<<< HEAD
 #rm -rf /Volumes/Tf/data/harbor/{tgz,cert,logs}
 <<<<<<< HEAD
 set -vx
@@ -9,10 +10,20 @@ rm -rf /Volumes/Tf/data/harbor
 # rm -rf /Volumes/Tf/data/harbor/{tgz,cert,logs}
 >>>>>>> 26f3561 (-)
 mkdir -p /Volumes/Tf/data/harbor/{tgz,cert,data,logs}
+=======
+
+base_dir="/Volumes/Tf/data/harbor"
+
+set -x
+
+rm -rf ${base_dir}
+# rm -rf ${base_dir}/{tgz,cert,logs}
+mkdir -p ${base_dir}/{tgz,cert,data,logs}
+>>>>>>> 34ebed8 (-)
 
 export version=v2.12.2
 src_file="/Volumes/Tf/resources/tar/arm64/harbor-offline-installer-aarch64-${version}.tgz"
-dst_file="/Volumes/Tf/data/harbor/tgz/harbor-offline-installer-aarch64-${version}.tgz"
+dst_file="${base_dir}/tgz/harbor-offline-installer-aarch64-${version}.tgz"
 if [ -f "$dst_file" ]; then
     src_md5=$(md5 -q "$src_file")
     dst_md5=$(md5 -q "$dst_file")
@@ -64,15 +75,15 @@ EOF
 openssl req -new -sha256 -nodes -out harbor.csr -newkey rsa:2048 -keyout harbor.key -config /tmp/openssl.cnf
 openssl x509 -req -in harbor.csr -signkey harbor.key -out harbor.crt -days 365 -extfile /tmp/openssl.cnf -extensions req_ext
 
-mv harbor.csr /Volumes/Tf/data/harbor/cert
-mv harbor.key /Volumes/Tf/data/harbor/cert
-mv harbor.crt /Volumes/Tf/data/harbor/cert
+mv harbor.csr ${base_dir}/cert
+mv harbor.key ${base_dir}/cert
+mv harbor.crt ${base_dir}/cert
 
 sudo security find-certificate -c 'ccr.ccs.tencentyun.com'
-sudo security remove-trusted-cert -d /Volumes/Tf/data/harbor/cert/harbor.crt
+sudo security remove-trusted-cert -d ${base_dir}/cert/harbor.crt
 sudo security delete-certificate -c 'ccr.ccs.tencentyun.com'
-sudo security add-certificates /Volumes/Tf/data/harbor/cert/harbor.crt
-sudo security add-trusted-cert -d /Volumes/Tf/data/harbor/cert/harbor.crt
+sudo security add-certificates ${base_dir}/cert/harbor.crt
+sudo security add-trusted-cert -d ${base_dir}/cert/harbor.crt
 
 rm -rf ~/.docker/certs.d/ccr.ccs.tencentyun.com
 rm -rf ~/.docker/certs.d/harbor.ls.com
@@ -80,23 +91,23 @@ rm -rf ~/.docker/certs.d/harbor.ls.com
 mkdir -p ~/.docker/certs.d/ccr.ccs.tencentyun.com
 mkdir -p ~/.docker/certs.d/harbor.ls.com
 
-cp -rf /Volumes/Tf/data/harbor/cert/harbor.crt ~/.docker/certs.d/ccr.ccs.tencentyun.com/
-cp -rf /Volumes/Tf/data/harbor/cert/harbor.crt ~/.docker/certs.d/harbor.ls.com/
+cp -rf ${base_dir}/cert/harbor.crt ~/.docker/certs.d/ccr.ccs.tencentyun.com/
+cp -rf ${base_dir}/cert/harbor.crt ~/.docker/certs.d/harbor.ls.com/
 # 重启一下 docker, 或者将 harbor.ls.com 加入到 Docker 的不安全仓库列表中
 
-cd /Volumes/Tf/data/harbor/tgz
+cd ${base_dir}/tgz
 tar -zxvf harbor-offline-installer-aarch64-${version}.tgz
 
-cp /Volumes/Tf/data/harbor/tgz/harbor/harbor.yml.tmpl /Volumes/Tf/data/harbor/tgz/harbor/harbor.yml
+cp ${base_dir}/tgz/harbor/harbor.yml.tmpl ${base_dir}/tgz/harbor/harbor.yml
 
-gsed -i 's@hostname: reg.mydomain.com@hostname: harbor.ls.com@g' /Volumes/Tf/data/harbor/tgz/harbor/harbor.yml
-gsed -i 's@data_volume: /data@data_volume: /Volumes/Tf/data/harbor/data@g' /Volumes/Tf/data/harbor/tgz/harbor/harbor.yml
-gsed -i 's@location: /var/log/harbor@location: /Volumes/Tf/data/harbor/logs@g' /Volumes/Tf/data/harbor/tgz/harbor/harbor.yml
-gsed -i 's@certificate: /your/certificate/path@certificate:  /Volumes/Tf/data/harbor/cert/harbor.crt@g' /Volumes/Tf/data/harbor/tgz/harbor/harbor.yml
-gsed -i 's@private_key: /your/private/key/path@private_key:  /Volumes/Tf/data/harbor/cert/harbor.key@g' /Volumes/Tf/data/harbor/tgz/harbor/harbor.yml
-gsed -i 's@${prepare_base_dir}@/Volumes/Tf/data/harbor@g' /Volumes/Tf/data/harbor/tgz/harbor/prepare
+gsed -i "s@hostname: reg.mydomain.com@hostname: harbor.ls.com@g" ${base_dir}/tgz/harbor/harbor.yml
+gsed -i "s@data_volume: /data@data_volume: ${base_dir}/data@g" ${base_dir}/tgz/harbor/harbor.yml
+gsed -i "s@location: /var/log/harbor@location: ${base_dir}/logs@g" ${base_dir}/tgz/harbor/harbor.yml
+gsed -i "s@certificate: /your/certificate/path@certificate:  ${base_dir}/cert/harbor.crt@g" ${base_dir}/tgz/harbor/harbor.yml
+gsed -i "s@private_key: /your/private/key/path@private_key:  ${base_dir}/cert/harbor.key@g" ${base_dir}/tgz/harbor/harbor.yml
+gsed -i "s@\${prepare_base_dir}@${base_dir}@g" ${base_dir}/tgz/harbor/prepare
 
-cd /Volumes/Tf/data/harbor/tgz/harbor && ./install.sh --with-trivy
+cd ${base_dir}/tgz/harbor && ./install.sh --with-trivy
 docker-compose down
 docker-compose down
 docker-compose up -d
@@ -127,7 +138,7 @@ mkdir -p /Users/acejilam/.config/buildkit
 cat >/Users/acejilam/.config/buildkit/buildkitd.toml <<EOF
 [registry."harbor.ls.com"]
 insecure = true
-ca=["/Volumes/Tf/data/harbor/cert/harbor.crt"]
+ca=["${base_dir}/cert/harbor.crt"]
 EOF
 
 docker buildx inspect mygo | grep harbor.ls.com || {
