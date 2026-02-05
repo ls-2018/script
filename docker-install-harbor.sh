@@ -1,7 +1,13 @@
 #!/usr/bin/env zsh
 #rm -rf /Volumes/Tf/data/harbor/{tgz,cert,logs}
+<<<<<<< HEAD
 set -vx
 rm -rf /Volumes/Tf/data/harbor/{data,cert,logs}
+=======
+set -x
+rm -rf /Volumes/Tf/data/harbor
+# rm -rf /Volumes/Tf/data/harbor/{tgz,cert,logs}
+>>>>>>> 26f3561 (-)
 mkdir -p /Volumes/Tf/data/harbor/{tgz,cert,data,logs}
 
 export version=v2.12.2
@@ -18,6 +24,10 @@ if [ -f "$dst_file" ]; then
 else
     cp "$src_file" "$dst_file"
 fi
+<<<<<<< HEAD
+=======
+
+>>>>>>> 26f3561 (-)
 
 host_ip=$(python3 -c'from print_proxy import *;print(get_ip())')
 echo $host_ip
@@ -72,6 +82,7 @@ mkdir -p ~/.docker/certs.d/harbor.ls.com
 
 cp -rf /Volumes/Tf/data/harbor/cert/harbor.crt ~/.docker/certs.d/ccr.ccs.tencentyun.com/
 cp -rf /Volumes/Tf/data/harbor/cert/harbor.crt ~/.docker/certs.d/harbor.ls.com/
+# 重启一下 docker, 或者将 harbor.ls.com 加入到 Docker 的不安全仓库列表中
 
 cd /Volumes/Tf/data/harbor/tgz
 tar -zxvf harbor-offline-installer-aarch64-${version}.tgz
@@ -99,13 +110,13 @@ cd -
 open -a "/Applications/Safari.app" "https://harbor.ls.com"
 
 while true; do
-    docker login -u admin harbor.ls.com -p Harbor12345
-    if [ $? -eq 0 ]; then
-        echo "Login successful!"
-        break
-    fi
-    echo "Login failed, retrying..."
-    sleep 3
+	docker login -u admin harbor.ls.com -p Harbor12345
+	if [ $? -eq 0 ]; then
+		echo "Login successful!"
+		break
+	fi
+	echo "Login failed, retrying..."
+	sleep 3
 done
 
 curl -k -u "admin:Harbor12345" -X POST -H "Content-Type: application/json" "https://harbor.ls.com/api/v2.0/projects/" -d '{"project_name": "acejilam", "public": true}'

@@ -1,1 +1,0 @@
-/Users/acejilam/k8s/utils/sync/skopeo_copy.py
