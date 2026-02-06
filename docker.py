@@ -22,11 +22,11 @@ if len(argv) == 1:
 cmds_bak = copy.deepcopy(argv)
 cmds_bak[0] = docker_bin
 if argv[1] not in ["run"]:
-    print("➡️ ➡️ ➡️ ➡️", cmds_bak, flush=True)
     os.system(" ".join(shlex.quote(x) for x in cmds_bak))
     sys.exit(0)
 for item in argv[1:]:
     cmds.append(trans_image(item))
+print("➡️ ➡️ ➡️ ➡️", cmds_bak, flush=True)
 os.system(" ".join([shlex.quote(x) for x in cmds]))
 
 

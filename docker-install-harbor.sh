@@ -43,7 +43,7 @@ ST = State
 L = Locality
 O = Organization
 OU = Organizational Unit
-CN = ccr.ccs.tencentyun.com
+CN = harbor.ls.com
 
 [req_ext]
 subjectAltName = @alt_names

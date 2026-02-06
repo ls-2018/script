@@ -15,6 +15,7 @@ def get_ip():
 if __name__ == '__main__':
     host = get_ip()
     if len(sys.argv) > 1 and sys.argv[1] == "check":
+        _ip=''
         with open("/etc/hosts", "r") as f:
             for line in f.readlines():
                 if line.strip() and not line.strip().startswith('#') and domain in line:
