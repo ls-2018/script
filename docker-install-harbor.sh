@@ -1,25 +1,10 @@
 #!/usr/bin/env zsh
-<<<<<<< HEAD
-#rm -rf /Volumes/Tf/data/harbor/{tgz,cert,logs}
-<<<<<<< HEAD
-set -vx
-rm -rf /Volumes/Tf/data/harbor/{data,cert,logs}
-=======
-set -x
-rm -rf /Volumes/Tf/data/harbor
-# rm -rf /Volumes/Tf/data/harbor/{tgz,cert,logs}
->>>>>>> 26f3561 (-)
-mkdir -p /Volumes/Tf/data/harbor/{tgz,cert,data,logs}
-=======
-
 base_dir="/Volumes/Tf/data/harbor"
-
 set -x
 
 rm -rf ${base_dir}
 # rm -rf ${base_dir}/{tgz,cert,logs}
 mkdir -p ${base_dir}/{tgz,cert,data,logs}
->>>>>>> 34ebed8 (-)
 
 export version=v2.12.2
 src_file="/Volumes/Tf/resources/tar/arm64/harbor-offline-installer-aarch64-${version}.tgz"
@@ -35,10 +20,7 @@ if [ -f "$dst_file" ]; then
 else
     cp "$src_file" "$dst_file"
 fi
-<<<<<<< HEAD
-=======
 
->>>>>>> 26f3561 (-)
 
 host_ip=$(python3 -c'from print_proxy import *;print(get_ip())')
 echo $host_ip
