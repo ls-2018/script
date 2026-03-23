@@ -96,7 +96,7 @@ sleep 5
 	-e MYSQL_DATABASE=wechat_article_exporter \
 	-p 127.0.0.1:13000:3000 \
 	-v $exporterPath:/app/.data \
-	ccr.ccs.tencentyun.com/ls-2018/wechat-article-exporter
+	ccr.ccs.tencentyun.com/ls-2018/wechat:exporter
 
 set +x
 pkill -9 'Chromium'
