@@ -1,4 +1,7 @@
-set -x
+#!/usr/bin/env bash
+# 不能改
+SCRIPT_DIR="$(cd -P "$(dirname "${BASH_SOURCE:-$0}")" && pwd)"
+source "$SCRIPT_DIR/.customer_script.sh"
 
 my_harbor=${1-}
 
@@ -26,9 +29,11 @@ if [[ ${my_harbor} == "harbor" ]]; then
 fi
 
 export KUBECONFIG=~/.kube/cilium
-kind create cluster -n cilium --kubeconfig ~/.kube/cilium --config /tmp/kind.yaml --image $(trans-image-name docker.io/cilium/node:v1.32.0)
+kind create cluster -n cilium --kubeconfig ~/.kube/cilium --config /tmp/kind.yaml --image $(trans-image-name docker.io/kindest/node:v1.32.0)
 
-eval "$(print_proxy.py)"
+wget -q -nv -O /tmp/http-sw-app.yaml https://raw.githubusercontent.com/cilium/cilium/1.18.1/examples/minikube/http-sw-app.yaml
+wget -q -nv -O /tmp/sw_l3_l4_policy.yaml https://raw.githubusercontent.com/cilium/cilium/1.18.1/examples/minikube/sw_l3_l4_policy.yaml
+
 test -e /usr/local/bin/cilium || {
 	# CILIUM_CLI_VERSION=$(curl -s https://raw.githubusercontent.com/cilium/cilium-cli/main/stable.txt)
 	CILIUM_CLI_VERSION=v0.18.7
@@ -42,20 +47,26 @@ test -e /usr/local/bin/cilium || {
 
 helm repo add cilium https://helm.cilium.io/ --force-update
 
+IFS='|' read hubble_relay_repo hubble_relay_tag <<<"$(split_tin_repo_tag quay.io/cilium/hubble-relay:v1.19.0-pre.0)"
+IFS='|' read hubble_ui_repo hubble_ui_tag <<<"$(split_tin_repo_tag quay.io/cilium/hubble-ui:v0.13.2)"
+IFS='|' read hubble_ui_backend_repo hubble_ui_backend_tag <<<"$(split_tin_repo_tag quay.io/cilium/hubble-ui-backend:v0.13.2)"
+IFS='|' read cilium_repo cilium_tag <<<"$(split_tin_repo_tag quay.io/cilium/cilium:v1.19.0-pre.0)"
+IFS='|' read cilium_envoy_repo cilium_envoy_tag <<<"$(split_tin_repo_tag quay.io/cilium/cilium-envoy:v1.35.1-1756466197-aecbf661041fc680854fc765e54a283af11db731)"
+
 if [[ ${my_harbor} == "harbor" ]]; then
-	trans-image-to-ls-harbor.py --arch all --source docker.io/cilium/cilium-envoy:v1.35.1-1756466197-aecbf661041fc680854fc765e54a283af11db731@sha256:4a7b4ea470b2f3027ac9115c5b392bf3ba91315fb258f27af318023f2d367578
-	trans-image-to-ls-harbor.py --arch all --source docker.io/cilium/cilium:v1.19.0-pre.0@sha256:02d8349bea5a6a0c19dc9a8b58fef113c7b57e7480302c06f7f7d438f75982e6
-	trans-image-to-ls-harbor.py --arch all --source docker.io/cilium/operator-generic:v1.19.0-pre.0@sha256:84c935be65c01c5298764def57a147ca130267c070ce970473a8f40b29c61c7e
-	trans-image-to-ls-harbor.py --arch all --source docker.io/cilium/hubble-relay:v1.19.0-pre.0@sha256:584cfccd3f3a3f8e791767bace0e7563c2fc9f630b0a7986fa00f8debbd5d751
-	trans-image-to-ls-harbor.py --arch all --source docker.io/cilium/hubble-ui-backend:v0.13.2@sha256:a034b7e98e6ea796ed26df8f4e71f83fc16465a19d166eff67a03b822c0bfa15
-	trans-image-to-ls-harbor.py --arch all --source docker.io/cilium/hubble-ui:v0.13.2@sha256:9e37c1296b802830834cc87342a9182ccbb71ffebb711971e849221bd9d59392
-	trans-image-to-ls-harbor.py --arch all --source docker.io/cilium/json-mock:v1.3.8@sha256:5aad04835eda9025fe4561ad31be77fd55309af8158ca8663a72f6abb78c2603
-	trans-image-to-ls-harbor.py --arch all --source docker.io/cilium/starwars@sha256:896dc536ec505778c03efedb73c3b7b83c8de11e74264c8c35291ff6d5fe8ada
+	trans-image-to-ls-harbor.py --arch all --source quay.io/cilium/cilium-envoy:v1.35.1-1756466197-aecbf661041fc680854fc765e54a283af11db731
+	trans-image-to-ls-harbor.py --arch all --source quay.io/cilium/cilium:v1.19.0-pre.0
+	trans-image-to-ls-harbor.py --arch all --source quay.io/cilium/operator-generic:v1.19.0-pre.0
+	trans-image-to-ls-harbor.py --arch all --source quay.io/cilium/hubble-relay:v1.19.0-pre.0
+	trans-image-to-ls-harbor.py --arch all --source quay.io/cilium/hubble-ui-backend:v0.13.2
+	trans-image-to-ls-harbor.py --arch all --source quay.io/cilium/hubble-ui:v0.13.2
+	trans-image-to-ls-harbor.py --arch all --source quay.io/cilium/json-mock:v1.3.8
+	trans-image-to-ls-harbor.py --arch all --source quay.io/cilium/starwars@sha256:896dc536ec505778c03efedb73c3b7b83c8de11e74264c8c35291ff6d5fe8ada
 	trans-image-to-ls-harbor.py --arch all --source registry.k8s.io/dns/k8s-dns-node-cache:1.15.16
-	trans-image-to-ls-harbor.py --arch all --source docker.io/cilium/hubble-export-stdout:v1.1.0
-	trans-image-to-ls-harbor.py --arch all --source docker.io/cilium/tetragon:v1.5.0
-	trans-image-to-ls-harbor.py --arch all --source docker.io/cilium/tetragon-operator:v1.5.0
-	trans-image-to-ls-harbor.py --arch all --source docker.io/cilium/cilium_netperf:latest
+	trans-image-to-ls-harbor.py --arch all --source quay.io/cilium/hubble-export-stdout:v1.1.0
+	trans-image-to-ls-harbor.py --arch all --source quay.io/cilium/tetragon:v1.5.0
+	trans-image-to-ls-harbor.py --arch all --source quay.io/cilium/tetragon-operator:v1.5.0
+	trans-image-to-ls-harbor.py --arch all --source quay.io/cilium/cilium_netperf:latest
 
 	k8s-use-ls-harbor.py
 fi
@@ -71,8 +82,8 @@ wireguard="--set encryption.enabled=true --set encryption.type=wireguard  --set 
 direct_route='--set routing-mode=native --set ipv4NativeRoutingCIDR=10.0.0.0/8' # Direct Routing Options
 # --set routingMode=tunnel --set tunnelProtocol=vxlan
 
-ebpf="--set bpf.masquerade=true	--set nodePort.enabled=true". # eBPF Host Routing
-kubeproxy_replacement="--set kubeProxyReplacement=true"       # 不用安装 kubeproxy
+ebpf="--set bpf.masquerade=true	--set nodePort.enabled=true" # eBPF Host Routing
+kubeproxy_replacement="--set kubeProxyReplacement=true"      # 不用安装 kubeproxy
 
 netkit="--set bpf.datapathMode=netkit" # netkit devices need kernel 6.7.0 or newer and CONFIG_NETKIT
 socket_lb="--set socketLB.enabled=true"
@@ -96,12 +107,16 @@ host_firewall="--set hostFirewall.enabled=true --set devices='{eth0,eth1}'"
 kubectl create -n cilium-system secret generic cilium-ipsec-keys \
 	--from-literal=keys="3 rfc4543(gcm(aes)) $(echo $(dd if=/dev/urandom count=20 bs=1 2>/dev/null | xxd -p -c 64)) 128"
 
+git clone -b v1.19.0-pre.0 https://github.com/cilium/cilium.git /tmp/cilium
+rm /tmp/cilium/install/kubernetes/cilium/templates/validate.yaml || true
+
 cilium install \
 	--version=v1.19.0-pre.0 \
 	--namespace=cilium-system \
+	--chart-directory=/tmp/cilium/install/kubernetes/cilium \
 	$direct_route \
-	$kubeproxy_replacement \
 	$ebpf \
+	$kubeproxy_replacement \
 	$bandwidth \
 	$wireguard \
 	$ingressController \
@@ -114,21 +129,30 @@ cilium install \
 	--set monitor.enabled=true \
 	--set hubble.enabled=true \
 	--set hubble.relay.enabled=true \
-	--set hubble.relay.image.repository=$(trans-image-name docker.io/cilium/hubble-relay) \
+	--set hubble.relay.image.repository=${hubble_relay_repo} \
+	--set hubble.relay.image.tag=${hubble_relay_tag} \
 	--set hubble.metrics.enabled="{dns,drop,tcp,flow,port-distribution,icmp,http}" \
 	--set hubble.ui.enabled=true \
-	--set hubble.ui.frontend.image.repository=$(trans-image-name docker.io/cilium/hubble-ui) \
-	--set hubble.ui.backend.image.repository=$(trans-image-name docker.io/cilium/hubble-ui-backend) \
-	--set image.repository=$(trans-image-name docker.io/cilium/cilium) \
-	--set envoy.image.repository=$(trans-image-name docker.io/cilium/cilium-envoy) \
-	--set preflight.image.repository=$(trans-image-name docker.io/cilium/cilium-ci) \
-	--set preflight.envoy.image.repository=$(trans-image-name docker.io/cilium/cilium-envoy) \
-	--set operator.image.repository=$(trans-image-name docker.io/cilium/operator)
-# --dry-run-helm-values
+	--set hubble.ui.frontend.image.repository=${hubble_ui_repo} \
+	--set hubble.ui.frontend.image.tag=$hubble_ui_tag \
+	--set hubble.ui.backend.image.repository=${hubble_ui_backend_repo} \
+	--set hubble.ui.backend.image.tag=${hubble_ui_backend_tag} \
+	--set image.repository=${cilium_repo} \
+	--set image.tag=${cilium_tag} \
+	--set envoy.image.repository=${cilium_envoy_repo} \
+	--set envoy.image.tag=${cilium_envoy_tag} \
+	--set preflight.envoy.image.repository=${cilium_envoy_repo} \
+	--set preflight.envoy.image.tag=${cilium_envoy_tag}
+
+version='v1.5.0'
+
+IFS='|' read tetragon_repo tetragon_tag <<<"$(split_tin_repo_tag quay.io/cilium/tetragon:v1.5.0)"
+IFS='|' read tetragon_operator_repo tetragon_operator_tag <<<"$(split_tin_repo_tag quay.io/cilium/tetragon-operator:v1.5.0)"
+IFS='|' read hubble_repo hubble_tag <<<"$(split_tin_repo_tag quay.io/cilium/hubble-export-stdout:v1.1.0)"
 
 helm install tetragon cilium/tetragon \
 	-n cilium-system \
-	--version v1.5.0 \
+	--version ${version} \
 	--set tetragon.btf="/sys/kernel/btf/vmlinux" \
 	--set tetragon.enableCiliumAPI=false \
 	--set tetragon.exportAllowList="" \
@@ -136,10 +160,13 @@ helm install tetragon cilium/tetragon \
 	--set tetragon.exportFilename="tetragon.log" \
 	--set tetragon.enableProcessCred=true \
 	--set tetragon.enableProcessNs=true \
+	--set tetragon.image.repository=${tetragon_repo} \
+	--set tetragon.image.tag=${tetragon_tag} \
+	--set export.stdout.image.repository=${hubble_repo} \
+	--set export.stdout.image.tag=${hubble_tag} \
 	--set tetragonOperator.enabled=true \
-	--set export.stdout.image.repository=$(trans-image-name docker.io/cilium/hubble-export-stdout) \
-	--set tetragon.image.repository=$(trans-image-name docker.io/cilium/tetragon) \
-	--set tetragonOperator.image.repository=$(trans-image-name docker.io/cilium/tetragon-operator)
+	--set tetragonOperator.image.repository=${tetragon_operator_repo} \
+	--set tetragonOperator.image.tag=${tetragon_operator_tag}
 
 cilium status --wait -n cilium-system --wait-duration 10m
 
@@ -162,7 +189,7 @@ spec:
        type: "sock"
 EOF
 
-pref_img=$(trans-image-name docker.io/cilium/cilium_netperf)
+pref_img=$(trans-image-name quay.io/cilium/netperf:v1.0)
 echo "
 apiVersion: v1
 kind: Namespace
@@ -232,12 +259,10 @@ spec:
 " | kubectl apply -f -
 
 # 使用示例
-curl -O /tmp/http-sw-app.yaml https://gh-proxy.com/https://raw.githubusercontent.com/cilium/cilium/1.18.1/examples/minikube/http-sw-app.yaml
+
 trans-image-name /tmp/http-sw-app.yaml
 kubectl apply -f /tmp/http-sw-app.yaml
-curl https://gh-proxy.com/https://raw.githubusercontent.com/cilium/cilium/1.18.1/examples/minikube/sw_l3_l4_policy.yaml | kubectl apply -f -
-
-unset https_proxy && unset http_proxy && unset all_proxy
+kubectl apply -f /tmp/sw_l3_l4_policy.yaml
 
 kubectl wait -A --for=condition=Ready pod --all --timeout=300s
 # cilium connectivity test

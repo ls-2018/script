@@ -34,9 +34,9 @@ EOF
 export VERSION=5.0.1
 ARCH=$(arch | sed s/aarch64/arm64/ | sed s/x86_64/amd64/)
 
-cat /Volumes/Tf/resources/tar/${ARCH}/v${VERSION}/sealos_${VERSION}_linux_${ARCH}.tar.gz | tar -zxvf - -C /usr/bin/
-cat /Volumes/Tf/resources/tar/${ARCH}/cilium-linux-${ARCH}.tar.gz | tar -zxvf - -C /usr/bin/
-cat /Volumes/Tf/resources/tar/${ARCH}/hubble-linux-${ARCH}.tar.gz | tar -zxvf - -C /usr/bin/
+cat ~/data/resources/tar/${ARCH}/v${VERSION}/sealos_${VERSION}_linux_${ARCH}.tar.gz | tar -zxvf - -C /usr/bin/
+cat ~/data/resources/tar/${ARCH}/cilium-linux-${ARCH}.tar.gz | tar -zxvf - -C /usr/bin/
+cat ~/data/resources/tar/${ARCH}/hubble-linux-${ARCH}.tar.gz | tar -zxvf - -C /usr/bin/
 
 # sealos reset
 
@@ -99,7 +99,7 @@ if helm list -n kube-system | grep -q "tetrciliumagon"; then
 	helm uninstall cilium -n kube-system
 fi
 
-helm install cilium /Volumes/Tf/resources/others/cilium-* \
+helm install cilium ~/data/resources/others/cilium-* \
 	-n kube-system \
 	--set hubble.ui.enabled=true \
 	--set hubble.relay.enabled=true \
@@ -132,7 +132,7 @@ helm install cilium /Volumes/Tf/resources/others/cilium-* \
 	--set authentication.mutual.spire.install.agent.image.useDigest=false \
 	--set authentication.mutual.spire.install.server.image.useDigest=false
 
-# helm install tetragon /Volumes/Tf/resources/others/tetragon-* -n kube-system
+# helm install tetragon ~/data/resources/others/tetragon-* -n kube-system
 # cilium hubble enable --relay --ui
 
 kubectl apply -f - <<EOF

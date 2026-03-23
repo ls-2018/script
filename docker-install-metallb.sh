@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 
 rm -rf /tmp/metallb-frr.yaml
-cp /Volumes/Tf/resources/yaml/metallb/v0.14.9/metallb-frr.yaml /tmp/metallb-frr.yaml
+cp ~/data/resources/yaml/metallb/v0.14.9/metallb-frr.yaml /tmp/metallb-frr.yaml
 
 trans-image-name /tmp/metallb-frr.yaml
 

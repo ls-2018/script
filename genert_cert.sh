@@ -13,12 +13,12 @@ old_func() {
 	openssl genrsa -out flask.key 2048
 	# 2、生成证书请求
 	openssl req -new -sha256 -key flask.key -out flask.csr -subj /C=CN/ST=Beijing/L=Beijing/O=Devops/CN=myself.com
-	# 这里将生成一个新的文件flask.csr，即一个证书请求文件，你可以拿着这个文件去数字证书颁发机构（即CA）申请一个数字证书。CA会给你一个新的文件flask.csr，那才是你的数字证书。
+	# 这里将生成一个新的文件flask.csr,即一个证书请求文件,你可以拿着这个文件去数字证书颁发机构（即CA）申请一个数字证书。CA会给你一个新的文件flask.csr,那才是你的数字证书。
 	# 2.1 使用CA对证书进行签名
 	# openssl x509 -req -in flask.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out flask.crt -days 36500
 
 	#2、制作自签证书# -------可以使用域名访问myself.com--------------
-	# 如果是自己做测试，那么证书的申请机构和颁发机构都是自己。就可以用下面这个命令来生成证书：
+	# 如果是自己做测试,那么证书的申请机构和颁发机构都是自己。就可以用下面这个命令来生成证书：
 	openssl req -new -x509 -key flask.key -out flask.crt -subj /C=CN/ST=Beijing/L=Beijing/O=Devops/CN=myself.com -days 360000
 
 	# 3 查看证书信息
@@ -30,10 +30,10 @@ old_func() {
 
 # 私钥 (可以用来解密、签名)
 # 公开的：公钥 证书(用私钥签名,经过CA认证的公钥;可以用来加密、验签)
-# 客户端拿着证书加密，服务端拿着私钥解密
+# 客户端拿着证书加密,服务端拿着私钥解密
 # 服务端会在建立连接后将证书发往客户端
-# 要达到数据安全传输的目的，必须发送方和接收方都持有对方的公钥和自己私钥；
-# 为保证自己所持有的的对方的公钥不被篡改，需要CA机构对其进行验证,即用ca的公钥解密证书;解密成功也就拿到了原始的公钥
+# 要达到数据安全传输的目的,必须发送方和接收方都持有对方的公钥和自己私钥；
+# 为保证自己所持有的的对方的公钥不被篡改,需要CA机构对其进行验证,即用ca的公钥解密证书;解密成功也就拿到了原始的公钥
 
 strA=$(go version)
 strB="darwin"

@@ -1,9 +1,8 @@
 cd /tmp
 rm -rf kube-prometheus
 set -e
-eval "$(print_proxy.py)"
+
 git clone https://github.com/coreos/kube-prometheus.git -b v0.15.0
-unset https_proxy && unset http_proxy && unset all_proxy
 cd kube-prometheus/
 git checkout v0.15.0
 trans-image-name $(pwd)/manifests/setup

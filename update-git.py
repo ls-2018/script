@@ -10,7 +10,7 @@ print(sys.argv)
 pwd = sys.argv[1]
 
 update = False
-if len(sys.argv) == 3 and sys.argv[2].lower() == "update":
+if len(sys.argv) == 3 and sys.argv[2].lower() in ["update", "true"]:
     update = True
 
 

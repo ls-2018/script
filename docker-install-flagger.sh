@@ -1,27 +1,34 @@
-kubectl apply -f /Volumes/Tf/resources/3rd/flagger/charts/flagger/crds/crd.yaml
+SCRIPT_DIR="$(cd -P "$(dirname "${BASH_SOURCE:-$0}")" && pwd)"
+source "$SCRIPT_DIR/.customer_script.sh"
+
+kubectl apply -f ~/data/resources/3rd/flagger/charts/flagger/crds/crd.yaml
 
 # flagger/flagger
-# helm upgrade -i flagger /Volumes/Tf/resources/others/flagger-1.40.0.tgz \
+IFS='|' read repo tag <<<"$(split_tin_repo_tag ghcr.io/fluxcd/flagger:1.40.0)"
+echo $repo $tag
+
+# helm upgrade -i flagger ~/data/resources/others/flagger-1.40.0.tgz \
 # 	--namespace=istio-system \
 # 	--set crd.create=false \
 # 	--set meshProvider=istio \
 # 	--set metricsServer=http://prometheus:9090 \
-# 	--set image.repository=`trans-image-name ghcr.io/fluxcd/flagger`
+# 	--set image.repository=$repo \
+# 	--set image.tag=$tag
 
 # ghcr.io/fluxcd
-trans-image-name /Volumes/Tf/resources/3rd/flagger
-change-name.py /Volumes/Tf/resources/3rd/flagger "IfNotPresent" "Always" text
-change-name.py /Volumes/Tf/resources/3rd/flagger/kustomize/podinfo/ "level=info" "level=debug" text
+trans-image-name ~/data/resources/3rd/flagger
+change-name.py ~/data/resources/3rd/flagger "IfNotPresent" "Always" text
+change-name.py ~/data/resources/3rd/flagger/kustomize/podinfo/ "level=info" "level=debug" text
 
-kubectl apply -k /Volumes/Tf/resources/3rd/flagger/kustomize/istio
+kubectl apply -k ~/data/resources/3rd/flagger/kustomize/istio
 
 kubectl create ns test
 kubectl label namespace test istio-injection=enabled
 
-kubectl apply -k /Volumes/Tf/resources/3rd/flagger/kustomize/podinfo
+kubectl apply -k ~/data/resources/3rd/flagger/kustomize/podinfo
 
-kubectl apply -k /Volumes/Tf/resources/3rd/flagger/kustomize/tester
+kubectl apply -k ~/data/resources/3rd/flagger/kustomize/tester
 
 # kubectl -n test set image deployment/podinfo podinfod=ghcr.io/stefanprodan/podinfo:6.0.1
 
-# kubectl -n test exec -it flagger-loadtester-x，x-xx watch curl http://podinfo-canary:9898/status/500
+# kubectl -n test exec -it flagger-loadtester-x,x-xx watch curl http://podinfo-canary:9898/status/500

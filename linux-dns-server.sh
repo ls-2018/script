@@ -3,12 +3,12 @@ curl -o /etc/yum.repos.d/powerdns-auth-44.repo https://repo.powerdns.com/repo-fi
 yum install pdns -y
 yum install pdns-backend* -y --skip-broken
 
-cp /Volumes/Tf/resources/PowerDNS/schema.mysql.sql .
+cp ~/data/resources/PowerDNS/schema.mysql.sql .
 # 安装pdns
 yum -y install mariadb mariadb-server
 systemctl enable mariadb
 systemctl start mariadb
-# 创建数据库pdns，
+# 创建数据库pdns,
 $()
 cat <<\EOF >/tmp/tmp.sql
 create database pdns;

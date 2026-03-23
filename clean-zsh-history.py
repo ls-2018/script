@@ -5,8 +5,8 @@ import chardet
 
 data = ''
 filename = 'zsh_history'
-base = '/Volumes/Tf/config'
-# base = '/Users/acejilam/script'
+# base = '/Volumes/Tf/config'
+base = '/Users/acejilam/script'
 
 if not os.path.exists(base):
     sys.exit(0)

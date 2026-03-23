@@ -4,8 +4,8 @@ mkdir -p ~/.ssh
 set -ex
 
 cat /host_ssh/id_ed25519.pub >>~/.ssh/authorized_keys
-ls /Volumes/Tf/resources/ssh | grep pub | xargs -I {} cat /Volumes/Tf/resources/ssh/{} | tee -a ~/.ssh/authorized_keys
-cp /Volumes/Tf/resources/ssh/$(hostname)* ~/.ssh
+ls ~/data/resources/ssh | grep pub | xargs -I {} cat ~/data/resources/ssh/{} | tee -a ~/.ssh/authorized_keys
+cp ~/data/resources/ssh/$(hostname)* ~/.ssh
 
 mv ~/.ssh/$(hostname) ~/.ssh/id_ed25519
 chmod 600 ~/.ssh/id_ed25519
@@ -31,7 +31,7 @@ apt install bash-completion -y
 mkdir -p ~/.gopath/bin
 
 rm -rf ~/.gopath/bin/kubectl
-cp /Volumes/Tf/resources/k8s/${ARCH}/kubectl ~/.gopath/bin/kubectl
+cp ~/data/resources/k8s/${ARCH}/kubectl ~/.gopath/bin/kubectl
 chmod +x ~/.gopath/bin/kubectl
 
 timedatectl set-timezone "Asia/Shanghai"

@@ -1,1 +1,1 @@
-/Users/acejilam/k8s/sync/trans_image.py
+/Users/acejilam/k8s/utils/sync/trans_image.py

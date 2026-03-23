@@ -46,7 +46,7 @@ async def fetch_code(version, semaphore):
             try:
 #                 print(f'https://elixir.bootlin.com/linux/{version}/source/{file_path}')
                 async with session.get(
-                        f'https://files.m.daocloud.io/elixir.bootlin.com/linux/{version}/source/{file_path}'
+                        f'https://elixir.bootlin.com/linux/{version}/source/{file_path}'
                 ) as response:
                     if response.status == 200:
                         v = "{:_<10}".format(version)

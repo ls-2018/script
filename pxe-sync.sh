@@ -8,8 +8,8 @@ chown root:root /Users/acejilam
 COMMENT
 
 rsync -avzP --delete --delete /Users/acejilam/script/ root@pxe:/Users/acejilam/script/
-rsync -avzP --delete --delete /Volumes/Tf/resources/ root@pxe:/resources/
-rsync -avzP --delete --delete /Volumes/Tf/resources/ root@pxe:/Volumes/Tf/resources/
+rsync -avzP --delete --delete ~/data/resources/ root@pxe:/resources/
+rsync -avzP --delete --delete ~/data/resources/ root@pxe:~/data/resources/
 
 ssh root@pxe "bash -i /Users/acejilam/script/linux-replace-sources.sh"
 ssh root@pxe "bash -i /Users/acejilam/script/linux-install-tools.sh"

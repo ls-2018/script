@@ -5,7 +5,6 @@ import subprocess
 with open('/tmp/volcano.sh','w',encoding='utf8') as f:
     f.write(f"""
 source ~/script/.customer_script.sh
-eval "$(print_proxy.py)"
 rm -rf /tmp/volcano||true
 mkdir /tmp/volcano
 set -x 
@@ -18,8 +17,12 @@ wget -q -nv https://raw.githubusercontent.com/volcano-sh/descheduler/refs/heads/
 """)
 
 os.system('bash /tmp/volcano.sh')
-os.system('trans_image_name.py /tmp/volcano')
-os.system('kubectl apply -f /tmp/volcano')
+os.system('trans-image-name /tmp/volcano')
+os.system('kubectl apply --server-side -f /tmp/volcano/volcano-development.yaml')
+os.system('kubectl apply --server-side -f /tmp/volcano/volcano-agent-development.yaml')
+os.system('kubectl apply --server-side -f /tmp/volcano/volcano-agent-scheduler-development.yaml')
+os.system('kubectl apply --server-side -f /tmp/volcano/volcano-monitoring.yaml')
+os.system('kubectl apply --server-side -f /tmp/volcano/volcano-descheduler-development.yaml')
 
 # docker.io/volcanosh/vc-controller-manager:latest
 # docker.io/volcanosh/vc-scheduler:latest

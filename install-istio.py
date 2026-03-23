@@ -30,10 +30,9 @@ kubectl apply -f ./samples/bookinfo/gateway-api/bookinfo-gateway.yaml -n default
 '''
 
 rs = [
-
-    ['hub: docker.io/istio', f'hub: {harbor}/acejialm'],
-    ['hub: gcr.io/istio-testing', f'hub: {harbor}/acejialm'],
-    ['image: pilot', f'image: {harbor}/acejialm/pilot'],
+    ['hub: docker.io/istio', f'hub: {harbor}/fixed'],
+    ['hub: gcr.io/istio-testing', f'hub: {harbor}/fixed'],
+    ['image: pilot', f'image: {harbor}/fixed/pilot'],
     ['''  volumeClaimTemplates:
     - apiVersion: v1
       kind: PersistentVolumeClaim
@@ -50,8 +49,6 @@ rs = [
           '''],
 ]
 
-proxy = 'export https_proxy=http://127.0.0.1:7890 http_proxy=http://127.0.0.1:7890 all_proxy=socks5://127.0.0.1:7890'
-
 ISTIO_PATH = "/tmp/istio_install"
 version = '1.24.3'
 
@@ -66,7 +63,7 @@ shutil.rmtree(ISTIO_PATH, ignore_errors=True)
 os.mkdir(ISTIO_PATH)
 os.system(rf'''
 cd {ISTIO_PATH}
-cp /Volumes/Tf/resources/tar/{arch}/istio-{version}-osx-{arch}.tar.gz .
+cp ~/data/resources/tar/{arch}/istio-{version}-osx-{arch}.tar.gz .
 tar zxf istio-{version}-osx-{arch}.tar.gz
 cd istio-{version}
 git init
@@ -100,12 +97,9 @@ if download:
         print(f"{i}/{len(image_set)}", image)
         os.system(  # 手动往  阿里云 同步一下数据
             f'''set -v
-{proxy}
-skopeo copy --all --insecure-policy docker://{image} docker://{trans_image(image)}
+skopeo_copy_script.py {image}
 '''
         )
-
-os.system(f'trans-image-name {ISTIO_PATH}')
 
 for cd, _dirs, files in os.walk(ISTIO_PATH):
     for file in files:
@@ -115,6 +109,8 @@ for cd, _dirs, files in os.walk(ISTIO_PATH):
             with open(path, 'r', encoding='utf8') as f:
                 data = f.read()
                 for item in rs:
+                    if item[0] in data:
+                        print(1)
                     data = data.replace(item[0], item[1])
             with open(path, 'w', encoding='utf8') as f:
                 f.write(data)
@@ -126,7 +122,7 @@ for cd, _dirs, files in os.walk(ISTIO_PATH):
             skip = True
             with open(path, 'r', encoding='utf8') as f:
                 data = f.read()
-                if 'install.istio.io/v1alpha1' in data and f'hub: {harbor}/acejialm' not in data:
+                if 'install.istio.io/v1alpha1' in data and f'hub: {harbor}/fixed' not in data:
                     skip = False
             if not skip:
                 with open(path, 'w', encoding='utf8') as f:
@@ -139,7 +135,7 @@ for cd, _dirs, files in os.walk(ISTIO_PATH):
                         if 'spec:' in line and install:
                             spec = True
                         if spec and install:
-                            f.write(f'  hub: {harbor}/acejialm\n')
+                            f.write(f'  hub: {harbor}/fixed\n')
                             install = False
                             spec = False
 
@@ -163,9 +159,12 @@ with open(
 mod = ''
 mod_after = ''
 
+os.system(f'trans-image-name {ISTIO_PATH}')
+os.system(f'trans-image-name {ISTIO_PATH}')
+
 if deploy_mod == "ambient":
     mod = f'''
-istioctl install --set profile=ambient -y --set hub={harbor}/acejialm
+istioctl install --set profile=ambient -y --set hub={harbor}/fixed
 # istioctl install -f manifests/profiles/ambient.yaml -y
 kubectl label namespace default istio.io/dataplane-mode=ambient
 '''
@@ -197,7 +196,7 @@ cd {ISTIO_PATH}/istio-{version}
 
 kubectl apply -f {ISTIO_PATH}/samples/addons
 
-kubectl apply -f /Volumes/Tf/resources/yaml/gateway-api/v1.2.0/standard-install.yaml
+kubectl apply -f ~/data/resources/yaml/gateway-api/v1.2.0/standard-install.yaml
 
 {example}
 
@@ -335,5 +334,5 @@ istioctl uninstall -y --purge
 kubectl delete namespace istio-system
 kubectl delete -f samples/bookinfo/platform/kube/bookinfo.yaml
 kubectl delete -f samples/bookinfo/platform/kube/bookinfo-versions.yaml
-kubectl delete -f /Volumes/Tf/resources/yaml/gateway-api/v1.2.0/standard-install.yaml
+kubectl delete -f ~/data/resources/yaml/gateway-api/v1.2.0/standard-install.yaml
 ''')

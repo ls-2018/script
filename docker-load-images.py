@@ -3,6 +3,7 @@ import os
 import shutil
 
 save_path = "/Volumes/Tf/docker_images"
+save_path = "/Volumes/Tf/docker_images"
 os.makedirs(save_path, exist_ok=True)
 
 cmds = ['set -x']

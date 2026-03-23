@@ -38,7 +38,6 @@ brew install kubecm
 # https://cmake.org/download/
 # sudo "/Applications/CMake.app/Contents/bin/cmake-gui" --install
 
-export https_proxy=http://127.0.0.1:7890 http_proxy=http://127.0.0.1:7890 all_proxy=socks5://127.0.0.1:7890
 cd /tmp
 git clone https://gitee.com/ls-2018/lscpu.git
 cd lscpu
@@ -55,7 +54,6 @@ cd fonts
 # clean-up a bit
 cd ..
 rm -rf fonts
-unset https_proxy && unset http_proxy && unset https_proxy
 
 cd /tmp
 wget --no-verbose https://zenlayer.dl.sourceforge.net/project/sshpass/sshpass/1.10/sshpass-1.10.tar.gz
@@ -118,3 +116,8 @@ brew install helm
 brew install helmfile
 
 helm plugin install https://github.com/databus23/helm-diff
+
+# 解决orbstack 设置proxy 后无法拉取镜像
+# brew install dnscrypt-proxy
+# sudo brew services start dnscrypt-proxy
+# Set the system DNS to 127.0.0.1

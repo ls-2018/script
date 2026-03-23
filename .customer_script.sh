@@ -3,16 +3,12 @@
 ACEHOME="/Users/acejilam"
 SCRIPT_DIR="$(cd -P "$(dirname "${BASH_SOURCE:-$0}")" && pwd)"
 
-DOCKER_SCRIPT="$SCRIPT_DIR/docker.py"
-test -e $DOCKER_SCRIPT && {
-	alias docker=$DOCKER_SCRIPT
-}
-
 # setopt no_nomatch
 export GOPATH=${ACEHOME}/.gopath
 export SDKROOT=/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk
 
 mkdir -p $GOPATH/{bin,pkg,src}
+# go env -w GOPATH=${ACEHOME}/.gopath
 mkdir -p ${ACEHOME}/.cargo/{target,registry,git}
 
 # Mac
@@ -54,11 +50,6 @@ test -e /opt/homebrew/bin/brew && {
 	export LIBRARY_PATH="$(brew --prefix leveldb)/lib"
 }
 
-export HOMEBREW_BREW_GIT_REMOTE="https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/brew.git"
-export HOMEBREW_CORE_GIT_REMOTE="https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/homebrew-core.git"
-export HOMEBREW_BOTTLE_DOMAIN="https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles"
-# export HOMEBREW_BOTTLE_DOMAIN=''
-
 # brew install mysql-connector-c
 # 可解决 pip3 install mysqlclient
 
@@ -80,7 +71,7 @@ ARCH=$(arch | sed s/aarch64/arm64/ | sed s/x86_64/amd64/)
 if [[ $(uname) == "Darwin" ]]; then
 	. "$SCRIPT_DIR/.alias.sh"
 	test -e ${ACEHOME}/.gopath/bin/kubectl || {
-		curl -LO "https://files.m.daocloud.io/dl.k8s.io/release/$(curl -L -s https://files.m.daocloud.io/dl.k8s.io/release/stable.txt)/bin/$(uname | tr '[:upper:]' '[:lower:]')/${ARCH}/kubectl"
+		curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/$(uname | tr '[:upper:]' '[:lower:]')/${ARCH}/kubectl"
 		chmod +x kubectl
 		mv kubectl ${ACEHOME}/.gopath/bin/kubectl
 	}
@@ -119,16 +110,17 @@ export VAGRANT_DEFAULT_PROVIDER=vmware_fusion
 
 export PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION=python
 
-export GONOPROXY='gitee.com,gitlab.datacanvas.com/*,git@gitlab.datacanvas.com/*'
-export GOPRIVATE='gitee.com,gitlab.datacanvas.com/*,git@gitlab.datacanvas.com/*'
-export GONOSUMDB='gitee.com,gitlab.datacanvas.com,git@gitlab.datacanvas.com'
+export GONOPROXY='gitee.com,gitlab.alibaba-inc.com/*,git@gitlab.alibaba-inc.com/*'
+export GOPRIVATE='gitee.com,gitlab.alibaba-inc.com/*,git@gitlab.alibaba-inc.com/*'
+export GONOSUMDB='gitee.com,gitlab.alibaba-inc.com/*,git@gitlab.alibaba-inc.com/*'
 export GOFLAGS='-buildvcs=false'
 
-if test -d "/Volumes/Tf"; then
-	mkdir -p /Volumes/Tf/config
-	export HISTFILE="/Volumes/Tf/config/zsh_history"
-else
-	export HISTFILE="/Users/acejilam/Documents/TfBak/config/zsh_history"
+if test -d "/Users/acejilam/data/venv/"; then
+	source /Users/acejilam/data/venv/bin/activate
+fi
+
+if test -f "/Users/acejilam/data/config/secret.sh"; then
+	source /Users/acejilam/data/config/secret.sh
 fi
 
 export PYTHONPATH=$SCRIPT_DIR:$PYTHONPATH
@@ -157,10 +149,21 @@ skopeo_copy() {
 	fi
 }
 
-alias sc='skopeo_copy.py'
+alias sc='skopeo_copy_script.py'
 
 parse_cert() {
 	cert=$1
 	echo $cert | base64 -d >/tmp/cert.txt
 	openssl x509 -noout -text -in /tmp/cert.txt
+}
+
+split_tin_repo_tag() {
+	local full=$(trans-image-name "$1")
+
+	# 没有 tag 的情况，默认 latest
+	if [[ "$full" == *:* ]]; then
+		echo "${full%:*}|${full##*:}"
+	else
+		echo "$full|latest"
+	fi
 }

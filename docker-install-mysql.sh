@@ -2,7 +2,7 @@ set -e
 docker rm mysql --force
 cd ~
 
-dataPath="/Volumes/Tf/data/mysql"
+dataPath="/Users/acejilam/data/mysql"
 
 mkdir -p $dataPath
 cd -

@@ -7,17 +7,17 @@ apt-get install -y build-essential dkms linux-headers-$(uname -r)
 
 ARCH=$(arch | sed s/aarch64/arm64/ | sed s/x86_64/amd64/)
 if [ "amd64" = ${ARCH} ]; then
-	cp /Volumes/Tf/resources/eunomia-bpf/amd64/ecli /usr/bin/ecli
-	cp /Volumes/Tf/resources/eunomia-bpf/amd64/ecc /usr/bin/ecc
+	cp ~/data/resources/eunomia-bpf/amd64/ecli /usr/bin/ecli
+	cp ~/data/resources/eunomia-bpf/amd64/ecc /usr/bin/ecc
 
-	cat /Volumes/Tf/resources/tar/amd64/retsnoop-v0.10.1-amd64.tar.gz | tar -zxvf - && chmod +x ./retsnoop && mv retsnoop /usr/bin/
-	cat /Volumes/Tf/resources/tar/amd64/pwru-linux-amd64.tar.gz | tar -zxvf - && chmod +x ./pwru && mv pwru /usr/bin/
+	cat ~/data/resources/tar/amd64/retsnoop-v0.10.1-amd64.tar.gz | tar -zxvf - && chmod +x ./retsnoop && mv retsnoop /usr/bin/
+	cat ~/data/resources/tar/amd64/pwru-linux-amd64.tar.gz | tar -zxvf - && chmod +x ./pwru && mv pwru /usr/bin/
 else
-	cp /Volumes/Tf/resources/eunomia-bpf/arm64/ecli /usr/bin/ecli
-	cp /Volumes/Tf/resources/eunomia-bpf/arm64/ecc /usr/bin/ecc
+	cp ~/data/resources/eunomia-bpf/arm64/ecli /usr/bin/ecli
+	cp ~/data/resources/eunomia-bpf/arm64/ecc /usr/bin/ecc
 
-	cat /Volumes/Tf/resources/tar/arm64/retsnoop-v0.10.1-arm64.tar.gz | tar -zxvf - && chmod +x ./retsnoop && mv retsnoop /usr/bin/
-	cat /Volumes/Tf/resources/tar/arm64/pwru-linux-arm64.tar.gz | tar -zxvf - && chmod +x ./pwru && mv pwru /usr/bin/
+	cat ~/data/resources/tar/arm64/retsnoop-v0.10.1-arm64.tar.gz | tar -zxvf - && chmod +x ./retsnoop && mv retsnoop /usr/bin/
+	cat ~/data/resources/tar/arm64/pwru-linux-arm64.tar.gz | tar -zxvf - && chmod +x ./pwru && mv pwru /usr/bin/
 fi
 
 chmod +x /usr/bin/ec*
@@ -26,9 +26,9 @@ apt install wget -y
 
 cd ~
 
-cp /Volumes/Tf/resources/others/llvm.sh .
+cp ~/data/resources/others/llvm.sh .
 chmod +x llvm.sh
-cp -rf /Volumes/Tf/resources/others/llvm-snapshot.gpg.key /etc/apt/trusted.gpg.d/apt.llvm.org.asc
+cp -rf ~/data/resources/others/llvm-snapshot.gpg.key /etc/apt/trusted.gpg.d/apt.llvm.org.asc
 
 LLVM_VERSION=$(cat llvm.sh | grep CURRENT_LLVM_STABLE= | cut -d= -f2)
 
@@ -118,7 +118,7 @@ ln -s /usr/lib/$longest/bpftool /usr/local/bin/bpftool
 apt install libbpf-dev -y
 # libbpf-dev 可以替换为:
 # cd ~
-# cp -rf /Volumes/Tf/resources/3rd/libbpf libbpf
+# cp -rf ~/data/resources/3rd/libbpf libbpf
 # cd libbpf/src && BUILD_STATIC_ONLY=y make install && cd - && rm -rf libbpf
 
 # 为多种架构编译和构建软件  studio 安装出错
@@ -129,7 +129,7 @@ sudo ln -s /usr/include/$(arch)-linux-gnu/asm /usr/include/asm || true
 
 # apt-get install -y bpftrace
 # cd ~
-# cp -rf /Volumes/Tf/resources/3rd/bcc bcc
+# cp -rf ~/data/resources/3rd/bcc bcc
 # cd bcc
 # git submodule update --init --recursive
 # mkdir build
@@ -148,7 +148,7 @@ apt-get install bpfcc-tools -y
 
 # if [[ $(cat /etc/os-release | grep "VERSION_ID") == *"24.04"* ]]; then
 #     cd ~
-#     cp -rf /Volumes/Tf/resources/3rd/bpftrace bpftrace
+#     cp -rf ~/data/resources/3rd/bpftrace bpftrace
 #     cd bpftrace && git submodule update --init --recursive && cd -
 #     cp -R bpftrace bpftrace_scz
 #     mkdir bpftrace_scz/build
@@ -163,13 +163,13 @@ apt-get install -y bpftrace
 
 rm -rf /perf-tools && echo 1
 
-cp -rf /Volumes/Tf/resources/3rd/perf-tools /perf-tools
+cp -rf ~/data/resources/3rd/perf-tools /perf-tools
 
 echo 'export PATH=$PATH:/perf-tools/bin' | tee -a $HOME/.bashrc
 echo 'export PATH=$PATH:/perf-tools/bin' | tee -a $HOME/.zshrc
 
 cd ~
-cp /Volumes/Tf/resources/others/libpcap-1.10.4.tar.gz .
+cp ~/data/resources/others/libpcap-1.10.4.tar.gz .
 tar -zxvf libpcap-1.10.4.tar.gz
 cd libpcap-1.10.4
 ./configure --disable-rdma --disable-shared --disable-usb --disable-netmap --disable-bluetooth --disable-dbus --without-libnl

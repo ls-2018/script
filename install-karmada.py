@@ -16,13 +16,11 @@ trans-image-name "${_tmp}/components.yaml"
 
 KARMADA_PATH = "/Users/acejilam/Desktop/karmada_install"
 
-proxy = 'export https_proxy=http://127.0.0.1:7890 http_proxy=http://127.0.0.1:7890 all_proxy=socks5://127.0.0.1:7890'
 shutil.rmtree(KARMADA_PATH, ignore_errors=True)
 
 os.makedirs(KARMADA_PATH)
 
 os.system(rf'''
-{proxy}
 cd {KARMADA_PATH}
 git clone https://github.com/karmada-io/karmada.git
 ''')

@@ -25,8 +25,8 @@ else
 	echo 'source ~/.linux-env-zsh.env' | tee -a ~/.zshenv
 fi
 
-# .zshenv ：最早加载的文件，在所有 zsh 实例中都会执行，包括非交互式、登录、脚本环境等。它在 zsh 启动早期执行，还没加载 compinit，也不具备交互式 shell 的功能。
-# .zshrc ：只在交互式 shell 中执行，通常用来设置 prompt、alias、函数、compdef 等 shell 功能。
+# .zshenv ：最早加载的文件,在所有 zsh 实例中都会执行,包括非交互式、登录、脚本环境等。它在 zsh 启动早期执行,还没加载 compinit,也不具备交互式 shell 的功能。
+# .zshrc ：只在交互式 shell 中执行,通常用来设置 prompt、alias、函数、compdef 等 shell 功能。
 # Bash 登录 shell	            /etc/profile → ~/.bash_profile → ~/.bash_login → ~/.profile
 # Bash 非登录交互式 shell        ~/.bashrc
 # Zsh  登录 shell	            /etc/zprofile → ~/.zprofile → ~/.zlogin

@@ -2,20 +2,32 @@
 SCRIPT_DIR="$(cd -P "$(dirname "${BASH_SOURCE:-$0}")" && pwd)"
 source "$SCRIPT_DIR/.alias.sh"
 
-dataDir="/Users/acejilam/Documents/wechat"
+docker rm wechat-article-exporter -f >/dev/null 2>&1
+docker rm wechat-mysql -f >/dev/null 2>&1
+docker rm wechat-article-display -f >/dev/null 2>&1
+docker network rm wechat >/dev/null 2>&1
+docker network create wechat >/dev/null 2>&1
 
-# dataDir="/Volumes/Tf/data/wechat"
+MYSQL_PASSWORD=$(docker run --rm alpine sh -c "cat /dev/urandom | tr -dc 'a-zA-Z0-9' | head -c 32")
 
-dataPath=$dataDir/wechat-mysql
-exporterPath=$dataDir/wechat-article-exporter
+SqlBakDir="/Users/acejilam/script/data/wechat"
+RunDir="/Users/acejilam/Documents/wechat"
 
+# download this file to $SqlBakDir
+# https://media.githubusercontent.com/media/ls-2018/script/refs/heads/main/data/wechat/wechat_article_exporter.sql
+# https://media.githubusercontent.com/media/ls-2018/script/refs/heads/main/data/wechat/wechat_query.sql
+
+dataPath=$RunDir/wechat-mysql
+exporterPath=$RunDir/wechat-article-exporter
+
+rm -rf $dataPath
 mkdir -p $dataPath
 mkdir -p $exporterPath
 
-docker rm wechat-article-exporter -f
-docker rm wechat-mysql -f
-docker network rm wechat
-docker network create wechat
+echo $MYSQL_PASSWORD
+echo $MYSQL_PASSWORD >$RunDir/mysql.password.txt
+
+set -x
 
 cat >$dataPath/my.cnf <<EOF
 [mysqld]
@@ -33,43 +45,64 @@ socket=/var/run/mysqld/mysqld.sock
 !includedir /etc/mysql/conf.d/
 EOF
 
-docker run \
+\docker run \
 	-d \
-	-p 13306:3306 \
+	-p 127.0.0.1:13306:3306 \
 	--name wechat-mysql \
 	--label com.docker.compose.project=wechat \
 	--network wechat \
 	--restart=always \
-	-e MYSQL_ROOT_PASSWORD=sk3RCBqtWxF2Tg4pawUv \
+	-e MYSQL_ROOT_PASSWORD=$MYSQL_PASSWORD \
 	-e MYSQL_LOG_BIN=OFF \
 	-v $dataPath/my.cnf:/etc/my.cnf \
 	-v $dataPath/data:/etc/mysql/data/ \
 	-v $dataPath/conf:/etc/mysql/mysql.conf.d/ \
 	$(trans-image-name docker.io/library/mysql:8)
 
-docker pull ccr.ccs.tencentyun.com/ls-2018/wechat-article-exporter
+sleep 5
 
-docker run \
+\docker run \
+	--name wechat-article-display \
+	--restart=always \
+	--label com.docker.compose.project=wechat \
+	--network wechat \
+	-d \
+	-v $SqlBakDir:/data \
+	-e BAK_DIR=$SqlBakDir \
+	-e REMOTE_ADDR="172.18.0.1" \
+	-e DB_PASSWORD=$MYSQL_PASSWORD \
+	-e MYSQL_HOST=wechat-mysql \
+	-e MYSQL_PORT=3306 \
+	-e MYSQL_LOG_BIN=OFF \
+	-e MYSQL_USER=root \
+	-e MYSQL_PASSWORD=$MYSQL_PASSWORD \
+	-e MYSQL_DATABASE=wechat_article_exporter \
+	-p 127.0.0.1:13001:13001 \
+	ccr.ccs.tencentyun.com/ls-2018/wechat:display
+
+sleep 5
+
+\docker run \
 	--name wechat-article-exporter \
 	--restart=always \
 	--label com.docker.compose.project=wechat \
 	--network wechat \
 	-d \
-	-e MYSQL_HOST=$(python3 -c'from print_proxy import *;print(get_ip())') \
-	-e MYSQL_PORT=13306 \
+	-e MYSQL_HOST=wechat-mysql \
+	-e MYSQL_PORT=3306 \
 	-e MYSQL_LOG_BIN=OFF \
 	-e MYSQL_USER=root \
-	-e MYSQL_PASSWORD=sk3RCBqtWxF2Tg4pawUv \
+	-e MYSQL_PASSWORD=$MYSQL_PASSWORD \
 	-e MYSQL_DATABASE=wechat_article_exporter \
-	-p 13000:3000 \
+	-p 127.0.0.1:13000:3000 \
 	-v $exporterPath:/app/.data \
 	ccr.ccs.tencentyun.com/ls-2018/wechat-article-exporter
 
+set +x
 pkill -9 'Chromium'
 sleep 2
 open -a "/Applications/Chromium.app" "http://localhost:13000"
-
-cat /tmp/wechat.log | awk -F ' ' '{print $10}' | grep '\.' | grep -v '\.\.' | sort -nr | uniq -c
+open -a "/Applications/Chromium.app" "http://localhost:13001"
 
 # SHOW BINARY LOGS;
 # PURGE BINARY LOGS BEFORE DATE_SUB(NOW(), INTERVAL 1 MINUTE);

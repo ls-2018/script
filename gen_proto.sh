@@ -2,12 +2,9 @@
 
 if [ "$1" = "go" ]; then
 	export GO111MODULE=off
-	export https_proxy=http://10.10.10.20:1081
 	# validate
 	go get -v -d github.com/envoyproxy/protoc-gen-validate
 	go get -v -d github.com/googleapis/googleapis
-	unset http_proxy
-	unset https_proxy
 	echo '初始化插件'
 	export GO111MODULE=on
 

@@ -1,18 +1,14 @@
 test -e "/Users/acejilam/.gvm/bin/gvm" || {
-	export https_proxy=http://127.0.0.1:7890 http_proxy=http://127.0.0.1:7890 all_proxy=socks5://127.0.0.1:7890
 	sh -c "$(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)"
 	git config --global url."https://github.com/".insteadof git://github.com/
 	source ~/.gvm/scripts/gvm
-	unset https_proxy && unset http_proxy && unset all_proxy
 }
 
 test -e /Library/Fonts/Menlo-for-Powerline || {
-	export https_proxy=http://127.0.0.1:7890 http_proxy=http://127.0.0.1:7890 all_proxy=socks5://127.0.0.1:7890
 	# vscode font
 	cd /Library/Fonts
 	rm -rf Menlo-for-Powerline
 	git clone https://github.com/abertsch/Menlo-for-Powerline.git
-	unset https_proxy && unset http_proxy && unset all_proxy
 }
 
 GO111MODULE=on
@@ -42,7 +38,7 @@ go install github.com/axw/gocov/gocov@latest
 go install github.com/matm/gocov-html/cmd/gocov-html@latest
 go install github.com/AlekSi/gocov-xml@latest
 
-# diff-cover[3]，生成行增量覆盖率
+# diff-cover[3],生成行增量覆盖率
 #yum -y install gcc automake autoconf libtool make zlib zlib-devel openssl openssl-devel
 #wget --no-verbose https://www.python.org/ftp/python/3.8.1/Python-3.8.1.tgz
 #tar -zxvf Python-3.8.1.tgz && cd Python-3.8.1 && ./configure && make && make install

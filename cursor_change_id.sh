@@ -37,7 +37,7 @@ backup_file
 cp "$MAIN_JS_FILE" "${MAIN_JS_FILE}.backup_$(date +%Y%m%d_%H%M%S)"
 echo "已创建 main.js 备份文件"
 
-# 如果文件不存在，创建新的 JSON
+# 如果文件不存在,创建新的 JSON
 if [ ! -f "$STORAGE_FILE" ]; then
 	echo "{}" >"$STORAGE_FILE"
 fi
@@ -60,6 +60,6 @@ echo "devDeviceId: $NEW_DEV_DEVICE_ID"
 if grep -F 'darwin:"UUID=$(uuidgen' "$MAIN_JS_FILE" >/dev/null; then
 	echo "main.js 文件修改成功"
 else
-	echo "警告: main.js 文件可能未被正确修改，请检查文件内容"
+	echo "警告: main.js 文件可能未被正确修改,请检查文件内容"
 	echo "你可以从备份文件恢复: ${MAIN_JS_FILE}.backup_*"
 fi

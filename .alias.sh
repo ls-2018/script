@@ -6,7 +6,7 @@ if [[ $(uname) == "Darwin" ]]; then
 	alias objdump=gobjdump
 	# alias ping=gping
 
-	alias docker='docker.py'
+	# alias docker='docker.py'
 
 	alias sed=gsed
 	alias find=gfind
@@ -18,11 +18,8 @@ if [[ $(uname) == "Darwin" ]]; then
 		export KUBECONFIG=$(cat ~/.k8sconfig)
 	fi
 
-	alias vlan_proxy="export https_proxy=http://$(ipconfig getifaddr en0):7890 http_proxy=http://$(ipconfig getifaddr en0):7890 all_proxy=socks5://$(ipconfig getifaddr en0):7890"
-	print_proxy.py check
+	alias ks="kubecm s"
 fi
-
-alias company_proxy='export http_proxy=http://hproxy.it.zetyun.cn:1080; export https_proxy=http://hproxy.it.zetyun.cn:1080;'
 
 alias ga='git add .'
 alias grs='git add . && \git reset --hard $((git show-ref --head --hash=8 2>/dev/null || echo 00000000) | head -n1) && \git pull'
@@ -30,24 +27,21 @@ alias grep='\grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox}
 
 alias gs='\git status -sb'
 alias gsa='\git submodule add'
-alias gst='\git status'
 alias gc='\git checkout .'
 alias gcb='\git checkout -b'
-alias gl='\git pull'
-alias gp='\git push'
 alias glog="\git log --graph --pretty=format:'%Cred%h%Creset <--> %aI <--> %Cgreen(%ci)%Creset <--> %C(bold blue)<%an>%Creset <--> %s ' --abbrev-commit --date=relative"
 
 alias cf="clang-format --style=\"file\" -i"
 alias python39=python3
 
-alias proxy='export https_proxy=http://127.0.0.1:7890 http_proxy=http://127.0.0.1:7890 all_proxy=socks5://127.0.0.1:7890'
-alias unproxy='unset https_proxy && unset http_proxy && unset all_proxy'
-
 alias docker-clean-unused='docker system prune --all --force --volumes'
 alias docker-clean-all='docker stop $(docker container ls -a -q) && docker system prune --all --force --volumes'
 
 alias ssh='trzsz --dragfile ssh'
-alias dive="docker run -ti --rm -v /var/run/docker.sock:/var/run/docker.sock $(SkipUpgradeCheck=false trans-image-name docker.io/wagoodman/dive)"
+
+dive() {
+	docker run -ti --rm -v /var/run/docker.sock:/var/run/docker.sock $(trans-image-name docker.io/wagoodman/dive:v0.13.1)
+}
 
 # Only run Zsh completion commands if we're in Zsh and compdef is available
 if [ -n "$ZSH_VERSION" ] && type compdef >/dev/null 2>&1; then
@@ -62,16 +56,30 @@ alias k=\'kubecolor\'
 alias k8n='k get nodes'
 alias k8ps='k8s-pod-state'
 alias k8ns='k8s-node-cap'
-k8pi() {
-	set -x
-	namespace="$1"
-	k get pods -n "${namespace}" -o jsonpath="{range .items[*]}{range .spec.containers[*]}{.image}{\"\n\"}{end}{end}" | sort | uniq
-}
-k8pir() {
-	set -x
-	namespace="$1"
 
-	k get pods -n "${namespace}" -o jsonpath="{range .items[*]}{range .spec.containers[*]}{.image}{\"\n\"}{end}{end}" | sort | uniq | trans-image-name-reverse
+alias sf='find . -name "*.sh" -print0 | xargs -0 shfmt -w '
+
+k8pi() {
+	namespace="$1"
+	nflag=""
+	if [[ $namespace != "" ]]; then
+		nflag="-n $namespace"
+	else
+		nflag="-A"
+	fi
+	k get pods $nflag -o jsonpath="{range .items[*]}{range .spec.containers[*]}{.image}{\"\n\"}{end}{end}" | sort | uniq
+}
+
+k8pir() {
+	namespace="$1"
+	nflag=""
+	if [[ $namespace != "" ]]; then
+		nflag="-n $namespace"
+	else
+		nflag="-A"
+	fi
+
+	k get pods $nflag -o jsonpath="{range .items[*]}{range .spec.containers[*]}{.image}{\"\n\"}{end}{end}" | sort | uniq | trans-image-name-reverse
 }
 
 k8pidiff() {
@@ -79,12 +87,9 @@ k8pidiff() {
 	cat /tmp/k8pi.txt | trans-image-name-reverse >/tmp/k8pir.txt
 	git --no-pager diff /tmp/k8pi.txt /tmp/k8pir.txt
 }
-
-k8login() {
-	cluster="$1"
-	login_online.py -c "$cluster" && source /tmp/k8s_config.sh
-}
-alias sk='source /tmp/k8s_config.sh'
+alias tin='trans-image-name'
+alias tinr='trans-image-name-reverse'
+alias k8login=login_online.py
 
 gtp() {
 	git add .
@@ -99,7 +104,7 @@ fix_path_spaces() {
 	local fixed_path=""
 	local IFS=':' # 分隔 PATH 变量
 	for entry in $PATH; do
-		# 如果路径中含空格，则转义空格
+		# 如果路径中含空格,则转义空格
 		entry_fixed=$(echo "$entry" | sed 's/ /\\ /g')
 		if [ -z "$fixed_path" ]; then
 			fixed_path="$entry_fixed"
@@ -155,15 +160,15 @@ record() {
 	local asciinema_file
 	asciinema_file=$(date +%s)
 
-	# 开始录制，用户做完事情输入 exit 即可
+	# 开始录制,用户做完事情输入 exit 即可
 	asciinema rec "${asciinema_file}.cast"
 
-	# 录制结束后，自动转换并生成 gif
+	# 录制结束后,自动转换并生成 gif
 	asciinema convert -f asciicast-v2 "${asciinema_file}.cast" "${asciinema_file}.cast2" --overwrite
 	agg --font-family 'MesloLGS NF' "${asciinema_file}.cast2" "${asciinema_file}.gif"
 
 	# 清理临时文件
 	rm -f "${asciinema_file}.cast" "${asciinema_file}.cast2"
 
-	echo "✅ 录制完成，已生成: ${asciinema_file}.gif"
+	echo "✅ 录制完成,已生成: ${asciinema_file}.gif"
 }

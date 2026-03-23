@@ -1,4 +1,4 @@
-GO111MODULE="on" go install sigs.k8s.io/kind@v0.17.0
+GO111MODULE="on" go install sigs.k8s.io/kind@latest
 
 kind delete cluster --name dev
 cat >/tmp/kind.yaml <<EOF

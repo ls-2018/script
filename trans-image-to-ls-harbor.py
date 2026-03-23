@@ -8,9 +8,9 @@ from trans_image import trans_image
 
 parser = argparse.ArgumentParser()
 
-parser.add_argument("--source", default="asd", help="source image")
+parser.add_argument("--source", default="docker.io/library/nginx:latest", help="source image")
 parser.add_argument("--dest", default="", help="dest image")
-parser.add_argument("--arch", default="amd64", help="arch")
+parser.add_argument("--arch", default="all", help="arch")
 
 args = parser.parse_args()
 
@@ -50,7 +50,6 @@ else:
 with open('/tmp/sc.sh', 'w', encoding='utf8') as f:
     f.write(f'''
 source ~/script/.customer_script.sh
-eval "$(print_proxy.py)"
 {cmd}
 ''')
 print(cmd)
