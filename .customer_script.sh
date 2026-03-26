@@ -8,7 +8,6 @@ export GOPATH=${ACEHOME}/.gopath
 export SDKROOT=/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk
 
 mkdir -p $GOPATH/{bin,pkg,src}
-export CGO_ENABLED=0
 # go env -w GOPATH=${ACEHOME}/.gopath
 mkdir -p ${ACEHOME}/.cargo/{target,registry,git}
 
