@@ -8,6 +8,7 @@ export GOPATH=${ACEHOME}/.gopath
 export SDKROOT=/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk
 
 mkdir -p $GOPATH/{bin,pkg,src}
+export CGO_ENABLED=0
 # go env -w GOPATH=${ACEHOME}/.gopath
 mkdir -p ${ACEHOME}/.cargo/{target,registry,git}
 
@@ -167,3 +168,11 @@ split_tin_repo_tag() {
 		echo "$full|latest"
 	fi
 }
+
+
+
+# https://wojc.cn/archives/1566.html
+# 禁用 Docker BuildKit
+# 禁用使用 Docker CLI 
+export DOCKER_BUILDKIT=0
+export COMPOSE_DOCKER_CLI_BUILD=0

@@ -105,4 +105,6 @@ go install github.com/kubecolor/kubecolor@latest
 
 go install github.com/stern/stern@latest
 
+go install github.com/go-swagger/go-swagger/cmd/swagger@latest
+
 go clean -cache

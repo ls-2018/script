@@ -68,7 +68,7 @@ sleep 5
 	--network wechat \
 	-d \
 	-v $SqlBakDir:/data \
-	-e BAK_DIR=$SqlBakDir \
+	-e DATA_PATH=/data \
 	-e REMOTE_ADDR="172.18.0.1" \
 	-e DB_PASSWORD=$MYSQL_PASSWORD \
 	-e MYSQL_HOST=wechat-mysql \
